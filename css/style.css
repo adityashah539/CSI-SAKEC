@@ -9,7 +9,7 @@ body
     font: 300 15px "Times New Roman", Times, serif;
 	line-height: 1.5;
 	padding: 0;
-	
+	overflow-x:hidden;
 	scroll-behavior: smooth;
 	margin: 0;
 }
@@ -92,7 +92,7 @@ body
 /**************************************/
 
 
-.bg-dark
+.default-color
 {
 	background-color:#00000070!important;
 
@@ -155,9 +155,12 @@ header h1
 
 
 }
+
 .aboutus
 {
 	border: 1px solid black;
+	width: 100%;
+	height: auto;
 }
 #about p
 {
@@ -313,19 +316,21 @@ span img
 
 .footer .jumbotron
 {
-	background-color: #ff5898;
+	
 	margin: 20px;
-	border-radius: 30px;
+	color: rgb(22, 22, 22);
+
+
+	border-radius: 50px;
+	background: #d3d8d9;
+	box-shadow:  20px 20px 60px #b3b8b8, 
+				 -20px -20px 60px #f3f8fa;
 }
 
-.form-control .submit
-{
-	padding: 0px 5px;
-}
 
 
 .vl {
-	border-left: 2px solid #ff6ea5;
+	border-left: 2px solid #66c0ec;
 	height: 200px;
 	margin-left: 70px;
 	margin-top: 50px;
@@ -333,23 +338,26 @@ span img
   .hr1
   {
 	  width: 150px;
-	  border-top: 2px solid #ff6ea5;
+	  border-top: 2px solid #66c0ec;
 	  margin-left: 245px;
   }
 .footer, .list-group-item
 {
-	background-color: #ff92bc;
+	background-color:  #d3d8d9;
+	
 	
 }
 
 .list-group-item:hover
 {
-	background-color: #ff6ea5;
+	background-color: rgb(128, 175, 228);
+	
 }
+
 
 /* .modal-content
 {
-	background: linear-gradient(to right, #ff51b1 0%, #ff99cc 100%);
+	background-color: #d8d8d8;
 } */
 .social
 {
@@ -406,6 +414,7 @@ padding: 0px;
 .copyright
 {
 	text-align: center;
+	background-color: #007bff5d;
   
 }
 

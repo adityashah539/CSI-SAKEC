@@ -3,10 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">  -->
 	<link rel="stylesheet" href="plugins/css/mdb.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
 
@@ -18,11 +16,82 @@
 <div class="preloader">
 	<div class="loader"></div>
   </div>
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
+	<a class="navbar-brand" href="#">CSI-SAKEC</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+	  aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+	  <ul class="navbar-nav mr-auto">
+		<li class="nav-item">
+		  <a class="nav-link" href="#home">Home
+			<span class="sr-only">(current)</span>
+		  </a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="#about">About Us</a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="#events">Events</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#ourteam">Our Team</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#gallery">Gallery</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#contact">Contact Us</a>
+		  </li>
+		<li class="nav-item dropdown">
+		  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+			aria-haspopup="true" aria-expanded="false">Memebership
+		  </a>
+		  <div class="dropdown-menu dropdown-primary" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="login.html">Existing member</a>
+			<a class="dropdown-item" href="membership.html">Apply for membership</a>
+		
+		  </div>
+		</li>
+	  </ul>
+	  <ul class="navbar-nav ml-auto nav-flex-icons">
+		<li class="nav-item">
+		  <a class="nav-link waves-effect waves-light">
+			<i class="fab fa-instagram"></i>
+		  </a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link waves-effect waves-light">
+			<i class="fab fa-twitter"></i>
+		  </a>
+		</li>
+		<li class="nav-item dropdown">
+		  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+			aria-haspopup="true" aria-expanded="false">
+			<i class="fas fa-user"></i>
+		  </a>
+		  <div class="dropdown-menu dropdown-menu-right dropdown-primary"
+			aria-labelledby="navbarDropdownMenuLink-333">
+			<a class="dropdown-item" href="login.html">Login</a>
+			<a class="dropdown-item" href="signup.html">Sign up</a>
+			<a class="dropdown-item"  data-toggle="modal" data-target="#basicExampleModal">Newsletter</a>
+			
+		  </div>
+		</li>
+	  </ul>
+	</div>
+  </nav>
+  <!--/.Navbar -->
 
 
 
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
+
+
+
+	<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
 		<a class="navbar-brand" href="#">CSI SAKEC</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -39,11 +108,11 @@
 		
 			</div>
 		</div>
-	</nav>
+	</nav> -->
 
 	
 	<!-- Heading Section -->
-<header >
+<header id="home" >
 
 
 
@@ -76,10 +145,11 @@
 			<h1 class="h1-responsive font-weight-bold my-5">About Us</h1>
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
-				<div class="col-sm-5">
-<img class="aboutus" src="images/img-1.jpeg" alt="">
+				<div class="col-sm-6">
+<img class="aboutus" src="images/about.jpg" alt="">
 				</div>
-				<div class="col-sm-7">
+				<div class="col-sm-6">
+					<div class="spacer" style="height:20px;"></div>
 <p>CSI is the largest and one of the most professionally managed association of India for CS and IT professionals. CSI SAKEC, since its inception, has proven to be a great source of knowledge by providing hands-on technical training and has worked towards the goal of transforming students into technical and competent professionals. It conducts events such as technical workshops, informative seminars, conferences, industry-academia interactions, technical competitions, student initiative programs and industrial visits which prove to be a gateway to technical expertise.</p>
 				</div>
 			</div>
@@ -87,7 +157,7 @@
 		</div>
 	</div>
 	
-	<div class="spacer" style="height:120px;"></div>
+	<div class="spacer" style="height:170px;"></div>
 
 	<!-- events -->
 	<div id="events">
@@ -464,7 +534,7 @@
   <!-- Section: Team v.2 -->
 </div>
 
-  <div class="spacer" style="height:120px;"></div>
+  <div class="spacer" style="height:90px;"></div>
 
 
 
@@ -472,7 +542,10 @@
 	<!-- Gallery -->
 <div id="gallery">
 <h1 class="h1-responsive font-weight-bold my-5">Gallery</h1>
+
 <div class="container-fluid text-center" style="background-image: linear-gradient(to top right, #ff19007c,#cce01d8e, #4a86908a);">
+
+	
 	<div class="row">
 	<div class="col-sm-2"></div>
 <div class="col-sm-8">
@@ -481,16 +554,20 @@
 		  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 		  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 		  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+		  <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 		</ol>
 		<div class="carousel-inner">
 		  <div class="carousel-item active">
-			<img class="d-block w-100" src="images/img-1.jpeg" alt="First slide">
+			<img class="d-block w-100" src="images/gal-4.jpg" alt="First slide">
 		  </div>
 		  <div class="carousel-item">
-			<img class="d-block w-100" src="images/img-2.jpg" alt="Second slide">
+			<img class="d-block w-100" src="images/gal-2.jpg" alt="Second slide">
 		  </div>
 		  <div class="carousel-item">
-			<img class="d-block w-100" src="images/img-3.jpg" alt="Third slide">
+			<img class="d-block w-100" src="images/gal-3.jpg" alt="Third slide">
+		  </div>
+		  <div class="carousel-item">
+			<img class="d-block w-100" src="images/gal-11.jpg" alt="ourth slide">
 		  </div>
 		</div>
 		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -610,16 +687,16 @@
 					<label for="email">E-Mail</label> : 
 					<input type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>
 					<label for="message">Message</label> :
-					<textarea data-toggle="tooltip" data-placement="bottom" title="Queries? , no problem we will solve" type="text-area" placeholder="Message" class="form-control" rows="5"></textarea><br>
-					<input type="submit" class="form-control submit">
+					<textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>
+					<button type="button" class="btn btn-primary  btn-block">Submit</button>
 				</div>
 			</div>
 		</div>
-		
+		<div class="spacer" style="height:30px;"></div>
 			<div class="copyright">
-				<div class="spacer" style="height:20px;"></div>
+				<div class="spacer" style="height:10px;"></div>
 			<h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
-			<div class="spacer" style="height:15px;"></div>
+			<div class="spacer" style="height:10px;"></div>
 			
 			</div>
 		</div>
