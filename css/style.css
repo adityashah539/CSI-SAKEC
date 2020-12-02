@@ -320,17 +320,17 @@ span img
 	margin: 20px;
 	color: rgb(22, 22, 22);
 
-
-	border-radius: 50px;
-	background: #d3d8d9;
+background: #00306411;
+	border-radius: 30px;
+	/* background: #d3d8d9;
 	box-shadow:  20px 20px 60px #b3b8b8, 
-				 -20px -20px 60px #f3f8fa;
+				 -20px -20px 60px #f3f8fa; */
 }
 
 
 
 .vl {
-	border-left: 2px solid #66c0ec;
+	border-left: 2px solid #9ba2ad;
 	height: 200px;
 	margin-left: 70px;
 	margin-top: 50px;
@@ -338,12 +338,13 @@ span img
   .hr1
   {
 	  width: 150px;
-	  border-top: 2px solid #66c0ec;
+	  border-top: 2px solid #9ba2ad;
 	  margin-left: 245px;
   }
 .footer, .list-group-item
 {
 	background-color:  #d3d8d9;
+	
 	
 	
 }
@@ -414,7 +415,7 @@ padding: 0px;
 .copyright
 {
 	text-align: center;
-	background-color: #007bff5d;
+	background-color:#00306411;
   
 }
 
@@ -422,26 +423,23 @@ padding: 0px;
 /*************************************/
 
 
-@media only screen and (min-width: 576px){
-  .login{
-margin-left: 800px;
-  }
 
-}
+
+
 @media only screen and (max-width: 576px){
-	.bg-dark{
+	.default-color{
 		background-color:#000000!important;
 	}
   }
   
   @media only screen and (max-width: 576px){
 	.hr1{
-		margin-left: 132px;
+		margin-left: 137px;
 		width: 100px;
 	}
 	.vl
 	{
-		margin-left: 0px;
+		margin-left: 51px;
 	}
   }
 
