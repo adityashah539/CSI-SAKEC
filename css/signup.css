@@ -10,7 +10,12 @@ body {
     color: white;
     padding: 0;
 }
-
+#classyear
+{
+  width: fit-content ;
+  background-color: #007bff00;
+  color: rgb(133, 133, 133);
+}
 .login {
     font-size:30px;
     font-weight:bolder;
@@ -55,8 +60,8 @@ a
    color:grey ;
     background: #2196f3;
     box-shadow:0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;
-    transition-delay: 0.3s;
-    transition-duration: 0.6s;
+    transition-delay: 0.2s;
+    transition-duration: 0.3s;
 }
 .g
 {
@@ -77,3 +82,5 @@ p {
     color:whitesmoke;
     font-weight:bold;
 }
+
+
