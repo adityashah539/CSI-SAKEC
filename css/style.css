@@ -97,15 +97,7 @@ body
 	background-color:#00000070!important;
 
 }
-.login
-{
-	background-color: rgb(42, 109, 253);
-  border:rgb(42, 109, 253);
-  border-radius: 5px;
-	padding:0px;
 
-
-}
 h1, h2, h3, h4
 {
 	text-align: center;
@@ -120,7 +112,13 @@ header
 	background-position: center;
 	color: rgb(170, 170, 170);
 	text-align: center;
-	
+}
+#home
+{
+	position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
 }
 
 
@@ -443,3 +441,13 @@ padding: 0px;
 	}
   }
 
+
+ 
+
+
+@media only screen and (max-width: 576px){
+	.dropdown-menu-right {
+		right: -48px;
+		left: auto;
+	}
+  }
