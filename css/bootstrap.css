@@ -4264,6 +4264,12 @@ input[type="button"].btn-block {
   pointer-events: none;
   cursor: default;
 }
+.floatleft {
+  float:left;
+}
+.floatright {
+  float:right;
+}
 
 .nav-tabs {
   border-bottom: 1px solid #dee2e6;

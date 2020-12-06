@@ -15,27 +15,24 @@
         	
 	<div class="spacer" style="height:50px;"></div>
     <div id="user-login">
-        <form action="">
+        <form action="signup.php" method="POST">
         <p class="login"><b>WELCOME !</b></p> <!-- </br></br><i class="fas fa-user-circle" style="font-size:80px;"></i></p></br> -->
        
-            <div class="spacer" style="height:30px;"></div>
-           
+            <div class="spacer" style="height:30px;"></div>   
          <i class="fas fa-file-signature" style="font-size:30px;"></i>
-         <input data-toggle="tooltip" data-placement="bottom" title="Your First name" id="text" type="text" class="g" placeholder=" First Name" required/></br>
+         <input data-toggle="tooltip" data-placement="bottom" title="Your First name" id="text" type="text" class="g" name ="firstname" placeholder=" First Name" required/></br>
          
         <i class="fas fa-signature" style="font-size:30px;"></i>
-        <input data-toggle="tooltip" data-placement="bottom" title="Your Last name" id="text" type="text" class="g"  placeholder="Last Name" required/></br>
+        <input data-toggle="tooltip" data-placement="bottom" title="Your Last name" id="text" type="text" class="g" name ="lastname" placeholder="Last Name" required/></br>
      <div class="grid-container">
-
-
         <div class="grid-item item1">
             <div class="texts">
-                <select id="classyear" name="yyear" required="required" class="custom-select mb-3">
-                    <option selected>Select Branch</option>
+                <select id="classyear" name="branch" required="required" class="custom-select mb-3" >
+                    <option disabled>Select Branch</option>
                    
                     <option value="CS">Computer Science</option>
                     <option value="IT">Information Technology</option>
-                    <option value="Electronics"> Electronics</option>
+                    <option value=""> Electronics</option>
                     <option value="EXTC">EXTC</option>
                   
                   </select>
@@ -43,46 +40,36 @@
         </div>
         <div class="grid-item item2">
             <div class="texts">
-                <select id="classyear" name="yyear" required="required" class="custom-select mb-3">
-                    <option selected>Select Class</option>
+                <select id="classyear" name="year" required="required" class="custom-select mb-3">
+                    <option disabled>Select Class</option>
                    
-                    <option value="twoyear">FE</option>
-                    <option value="threeyear">SE</option>
-                    <option value="twoyear"> TE</option>
-                    <option value="twoyear"> BE</option>
+                    <option value="FE">FE</option>
+                    <option value="SE">SE</option>
+                    <option value="TE"> TE</option>
+                    <option value="BE"> BE</option>
                   
                   </select>
           </div>
         </div>
      </div>
-      
- 
-         
-     <i class="fas fa-mobile-alt" style="font-size:30px;"></i>
-     <input data-toggle="tooltip" data-placement="bottom" title="Your Phone number" id="text" type="text" class="g" placeholder=" Phone Number" required/></br>
-     
-
-        <i class="far fa-envelope" style="font-size:30px;"></i>
-        <input data-toggle="tooltip" data-placement="bottom" title="Type your email" id="text" type="text" class="g" placeholder=" Email" required/></br>
-     
-     
-       
-       
-        <i class="fas fa-lock" style="font-size:30px;"></i>
-        <input data-toggle="tooltip" data-placement="bottom"   title="8 characters minimum" id="pass" type="password" class="g" placeholder=" Create Password" required/></br>
-        <i class="fa fa-key" style="font-size:30px;"></i>
-        <input data-toggle="tooltip" data-placement="bottom" title="Should be same as above" id="pass" type="password" class="g" placeholder=" Retype Password" required/></br>
-
-
+           
+    <i class="fas fa-mobile-alt" style="font-size:30px;"></i>
+    <input data-toggle="tooltip" data-placement="bottom" title="Your Phone number" id="text" type="text" class="g" name ="phonenumber"placeholder=" Phone Number" required/></br>
+    <i class="far fa-envelope" style="font-size:30px;"></i>
+    <input data-toggle="tooltip" data-placement="bottom" title="Type your email" id="text" type="text" class="g" name ="email" placeholder=" Email" required/></br>
+        
+    <i class="fas fa-lock" style="font-size:30px;"></i>
+    <input data-toggle="tooltip" data-placement="bottom"   title="8 characters minimum" id="pass" type="password" name ="password"class="g" placeholder=" Create Password" required/></br>
+    <i class="fa fa-key" style="font-size:30px;"></i>
+    <input data-toggle="tooltip" data-placement="bottom" title="Should be same as above" id="pass" type="password"name ="confrimpassword" class="g" placeholder=" Retype Password" required/></br>
 
         <!-- <input class="me" type="checkbox">Remember me</br> -->
-        <button class="btn btn-primary"><a href="">Sign Up</a> <i class="fas fa-user-plus "></i></button></br></br>
+        <button class="btn btn-primary">Sign Up <i class="fas fa-user-plus "></i></button></br></br>
 <p>Existing User <a style="color: rgb(168, 192, 212)"; href="login.html">Login</a></p>
 <div class="spacer" style="height:30px;"></div>
     </div>
     </div>
 </form>
-
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
