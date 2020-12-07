@@ -1,6 +1,14 @@
 <?php
+function function_alert($message)
+{
+    echo "<SCRIPT>
+    window.location.replace('membership.html')
+    alert('$message');
+    
+</SCRIPT>";
+}
 if (isset($_SESSION['username'])) {
-    header("location: index.html");
+    header("location: index.php");
     exit;
 }
 require_once "config.php";
@@ -16,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (empty($err)) {
         $sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "s", $param_username);
+        mysqli_stmt_bind_param($stmt, 's', $param_username);
         $param_username = $username;
         // Try to execute this statement
         if (mysqli_stmt_execute($stmt)) {
@@ -30,12 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         session_start();
                         $_SESSION["username"] = $username;
                         $_SESSION["loggedin"] = true;
-                        //echo $hashed_Password . " " . $password;
-                        header("location: index.html");
+                       // echo $_SESSION["username"];
+                        header("location: index.php");
+                    } else {
+                        function_alert("Plese enter the corrrect password");
+                        header("location: login.php");
                     }
-                    else{echo'password worng';}
                 }
-            } 
-        } 
-    }else{echo'empty';} 
+            }
+        }
+    }
+    else{
+        function_alert($err);
+        header("location: login.html");
+    } 
+    
 }
