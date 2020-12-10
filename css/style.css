@@ -128,7 +128,6 @@ header h3
 
 
 
-
 .rolling
 {
 	height: 100px;
@@ -196,7 +195,8 @@ hr.line1
 }
 #events p
 {
-	font-size: 14px;
+	font-size: 16px;
+	font-family: 'Times New Roman', Times, serif;
 }
 
 h1
@@ -305,9 +305,9 @@ background: #569eeca6;
   }
 .footer, .list-group-item
 {
-	background-color:  #afe3f8;
+	/* background-color:  #afe3f8; */
 	
-	
+	background-color: #cde2ea;
 	
 }
 
@@ -377,7 +377,7 @@ padding: 0px;
 .copyright
 {
 	text-align: center;
-	background-color:#003b797e;
+	background-color:#569eeca6;
   
 }
 
