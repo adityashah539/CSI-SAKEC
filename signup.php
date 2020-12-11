@@ -1,5 +1,12 @@
 <?php
 require_once "config.php";
+function function_alert($message) { 
+    echo 
+    "<SCRIPT>
+        window.location.replace('signup.html')
+        alert('$message');
+    </SCRIPT>";
+}
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sql = "SELECT * FROM userdata WHERE emailId = ? or phonenumber= ?";
     $stmt = mysqli_prepare($conn, $sql);
@@ -10,21 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_store_result($stmt);
             if (mysqli_stmt_num_rows($stmt) == 1) {
-                echo'email or phone  has been taken';
+                function_alert("The user already exits");
             } else {
                 $email = trim($_POST["email"]);
                 $password = trim($_POST["password"]);
                 $phonenumber = trim($_POST["phonenumber"]);
                 $confrimpassword = trim($_POST["confrimpassword"]);
                 if ($password === $confrimpassword) {
+                    session_start();
                     $branch = trim($_POST["branch"]);
                     $class = trim($_POST["year"]);
                     $firstname = trim($_POST["firstname"]);
                     $lastname = trim($_POST["lastname"]);
                     $sql = "INSERT INTO userdata ( firstName, lastName, emailID, phonenumber, branch, class, password,role) VALUES ('$firstname','$lastname','$email','$phonenumber','$branch','$class','$password','s')";
                     $stmt = mysqli_query($conn, $sql);
-                    header("location: login.html");
+                    header("location: index.php");
                     mysqli_close($conn);
+                }
+                else{
+                    function_alert("Plese enter the corrrect password");
                 }
             }
         }

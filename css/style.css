@@ -243,9 +243,11 @@ h1 {
 
 /**************************************/
 
-.footer .jumbotron {
-  margin: 20px;
-  color: rgb(22, 22, 22);
+.footer .jumbotron
+{
+	
+	margin: 20px;
+	color: rgb(22, 22, 22);
 
 background: #569eeca6;
 	border-radius: 30px;
@@ -253,6 +255,8 @@ background: #569eeca6;
 	box-shadow:  20px 20px 60px #b3b8b8, 
 				 -20px -20px 60px #f3f8fa; */
 }
+
+
 
 .vl {
 	border-left: 2px solid #9ba2ad;
@@ -273,42 +277,48 @@ background: #569eeca6;
 	
 	
 }
-.hr1 {
-  width: 150px;
-  border-top: 2px solid #9ba2ad;
-  margin-left: 245px;
-}
-.footer,
-.list-group-item {
-  background-color: #d3d8d9;
+
+.list-group-item:hover
+{
+	background-color: rgb(128, 175, 228);
+	
 }
 
-.list-group-item:hover {
-  background-color: rgb(128, 175, 228);
-}
 
 /* .modal-content
 {
 	background-color: #d8d8d8;
 } */
-.social {
-  height: 30px;
-  margin: 10px;
+.social
+{
+	height: 30px;
+	margin: 10px;
+	
+	width: auto;
 
-  width: auto;
 }
-.social:hover {
-  filter: grayscale(1);
+.social:hover
+{
+    filter: grayscale(1);
 }
-.footer .social:hover {
-  filter: grayscale(1);
+.footer .social:hover
+{
+	filter: grayscale(1);
 }
 .grid-container {
-  display: grid;
-  grid-gap: 10px;
+	display: grid;
+	grid-gap: 10px;
 
-  padding: 10px;
-}
+	padding: 10px;
+  }
+  
+  .grid-item {
+	
+	text-align: center;
+padding: 0px;
+
+  }
+  
 
   
   .item1 {
@@ -387,7 +397,7 @@ background: #569eeca6;
 @media only screen and (min-width: 1080px) {
   header h1 {
     color: white;
-
+  }}
  
 
 
@@ -427,5 +437,4 @@ background: #569eeca6;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
     font-size: 21px;
 }
-
-  }
+}

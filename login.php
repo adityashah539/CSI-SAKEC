@@ -1,48 +1,52 @@
 <?php
+require_once "config.php";
+session_start();
 function function_alert($message)
 {
     echo "<SCRIPT>
-    window.location.replace('membership.html')
+    window.location.replace('login.html')
     alert('$message');
-    
-</SCRIPT>";
+    </SCRIPT>";
 }
-if (isset($_SESSION['username'])) {
+if ($_SESSION['email']!='') {
     header("location: index.php");
     exit;
 }
-require_once "config.php";
 $username = $password = "";
 $err = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (empty(trim($_POST['email'])) || empty(trim($_POST['password']))) {
         $err = "Please enter username + password";
     } else {
-        $username = trim($_POST['email']);
+        $email = trim($_POST['email']);
         $password = trim($_POST['password']);
     }
     if (empty($err)) {
         $sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 's', $param_username);
-        $param_username = $username;
+        mysqli_stmt_bind_param($stmt, 's', $param_email);
+        $param_email = $email;
         // Try to execute this statement
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_store_result($stmt);
             if (mysqli_stmt_num_rows($stmt) == 1) {
-                mysqli_stmt_bind_result($stmt, $username, $hashed_Password);
+                mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
                 if (mysqli_stmt_fetch($stmt)) {
                     //echo $hashed_Password . " " . $password;
                     if ($password === $hashed_Password) {
-                        // this means the password is corrct. Allow user to login
                         session_start();
-                        $_SESSION["username"] = $username;
+                        // this means the password is corrct. Allow user to login
+                        $_SESSION["email"] = $email;
+                        $sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $_SESSION["role"] = $row["role"];
+                        $_SESSION["id"] = $row["id"];
                         $_SESSION["loggedin"] = true;
-                       // echo $_SESSION["username"];
+                        //echo $_SESSION["role"];
                         header("location: index.php");
                     } else {
                         function_alert("Plese enter the corrrect password");
-                        header("location: login.php");
                     }
                 }
             }
@@ -50,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     else{
         function_alert($err);
-        header("location: login.html");
     } 
     
 }

@@ -5,10 +5,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="plugins/css/mdb.min.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
+
 	<link rel="stylesheet" href="css/style.css">
 	<title>CSI-SAKEC</title>
 </head>
@@ -20,9 +21,8 @@
 	</div>
 	<!--Navbar -->
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
-		<a class="navbar-brand" href="#">CSI-SAKEC</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
-			aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+		<a class="navbar-brand" href="#"><img src="images/sakec-logo.png" alt="" style="height: 35px;"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
@@ -50,58 +50,92 @@
 				<?php
 				session_start();
 				require_once "config.php";
-				if(isset($_SESSION['username']))
+				if(isset($_SESSION['role']))
+					$role=$_SESSION['role'];
+				else 
+					$role='';
+				if ($role==='admin') {
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="database.php">Database</a>';
+					echo '</li>';
+				}
+				else if(($role==='m'))
 				{
-					echo'<li class="nav-item">';
-					echo'<a class="nav-link" href="loggedinmembership.html">Membership</a>';
-					echo'</li>';
+					// echo '<li class="nav-item">';
+					// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+					// echo '</li>';
 				} 
+				else if(($role==='s'))
+				{
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+					echo '</li>';
+					echo $role;
+				}
 				else 
 				{
-					echo'<li class="nav-item">';
-					echo'<a class="nav-link" href="membership.html">Membership</a>';
-					echo'</li>';	
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="membership.html">Membership</a>';
+					echo '</li>';
+					echo $role;
 				}
-				
 				?>
-				<!-- <li class="nav-item">
-					<a class="nav-link" href="membership.html">Membership</a>
-				</li> -->
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
 				<?php
-					//session_start();
-					if(isset($_SESSION['username']))
-					{
-						
-						echo'<li class="nav-item">';
-						echo'<a class="nav-link" href="">User email id :'.$_SESSION['username'].' </a>';
-						echo'</li>';
-						echo'<li class="nav-item">';
-						echo'<a class="nav-link" href="logout.php">Logout</a>';
-						echo'</li>';
-					}
-				else{
-					echo'<li class="nav-item">';
-					echo'<a class="nav-link" href="login.html">Login</a>';
-					echo'</li>';
-					echo'<li class="nav-item">';
-						echo'<a class="nav-link" href="signup.html">Sign up</a>';
-						echo'</li>';
+				if(isset($_SESSION['loggedin'])||isset($_SESSION['email']))
+				{	
+					$loggedin=$_SESSION['loggedin'];
+					$email=$_SESSION['email'];
+				}
+				else
+				{ 
+					$loggedin=false;
+				}
+					if ($loggedin) {
+
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="">Email Id :' . $_SESSION['email'] . ' </a>';
+					echo '</li>';
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="logout.php">Logout</a>';
+					echo '</li>';
+				} else {
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="login.html">Login</a>';
+					echo '</li>';
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="signup.html">Sign up</a>';
+					echo '</li>';
 				}
 				?>
-				
+
 			</ul>
 		</div>
 	</nav>
+
+
 	<!-- Heading Section -->
 	<header>
+
 		<div id="home">
+			<!-- <img class="rolling" src="images/logo.png" alt=""> -->
+
+
 			<img class="roll-support1" src="images/settings.png" alt="">
-			<a href="#events"> <img class="rolling" src="images/settings.png" alt="events"></a> -->
+
+			<a href="#events"> <img class="rolling" src="images/settings.png" alt="events"></a>
 			<img class="roll-support2" src="settings.png" alt="">
 			<h1>CSI SAKEC</h1>
+			<h3>BUILDING TECHNICAL SKILLS PROFESSIONALLY1</h3>
+
+
 		</div>
+
+
+
+
+
 	</header>
 	<br>
 	<br>
@@ -118,17 +152,41 @@
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
 				<div class="col-sm-6">
-					<img class="aboutus" src="images/about.jpg" alt="">
+					<img class="aboutus" src="images/about.png" alt="">
 				</div>
 				<div class="col-sm-6">
 					<div class="spacer" style="height:20px;"></div>
-					<p>CSI is the largest and one of the most professionally managed association of India for CS and IT
-						professionals. CSI SAKEC, since its inception, has proven to be a great source of knowledge by
-						providing hands-on technical training and has worked towards the goal of transforming students
-						into technical and competent professionals. It conducts events such as technical workshops,
-						informative seminars, conferences, industry-academia interactions, technical competitions,
-						student initiative programs and industrial visits which prove to be a gateway to technical
-						expertise.</p>
+					<p>
+						CSÌ SAKEC was formed in the year 2007. From then it
+
+						has successively grown to one of the strongest student
+
+						chapters of SAKEC. CS1 SAKEC has always lived upon
+
+						its motto of:
+
+						“BUILDING TECHNICAL SKILLS PROFESSIONALLY1’
+
+						in the past, CS1 SAKEC has been conducting various
+
+						workshops, seminars and visits with the help of
+
+						technically sound students for the benefit of SAKEC as
+
+						well as Non SAKEC students. Student Council of CS1
+
+						SAKEC includes different teams such as Design,
+
+						Treasury, Registration, Technical, Events,
+
+						Documentation and Publicity. These teams collectively
+
+						work for all the events conducted by CS1 SAKEC under
+
+						the guidance of Staff Coordinators for the benefit of all
+
+						the members.
+					</p>
 				</div>
 			</div>
 
@@ -145,7 +203,12 @@
 				<h1>
 					Events
 				</h1>
+
+
+
+
 			</div>
+
 			<hr class="line1">
 			<div class="spacer" style="height:30px;"></div>
 			<div class="row">
@@ -153,7 +216,7 @@
 				<div class="col-sm-4 date">
 					<br>
 					<p>
-						20 April 2020
+						20 December 2019
 					</p>
 				</div>
 				<div class="col-sm-8 event-details">
@@ -163,11 +226,7 @@
 						</h2>
 					</a>
 					<br>
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod voluptas, cupiditate perspiciatis
-						et unde quidem eos aliquid nisi incidunt suscipit architecto quaerat consequuntur excepturi
-						corrupti? Necessitatibus asperiores quas blanditiis architecto.
-					</p>
+					<p>Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. </p>
 				</div>
 
 			</div>
@@ -175,40 +234,34 @@
 				<div class="col-sm-4 date">
 					<br>
 					<p>
-						07 july 2020
+						11 March 2020
 					</p>
 				</div>
 				<div class="col-sm-8 event-details">
-					<a href="event.html">
+					<a href="event1.html">
 						<h2>
-							Dhoni's Birthday
+							Getting Started with Bg Bounty
 						</h2>
 					</a><br>
 					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod voluptas, cupiditate perspiciatis
-						et unde quidem eos aliquid nisi incidunt suscipit architecto quaerat consequuntur excepturi
-						corrupti? Necessitatibus asperiores quas blanditiis architecto.
-					</p>
+						What Bug Bounty is? , CSRF - Cross Site Request Forge, Resources required to get started in Bug Bounty, Various examples of how bug bounty is done .The event ended with an encouraging speech by Dr. Rekha Ramesh – Professor at the Department of Computer Engineering of Shah and Anchor Kutchhi Engineering College. </p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-4 date">
 					<br>
 					<p>
-						10 September 2020
+						30-31 August 2019
 					</p>
 				</div>
 				<div class="col-sm-8 event-details">
-					<a href="event.html">
+					<a href="event2.html">
 						<h2>
-							Ganpati Special
+							World of IOT
 						</h2>
 					</a><br>
 					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod voluptas, cupiditate perspiciatis
-						et unde quidem eos aliquid nisi incidunt suscipit architecto quaerat consequuntur excepturi
-						corrupti? Necessitatibus asperiores quas blanditiis architecto.
-					</p>
+						Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. </p>
 				</div>
 			</div>
 			<div class="row">
@@ -221,20 +274,23 @@
 				<div class="col-sm-8 event-details">
 					<a href="event.html">
 						<h2>
-							Shark Tank
+							World of IOT with NodeMCU
 						</h2>
 					</a><br>
 					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod voluptas, cupiditate perspiciatis
-						et unde quidem eos aliquid nisi incidunt suscipit architecto quaerat consequuntur excepturi
-						corrupti? Necessitatibus asperiores quas blanditiis architecto.
+						Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU.
 					</p>
 				</div>
 			</div>
 		</div>
 	</div>
 
+
+
+
 	<div class="spacer" style="height:90px;"></div>
+
+
 
 	<div id="ourteam">
 		<!-- Section: Team v.2 -->
@@ -243,21 +299,30 @@
 			<!-- Section heading -->
 			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team</h1>
 			<!-- Section description -->
-			<p class="grey-text w-responsive mx-auto mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-				Fugit, error amet numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam
-				eum porro a pariatur veniam.</p>
+			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">Student Council of CS1
 
+				SAKEC includes different teams such as Design,
+
+				Treasury, Registration, Technical, Events,
+
+				Documentation and Publicity. These teams collectively
+
+				work for all the events conducted by CS1 SAKEC under
+
+				the guidance of Staff Coordinators for the benefit of all
+
+				the members.</p>
+			<div class="spacer" style="height:45px;"></div>
 			<!-- Grid row -->
 			<div class="row text-center">
 
 				<!-- Grid column -->
 				<div class="col-md-4 mb-md-0 mb-5">
 					<div class="avatar mx-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
-							class="rounded z-depth-1-half" alt="Sample avatar">
+						<img src="images/Dhruvi-jain.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
 					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Maria Kate</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Photographer</strong></h6>
+					<h4 class="font-weight-bold dark-grey-text my-4">Dhruvi Jain</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>GENERAL SECRETARY</strong></h6>
 					<!-- Facebook-->
 					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
 						<img class="social" src="images/instagram.png" alt="instagram">
@@ -277,11 +342,10 @@
 				<!-- Grid column -->
 				<div class="col-md-4 mb-md-0 mb-5">
 					<div class="avatar mx-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
-							class="rounded z-depth-1-half" alt="Sample avatar">
+						<img src="images/Yukta Lapsiya.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
 					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">John Doe</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Front-end Developer</strong></h6>
+					<h4 class="font-weight-bold dark-grey-text my-4">Yukta Lapsiya</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>GENERAL COORDINATOR</strong></h6>
 					<!--Email-->
 					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
 						<img class="social" src="images/instagram.png" alt="instagram">
@@ -300,11 +364,310 @@
 				<!-- Grid column -->
 				<div class="col-md-4">
 					<div class="avatar mx-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
-							class="rounded z-depth-1-half" alt="Sample avatar">
+						<img src="images/Pratik-upadhyaya.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
 					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Sarah Melyah</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Web Developer</strong></h6>
+					<h4 class="font-weight-bold dark-grey-text my-4">Pratik upadhyay</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>STUDENT COORDINATOR</strong></h6>
+					<!--Linkedin -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!--Pinterest -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+			</div>
+			<!-- Grid row -->
+
+
+			<div class="spacer" style="height:120px;"></div>
+
+			<div class="row text-center">
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Aagam-sheth.jpeg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Aagam Sheth</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>Events Team Head</strong></h6>
+
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/instagram.png" alt="instagram">
+
+					</a>
+					<!--Dribbble -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Krutik-patel.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Krutik Patel</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>EVENTS TEAM CO-HEAD</strong></h6>
+					<!--Email-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- GitHub-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4">
+					<div class="avatar mx-auto">
+						<img src="images/Preet-karia.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Preet Karia</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>TECHNICAL TEAM HEAD</strong></h6>
+					<!--Linkedin -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!--Pinterest -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+			</div>
+			<div class="spacer" style="height:120px;"></div>
+
+
+			<!-- Grid row -->
+			<div class="row text-center">
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Rutvik-dashpande.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Rutvik Deshpande</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>technical team CO-HEAD</strong></h6>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/instagram.png" alt="instagram">
+
+					</a>
+					<!--Dribbble -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Ritik Mahajan.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Ritik Mahajan</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>publicity team head</strong></h6>
+					<!--Email-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- GitHub-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4">
+					<div class="avatar mx-auto">
+						<img src="images/Ridhhi-dagha.jpeg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Ridhi Dagha</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>REGISTRATION AND TREASURE TEAM treasurer</strong></h6>
+					<!--Linkedin -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!--Pinterest -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+			</div>
+			<!-- Grid row -->
+
+
+			<div class="spacer" style="height:120px;"></div>
+			<!-- Grid row -->
+			<div class="row text-center">
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Shalini-gund.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Shalin Gund</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>REGISTRATION AND TREASURE TEAM head1</strong></h6>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/instagram.png" alt="instagram">
+
+					</a>
+					<!--Dribbble -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Simran-jindal.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Simran Jindal</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>REGISTRATION AND TREASURE TEAM head1</strong></h6>
+					<!--Email-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- GitHub-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4">
+					<div class="avatar mx-auto">
+						<img src="images/Zarana-desai.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Zarana Desai</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>Documentation team head</strong></h6>
+					<!--Linkedin -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!--Pinterest -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+			</div>
+			<!-- Grid row -->
+
+
+			<div class="spacer" style="height:120px;"></div>
+			<!-- Grid row -->
+			<div class="row text-center">
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Parth-panchal.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Parth Panchal</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>design team head1</strong></h6>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/instagram.png" alt="instagram">
+
+					</a>
+					<!--Dribbble -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- Twitter -->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4 mb-md-0 mb-5">
+					<div class="avatar mx-auto">
+						<img src="images/Atharva Juikar.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Atharva Juikar</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>design team head2</strong></h6>
+					<!--Email-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+						<img class="social" src="images/instagram.png" alt="instagram">
+					</a>
+					<!-- Facebook-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+						<img class="social" src="images/facebook.png" alt="facebook">
+					</a>
+					<!-- GitHub-->
+					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+						<img class="social" src="images/twitter.png" alt="twitter">
+					</a>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-4">
+					<div class="avatar mx-auto">
+						<img src="images/Bhavika-salshingikar.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
+					</div>
+					<h4 class="font-weight-bold dark-grey-text my-4">Bhavika Salshingikar</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>Design team co-head1</strong></h6>
 					<!--Linkedin -->
 					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
 						<img class="social" src="images/instagram.png" alt="instagram">
@@ -323,63 +686,15 @@
 			</div>
 			<!-- Grid row -->
 			<div class="spacer" style="height:120px;"></div>
-
-			<div class="row text-center">
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(10).jpg"
-							class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Maria Kate</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Photographer</strong></h6>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/instagram.png" alt="instagram">
-
-					</a>
-					<!--Dribbble -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
-							class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">John Doe</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Front-end Developer</strong></h6>
-					<!--Email-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- GitHub-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
+			<div class="row">
+				<div class="col-sm-4"></div>
 				<!-- Grid column -->
 				<div class="col-md-4">
 					<div class="avatar mx-auto">
-						<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
-							class="rounded z-depth-1-half" alt="Sample avatar">
+						<img src="images/Ritika-boricha.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
 					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Sarah Melyah</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Web Developer</strong></h6>
+					<h4 class="font-weight-bold dark-grey-text my-4">Ritika Boricha</h4>
+					<h6 class="text-uppercase grey-text mb-3"><strong>Design team co-head2</strong></h6>
 					<!--Linkedin -->
 					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
 						<img class="social" src="images/instagram.png" alt="instagram">
@@ -394,23 +709,30 @@
 					</a>
 				</div>
 				<!-- Grid column -->
-
+				<div class="col-sm-4"></div>
 			</div>
+			<div class="spacer" style="height:90px;"></div>
+
+
+
+
+
 		</section>
 		<!-- Section: Team v.2 -->
 	</div>
 
-	<div class="spacer" style="height:90px;"></div>
+
+
 
 	<!-- Gallery -->
-	<div id="gallery" style="background-image: linear-gradient(to top right, #ff7263,#ebfb65, #98f0ff);">
-		<div class="spacer" style="height:10px;"></div>
-		<h1 class="h1-responsive font-weight-bold my-5" style="color: rgb(104, 104, 104);">Gallery</h1>
+	<div id="gallery">
+
+		<h1 class="h1-responsive font-weight-bold my-5">Gallery</h1>
 
 		<div class="container-fluid text-center">
 
 
-			<div class="row">
+			<div class="row" style="background-image: linear-gradient(to top right, #ff7263,#ebfb65, #98f0ff);">
 				<div class="col-sm-2"></div>
 				<div class="col-sm-8">
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -431,16 +753,14 @@
 								<img class="d-block w-100" src="images/gal-3.jpg" alt="Third slide">
 							</div>
 							<div class="carousel-item">
-								<img class="d-block w-100" src="images/gal-4.jpg" alt="ourth slide">
+								<img class="d-block w-100" src="images/gal-1.jpg" alt="ourth slide">
 							</div>
 						</div>
-						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-							data-slide="prev">
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 							<span class="sr-only">Previous</span>
 						</a>
-						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-							data-slide="next">
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
 							<span class="carousel-control-next-icon" aria-hidden="true"></span>
 							<span class="sr-only">Next</span>
 						</a>
@@ -451,7 +771,17 @@
 			</div>
 		</div>
 	</div>
+
+
 	<div class="spacer" style="height:120px;"></div>
+
+
+
+
+
+
+
+	<!-- Footer -->
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
@@ -486,23 +816,19 @@
 								<li class="list-group-item list-group-item-action">Privacy Policy</li>
 								<li class="list-group-item list-group-item-action">Terms</li>
 								<li class="list-group-item list-group-item-action">Membership</li>
-								<li type="button" class="list-group-item list-group-item-action" data-toggle="modal"
-									data-target="#basicExampleModal">Newsletter</li>
+								<li type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#basicExampleModal">Newsletter</li>
 								<!-- Modal -->
-								<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog"
-									aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
 												<h5 class="modal-title" id="exampleModalLabel">Subscribe now!</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>
 											<div class="modal-body">
-												<input type="email" class="form-control" placeholder="E-Mail"
-													id="emailid">
+												<input type="email" class="form-control" placeholder="E-Mail" id="emailid">
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-primary">Subscribe</button>
@@ -514,23 +840,19 @@
 							</ul>
 						</div>
 
-
 						<div class="grid-item item4">
 							<h5>Stay tuned and follow us on social media for more updates!</h5>
 							<hr class="hr1">
 							<div class="social-sites">
-								<a href="https://www.instagram.com/csisakec/"><img class="social"
-										src="images/instagram.png" alt="instagram"></a>
-								<a href="https://www.facebook.com/csisakec/photos"><img class="social"
-										src="images/facebook.png" alt="facebook"></a>
-								<a href=""><img class="social" src="images/twitter.png" alt="twitter"></a>
-								<a href=""><img class="social" src="images/youtube.png" alt="youtube"></a>
+								<a href="https://www.instagram.com/csisakec/"><img class="social" src="images/instagram.png" alt="instagram"></a>
+								<a href="https://www.facebook.com/csisakec/photos"><img class="social" src="images/facebook.png" alt="facebook"></a>
+								<a href="https://twitter.com/sakectweets?lang=en"><img class="social" src="images/twitter.png" alt="twitter"></a>
+								<a href="https://www.linkedin.com/school/sakec"><img class="social" src="images/linkedin.png" alt="linkedin"></a>
+								<a href="https://www.youtube.com/c/SAKECYouTubeChannel"><img class="social" src="images/youtube.png" alt="youtube"></a>
 							</div>
 						</div>
 					</div>
 				</div>
-
-
 
 				<div class="col-sm-5">
 					<div class="jumbotron">
@@ -540,8 +862,7 @@
 						<label for="email">E-Mail</label> :
 						<input type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>
 						<label for="message">Message</label> :
-						<textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us "
-							type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>
+						<textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>
 						<button type="button" class="btn btn-primary  btn-block">Submit</button>
 					</div>
 				</div>
@@ -561,13 +882,12 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script>
-
-		setTimeout(function () {
+		setTimeout(function() {
 			$('.preloader').fadeToggle();
 		}, 1000);
 
 
-		$(document).ready(function () {
+		$(document).ready(function() {
 			//image height
 			var winHeight = $(window).height();
 			var winHeightImg = $(window).height();
