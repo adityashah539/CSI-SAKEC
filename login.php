@@ -18,8 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (empty(trim($_POST['email'])) || empty(trim($_POST['password']))) {
         $err = "Please enter username + password";
     } else {
-        $email = trim($_POST['email']);
-        $password = trim($_POST['password']);
+        if(strpos(trim($_POST['email']),"@sakec.ac.in")){
+            $email = trim($_POST['email']);
+            $password = trim($_POST['password']);
+        }
+        else{
+            function_alert("Pls enter the college email Id");
+        }
     }
     if (empty($err)) {
         $sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
