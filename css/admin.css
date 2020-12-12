@@ -1,0 +1,31 @@
+*
+{
+  margin: 0;
+  padding:0;
+  scroll-behavior: smooth;
+}
+body
+{
+    font: 300 15px "Times New Roman", Times, serif;
+	line-height: 1.5;
+	padding: 0;
+	overflow-x:hidden;
+	scroll-behavior: smooth;
+	margin: 0;
+}
+.btn{
+
+    font-size:12px;
+    line-height: 1.2;
+    }
+
+.footer
+{
+	text-align: center;
+  background-color:#569eeca6;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+ 
+  
+}
