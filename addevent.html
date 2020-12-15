@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
+        integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
+    <link rel="stylesheet" href="css/membership.css">
+    <title> Add Event</title>
+</head>
+
+<body style="background:#c4cbff">
+    <div class="spacer" style="height:30px;"></div>
+    <h3>Add a new event</h3>
+    <hr>
+    <div class="container text-left">
+        <div class="spacer" style="height:50px;"></div>
+        <div class="row">
+
+            <div class="col-sm-5">
+                <div class="labels">
+                    <label for="rnumber">Event Title :</label>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="texts">
+                    <input type="text" id="title" name="title" value="" required>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="spacer" style="height:40px;"></div>
+        <div class="row">
+
+            <div class="col-sm-5">
+                <div class="labels">
+                    <label for="banner-img"> Banner Image :</label>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <input type="file" id="img" name="img" accept="image/*" required>
+            </div>
+        </div>
+        <div class="spacer" style="height:40px;"></div>
+        <div class="row">
+  
+            <div class="col-sm-5"> 
+                <div class="labels">
+            <label for="rnumber"> Date :</label>
+            </div>
+            </div>
+           <div class="col-sm-7">
+            <div class="texts">
+                <input type="date" id="date" name="date">
+               
+            </div>
+            </div>
+            </div>
+            <div class="spacer" style="height:40px;"></div>
+            <div class="row">
+      
+                <div class="col-sm-5"> 
+                    <div class="labels">
+                <label for="rnumber"> Time :</label>
+                </div>
+                </div>
+               <div class="col-sm-7">
+                <div class="texts">
+                    <input type="time" id="time" name="time">
+               
+                   
+                </div>
+                </div>
+                </div>
+                <div class="spacer" style="height:40px;"></div>
+                <div class="row">
+          
+                    <div class="col-sm-5"> 
+                        <div class="labels">
+                    <label for="rnumber"> Event Description :</label>
+                    </div>
+                    </div>
+                   <div class="col-sm-7">
+                    <div class="texts">
+                        <textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="4" columns="3"
+                        required></textarea>
+                       
+                    </div>
+                    </div>
+                    </div>
+                    <div class="spacer" style="height:50px;"></div>
+        <div class="row">
+
+            <div class="col-sm-5">
+                <div class="labels">
+                    <label for="rnumber">Fees for Members :</label>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="texts">
+                    <label for="appt">&#8377;</label>
+                    <input type="text" id="title" name="title" value="" required>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="spacer" style="height:50px;"></div>
+        <div class="row">
+
+            <div class="col-sm-5">
+                <div class="labels">
+                    <label for="rnumber">Fees for Non-members :</label>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="texts">
+                    <label for="appt">&#8377;</label>
+                    <input type="text" id="title" name="title" value="" required>
+                  
+                </div>
+            </div>
+        </div>
+        <div class="spacer" style="height:40px;"></div>
+        <div class="row">
+
+            <div class="col-sm-5">
+                <div class="labels">
+                    <label for="banner-img"> Speaker Image :</label>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <input type="file" id="img" name="img" accept="image/*" required>
+            </div>
+        </div>
+        <div class="spacer" style="height:40px;"></div>
+                <div class="row">
+          
+                    <div class="col-sm-5"> 
+                        <div class="labels">
+                    <label for="rnumber"> Speakers Description :</label>
+                    </div>
+                    </div>
+                   <div class="col-sm-7">
+                    <div class="texts">
+                        <textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="4" columns="3"
+                        required></textarea>
+                       
+                    </div>
+                    </div>
+                    </div>
+
+    </div>
+    <div class="spacer" style="height:40px;"></div>
+    <button type="button" class="btn btn-primary">Sumbit</button>
+    <div class="spacer" style="height:40px;"></div>
+    <div class="footer">
+
+        <div class="spacer" style="height:2px;"></div>
+        <a href="index.html"><i class="fas fa-home"></i></a> 
+        <div class="spacer" style="height:0px;"></div>
+    <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
+    <div class="spacer" style="height:1px;"></div>
+    </div>
+</body>
+
+</html>

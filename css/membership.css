@@ -24,9 +24,14 @@ header
     font-size: 18px;
 }
 
-.copyright
+.footer
 {
 	text-align: center;
-	background-color:#00306411;
-  
+  background-color:#569eeca6;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+ 
 }
+

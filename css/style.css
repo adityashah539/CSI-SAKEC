@@ -124,7 +124,6 @@ header h3
 
 
 
-
 .rolling
 {
 	height: 100px;
@@ -181,8 +180,10 @@ header h1 {
 hr.line1 {
   border-top: 1px solid #66c0ec;
 }
-#events p {
-  font-size: 14px;
+#events p
+{
+	font-size: 16px;
+	font-family: 'Times New Roman', Times, serif;
 }
 
 h1 {
@@ -272,9 +273,9 @@ background: #569eeca6;
   }
 .footer, .list-group-item
 {
-	background-color:  #afe3f8;
+	/* background-color:  #afe3f8; */
 	
-	
+	background-color: #cde2ea;
 	
 }
 
@@ -344,30 +345,8 @@ padding: 0px;
 .copyright
 {
 	text-align: center;
-	background-color:#003b797e;
+	background-color:#569eeca6;
   
-}
-
-.item1 {
-  grid-column: 1;
-  grid-row: 1 / span 2;
-}
-.item-2 {
-  grid-column: 2;
-  padding: 0px;
-  grid-row: 1;
-}
-.item3 {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-}
-.item4 {
-  grid-column: 1 / span 3;
-  grid-row: 2;
-}
-.copyright {
-  text-align: center;
-  background-color: #00306411;
 }
 
 /*************************************/
