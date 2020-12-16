@@ -13,7 +13,7 @@
 <body>
     <div class="spacer" style="height:10px;"></div>
     <header>
-        <h2 style="text-align: center;">Database</h2>
+        <h2 style="text-align: center;">Userdata</h2>
     </header>
     <div class="spacer" style="height:5px;"></div>
     <table class="table">

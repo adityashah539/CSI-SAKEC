@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
                 $s_name=$_POST['s_name'];
                 $temps_photo = $_FILES["s_photo"]["tmp_name"];     
                 $s_descripition=$_POST['s_descripition'];
-                $sql = "INSERT INTO `event`(`title`, `banner`, `e_date`, `e_time`, `e_description`, `fee_m`, `fee`, `s_photo`, `s_name`, `s_description`, `live`)
+                $sql = "INSERT INTO `event`(`title`, `banner`, `e_date`, `e_time`, `e_description`, `fee_m`, `fee`, `s_photo`, `s_name`, `s_descripition`, `live`)
                                     VALUES ('$title',' $e_banner','$date','$time','$e_descripition','$fee_m','$fee','$s_photo','$s_name','$s_descripition','false')";
                 mysqli_query($conn, $sql);
                 move_uploaded_file($tempe_banner,$folder);

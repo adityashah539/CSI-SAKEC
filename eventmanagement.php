@@ -48,16 +48,17 @@
                             <p class="collapse" id="<?php echo $row['title']; ?>">
                             <?php echo $row['e_descripition']; ?>
                             </p>
-                            <a class="collapsed" data-toggle="collapse" href="#<?php echo $row['title']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
+                            <a class="collapsed" data-toggle="collapse" href="<?php echo '#'.$row['title'];?>" aria-expanded="false" aria-controls="collapseSummary"></a>
                         </div>
                     </td>
                     <td>&#8377;  <?php echo $row['fee_m']; ?></td>
                     <td>&#8377;  <?php echo $row['fee']; ?></td>
                     <td>
                         <div id="s-description">
-                            <p class="collapse" id="<?php echo $row['title']; ?>s">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.eget nisl tristique, commodo lectus sit amet, vulputate sem. Cras por. </p>
-                            <a class="collapsed" data-toggle="collapse" href="#<?php echo $row['title']; ?>s" aria-expanded="false" aria-controls="collapseSummary"></a>
+                            <p class="collapse" id="<?php echo $row['title']; ?>">
+                            <?php echo $row['s_descripition']; ?>
+                                 </p>
+                            <a class="collapsed" data-toggle="collapse" href="#<?php echo '#'.$row['title']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
                         </div>
                     </td>
                    <?php

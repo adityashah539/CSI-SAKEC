@@ -54,7 +54,7 @@
 					$role='';
 				if ($role==='admin') {
 					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="database.php">Database</a>';
+					echo '<a class="nav-link" href="database.php">Userdata</a>';
 					echo '</li>';
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
@@ -164,30 +164,53 @@
 		<div class="container">
 			<div class="spacer" style="height:50px;"></div>
 			<div class="row">
+
 				<h1>
 					Events
 				</h1>
 			</div>
 			<hr class="line1">
 			<div class="spacer" style="height:30px;"></div>
+			
+			<?php
+                $sql = 'SELECT * FROM event';
+                $query = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($query) > 0) {
+                    while ($row = mysqli_fetch_assoc($query)) {
+						if($row['live']==1){
+                ?>
 			<div class="row">
-
 				<div class="col-sm-4 date">
 					<br>
 					<p>
-						20 December 2019
+						<?php echo date("d-m-Y",strtotime($row['e_date'])); ?>
 					</p>
 				</div>
 				<div class="col-sm-8 event-details">
-					<a href="event.html">
+					<!-- <form action="event.php" method="POST"> -->
+						
+						<a href="event.html">
+						<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
 						<h2>
-							CSI-SAKEC Outbound
+						<?php echo $row['title']; ?>
+						
 						</h2>
-					</a>
+						</a>
+						<!-- </a> -->
+						
+					<!-- </form> -->
 					<br>
-					<p>Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. </p>
+					<p>
+					<?php echo $row['e_description']; ?>
+					</p>
 				</div>
-			</div>
+				</div>
+			<?php
+						}
+					}
+				}
+			?>
+			
 			<div class="row">
 				<div class="col-sm-4 date">
 					<br>
