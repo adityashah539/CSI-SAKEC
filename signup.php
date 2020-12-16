@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $email = trim($_POST["email"]);
                 if (strpos($email, "@sakec.ac.in")) {
                     $phonenumber = trim($_POST["phonenumber"]);
-                    if ($phonenumber > 999999999) {
+                    if ($phonenumber > 999999999||$phonenumber < 10000000000) {
                         $password = trim($_POST["password"]);
                         $confrimpassword = trim($_POST["confrimpassword"]);
                         if ($password === $confrimpassword) {

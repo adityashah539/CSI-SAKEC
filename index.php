@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +7,9 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-
-
 	<link rel="stylesheet" href="css/style.css">
 	<title>CSI-SAKEC</title>
 </head>
-
 <body>
 	<!-- Loader -->
 	<div class="preloader">
@@ -21,14 +17,16 @@
 	</div>
 	<!--Navbar -->
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
-		<a class="navbar-brand" href="#"><img src="images/sakec-logo.png" alt="" style="height: 35px;"></a>
+		<a class="navbar-brand" href="#">
+		<img class="invert"  src="images/sakec-logo.png"  alt="" >
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="#home">Home
+					<a class="nav-link" href="#">Home
 						<span class="sr-only">(current)</span>
 					</a>
 				</li>
@@ -57,6 +55,9 @@
 				if ($role==='admin') {
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="database.php">Database</a>';
+					echo '</li>';
+					echo '<li class="nav-item">';
+					echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
 					echo '</li>';
 				}
 				else if(($role==='m'))
@@ -92,8 +93,7 @@
 				{ 
 					$loggedin=false;
 				}
-					if ($loggedin) {
-
+				if ($loggedin) {
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="">Email Id :' . $_SESSION['email'] . ' </a>';
 					echo '</li>';
@@ -109,42 +109,23 @@
 					echo '</li>';
 				}
 				?>
-
 			</ul>
 		</div>
 	</nav>
-
-
 	<!-- Heading Section -->
 	<header>
-
 		<div id="home">
-			<!-- <img class="rolling" src="images/logo.png" alt=""> -->
-
-
-			<img class="roll-support1" src="images/settings.png" alt="">
-
+			<img class="rolling" src="images/logo.png" alt="">
+			<!-- <img class="roll-support1" src="images/settings.png" alt="">
 			<a href="#events"> <img class="rolling" src="images/settings.png" alt="events"></a>
-			<img class="roll-support2" src="settings.png" alt="">
-			<h1>CSI SAKEC</h1>
-			<h3>BUILDING TECHNICAL SKILLS PROFESSIONALLY1</h3>
-
-
+			<img class="roll-support2" src="settings.png" alt=""> -->
+			<h3>Building Techinical  Skills Professionally</h3>
 		</div>
-
-
-
-
-
 	</header>
 	<br>
 	<br>
 	<br>
-
-
 	<!-- log in   -->
-
-
 	<!-- About Us -->
 	<div id="about">
 		<div class="container-fluid text-center">
@@ -158,43 +139,26 @@
 					<div class="spacer" style="height:20px;"></div>
 					<p>
 						CSÌ SAKEC was formed in the year 2007. From then it
-
 						has successively grown to one of the strongest student
-
 						chapters of SAKEC. CS1 SAKEC has always lived upon
-
 						its motto of:
-
 						“BUILDING TECHNICAL SKILLS PROFESSIONALLY1’
-
 						in the past, CS1 SAKEC has been conducting various
-
 						workshops, seminars and visits with the help of
-
 						technically sound students for the benefit of SAKEC as
-
 						well as Non SAKEC students. Student Council of CS1
-
 						SAKEC includes different teams such as Design,
-
 						Treasury, Registration, Technical, Events,
-
 						Documentation and Publicity. These teams collectively
-
 						work for all the events conducted by CS1 SAKEC under
-
 						the guidance of Staff Coordinators for the benefit of all
-
 						the members.
 					</p>
 				</div>
 			</div>
-
 		</div>
 	</div>
-
 	<div class="spacer" style="height:170px;"></div>
-
 	<!-- events -->
 	<div id="events">
 		<div class="container">
@@ -203,12 +167,7 @@
 				<h1>
 					Events
 				</h1>
-
-
-
-
 			</div>
-
 			<hr class="line1">
 			<div class="spacer" style="height:30px;"></div>
 			<div class="row">
@@ -228,7 +187,6 @@
 					<br>
 					<p>Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. </p>
 				</div>
-
 			</div>
 			<div class="row">
 				<div class="col-sm-4 date">
@@ -272,7 +230,7 @@
 					</p>
 				</div>
 				<div class="col-sm-8 event-details">
-					<a href="event.html">
+					<a href="event3.html">
 						<h2>
 							World of IOT with NodeMCU
 						</h2>
@@ -284,14 +242,7 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
 	<div class="spacer" style="height:90px;"></div>
-
-
-
 	<div id="ourteam">
 		<!-- Section: Team v.2 -->
 		<section class="team-section text-center my-5">
@@ -385,10 +336,7 @@
 
 			</div>
 			<!-- Grid row -->
-
-
 			<div class="spacer" style="height:120px;"></div>
-
 			<div class="row text-center">
 
 				<!-- Grid column -->
@@ -458,11 +406,8 @@
 					</a>
 				</div>
 				<!-- Grid column -->
-
 			</div>
 			<div class="spacer" style="height:120px;"></div>
-
-
 			<!-- Grid row -->
 			<div class="row text-center">
 
@@ -535,8 +480,6 @@
 
 			</div>
 			<!-- Grid row -->
-
-
 			<div class="spacer" style="height:120px;"></div>
 			<!-- Grid row -->
 			<div class="row text-center">
@@ -551,7 +494,6 @@
 					<!-- Facebook-->
 					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
 						<img class="social" src="images/instagram.png" alt="instagram">
-
 					</a>
 					<!--Dribbble -->
 					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
@@ -607,11 +549,8 @@
 					</a>
 				</div>
 				<!-- Grid column -->
-
 			</div>
 			<!-- Grid row -->
-
-
 			<div class="spacer" style="height:120px;"></div>
 			<!-- Grid row -->
 			<div class="row text-center">
@@ -682,7 +621,6 @@
 					</a>
 				</div>
 				<!-- Grid column -->
-
 			</div>
 			<!-- Grid row -->
 			<div class="spacer" style="height:120px;"></div>
@@ -712,26 +650,13 @@
 				<div class="col-sm-4"></div>
 			</div>
 			<div class="spacer" style="height:90px;"></div>
-
-
-
-
-
 		</section>
 		<!-- Section: Team v.2 -->
 	</div>
-
-
-
-
 	<!-- Gallery -->
 	<div id="gallery">
-
 		<h1 class="h1-responsive font-weight-bold my-5">Gallery</h1>
-
 		<div class="container-fluid text-center">
-
-
 			<div class="row" style="background-image: linear-gradient(to top right, #ff7263,#ebfb65, #98f0ff);">
 				<div class="col-sm-2"></div>
 				<div class="col-sm-8">
@@ -771,27 +696,14 @@
 			</div>
 		</div>
 	</div>
-
-
 	<div class="spacer" style="height:120px;"></div>
-
-
-
-
-
-
-
-	<!-- Footer -->
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
-
 			<div class="row">
-
 				<div class="col-sm-6">
 					<div class="spacer" style="height:110px;"></div>
 					<div class="grid-container">
-
 						<div class="grid-item item1">
 							<h4>
 								Important Links
@@ -803,15 +715,14 @@
 								<a class="list-group-item list-group-item-action" href="#ourteam">Our Team</a>
 							</ul>
 						</div>
-
 						<div class="grid-item item2">
 							<div class="vl"></div>
-
 						</div>
 						<div class="grid-item item3">
-							<h4>
+						<div class="spacer" style="height:35px;"></div>
+							<!-- <h4>
 								Contacts
-							</h4>
+							</h4> -->
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item list-group-item-action">Privacy Policy</li>
 								<li class="list-group-item list-group-item-action">Terms</li>
@@ -832,14 +743,12 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-primary">Subscribe</button>
-
 											</div>
 										</div>
 									</div>
 								</div>
 							</ul>
 						</div>
-
 						<div class="grid-item item4">
 							<h5>Stay tuned and follow us on social media for more updates!</h5>
 							<hr class="hr1">
@@ -874,7 +783,6 @@
 				<div class="spacer" style="height:10px;"></div>
 				<h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
 				<div class="spacer" style="height:5px;"></div>
-
 			</div>
 		</div>
 	</div>
@@ -885,8 +793,6 @@
 		setTimeout(function() {
 			$('.preloader').fadeToggle();
 		}, 1000);
-
-
 		$(document).ready(function() {
 			//image height
 			var winHeight = $(window).height();
@@ -895,5 +801,4 @@
 		})
 	</script>
 </body>
-
 </html>

@@ -122,9 +122,24 @@ header h3
     transform: translate(-50%,-50%);
 }
 
-
+.invert
+{
+	height: 35px;
+	filter: brightness(0);
+	filter: invert(0.6);
+}
 
 .rolling
+{
+	height: 170px;
+	width: auto;
+	margin-bottom: 22px;
+	filter: brightness(0);
+	filter: invert(1);
+	/* animation: rolling 3.5s infinite ease-in-out;  */
+ }
+
+/* .rolling
 {
 	height: 100px;
 	width: auto;
@@ -146,7 +161,8 @@ header h3
   to {
     transform: rotate(360deg);
   }
-}
+} */
+
 header h1 {
   color: white;
 

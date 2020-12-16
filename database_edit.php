@@ -16,25 +16,23 @@ require_once "config.php";
 
                 foreach ($query as $row) {
             ?>
-                    <form action="update.php" method="POST">
-
-                        <input type="hidden" name="edit_id" value="<?php echo $row['id'] ?>">
-
-                        <div class="form-group">
-                            <label> Username </label>
-                            <input type="text" name="edit_username" value="<?php echo $row['emailID'] ?>" class="form-control" placeholder="Enter Username">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="edit_email" value="<?php echo $row['role'] ?>" class="form-control" placeholder="Enter Email">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" name="edit_password" value="<?php echo $row['password'] ?>" class="form-control" placeholder="Enter Password">
-                        </div>
-                        <a href="register.php" class="btn btn-danger"> CANCEL </a>
-                        <button type="submit" name="updatebtn" class="btn btn-primary"> Update </button>
-                    </form>
+                <form action="update.php" method="POST">
+                    <input type="hidden" name="edit_id" value="<?php echo $row['id'] ?>">
+                    <div class="form-group">
+                        <label> Username </label>
+                        <input type="text" name="edit_username" value="<?php echo $row['emailID'] ?>" class="form-control" placeholder="Enter Username">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="edit_email" value="<?php echo $row['role'] ?>" class="form-control" placeholder="Enter Email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="edit_password" value="<?php echo $row['password'] ?>" class="form-control" placeholder="Enter Password">
+                    </div>
+                    <a href="register.php" class="btn btn-danger"> CANCEL </a>
+                    <button type="submit" name="updatebtn" class="btn btn-primary"> Update </button>
+                </form>
             <?php
                 }
             }
