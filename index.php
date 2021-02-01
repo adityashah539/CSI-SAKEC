@@ -84,7 +84,7 @@
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
 				<?php
-				if(isset($_SESSION["id"])||isset($_SESSION["role"]))
+				if(isset($_SESSION["rememeber_me"]))
 				{	
 					$loggedin=true;
 					$email=$_COOKIE['Email'];
