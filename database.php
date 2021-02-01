@@ -74,7 +74,6 @@
                                         ?>
                                     </select>
                                 </td>
-
                                 <td>
                                     <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                                     <button type="submit" name="edit_btn" class="btn btn-success"> Update </button>

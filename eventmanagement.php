@@ -75,7 +75,7 @@
                    else{
                        ?>
                         <td>
-                            <form action="disabled.php" method="post">
+                            <form action="disabled_event.php" method="post">
                             <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
                             <button type="submit" class="btn btn-danger"> Disabled</button>
                             </form>

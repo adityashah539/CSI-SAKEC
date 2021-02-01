@@ -10,17 +10,16 @@ function function_alert($message)
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
     if($_SESSION["role"]=='admin'||$_SESSION["role"]=='c'){
-        
             $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,', 
-                8 => 'A PHP extension stopped the file upload.',
-                );
+            0 => 'There is no error, the file uploaded with success',
+            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+            3 => 'The uploaded file was only partially uploaded',
+            4 => 'No file was uploaded',
+            6 => 'Missing a temorary folder',
+            7 => 'Failed to write file to disk,', 
+            8 => 'A PHP extension stopped the file upload.',
+            );
             $ext_error=false;
             $extensions= array('jpg','jpeg','png');
             $e_banner = $_FILES["e_banner"]["name"];

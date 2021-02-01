@@ -48,46 +48,46 @@
 				<?php
 				session_start();
 				require_once "config.php";
-				if(isset($_SESSION['role']))
-					$role=$_SESSION['role'];
-				else 
-					$role='';
-				if ($role==='admin') {
-					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="database.php">Userdata</a>';
-					echo '</li>';
-					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
-					echo '</li>';
-				}
-				else if(($role==='m'))
-				{
-					// echo '<li class="nav-item">';
-					// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
-					// echo '</li>';
-				} 
-				else if(($role==='s'))
-				{
-					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
-					echo '</li>';
-					echo $role;
-				}
-				else 
-				{
-					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="membership.html">Membership</a>';
-					echo '</li>';
-					echo $role;
+				if(isset($_COOKIE['Email'])){
+					if(isset($_SESSION['role']))
+						$role=$_SESSION['role'];
+					else 
+						$role='';
+					if ($role==='admin') {
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="database.php">Userdata</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
+						echo '</li>';
+					}
+					else if(($role==='m'))
+					{
+						// echo '<li class="nav-item">';
+						// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+						// echo '</li>';
+					} 
+					else if(($role==='s'))
+					{
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+						echo '</li>';
+					}
+					else 
+					{
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="membership.html">Membership</a>';
+						echo '</li>';
+					}
 				}
 				?>
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
 				<?php
-				if(isset($_SESSION['loggedin'])||isset($_SESSION['email']))
+				if(isset($_SESSION["id"])||isset($_SESSION["role"]))
 				{	
-					$loggedin=$_SESSION['loggedin'];
-					$email=$_SESSION['email'];
+					$loggedin=true;
+					$email=$_COOKIE['Email'];
 				}
 				else
 				{ 
@@ -95,7 +95,7 @@
 				}
 				if ($loggedin) {
 					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="">Email Id :' . $_SESSION['email'] . ' </a>';
+					echo '<a class="nav-link" href="">Email Id :' . $email . ' </a>';
 					echo '</li>';
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="logout.php">Logout</a>';
@@ -187,18 +187,12 @@
 					</p>
 				</div>
 				<div class="col-sm-8 event-details">
-					<!-- <form action="event.php" method="POST"> -->
-						
-						<a href="event.html">
+					<form action="event.php" method="post">
 						<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
 						<h2>
-						<?php echo $row['title']; ?>
-						
+						<button type="submit"><?php echo $row['title']; ?></button>
 						</h2>
-						</a>
-						<!-- </a> -->
-						
-					<!-- </form> -->
+					</form>
 					<br>
 					<p>
 					<?php echo $row['e_description']; ?>
@@ -210,8 +204,7 @@
 					}
 				}
 			?>
-			
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-sm-4 date">
 					<br>
 					<p>
@@ -262,7 +255,7 @@
 						Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU.
 					</p>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<div class="spacer" style="height:90px;"></div>
@@ -274,17 +267,11 @@
 			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team</h1>
 			<!-- Section description -->
 			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">Student Council of CS1
-
 				SAKEC includes different teams such as Design,
-
 				Treasury, Registration, Technical, Events,
-
 				Documentation and Publicity. These teams collectively
-
 				work for all the events conducted by CS1 SAKEC under
-
 				the guidance of Staff Coordinators for the benefit of all
-
 				the members.</p>
 			<div class="spacer" style="height:45px;"></div>
 			<!-- Grid row -->
@@ -802,7 +789,7 @@
 			<div class="spacer" style="height:30px;"></div>
 			<div class="copyright">
 				<div class="spacer" style="height:8px;"></div>
-				<a href="#home"><i class="fas fa-home"></i></a>
+				<a href="#"><i class="fas fa-home"></i></a>
 				<div class="spacer" style="height:10px;"></div>
 				<h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
 				<div class="spacer" style="height:5px;"></div>

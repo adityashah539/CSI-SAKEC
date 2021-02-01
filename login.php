@@ -1,6 +1,7 @@
 <?php
 require_once "config.php";
 session_start();
+ob_start();
 function function_alert($message)
 {
     echo "<SCRIPT>
@@ -41,14 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     if ($password === $hashed_Password) {
                         session_start();
                         // this means the password is corrct. Allow user to login
-                        $_SESSION["email"] = $email;
                         $sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $_SESSION["role"] = $row["role"];
                         $_SESSION["id"] = $row["id"];
-                        $_SESSION["loggedin"] = true;
-                        //echo $_SESSION["role"];
+                        if(isset($_POST['rememeber_me'])){
+                            $_SESSION["rememeber_me"] = $_POST['rememeber_me'];
+                            setcookie('Email',$email,time()+86400);
+                            setcookie('Password',$password,time()+86400);
+                        }
                         header("location: index.php");
                     } else {
                         function_alert("Plese enter the corrrect password");
@@ -59,6 +62,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     else{
         function_alert($err);
-    } 
-    
+    }
 }
