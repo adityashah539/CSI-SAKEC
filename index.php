@@ -31,7 +31,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#about">About Us</a>
+					<a class="nav-link" href="#about">About U</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#events">Events</a>
@@ -421,6 +421,7 @@
 			<!-- Grid row -->
 			<div class="row text-center">
 
+
 				<!-- Grid column -->
 				<div class="col-md-4 mb-md-0 mb-5">
 					<div class="avatar mx-auto">
@@ -664,12 +665,16 @@
 		<!-- Section: Team v.2 -->
 	</div>
 	<!-- Gallery -->
-	<div id="gallery">
-		<h1 class="h1-responsive font-weight-bold my-5">Gallery</h1>
+	<div id="gallery"  style="background-color:black">
+	<div class="spacer" style="height:50px;"></div>
+	
+		<h1 class="h1-responsive">Gallery</h1>
+		<hr class="line1">
+		<div class="spacer" style="height:30px;"></div>
 		<div class="container-fluid text-center">
-			<div class="row" style="background-image: linear-gradient(to top right, #ff7263,#ebfb65, #98f0ff);">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-8">
+			<div class="row" >
+			
+				<div class="col-sm-12">
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -702,11 +707,12 @@
 					</div>
 
 				</div>
-				<div class="col-sm-2"></div>
+			
 			</div>
 		</div>
+		<div class="spacer" style="height:15px;"></div>
 	</div>
-	<div class="spacer" style="height:120px;"></div>
+	
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
