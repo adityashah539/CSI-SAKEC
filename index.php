@@ -31,7 +31,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#about">About Us</a>
+					<a class="nav-link" href="#about">About U</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#events">Events</a>
