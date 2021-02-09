@@ -16,6 +16,55 @@
 		<div class="loader"></div>
 	</div>
 	<!--Navbar -->
+	<?php
+		session_start();
+		require_once "config.php";
+		$loggedin=false;
+		$email=null;	
+		$role=null;
+		$id=null;
+		if(isset($_COOKIE['Email'])&&!isset($_SESSION["Email"]))
+		{
+			$email = $_COOKIE['Email'];
+			$password = $_COOKIE['Password'];
+			$sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
+			$stmt = mysqli_prepare($conn, $sql);
+			mysqli_stmt_bind_param($stmt, 's', $param_email);
+			$param_email = $email;
+			// Try to execute this statement
+			if (mysqli_stmt_execute($stmt)) {
+				mysqli_stmt_store_result($stmt);
+				if (mysqli_stmt_num_rows($stmt) == 1) {
+					mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
+					if (mysqli_stmt_fetch($stmt)) {
+						//echo $hashed_Password . " " . $password;
+						if ($password === $hashed_Password) {
+							// this means the password is corrct. Allow user to login
+							$sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
+							$result = mysqli_query($conn, $sql);
+							$row = mysqli_fetch_assoc($result);
+							$role = $row["role"];
+							$id = $row["id"];
+							$loggedin=true;
+						}
+						else
+						{
+							$email=null;	
+						}
+					}
+				}
+			}		
+		}
+		else if(isset($_SESSION['Email']))
+		{	
+			$loggedin=true;
+			$email=$_SESSION['Email'];
+			$role=$_SESSION['role'];
+			$id = $_SESSION['id'];
+		}
+		$SESSION=array();
+    	session_destroy();
+	?>
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
 		<a class="navbar-brand" href="#">
 		<img class="invert"  src="images/sakec-logo.png"  alt="" >
@@ -46,13 +95,7 @@
 					<a class="nav-link" href="#contact">Contact Us</a>
 				</li>
 				<?php
-				session_start();
-				require_once "config.php";
-				if(isset($_COOKIE['Email'])){
-					if(isset($_SESSION['role']))
-						$role=$_SESSION['role'];
-					else 
-						$role='';
+				if($loggedin){
 					if ($role==='admin') {
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="database.php">Userdata</a>';
@@ -84,15 +127,6 @@
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
 				<?php
-				if(isset($_SESSION["rememeber_me"]))
-				{	
-					$loggedin=true;
-					$email=$_COOKIE['Email'];
-				}
-				else
-				{ 
-					$loggedin=false;
-				}
 				if ($loggedin) {
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="">Email Id :' . $email . ' </a>';
@@ -164,41 +198,39 @@
 		<div class="container">
 			<div class="spacer" style="height:50px;"></div>
 			<div class="row">
-
 				<h1>
 					Events
 				</h1>
 			</div>
 			<hr class="line1">
 			<div class="spacer" style="height:30px;"></div>
-			
 			<?php
                 $sql = 'SELECT * FROM event';
                 $query = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($query) > 0) {
                     while ($row = mysqli_fetch_assoc($query)) {
 						if($row['live']==1){
-                ?>
-			<div class="row">
-				<div class="col-sm-4 date">
-					<br>
-					<p>
-						<?php echo date("d-m-Y",strtotime($row['e_date'])); ?>
-					</p>
-				</div>
-				<div class="col-sm-8 event-details">
-					<form action="event.php" method="post">
-						<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
-						<h2>
-						<button type="submit"><?php echo $row['title']; ?></button>
-						</h2>
-					</form>
-					<br>
-					<p>
-					<?php echo $row['e_description']; ?>
-					</p>
-				</div>
-				</div>
+                		?>
+							<div class="row">
+								<div class="col-sm-4 date">
+									<br>
+									<p>
+										<?php echo date("d-m-Y",strtotime($row['e_date'])); ?>
+									</p>
+								</div>
+								<div class="col-sm-8 event-details">
+									<form action="event.php" method="post">
+										<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
+										<h2>
+										<button type="submit"><?php echo $row['title']; ?></button>
+										</h2>
+									</form>
+									<br>
+									<p>
+									<?php echo $row['e_description']; ?>
+									</p>
+								</div>
+							</div>
 			<?php
 						}
 					}
@@ -664,12 +696,16 @@
 		<!-- Section: Team v.2 -->
 	</div>
 	<!-- Gallery -->
-	<div id="gallery">
-		<h1 class="h1-responsive font-weight-bold my-5">Gallery</h1>
+	<div id="gallery"  style="background-color:black">
+	<div class="spacer" style="height:50px;"></div>
+	
+		<h1 class="h1-responsive">Gallery</h1>
+		<hr class="line1">
+		<div class="spacer" style="height:30px;"></div>
 		<div class="container-fluid text-center">
-			<div class="row" style="background-image: linear-gradient(to top right, #ff7263,#ebfb65, #98f0ff);">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-8">
+			<div class="row" >
+			
+				<div class="col-sm-12">
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -702,11 +738,11 @@
 					</div>
 
 				</div>
-				<div class="col-sm-2"></div>
+			
 			</div>
 		</div>
+		<div class="spacer" style="height:15px;"></div>
 	</div>
-	<div class="spacer" style="height:120px;"></div>
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
