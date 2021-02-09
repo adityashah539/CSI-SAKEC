@@ -744,10 +744,6 @@
 		</div>
 		<div class="spacer" style="height:15px;"></div>
 	</div>
-<<<<<<< HEAD
-	
-=======
->>>>>>> 1d3beb87adafc669c4a5dc76183de1819b73b940
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
