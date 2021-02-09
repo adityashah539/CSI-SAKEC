@@ -38,16 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (mysqli_stmt_num_rows($stmt) == 1) {
                 mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
                 if (mysqli_stmt_fetch($stmt)) {
-                    //echo $hashed_Password . " " . $password;
-                    if ($password === $hashed_Password) {
+                    if ($password === $hashed_Password) { // this means the password is corrct. Allow user to login
                         session_start();
-                        // this means the password is corrct. Allow user to login
                         $sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $_SESSION["role"] = $row["role"];
                         $_SESSION["id"] = $row["id"];
-                        $_SESSION["rememeber_me"] = $_POST["rememeber_me"];
+                        $_SESSION["Email"] = $email;
                         if(isset($_POST['rememeber_me'])){
                             setcookie('Email',$email,time()+86400);
                             setcookie('Password',$password,time()+86400);
