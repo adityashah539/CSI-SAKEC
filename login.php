@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $_SESSION["role"] = $row["role"];
                         $_SESSION["id"] = $row["id"];
                         $_SESSION["rememeber_me"] = $_POST["rememeber_me"];
+                        $_SESSION["Email"]=$email;
+                        
                         if(isset($_POST['rememeber_me'])){
                             setcookie('Email',$email,time()+86400);
                             setcookie('Password',$password,time()+86400);
