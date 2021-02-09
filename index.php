@@ -80,7 +80,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#about">About Us</a>
+					<a class="nav-link" href="#about">About U</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#events">Events</a>
@@ -453,6 +453,7 @@
 			<!-- Grid row -->
 			<div class="row text-center">
 
+
 				<!-- Grid column -->
 				<div class="col-md-4 mb-md-0 mb-5">
 					<div class="avatar mx-auto">
@@ -743,6 +744,10 @@
 		</div>
 		<div class="spacer" style="height:15px;"></div>
 	</div>
+<<<<<<< HEAD
+	
+=======
+>>>>>>> 1d3beb87adafc669c4a5dc76183de1819b73b940
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">

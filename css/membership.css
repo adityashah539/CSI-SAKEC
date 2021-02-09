@@ -14,6 +14,12 @@ header
     background-color: aquamarine;
     padding: 10px;
 }
+.add-event-header
+{
+    background: black;
+    color:white;
+    padding:10px;
+}
 .registration
 {
     text-align: start;
