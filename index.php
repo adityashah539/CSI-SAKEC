@@ -808,17 +808,32 @@
 						</div>
 					</div>
 				</div>
-
+				<div class="container" id="ff-compose"></div>
 				<div class="col-sm-5">
 					<div class="jumbotron">
+					<!--"Name_of_contact_person"  =  nocp
+					    "Email_of_contact_person" =  eocp
+						"Name_of_contact_person"  =  mocp -->
 						<h2>Contact Us</h2>
-						<label for="name">Name</label> :
-						<input type="name" placeholder="Name" class="form-control"><br>
-						<label for="email">E-Mail</label> :
-						<input type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>
-						<label for="message">Message</label> :
-						<textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>
-						<button type="button" class="btn btn-primary  btn-block">Submit</button>
+						<form action="contactUs.php" method="post">
+							<?php
+								if($loggedin)
+								{
+									echo '<label for="message"> Message </label> :';
+									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+								}
+								else
+								{
+									echo '<label for="name" >Name</label> :';
+									echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
+									echo '<label for="email"  >E-Mail</label> :';
+									echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';
+									echo '<label for="message">Message</label> :';
+									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+								}
+							?>
+							<button type="submit" class="btn btn-primary  btn-block">Submit</button>
+						</form>
 					</div>
 				</div>
 			</div>
