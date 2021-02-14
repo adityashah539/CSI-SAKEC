@@ -103,6 +103,12 @@
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
 						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="query.php">Query</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="log.php">Reply Log</a>';
+						echo '</li>';
 					}
 					else if(($role==='m'))
 					{
@@ -744,10 +750,6 @@
 		</div>
 		<div class="spacer" style="height:15px;"></div>
 	</div>
-<<<<<<< HEAD
-	
-=======
->>>>>>> 1d3beb87adafc669c4a5dc76183de1819b73b940
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
@@ -813,15 +815,16 @@
 						</div>
 					</div>
 				</div>
-				<div class="container" id="ff-compose"></div>
+				<!-- <div class="container" id="ff-compose"></div> -->
 				<div class="col-sm-5">
 					<div class="jumbotron">
 					<!--"Name_of_contact_person"  =  nocp
 					    "Email_of_contact_person" =  eocp
-						"Name_of_contact_person"  =  mocp -->
+						"Msg_of_contact_person"  =  mocp -->
 						<h2>Contact Us</h2>
 						<form action="contactUs.php" method="post">
 							<?php
+								echo '<input type="hidden" name="contact_us_email" value="'.$email.'">';
 								if($loggedin)
 								{
 									echo '<label for="message"> Message </label> :';
@@ -829,8 +832,8 @@
 								}
 								else
 								{
-									echo '<label for="name" >Name</label> :';
-									echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
+									// echo '<label for="name" >Name</label> :';
+									// echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
 									echo '<label for="email"  >E-Mail</label> :';
 									echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';
 									echo '<label for="message">Message</label> :';
