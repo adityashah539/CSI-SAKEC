@@ -45,9 +45,7 @@
                     <td><?php echo date("h:i:sa",strtotime($row['e_time'])); ?></td>
                     <td>
                         <div id="summary">
-                            <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>">
-                            <?php echo $row['e_description']; ?>
-                            </p>
+                            <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['e_description']; ?></p>
                             <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
                         </div>
                     </td>
@@ -55,9 +53,7 @@
                     <td>&#8377;  <?php echo $row['fee']; ?></td>
                     <td>
                         <div id="s-description">
-                            <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>">
-                            <?php echo $row['s_descripition']; ?>
-                                 </p>
+                            <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['s_descripition']; ?></p>
                             <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>"aria-expanded="false" aria-controls="collapseSummary"></a>
                         </div>
                     </td>

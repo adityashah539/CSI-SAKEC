@@ -34,6 +34,10 @@
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>
+                            <script>
+                                var textArea = document.getElementById("textArea");
+                                textArea.style.display = "none";
+                            </script>
                             <tr>
                                 <td scope="row"><?php echo $row['c_email']; ?></td>
                                 <td>
@@ -43,11 +47,25 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button id="foo" type="button"  onClick="addTextArea();" class="btn btn-primary">Reply</button>
-                                    <div id="reply"></div>
-                                    <div style="height: 10px;" id="send"></div></td>
+                                    <div id="<?php echo 'reply'.$row['id']; ?>">
+                                        <button type="button" onClick="<?php echo 'addTextArea('.$row['id'].');'; ?>" class="btn btn-primary">Reply</button>
+                                    </div>
+                                    <div id="<?php echo 'textArea'.$row['id'];?>">
+                                        <form action="reply_send.php" method="POST">
+                                            <textarea  rows='5' cols='50' name='Msg'></textarea>
+                                            <br>
+                                            <input type="hidden" name="reply_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" class="btn btn-primary">Send</button>
+                                        </form>
+                                        <button type="button" onClick="<?php echo 'addTextArea('.$row['id'].');'; ?>" class="btn btn-primary">Cancle</button>
+                                    </div>
+                                </td>
                                 <td><button type="button" class="btn btn-danger">Delete</button></td>
                             </tr>
+                    <script type=text/javascript>
+                        var t = document.getElementById("<?php echo 'textArea'.$row['id']; ?>");
+                        t.style.display = "none";
+                    </script>
                 <?php
                         }
                     } else {
@@ -68,14 +86,21 @@
         <div class="spacer" style="height:1px;"></div>
     </div>
     <script type="text/javascript">
-        function addTextArea(){
-            var div = document.getElementById('reply');
-            div.innerHTML += "<textarea  rows='5' cols='20' name='new_quote[]' />";
-            var div1 = document.getElementById('send');
-            div1.innerHTML  += `<button class="btn btn-primary">Send</button>`;
-            el=document.getElementById("foo");
-            el.remove();
+        function addTextArea(id){
+            var reply="reply";
+            var tA="textArea";
+            var combi=id;
+            var x = document.getElementById(reply.concat(combi));
+            var y = document.getElementById(tA.concat(combi));
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                y.style.display = "block";
+            }
         }
+        
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
