@@ -31,10 +31,13 @@
             <div class="table-content" style="font-size: large;">
                  <?php
                     require_once "config.php";
-                    $sql = 'SELECT * FROM reply';
-                    $query = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($query) > 0) {
-                        while ($row = mysqli_fetch_assoc($query)) {
+                    session_start();
+                    if(isset($_SESSION["Email"])){
+                        if($_SESSION["role"]==='admin'){
+                            $sql = 'SELECT * FROM reply';
+                            $query = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($query) > 0) {
+                                while ($row = mysqli_fetch_assoc($query)) {
                 ?>
                 <tr>
                     <td scope="row"><?php echo $row['c_email']; ?></td>
@@ -54,10 +57,16 @@
                     <td><button type="button" class="btn btn-danger">Delete</button></td>
                 </tr>
                 <?php
-                        }
-                    } else {
-                    echo "No Record Found";
                     }
+                } else {
+                echo "No Record Found.";
+                }
+            }else {
+                echo "You are not allowed.";
+            }
+        }else {
+            echo "You need to Login.";
+        }
                 ?>
             </div>
         </tbody>

@@ -23,7 +23,7 @@
 		$email=null;	
 		$role=null;
 		$id=null;
-		if(isset($_COOKIE['Email'])&&!isset($_SESSION["Email"]))
+		if(isset($_COOKIE['Email'])&&!isset($_SESSION["id"]))
 		{
 			$email = $_COOKIE['Email'];
 			$password = $_COOKIE['Password'];
@@ -55,15 +55,14 @@
 				}
 			}		
 		}
-		else if(isset($_SESSION['Email']))
+		else if(isset($_SESSION['id']))
 		{	
 			$loggedin=true;
 			$email=$_SESSION['Email'];
 			$role=$_SESSION['role'];
 			$id = $_SESSION['id'];
 		}
-		$SESSION=array();
-    	session_destroy();
+		unset($_SESSION['id']);
 	?>
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
 		<a class="navbar-brand" href="#">
@@ -80,7 +79,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#about">About U</a>
+					<a class="nav-link" href="#about">About Us</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#events">Events</a>
@@ -96,6 +95,7 @@
 				</li>
 				<?php
 				if($loggedin){
+					
 					if ($role==='admin') {
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="database.php">Userdata</a>';
@@ -108,6 +108,15 @@
 						echo '</li>';
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="log.php">Reply Log</a>';
+						echo '</li>';
+					}
+					else if(($role==='c'))
+					{
+						// echo '<li class="nav-item">';
+						// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+						// echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="query.php">Query</a>';
 						echo '</li>';
 					}
 					else if(($role==='m'))

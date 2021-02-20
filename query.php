@@ -29,10 +29,13 @@
             <div class="table-content" style="font-size: large;">
                 <?php
                     require_once "config.php";
-                    $sql = 'SELECT * FROM query';
-                    $query = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($query) > 0) {
-                        while ($row = mysqli_fetch_assoc($query)) {
+                    session_start();
+                    if(isset($_SESSION["Email"])){
+                        if($_SESSION["role"]==='admin'||$_SESSION["role"]==='c'){
+                            $sql = 'SELECT * FROM query';
+                            $query = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($query) > 0) {
+                                while ($row = mysqli_fetch_assoc($query)) {
                 ?>
                             <script>
                                 var textArea = document.getElementById("textArea");
@@ -67,9 +70,15 @@
                         t.style.display = "none";
                     </script>
                 <?php
+                            }
+                            } else {
+                            echo "No Record Found.";
+                            }
+                        }else {
+                            echo "You are not allowed.";
                         }
-                    } else {
-                    echo "No Record Found";
+                    }else {
+                        echo "You need to Login.";
                     }
                 ?>
             </div>
