@@ -16,6 +16,54 @@
 		<div class="loader"></div>
 	</div>
 	<!--Navbar -->
+	<?php
+		session_start();
+		require_once "config.php";
+		$loggedin=false;
+		$email=null;	
+		$role=null;
+		$id=null;
+		if(isset($_COOKIE['Email'])&&!isset($_SESSION["id"]))
+		{
+			$email = $_COOKIE['Email'];
+			$password = $_COOKIE['Password'];
+			$sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
+			$stmt = mysqli_prepare($conn, $sql);
+			mysqli_stmt_bind_param($stmt, 's', $param_email);
+			$param_email = $email;
+			// Try to execute this statement
+			if (mysqli_stmt_execute($stmt)) {
+				mysqli_stmt_store_result($stmt);
+				if (mysqli_stmt_num_rows($stmt) == 1) {
+					mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
+					if (mysqli_stmt_fetch($stmt)) {
+						//echo $hashed_Password . " " . $password;
+						if ($password === $hashed_Password) {
+							// this means the password is corrct. Allow user to login
+							$sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
+							$result = mysqli_query($conn, $sql);
+							$row = mysqli_fetch_assoc($result);
+							$role = $row["role"];
+							$id = $row["id"];
+							$loggedin=true;
+						}
+						else
+						{
+							$email=null;	
+						}
+					}
+				}
+			}		
+		}
+		else if(isset($_SESSION['id']))
+		{	
+			$loggedin=true;
+			$email=$_SESSION['Email'];
+			$role=$_SESSION['role'];
+			$id = $_SESSION['id'];
+		}
+		unset($_SESSION['id']);
+	?>
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
 		<a class="navbar-brand" href="#">
 		<img class="invert"  src="images/sakec-logo.png"  alt="" >
@@ -46,19 +94,29 @@
 					<a class="nav-link" href="#contact">Contact Us</a>
 				</li>
 				<?php
-				session_start();
-				require_once "config.php";
-				if(isset($_COOKIE['Email'])){
-					if(isset($_SESSION['role']))
-						$role=$_SESSION['role'];
-					else 
-						$role='';
+				if($loggedin){
+					
 					if ($role==='admin') {
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="database.php">Userdata</a>';
 						echo '</li>';
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="query.php">Query</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="log.php">Reply Log</a>';
+						echo '</li>';
+					}
+					else if(($role==='c'))
+					{
+						// echo '<li class="nav-item">';
+						// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+						// echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="query.php">Query</a>';
 						echo '</li>';
 					}
 					else if(($role==='m'))
@@ -84,15 +142,6 @@
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
 				<?php
-				if(isset($_SESSION["rememeber_me"]))
-				{	
-					$loggedin=true;
-					$email=$_COOKIE['Email'];
-				}
-				else
-				{ 
-					$loggedin=false;
-				}
 				if ($loggedin) {
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="">Email Id :' . $email . ' </a>';
@@ -164,41 +213,39 @@
 		<div class="container">
 			<div class="spacer" style="height:50px;"></div>
 			<div class="row">
-
 				<h1>
 					Events
 				</h1>
 			</div>
 			<hr class="line1">
 			<div class="spacer" style="height:30px;"></div>
-			
 			<?php
                 $sql = 'SELECT * FROM event';
                 $query = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($query) > 0) {
                     while ($row = mysqli_fetch_assoc($query)) {
 						if($row['live']==1){
-                ?>
-			<div class="row">
-				<div class="col-sm-4 date">
-					<br>
-					<p>
-						<?php echo date("d-m-Y",strtotime($row['e_date'])); ?>
-					</p>
-				</div>
-				<div class="col-sm-8 event-details">
-					<form action="event.php" method="post">
-						<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
-						<h2>
-						<button type="submit"><?php echo $row['title']; ?></button>
-						</h2>
-					</form>
-					<br>
-					<p>
-					<?php echo $row['e_description']; ?>
-					</p>
-				</div>
-				</div>
+                		?>
+							<div class="row">
+								<div class="col-sm-4 date">
+									<br>
+									<p>
+										<?php echo date("d-m-Y",strtotime($row['e_date'])); ?>
+									</p>
+								</div>
+								<div class="col-sm-8 event-details">
+									<form action="event.php" method="post">
+										<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
+										<h2>
+										<button type="submit"><?php echo $row['title']; ?></button>
+										</h2>
+									</form>
+									<br>
+									<p>
+									<?php echo $row['e_description']; ?>
+									</p>
+								</div>
+							</div>
 			<?php
 						}
 					}
@@ -712,7 +759,6 @@
 		</div>
 		<div class="spacer" style="height:15px;"></div>
 	</div>
-	
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">
@@ -778,17 +824,33 @@
 						</div>
 					</div>
 				</div>
-
+				<!-- <div class="container" id="ff-compose"></div> -->
 				<div class="col-sm-5">
 					<div class="jumbotron">
+					<!--"Name_of_contact_person"  =  nocp
+					    "Email_of_contact_person" =  eocp
+						"Msg_of_contact_person"  =  mocp -->
 						<h2>Contact Us</h2>
-						<label for="name">Name</label> :
-						<input type="name" placeholder="Name" class="form-control"><br>
-						<label for="email">E-Mail</label> :
-						<input type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>
-						<label for="message">Message</label> :
-						<textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>
-						<button type="button" class="btn btn-primary  btn-block">Submit</button>
+						<form action="contactUs.php" method="post">
+							<?php
+								echo '<input type="hidden" name="contact_us_email" value="'.$email.'">';
+								if($loggedin)
+								{
+									echo '<label for="message"> Message </label> :';
+									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+								}
+								else
+								{
+									// echo '<label for="name" >Name</label> :';
+									// echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
+									echo '<label for="email"  >E-Mail</label> :';
+									echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';
+									echo '<label for="message">Message</label> :';
+									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+								}
+							?>
+							<button type="submit" class="btn btn-primary  btn-block">Submit</button>
+						</form>
 					</div>
 				</div>
 			</div>

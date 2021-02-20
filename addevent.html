@@ -12,157 +12,265 @@
     <link rel="stylesheet" href="css/membership.css">
     <title> Add Event</title>
 </head>
-<body style="background:#c4cbff">
-    <div class="spacer" style="height:30px;"></div>
-    <h3>Add a new event</h3>
-    <hr>
-    <div class="container text-left">
+<body style="background:#ffffff">
+    <body>
+        <h2 class="add-event-header">Add a new event</h2>
         <form action="addevent.php" method="POST" enctype="multipart/form-data">
-            <div class="spacer" style="height:50px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="rnumber">Event Title :</label>
+            <div class="container text-left">
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="rnumber">Event Title :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <input type="text" id="title" name="title" placeholder="Title" required>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <input type="text" id="title" name="title" value="" required>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="rnumber">Event Subtitle :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <input type="text" id="subtitle" name="subtitle" placeholder="Subtitle" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="banner-img">Banner Image :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="file" id="img" name="e_banner" required>
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label> Date :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <label for="fromdate">From: </label>
+                            <br>
+                            <input type="date" id="todate" name="todate" required>
+                            <div class="spacer" style="height:10px;"></div>
+                            <label for="todate">To:</label>
+                            <br>
+                            <input type="date" id="todate" name="todate" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label> Time :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <label for="fromtime">From: </label>
+                            <br>
+                            <input type="time" id="fromtime" name="fromtime" required>
+                            <div class="spacer" style="height:10px;"></div>
+                            <label for="totime">To: </label>
+                            <br>
+                            <input type="time" id="totime" name="totime" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="rnumber"> Event Description :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Event Description" class="form-control" rows="4" columns="3"  name="e_descripition" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="rnumber">Fees for Members :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <label for="appt">&#8377;</label>
+                            <input type="text" name="fee_m" placeholder="Fees for Member" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="rnumber">Fees for Non-members :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <label for="appt">&#8377;</label>
+                            <input type="text" name="fee"  placeholder="Fees for Non-members"  required>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="spacer" style="height:20px;"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Phone</label>
+                    <div class="col-sm-10">
+                        <div class="phone-list">
+                            <div class="input-group phone-input">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="type-text">Type</span> <span class="caret"></span></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a class="changeType" href="javascript:;" data-type-value="phone">Phone</a></li>
+                                        <li><a class="changeType" href="javascript:;" data-type-value="fax">Fax</a></li>
+                                        <li><a class="changeType" href="javascript:;" data-type-value="mobile">Mobile</a></li>
+                                    </ul>
+                                </span>
+                                <input type="hidden" name="phone[1][type]" class="type-input" value="" />
+                                <input type="text" name="phone[1][number]" class="form-control" placeholder="+1 (999) 999 9999" />
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm btn-add-phone"><span class="glyphicon glyphicon-plus"></span> Add Phone</button>
+                    </div>
+                </div> -->
+                <div class="spacer" style="height:20px;"></div>
+                <div id="speaker">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="banner-img"> Speaker Name : </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" id="title" name="s_name" placeholder="Speaker Name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="banner-img"> Speaker Image :</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="file" id="img" name="s_photo"  required>
+                        </div>
+                    </div>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="rnumber"> Speakers Description :</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4"  columns="3" name= "s_descripition" required></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div id="no_speaker">
+                Hello
+            </div>
+            <div class="spacer" style="height:20px;"></div>
+            <button type="button" onclick="Disappear()" class="btn btn-primary" id="speaker_nospeaker">No Speaker</button>
+            <button type="submit" class="btn btn-primary">Sumbit</button>
             <div class="spacer" style="height:40px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="banner-img"> Banner Image :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <input type="file" id="img" name="e_banner"  required>
-                </div>
-            </div>
-            <div class="spacer" style="height:40px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label> Date :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <input type="date" id="date" name="date">
-                    </div>
-                </div>
-            </div>
-            <div class="spacer" style="height:40px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label> Time :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <input type="time" id="time" name="time">
-                    </div>
-                </div>
-            </div>
-            <div class="spacer" style="height:40px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="rnumber"> Event Description :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us "
-                            type="text-area" placeholder="Message" class="form-control" rows="4" columns="3" name="e_descripition"
-                            required></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="spacer" style="height:50px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="rnumber">Fees for Members :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <label for="appt">&#8377;</label>
-                        <input type="number" id="title" name="fee_m" value="" required>
-                    </div>
-                </div>
-            </div>
-            <div class="spacer" style="height:50px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="rnumber">Fees for Non-members :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <label for="appt">&#8377;</label>
-                        <input type="number" id="title" name="fee" value="" required>
-                    </div>
-                </div>
-            </div>
-            <div class="spacer" style="height:40px;"></div>           
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="rnumber">Speaker Name :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <input type="text" id="s_name" name="s_name" value="" required>
-                    </div>
-                </div>
-            </div>
-            <div class="spacer" style="height:40px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="banner-img"> Speaker Image :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <input type="file" id="img" name="s_photo"  required>
-                </div>
-            </div>
-            <div class="spacer" style="height:40px;"></div>
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="labels">
-                        <label for="rnumber"> Speakers Description :</label>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="texts">
-                        <textarea data-toggle="tooltip" data-placement="bottom" title="Any Queries? Write us "
-                            type="text-area" placeholder="Message" class="form-control" rows="4" columns="3" name="s_descripition"
-                            required></textarea>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Sumbit</button>
-            </div>
         </form>
-    </div>
-    <div class="spacer" style="height:40px;"></div>
-    <div class="spacer" style="height:40px;"></div>
-    <div class="footer">
-        <div class="spacer" style="height:2px;"></div>
-        <a href="index.html"><i class="fas fa-home"></i></a>
-        <div class="spacer" style="height:0px;"></div>
-        <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
-        <div class="spacer" style="height:1px;"></div>
-    </div>
-</body>
+        <script>
+            function Disappear() {
+                var x = document.getElementById("speaker");
+                var y = document.getElementById("no_speaker");
+                var element = document.getElementById("speaker_nospeaker");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    element.innerHTML = "No Speaker";
+                    y.style.display = "none";
+                } else {
+                    x.style.display = "none";
+                    element.innerHTML = "Speaker";
+                    y.style.display = "block";
+                }
+            }
+            var no_speaker = document.getElementById("no_speaker");
+            no_speaker.style.display = "none";
+        </script>
+        <script>
+            $(function(){
+		
+        $(document.body).on('click', '.changeType' ,function(){
+            $(this).closest('.phone-input').find('.type-text').text($(this).text());
+            $(this).closest('.phone-input').find('.type-input').val($(this).data('type-value'));
+        });
+        
+        $(document.body).on('click', '.btn-remove-phone' ,function(){
+            $(this).closest('.phone-input').remove();
+        });
+        
+        
+        $('.btn-add-phone').click(function(){
+
+            var index = $('.phone-input').length + 1;
+            
+            $('.phone-list').append(''+
+                    '<div class="input-group phone-input">'+
+                        '<span class="input-group-btn">'+
+                            '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="type-text">Type</span> <span class="caret"></span></button>'+
+                            '<ul class="dropdown-menu" role="menu">'+
+                                '<li><a class="changeType" href="javascript:;" data-type-value="phone">Phone</a></li>'+
+                                '<li><a class="changeType" href="javascript:;" data-type-value="fax">Fax</a></li>'+
+                                '<li><a class="changeType" href="javascript:;" data-type-value="mobile">Mobile</a></li>'+
+                            '</ul>'+
+                        '</span>'+
+                        '<input type="text" name="phone['+index+'][number]" class="form-control" placeholder="+1 (999) 999 9999" />'+
+                        '<input type="hidden" name="phone['+index+'][type]" class="type-input" value="" />'+
+                        '<span class="input-group-btn">'+
+                            '<button class="btn btn-danger btn-remove-phone" type="button"><span class="glyphicon glyphicon-remove"></span></button>'+
+                        '</span>'+
+                    '</div>'
+            );
+
+        });
+        
+    });
+        </script>
+        <div class="footer">
+            <div class="spacer" style="height:2px;"></div>
+            <a href="index.html"><i class="fas fa-home"></i></a>
+            <div class="spacer" style="height:0px;"></div>
+            <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
+            <div class="spacer" style="height:1px;"></div>
+        </div>
+    </body>
 </html>

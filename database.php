@@ -56,17 +56,17 @@
                                             echo ' <option value="m">Member</option>';
                                             echo ' <option value="s">Student</option>';
                                         } else if ($row['role'] == 'c') {
-                                            echo ' <option value="admin">Amdin</option>';
+                                            echo ' <option value="admin">Admin</option>';
                                             echo ' <option value="c" selected >Co-ordinator</option>';
                                             echo ' <option value="m">Member</option>';
                                             echo ' <option value="s">Student</option>';
                                         } else if ($row['role'] == 'm') {
-                                            echo ' <option value="admin">Amdin</option>';
+                                            echo ' <option value="admin">Admin</option>';
                                             echo ' <option value="c">Co-ordinator</option>';
                                             echo ' <option value="m" selected >Member</option>';
                                             echo ' <option value="s">Student</option>';
                                         } else {
-                                            echo ' <option value="admin">Amdin</option>';
+                                            echo ' <option value="admin">Admin</option>';
                                             echo ' <option value="c">Co-ordinator</option>';
                                             echo ' <option value="m">Member</option>';
                                             echo ' <option value="s" selected >Student</option>';
