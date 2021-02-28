@@ -34,64 +34,72 @@
             <div class="table-content" style="font-size: large;">
                 <?php
                 require_once "config.php";
-                $sql = 'SELECT * FROM userdata';
-                $query = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($query) > 0) {
-                    while ($row = mysqli_fetch_assoc($query)) {
+                if(isset($_SESSION['id'])){
+                    if($_SESSION['role']==='admin'){
+                        $sql = 'SELECT * FROM userdata';
+                        $query = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($query) > 0) {
+                            while ($row = mysqli_fetch_assoc($query)) {
                 ?>
-                        <tr>
-                            <td><?php echo $row['firstName']; ?></td>
-                            <td><?php echo $row['lastName']; ?></td>
-                            <td><?php echo $row['emailID']; ?></td>
-                            <td><?php echo $row['phonenumber']; ?></td>
-                            <td><?php echo $row['branch']; ?></td>
-                            <td><?php echo $row['class']; ?></td>
-                            <form action="update.php" method="post">
-                                <td>
-                                    <select name="role" class="custom-select mb-3">
-                                        <?php
-                                        if ($row['role'] == 'admin') {
-                                            echo ' <option value="admin"selected>Admin</option>';
-                                            echo ' <option value="c">Co-ordinator</option>';
-                                            echo ' <option value="m">Member</option>';
-                                            echo ' <option value="s">Student</option>';
-                                        } else if ($row['role'] == 'c') {
-                                            echo ' <option value="admin">Admin</option>';
-                                            echo ' <option value="c" selected >Co-ordinator</option>';
-                                            echo ' <option value="m">Member</option>';
-                                            echo ' <option value="s">Student</option>';
-                                        } else if ($row['role'] == 'm') {
-                                            echo ' <option value="admin">Admin</option>';
-                                            echo ' <option value="c">Co-ordinator</option>';
-                                            echo ' <option value="m" selected >Member</option>';
-                                            echo ' <option value="s">Student</option>';
-                                        } else {
-                                            echo ' <option value="admin">Admin</option>';
-                                            echo ' <option value="c">Co-ordinator</option>';
-                                            echo ' <option value="m">Member</option>';
-                                            echo ' <option value="s" selected >Student</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                    <button type="submit" name="edit_btn" class="btn btn-success"> Update </button>
-                                </td>
-                            </form>
-                            <td>
-                                <form action="delete.php" method="post">
-                                    <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
-                                    <button type="submit" name="delete_btn" class="btn btn-danger"> Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                <?php
+                                <tr>
+                                    <td><?php echo $row['firstName']; ?></td>
+                                    <td><?php echo $row['lastName']; ?></td>
+                                    <td><?php echo $row['emailID']; ?></td>
+                                    <td><?php echo $row['phonenumber']; ?></td>
+                                    <td><?php echo $row['branch']; ?></td>
+                                    <td><?php echo $row['class']; ?></td>
+                                    <form action="update.php" method="post">
+                                        <td>
+                                            <select name="role" class="custom-select mb-3">
+                                                <?php
+                                                if ($row['role'] == 'admin') {
+                                                    echo ' <option value="admin"selected>Admin</option>';
+                                                    echo ' <option value="c">Co-ordinator</option>';
+                                                    echo ' <option value="m">Member</option>';
+                                                    echo ' <option value="s">Student</option>';
+                                                } else if ($row['role'] == 'c') {
+                                                    echo ' <option value="admin">Admin</option>';
+                                                    echo ' <option value="c" selected >Co-ordinator</option>';
+                                                    echo ' <option value="m">Member</option>';
+                                                    echo ' <option value="s">Student</option>';
+                                                } else if ($row['role'] == 'm') {
+                                                    echo ' <option value="admin">Admin</option>';
+                                                    echo ' <option value="c">Co-ordinator</option>';
+                                                    echo ' <option value="m" selected >Member</option>';
+                                                    echo ' <option value="s">Student</option>';
+                                                } else {
+                                                    echo ' <option value="admin">Admin</option>';
+                                                    echo ' <option value="c">Co-ordinator</option>';
+                                                    echo ' <option value="m">Member</option>';
+                                                    echo ' <option value="s" selected >Student</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" name="edit_btn" class="btn btn-success"> Update </button>
+                                        </td>
+                                    </form>
+                                    <td>
+                                        <form action="delete.php" method="post">
+                                            <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" name="delete_btn" class="btn btn-danger"> Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+            <?php
+                            }
+                        }else{
+                            echo "<td>No Record Found</td>";
+                        }
+                    }else{
+                        echo "<td>No Record Found</td>";
                     }
-                } else {
-                    echo "No Record Found";
+                }else{
+                    echo "<td>You have not logged in.</td>";
                 }
-                ?>
+            ?>
             </div>
         </tbody>
     </table>

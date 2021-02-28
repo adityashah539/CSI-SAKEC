@@ -32,7 +32,7 @@
                  <?php
                     require_once "config.php";
                     session_start();
-                    if(isset($_SESSION["Email"])){
+                    if(isset($_SESSION["id"])){
                         if($_SESSION["role"]==='admin'){
                             $sql = 'SELECT * FROM reply';
                             $query = mysqli_query($conn, $sql);

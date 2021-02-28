@@ -13,7 +13,10 @@
 </head>
 <body>
     <?php
-    require_once "config.php";
+
+use function PHPSTORM_META\map;
+
+require_once "config.php";
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $id = $_POST['id_event'];
         $sql = "SELECT * FROM event WHERE id='$id'";
@@ -30,13 +33,34 @@
             <div class="spacer" style="height:35px;"></div>
             <div class="event-header">
                 <div class="spacer" style="height:20px;"></div>
-                <h2><span id="demo" style="color: rgb(145, 0, 0);">8 </span><span style="color: rgb(120 134 5)s;">Days <span style="color: rgb(0, 99, 16);">Go</span></h2>
-                <h1>Largest Outbound event</h1>
-                <h4><span style="color: #a10f95;">21 September</span> 2020, <span style="color: rgb(173, 173, 0);">3 p.m</span> Onwads</h4>
+                <h1> <?php echo $row['subtitle']; ?></h1>
+                <h2>
+                    <span id="demo" style="color: rgb(145, 0, 0);">
+                        8 
+                    </span>
+                    <span style="color: rgb(120 134 5)s;">
+                        Days 
+                    <span style="color: rgb(0, 99, 16);">
+                        Go
+                    </span>
+                </h2>
+                <h1><?php $row['subtitle'];?></h1>
+                <h4>
+                    <span style="color: #a10f95;">
+                        21 September
+                    </span> 
+                    2020, 
+                    <span style="color: rgb(173, 173, 0);">
+                        3 p.m
+                    </span> 
+                    Onwads
+                </h4>
                 <div class="spacer" style="height:20px;"></div>
-                <button action="" type="button" class="btn btn-primary">Register Now</button>
-                <div class="spacer" style="height:40px;"></div>
+                <button action="" type="button" class="btn btn-primary">
+                    Register Now
+                </button>
             </div>
+            <div class="spacer" style="height:40px;"></div>
             <div class="row">
                 <div class="spacer" style="height:40px;"></div>
                 <p class="description">
@@ -64,15 +88,19 @@
                         <p><b>Contact:</b>
                             <br>
                             <br>
-                            Ishika Diwan - 8879524037<br>
-                            Dhawal Shah - 8689916000<br>
-                            Kedar Ayare - 8698457213
+                            <?php
+                                $contact ="SELECT `c_name`,`c_phonenumber` FROM `contact` WHERE `event_id`='$id'";
+                                $query_contact = mysqli_query($conn,$contact);
+                                while($row2 = mysqli_fetch_assoc($query_contact)){
+                                    echo $row2['c_name']." - ".$row2['c_phonenumber']."<br>";
+                                }
+                            ?>
                         </p>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <?php
-                     if(isset($row['s_photo'])&&isset($row['s_name'])&&isset($row['s_descripition'])){
+                     if(isset($row['s_photo'])){
                     ?>
                     <div class="speakers">
                         <h1>Speakers</h1>

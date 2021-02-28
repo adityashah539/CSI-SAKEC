@@ -70,7 +70,7 @@
                         <div class="texts">
                             <label for="fromdate">From: </label>
                             <br>
-                            <input type="date" id="todate" name="todate" required>
+                            <input type="date" id="fromdate" name="fromdate" required>
                             <div class="spacer" style="height:10px;"></div>
                             <label for="todate">To:</label>
                             <br>
@@ -142,21 +142,19 @@
                 
                 <div class="form-group">
                     <div class="col-sm-5">
-                    <label class="control-label">Name</label>
+                    <label class="control-label">Contact Name :</label>
                     </div>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control">
+                        <input type="text" name="phone1name" class="form-control">
                     </div>
          
                     <div class="col-sm-5">
-                    <label class=" control-label">Phone</label>
+                    <label class="control-label">Phone number :</label>
                     </div>
                     <div class="col-sm-7">
                         <div class="phone-list">
                             <div class="input-group phone-input">
-                              
-                                <input type="hidden" name="phone[1][type]" class="type-input" value="" />
-                                <input type="text" name="phone[1][number]" class="form-control" placeholder="+91 999 999 9999" />
+                                <input type="number" name="phone1number" id="phone1number" class="form-control" placeholder="+91 999 999 9999" />
                             </div>
                         </div>
                         <button type="button" class="btn btn-success btn-sm btn-add-phone"><span class="glyphicon glyphicon-plus"></span> Add Phone</button>
@@ -173,10 +171,24 @@
                         </div>
                         <div class="col-sm-7">
                             <div class="texts">
-                                <input type="text" id="title" name="s_name" placeholder="Speaker Name" required>
+                                <input type="text" name="s_name" placeholder="Speaker Name" required>
                             </div>
                         </div>
                     </div>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="s_profession"> Speaker Profession: </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" name="s_profession" placeholder="Speaker Profession" required>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="spacer" style="height:20px;"></div>
                     <div class="row">
                         <div class="col-sm-5">
@@ -192,7 +204,7 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="labels">
-                                <label for="rnumber"> Speakers Description :</label>
+                                <label > Speakers Description :</label>
                             </div>
                         </div>
                         <div class="col-sm-7">
@@ -204,7 +216,6 @@
                 </div>
             </div>
             <div id="no_speaker">
-                Hello
             </div>
             <div class="spacer" style="height:20px;"></div>
             <button type="button" onclick="Disappear()" class="btn btn-primary" id="speaker_nospeaker">No Speaker</button>
@@ -250,20 +261,17 @@
 
             '<div class="deletephone">'+
           '  <div class="col-sm-5">'+
-           ' <label class="col-sm-2 control-label">Name</label>'+
+           ' <label class=" control-label">Contact Name :</label>'+
            '</div>'+
                    ' <div class="col-sm-7">'+
-                      '  <input type="text" class="form-control">'+
-                     
+                      '  <input type="text" name="phone'+index+'name" class="form-control">'+
                '</div>'+
                '  <div class="col-sm-5">'+
-               ' <label class="col-sm-2 control-label">Phone</label>'+
+               ' <label class=" control-label">Phone Number :</label>'+
                '</div>'+
                ' <div class="col-sm-7">'+
                     '<div class="input-group phone-input">'+
-                      
-                        '<input type="text" name="phone['+index+'][number]" class="form-control" placeholder="+1 (999) 999 9999" />'+
-                        '<input type="hidden" name="phone['+index+'][type]" class="type-input" value="" />'+
+                        '<input type="number" name="phone'+index+'number" class="form-control" placeholder="+91 999 999 9999" />'+
                         '<span class="input-group-btn">'+
                             '<button class="btn btn-danger btn-remove-phone" type="button"><span class="glyphicon glyphicon-remove"></span></button>'+
                         '</span>'+
@@ -271,11 +279,7 @@
                     '</div>'+
                     '</div>'
             );
-
-        });
-
-      
-        
+        });  
     });
         </script>
         <div class="footer">

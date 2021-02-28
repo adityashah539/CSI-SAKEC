@@ -30,7 +30,7 @@
                 <?php
                     require_once "config.php";
                     session_start();
-                    if(isset($_SESSION["Email"])){
+                    if(isset($_SESSION["id"])){
                         if($_SESSION["role"]==='admin'||$_SESSION["role"]==='c'){
                             $sql = 'SELECT * FROM query';
                             $query = mysqli_query($conn, $sql);
