@@ -23,7 +23,7 @@
 		$email=null;	
 		$role=null;
 		$id=null;
-		if(isset($_COOKIE['Email'])&&!isset($_SESSION["id"]))
+		if(isset($_COOKIE['Email'])&&!isset($_SESSION["Email"]))
 		{
 			$email = $_COOKIE['Email'];
 			$password = $_COOKIE['Password'];
@@ -46,23 +46,23 @@
 							$role = $row["role"];
 							$id = $row["id"];
 							$loggedin=true;
-						}
-						else
-						{
+                            $_SESSION['Email']=$email;
+			                $_SESSION['role']=$role;
+			                $_SESSION['id']=$id;
+						}else{
 							$email=null;	
 						}
 					}
 				}
 			}		
 		}
-		else if(isset($_SESSION['id']))
-		{	
+		else if(isset($_SESSION['Email'])){	
 			$loggedin=true;
 			$email=$_SESSION['Email'];
 			$role=$_SESSION['role'];
 			$id = $_SESSION['id'];
 		}
-		unset($_SESSION['id']);
+		unset($_SESSION['Email']);
 	?>
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
 		<a class="navbar-brand" href="#">
@@ -230,7 +230,12 @@
 								<div class="col-sm-4 date">
 									<br>
 									<p>
-										<?php echo date("d-m-Y",strtotime($row['e_date'])); ?>
+										<?php 
+                                            if($row['e_from_date']==$row['e_to_date'])
+                                                echo date("d-m-Y",strtotime($row['e_from_date'])); 
+                                            else 
+                                                echo date("d-m-Y",strtotime($row['e_from_date']))." to ".date("d-m-Y",strtotime($row['e_to_date']));
+                                        ?>
 									</p>
 								</div>
 								<div class="col-sm-8 event-details">
