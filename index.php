@@ -109,6 +109,9 @@
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="log.php">Reply Log</a>';
 						echo '</li>';
+                        echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="budget.php">Budget</a>';
+						echo '</li>';
 					}
 					else if(($role==='c'))
 					{

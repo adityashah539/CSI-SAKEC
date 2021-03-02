@@ -12,14 +12,13 @@
     <link rel="stylesheet" href="css/admin.css">
     <title>Expense</title>
 </head>
+
 <body>
     <div class="spacer" style="height:10px;"></div>
     <header>
-
         <h2 style="text-align: center;">Expense</h2>
     </header>
     <div class="spacer" style="height:10px;"></div>
-
     <table class="table">
         <thead class="black white-text">
             <tr>
@@ -27,38 +26,30 @@
                 <th>By</th>
                 <th>Amount</th>
                 <th>Bill</th>
-                <th>Edit</th>
-
-
+                <!-- <th>Edit</th> -->
             </tr>
         </thead>
         <tbody>
             <div class="table-content" style="font-size: large;">
                 <tr>
                     <th scope="row">Csi OUtbound</th>
-
-
                     <td>Israil alam</td>
                     <td>$1000</td>
-                    <td><a target="_blank" href="images/Dhruvi-jain.jpg">
-                        <img src="images/Dhruvi-jain.jpg" alt="Forest" style="width:80px">
-                      </a></td>
-                    <!-- <td><button type="button" class="btn btn-success" onclick="window.open('images/Dhruvi-jain.jpg');">View bill</button></td> -->
-                    <td> <input type="file" id="myfile" name="myfile" multiple></td>
+                    <td>
+                        <a target="_blank" href="images/Dhruvi-jain.jpg">
+                            <img src="images/Dhruvi-jain.jpg" alt="Forest" style="width:80px">
+                        </a>
+                    </td>
                 </tr>
             </div>
         </tbody>
     </table>
     <div class="spacer" style="height:30px;"></div>
     <div class="container text-center">
-        <!-- <button type="button" class="btn btn-primary" onclick="cancel()">Cancel Bill</button> -->
-
-        <!-- <div id="main">
-
-        </div> -->
+        <a href="addbill.html">
+        <button type="button" class="btn btn-primary" >Add Bill</button>    
+    </a>
     </div>
-
-   
     <div class="spacer" style="height:10px;"></div>
 
     <div class="footer">
@@ -68,17 +59,9 @@
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
-    <!-- <script type="text/javascript">
-        function change(src) {
-            document.getElementById('main').innerHTML = `<img src="images/Dhruvi-jain.jpg" alt="">`;
-            document.getElementById('main').style.display = "block";
-        }
-        function cancel() {
-            document.getElementById('main').style.display = "none";
-        } 
-    </script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
