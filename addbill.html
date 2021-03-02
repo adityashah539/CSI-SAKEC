@@ -23,34 +23,43 @@
     <body>
         <h2 class="add-event-header">Add a new event</h2>
         <form action="addevent.php" method="POST" enctype="multipart/form-data">
+            <div class="contaniner">
             <div class="form-group">
+                <div class="row">
                 <div class="col-sm-5">
                     <label class="control-label">Spent on:</label>
                 </div>
                 <div class="col-sm-7">
                     <input type="text" name="spent1on" class="form-control">
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-5">
                     <label class="control-label">Bill photo :</label>
                 </div>
                 <div class="col-sm-7">
                     <input type="file" name="bill1photo"  required>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-5">
                     <label class="control-label">Bill amount :</label>
                 </div>
                 <div class="col-sm-7">
-                    <div class="bill-list">
+                    <div class="phone-list">
                         <div class="input-group phone-input">
                             <input type="number" name="bill1amount" id="bill1amount" class="form-control" >
                         </div>
                     </div>
+                </div>
+            </div>
                     <button type="button" class="btn btn-success btn-sm btn-add-phone">
                         <span class="glyphicon glyphicon-plus"></span> 
                             Add Bill
                     </button>
                     <div class="spacer" style="height:20px;"></div>
                 </div>
+            </div>
             </div>
             <div class="spacer" style="height:20px;"></div>
             <button type="submit" class="btn btn-primary">Sumbit</button>
@@ -75,19 +84,25 @@
                     var index = $('.phone-input').length + 1;
 
                     $('.form-group').append('' +
-
+                    '<div class="deletephone">'+
+                    '<div class="row">'+
                     '<div class="col-sm-5">'+
                     '<label class="control-label">Spent on:</label>'+
                 '</div>'+
+                
                 '<div class="col-sm-7">'+
                     '<input type="text" name="spent'+index+'on" class="form-control">'+
                 '</div>'+
+                '</div>'+
+                '<div class="row">'+
                 '<div class="col-sm-5">'+
                     '<label class="control-label">Bill photo :</label>'+
                 '</div>'+
                 '<div class="col-sm-7">'+
                     '<input type="file" name="bill'+index+'photo"  required>'+
                 '</div>'+
+                '</div>'+
+                '<div class="row">'+
                 '<div class="col-sm-5">'+
                     '<label class="control-label">Bill amount :</label>'+
                 '</div>'+
@@ -99,6 +114,7 @@
                             '<button class="btn btn-danger btn-remove-phone" type="button"><span class="glyphicon glyphicon-remove"></span></button>'+
                         '</span>'+
                         '</div>'+
+                    '</div>'+
                     '</div>'+
                 '</div>'
                     );
