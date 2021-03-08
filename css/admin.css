@@ -96,4 +96,3 @@ body
 #s-description a:not(.collapsed):after {
     content: '- Read Less';
 }
-
