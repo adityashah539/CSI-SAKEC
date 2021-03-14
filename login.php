@@ -45,10 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $row = mysqli_fetch_assoc($result);
                         $_SESSION["role"] = $row["role"];
                         $_SESSION["id"] = $row["id"];
-                        $_SESSION["Email"] = $email;
+                        $_SESSION["email"] = $email;
                         if(isset($_POST['rememeber_me'])){
-                            setcookie('Email',$email,time()+86400);
-                            setcookie('Password',$password,time()+86400);
+                            setcookie('email',$email,time()+86400);
+                            setcookie('password',$password,time()+86400);
                         }
                         header("location: index.php");
                     } else {

@@ -11,10 +11,11 @@ if(isset($_POST['reply_id'])){
     $sql = "SELECT * FROM query WHERE id='$id'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
-    $email=  $row['c_email'];
+    $c_email=  $row['c_email'];
+    $email_replied_by = $_SESSION['email'];
     $query=   $row['c_query'];
     $reply =$_POST['Msg']; 
-    $sql = "INSERT INTO reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$email','$query','$reply','abc')";
+    $sql = "INSERT INTO reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$email','$query','$reply','$email_replied_by')";
     $query = mysqli_query($conn, $sql);
     $sql = "DELETE FROM query WHERE id='$id' ";
     $query = mysqli_query($conn, $sql);

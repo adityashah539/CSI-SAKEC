@@ -13,10 +13,7 @@
 </head>
 <body>
     <?php
-
-use function PHPSTORM_META\map;
-
-require_once "config.php";
+    require_once "config.php";
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $id = $_POST['id_event'];
         $sql = "SELECT * FROM event WHERE id='$id'";

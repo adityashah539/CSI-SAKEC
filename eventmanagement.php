@@ -41,8 +41,26 @@
                 ?>
                 <tr>
                     <th scope="row"><?php echo $row['title']; ?></th>
-                    <td><?php echo date("d-m-Y",strtotime($row['e_date'])); ?></td>
-                    <td><?php echo date("h:i:sa",strtotime($row['e_time'])); ?></td>
+                    <td>
+                        <?php 
+                            if($row['e_from_date']!=$row['e_to_date']){
+                                echo date("d-m-Y",strtotime($row['e_from_date']))."to".date("d-m-Y",strtotime($row['e_to_date']));
+                            }
+                            else{
+                                echo date("d-m-Y",strtotime($row['e_from_date']));
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                         if($row['e_from_time']!=$row['e_to_time']){
+                            echo date("h:i:sa",strtotime($row['e_from_time']))." to ".date("h:i:sa",strtotime($row['e_to_time']));
+                        }
+                        else{
+                            echo date("h:i:sa",strtotime($row['e_from_time']));
+                        } 
+                        ?>
+                    </td>
                     <td>
                         <div id="summary">
                             <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['e_description']; ?></p>

@@ -34,7 +34,8 @@
             <div class="table-content" style="font-size: large;">
                 <?php
                 require_once "config.php";
-                if(isset($_SESSION['id'])){
+                session_start();
+                if(isset($_SESSION['email'])){
                     if($_SESSION['role']==='admin'){
                         $sql = 'SELECT * FROM userdata';
                         $query = mysqli_query($conn, $sql);

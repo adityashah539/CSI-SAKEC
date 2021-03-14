@@ -31,24 +31,48 @@
         </thead>
         <tbody>
             <div class="table-content" style="font-size: large;">
-                <tr>
-                    <th scope="row">Csi OUtbound</th>
-                    <td>Israil alam</td>
-                    <td>$1000</td>
-                    <td>
-                        <a target="_blank" href="images/Dhruvi-jain.jpg">
-                            <img src="images/Dhruvi-jain.jpg" alt="Forest" style="width:80px">
-                        </a>
-                    </td>
-                </tr>
+                
+                <?php
+                    require_once "config.php";
+                    session_start();
+                    $bi= $_SESSION['bi'];
+                    $sum=0;
+                    $sql = "SELECT `spent_on`, `by` , `bill_photo`, `bill_amount` FROM `expense` WHERE `buget_id` = $bi";
+                    $query = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($query) > 0) {
+                        while ($row = mysqli_fetch_assoc($query)) {
+                ?>
+                        <tr>
+                            <th scope="row"><?php echo $row['spent_on']; ?></th>
+                            <td><?php echo $row['by']; ?></td>
+                            <td>
+                                <a target="_blank" href="<?php echo "Bill/".$row['bill_photo']; ?>">
+                                    <img src="<?php echo "Bill/".trim($row['bill_photo']); ?>" alt="Forest" style="width:80px">
+                                </a>
+                            </td>
+                            <td><?php $sum+=$row['bill_amount'];echo $row['bill_amount']; ?></td>
+                        </tr>
+                    <?php
+                        }
+                        ?>
+                    <th scope="row"> </th>
+                    <td></td>
+                    <td>Total : </td>
+                    <td><?php echo $sum ?></td>
+                <?php
+                    } else {
+                        echo "No Record Found";
+                    }
+                ?>
+                    
             </div>
         </tbody>
     </table>
     <div class="spacer" style="height:30px;"></div>
     <div class="container text-center">
         <a href="addbill.html">
-        <button type="button" class="btn btn-primary" >Add Bill</button>    
-    </a>
+            <button type="button" class="btn btn-primary" >Add Bill</button>    
+        </a>
     </div>
     <div class="spacer" style="height:10px;"></div>
 

@@ -23,10 +23,10 @@
 		$email=null;	
 		$role=null;
 		$id=null;
-		if(isset($_COOKIE['Email'])&&!isset($_SESSION["Email"]))
+		if(isset($_COOKIE['email'])&&!isset($_SESSION["id"]))
 		{
-			$email = $_COOKIE['Email'];
-			$password = $_COOKIE['Password'];
+			$email = $_COOKIE['email'];
+			$password = $_COOKIE['password'];
 			$sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
 			$stmt = mysqli_prepare($conn, $sql);
 			mysqli_stmt_bind_param($stmt, 's', $param_email);
@@ -46,7 +46,7 @@
 							$role = $row["role"];
 							$id = $row["id"];
 							$loggedin=true;
-                            $_SESSION['Email']=$email;
+                            $_SESSION['email']=$email;
 			                $_SESSION['role']=$role;
 			                $_SESSION['id']=$id;
 						}else{
@@ -56,13 +56,13 @@
 				}
 			}		
 		}
-		else if(isset($_SESSION['Email'])){	
+		else if(isset($_SESSION['id'])){	
 			$loggedin=true;
-			$email=$_SESSION['Email'];
+			$email=$_SESSION['email'];
 			$role=$_SESSION['role'];
 			$id = $_SESSION['id'];
 		}
-		unset($_SESSION['Email']);
+		unset($_SESSION['id']);
 	?>
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
 		<a class="navbar-brand" href="#">

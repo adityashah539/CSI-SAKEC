@@ -27,20 +27,38 @@
         </thead>
         <tbody>
             <div class="table-content" style="font-size: large;">
+                
+                <?php
+                require_once "config.php";
+                $sql = "SELECT `budget`.`id`, `budget`.`collection`, `budget`.`expense`, `budget`.`balance` , `event`.`title`FROM `budget` INNER JOIN `event` ON `budget`.`event_id`=`event`.`id`";
+                $query = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($query) > 0) {
+                    while ($row = mysqli_fetch_assoc($query)) {
+                ?>
                 <tr>
-                    <th scope="row">Csi OUtbound</th>
-                    <td>
-                        <form action="collection.php" method="post">
-                            <button type="submit" class="btn btn-success">Collection</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="expense.php" method="post">
-                            <button type="submit" class="btn btn-success">Expense</button>
-                        </form>
-                    </td>
-                    <td>56</td>
-                </tr>
+                    <input type="hidden" name="bi" value="<?php echo $row['id']; ?>">
+                        <td scope="row"><?php echo $row['title']; ?></td>
+                        <td>
+                            <form action="collection.php" method="post">
+                                <input type="hidden" name="bi" value="<?php echo $row['id']; ?>">
+                                <button type="submit" class="btn btn-success"><?php echo $row['collection']; ?></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="expense.php" method="post">
+                                <input type="hidden" name="bi" value="<?php echo $row['id']; ?>">
+                                <button type="submit" class="btn btn-success"><?php echo $row['expense']; ?></button>
+                            </form>
+                        </td>
+                        <td><?php echo $row['balance']; ?></td>
+                        </tr>
+                <?php
+                    }
+                } else {
+                    echo "No Record Found";
+                }
+                ?>   
+                
             </div>
         </tbody>
     </table>
