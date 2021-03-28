@@ -1,30 +1,45 @@
-<?php
-    // Load library 
-include_once 'HtmlToDoc.class.php';  
- 
-// Initialize class 
-$htd = new HTML_TO_DOC();
-$htmlContent = ' 
-    <h1>Hello World!</h1> 
-    <p>This document is created from HTML.</p>';
-$wordDoc = $htd->createDoc($htmlContent, "my-document");
-if($wordDoc){
-    echo "done";
-    
-}
-?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<html>
 <body>
-    
-<h1>
-    hello world
-</h1>
+<script>
+    function exportHTML(){
+       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+       var footer = "</body></html>";
+       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
+       
+       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+       var fileDownload = document.createElement("a");
+       document.body.appendChild(fileDownload);
+       fileDownload.href = source;
+       fileDownload.download = 'document.doc';
+       fileDownload.click();
+       document.body.removeChild(fileDownload);
+    }
+</script>
+
+<div id="source-html">
+    <h1>
+        <center>Artificial Intelligence</center>
+    </h1>
+    <h2>Overview</h2>
+    <p>
+        Artificial Intelligence(AI) is an emerging technology
+        demonstrating machine intelligence. The sub studies like <u><i>Neural
+                Networks</i>, <i>Robatics</i> or <i>Machine Learning</i></u> are
+        the parts of AI. This technology is expected to be a prime part
+        of the real world in all levels.
+
+    </p>
+</div>
+
+<div class="content-footer">
+    <button id="btn-export" onclick="exportHTML();">Export to
+        word doc</button>
+</div>
+
+
 </body>
 </html>

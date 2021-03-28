@@ -26,8 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <div class="table-content" style="font-size: large;">
-                
+            <div class="table-content" style="font-size: large;">            
                 <?php
                 require_once "config.php";
                 $sql = "SELECT `budget`.`id`, `budget`.`collection`, `budget`.`expense`, `budget`.`balance` , `event`.`title`FROM `budget` INNER JOIN `event` ON `budget`.`event_id`=`event`.`id`";
@@ -36,22 +35,21 @@
                     while ($row = mysqli_fetch_assoc($query)) {
                 ?>
                 <tr>
-                    <input type="hidden" name="bi" value="<?php echo $row['id']; ?>">
-                        <td scope="row"><?php echo $row['title']; ?></td>
-                        <td>
-                            <form action="collection.php" method="post">
-                                <input type="hidden" name="bi" value="<?php echo $row['id']; ?>">
-                                <button type="submit" class="btn btn-success"><?php echo $row['collection']; ?></button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="expense.php" method="post">
-                                <input type="hidden" name="bi" value="<?php echo $row['id']; ?>">
-                                <button type="submit" class="btn btn-success"><?php echo $row['expense']; ?></button>
-                            </form>
-                        </td>
-                        <td><?php echo $row['balance']; ?></td>
-                        </tr>
+                    <td scope="row"><?php echo $row['title']; ?></td>
+                    <td>
+                        <form action="collection.php" method="get">
+                            <input type="hidden" name="bi_c" value="<?php echo $row['id']; ?>">
+                            <button type="submit" class="btn btn-success"><?php echo $row['collection']; ?></button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="expense.php" method="get">
+                            <input type="hidden" name="bi_e" value="<?php echo $row['id']; ?>">
+                            <button type="submit" class="btn btn-success"><?php echo $row['expense']; ?></button>
+                        </form>
+                    </td>
+                    <td><?php echo $row['balance']; ?></td>
+                </tr>
                 <?php
                     }
                 } else {

@@ -9,13 +9,6 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 	<link rel="stylesheet" href="css/style.css">
 	<title>CSI-SAKEC</title>
-</head>
-<body>
-	<!-- Loader -->
-	<div class="preloader">
-		<div class="loader"></div>
-	</div>
-	<!--Navbar -->
 	<?php
 		session_start();
 		require_once "config.php";
@@ -23,7 +16,7 @@
 		$email=null;	
 		$role=null;
 		$id=null;
-		if(isset($_COOKIE['email'])&&!isset($_SESSION["id"]))
+		if(isset($_COOKIE["email"])&&!isset($_SESSION['id']))
 		{
 			$email = $_COOKIE['email'];
 			$password = $_COOKIE['password'];
@@ -63,7 +56,61 @@
 			$id = $_SESSION['id'];
 		}
 		unset($_SESSION['id']);
+		function send_mail($to_email, $subject, $body, $headers)
+		{
+			if (mail($to_email, $subject, $body, $headers)) {
+				echo "Email successfully sent to $to_email...";
+			} else {
+				echo "Email sending failed...";
+			}
+		}
+		function function_alert($message)
+		{
+			echo
+				"<SCRIPT>
+				window.location.replace('index.php')
+				alert('$message');
+			</SCRIPT>";
+		}
+		//full form of abrevations are as follows
+		// "Name_of_contact_person"  =  nocp
+		// "Email_of_contact_person" =  eocp
+		// "Msg_of_contact_person"  =  mocp 
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+			//$body = $_POST['mocp'];
+			$body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+			$headers = "From: guptavan96@gmail.com";
+			if($_POST['contact_us_email']!=null){
+				$to_email =trim($_POST['contact_us_email']) ;
+			}
+			else{
+				$to_email = trim($_POST['eocp']);
+			} 
+			$msg= trim($_POST['mocp']);
+			$n=strpos($to_email, ".")+1;
+			$subject = "Acknowledgement from CSI to ".substr($to_email,0, strpos($to_email, "."))." ".substr($to_email,$n, strpos($to_email, "_")-$n);
+			if(isset($_POST['contact_us_email'])&&isset($_POST['contact_us_email'])){
+			//send_mail($to_email, $subject, $body, $headers);
+				if(strpos($to_email, "@sakec.ac.in")||strpos($to_email, "@gmail.com")){
+					$sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$msg')";
+					$stmt = mysqli_query($conn, $sql);
+					function_alert("Msg has been deliverd."); 
+					mysqli_close($conn);
+				}else {
+					function_alert("Pls enter the sakec's or your own emailid.");
+				}
+			}else {
+				function_alert("Pls fill details properly.");
+			}
+		}
 	?>
+</head>
+<body>
+	<!-- Loader -->
+	<div class="preloader">
+		<div class="loader"></div>
+	</div>
+	<!--Navbar -->
 	<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color sticky-top">
 		<a class="navbar-brand" href="#">
 		<img class="invert"  src="images/sakec-logo.png"  alt="" >
@@ -79,7 +126,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#about">About U</a>
+					<a class="nav-link" href="#about">About Us</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#events">Events</a>
@@ -154,10 +201,10 @@
 					echo '</li>';
 				} else {
 					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="login.html">Login</a>';
+					echo '<a class="nav-link" href="login.php">Login</a>';
 					echo '</li>';
 					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="signup.html">Sign up</a>';
+					echo '<a class="nav-link" href="signup.php">Sign up</a>';
 					echo '</li>';
 				}
 				?>
@@ -259,65 +306,12 @@
 					}
 				}
 			?>
-			<!-- <div class="row">
-				<div class="col-sm-4 date">
-					<br>
-					<p>
-						11 March 2020
-					</p>
-				</div>
-				<div class="col-sm-8 event-details">
-					<a href="event1.html">
-						<h2>
-							Getting Started with Bg Bounty
-						</h2>
-					</a><br>
-					<p>
-						What Bug Bounty is? , CSRF - Cross Site Request Forge, Resources required to get started in Bug Bounty, Various examples of how bug bounty is done .The event ended with an encouraging speech by Dr. Rekha Ramesh – Professor at the Department of Computer Engineering of Shah and Anchor Kutchhi Engineering College. </p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 date">
-					<br>
-					<p>
-						30-31 August 2019
-					</p>
-				</div>
-				<div class="col-sm-8 event-details">
-					<a href="event2.html">
-						<h2>
-							World of IOT
-						</h2>
-					</a><br>
-					<p>
-						Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. </p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-4 date">
-					<br>
-					<p>
-						12-14 October 2020
-					</p>
-				</div>
-				<div class="col-sm-8 event-details">
-					<a href="event3.html">
-						<h2>
-							World of IOT with NodeMCU
-						</h2>
-					</a><br>
-					<p>
-						Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU.
-					</p>
-				</div>
-			</div> -->
 		</div>
 	</div>
 	<div class="spacer" style="height:90px;"></div>
 	<div id="ourteam">
 		<!-- Section: Team v.2 -->
 		<section class="team-section text-center my-5">
-
 			<!-- Section heading -->
 			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team</h1>
 			<!-- Section description -->
@@ -839,16 +833,14 @@
 					    "Email_of_contact_person" =  eocp
 						"Msg_of_contact_person"  =  mocp -->
 						<h2>Contact Us</h2>
-						<form action="contactUs.php" method="post">
+						<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 							<?php
 								echo '<input type="hidden" name="contact_us_email" value="'.$email.'">';
-								if($loggedin)
-								{
+								if($loggedin){
 									echo '<label for="message"> Message </label> :';
 									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
 								}
-								else
-								{
+								else{
 									// echo '<label for="name" >Name</label> :';
 									// echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
 									echo '<label for="email"  >E-Mail</label> :';

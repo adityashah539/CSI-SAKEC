@@ -35,7 +35,7 @@
                 <?php
                     require_once "config.php";
                     session_start();
-                    $bi= $_SESSION['bi'];
+                    $bi= $_GET['bi_e'];
                     $sum=0;
                     $sql = "SELECT `spent_on`, `by` , `bill_photo`, `bill_amount` FROM `expense` WHERE `buget_id` = $bi";
                     $query = mysqli_query($conn, $sql);
@@ -70,9 +70,10 @@
     </table>
     <div class="spacer" style="height:30px;"></div>
     <div class="container text-center">
-        <a href="addbill.html">
-            <button type="button" class="btn btn-primary" >Add Bill</button>    
-        </a>
+    <form action="addbill.php" method="get">
+        <input type="hidden" name="bi_e" value="<?php echo $bi; ?>">
+        <button type="submit" class="btn btn-primary" >Add Bill</button>
+    </form> 
     </div>
     <div class="spacer" style="height:10px;"></div>
 

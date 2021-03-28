@@ -9,6 +9,38 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="css/admin.css">
     <title>Database</title>
+    <?php
+    require_once "config.php";
+    function function_alert($message){
+        echo"<SCRIPT>
+                window.location.replace('database.php')
+                alert('$message');
+            </SCRIPT>";
+    }
+    if($_SERVER['REQUEST_METHOD'] == "POST"){
+        if (isset($_POST['update_id'])) {
+            $update_role = $_POST['role'];
+            $id = $_POST['update_id'];
+            $sql = "UPDATE userdata SET role='$update_role' WHERE id='$id'";
+            $query = mysqli_query($conn, $sql);
+            if ($query) {
+                function_alert("Update Successful ");
+            }else{
+                function_alert("Update was Unsuccessful, Something went wrong.");
+            }
+        }
+        if(isset($_POST['delete_id'])){
+            $id = $_POST['delete_id'];
+            $sql = "DELETE FROM userdata WHERE id='$id' ";
+            $query = mysqli_query($conn, $sql);
+            if ($query) {
+                function_alert("Update Successful ");
+            }else{
+                function_alert("Update was Unsuccessful, Something went wrong.");
+            }
+        }
+    }  
+?>
 </head>
 <body>
     <div class="spacer" style="height:10px;"></div>
@@ -49,15 +81,15 @@
                                     <td><?php echo $row['phonenumber']; ?></td>
                                     <td><?php echo $row['branch']; ?></td>
                                     <td><?php echo $row['class']; ?></td>
-                                    <form action="update.php" method="post">
+                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                                         <td>
                                             <select name="role" class="custom-select mb-3">
                                                 <?php
                                                 if ($row['role'] == 'admin') {
                                                     echo ' <option value="admin"selected>Admin</option>';
-                                                    echo ' <option value="c">Co-ordinator</option>';
-                                                    echo ' <option value="m">Member</option>';
-                                                    echo ' <option value="s">Student</option>';
+                                                    // echo ' <option value="c">Co-ordinator</option>';
+                                                    // echo ' <option value="m">Member</option>';
+                                                    // echo ' <option value="s">Student</option>';
                                                 } else if ($row['role'] == 'c') {
                                                     echo ' <option value="admin">Admin</option>';
                                                     echo ' <option value="c" selected >Co-ordinator</option>';
@@ -78,12 +110,12 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                            <input type="hidden" name="update_id" value="<?php echo $row['id']; ?>">
                                             <button type="submit" name="edit_btn" class="btn btn-success"> Update </button>
                                         </td>
                                     </form>
                                     <td>
-                                        <form action="delete.php" method="post">
+                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                                             <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
                                             <button type="submit" name="delete_btn" class="btn btn-danger"> Delete</button>
                                         </form>
@@ -95,7 +127,7 @@
                             echo "<td>No Record Found</td>";
                         }
                     }else{
-                        echo "<td>No Record Found</td>";
+                        echo "<td>You need Admin excess</td>";
                     }
                 }else{
                     echo "<td>You have not logged in.</td>";
