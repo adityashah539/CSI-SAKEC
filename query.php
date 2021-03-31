@@ -10,6 +10,34 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="css/query.css">
     <title>Query</title>
+    <?php
+    require_once "config.php";
+    function function_alert($message){
+        echo"<SCRIPT>
+                window.location.replace('query.php')
+                alert('$message');
+            </SCRIPT>";
+    }
+    if($_SERVER['REQUEST_METHOD'] == "POST"&&isset($_POST['reply_id'])){
+        $id = $_POST['reply_id'];
+        $sql = "SELECT * FROM query WHERE id='$id'";
+        $query = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($query);
+        $c_email=  $row['c_email'];
+        $email_replied_by = $_SESSION['email'];
+        $query=   $row['c_query'];
+        $reply =$_POST['Msg']; 
+        $sql = "INSERT INTO reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$email','$query','$reply','$email_replied_by')";
+        $query = mysqli_query($conn, $sql);
+        $sql = "DELETE FROM query WHERE id='$id' ";
+        $query = mysqli_query($conn, $sql);
+        if ($query) {
+            function_alert("Update Successful ");
+        }else{
+            function_alert("Update Unsuccessful, Something went wrong.");
+        }
+    }
+    ?>
 </head>
 <body>
     <header>
@@ -54,7 +82,7 @@
                                         <button type="button" onClick="<?php echo 'addTextArea('.$row['id'].');'; ?>" class="btn btn-primary">Reply</button>
                                     </div>
                                     <div id="<?php echo 'textArea'.$row['id'];?>">
-                                        <form action="reply_send.php" method="POST">
+                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
                                             <textarea  rows='5' cols='50' name='Msg'></textarea>
                                             <br>
                                             <input type="hidden" name="reply_id" value="<?php echo $row['id']; ?>">

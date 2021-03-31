@@ -88,14 +88,14 @@
             </br>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                 <i class="far fa-user-circle" style="font-size:30px;"></i>
-                <input data-toggle="tooltip" data-placement="bottom" title="your username" id="text" type="text" class="g" name="email" required="required" placeholder=" Username"></br>
+                <input title="your username" id="text" type="text" class="g" name="email" required="required" placeholder=" Username"></br>
                 <i class="fas fa-lock" style="font-size:30px;"></i>
-                <input data-toggle="tooltip" data-placement="bottom" title="your password" id="pass" type="password" class="g" name="password" required="required" placeholder=" Input Password"></br>
+                <input  title="your password" id="pass" type="password" class="g" name="password" required="required" placeholder=" Input Password"></br>
                 <input class="me" name="rememeber_me" type="checkbox">Remember me</br>
                 <button type="submit" value="submit" class="btn btn-primary">Login<i class="fas fa-sign-in-alt"></i></button>
             </form>
             </br></br>
-            <p><a style="color: rgb(168, 192, 212);" href="fp.php">Forgot password</a></p>
+            <p><a style="color: rgb(168, 192, 212);" href="forgotpassword.php">Forgot password</a></p>
             <p><a style="color: rgb(168, 192, 212);" href="signup.php">Sign Up</a></p>
         </div>
     </div>

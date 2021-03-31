@@ -1,45 +1,20 @@
+<!-- this is code for printing the page  -->
 <!DOCTYPE html>
+<?php 
+ 	header("Content-Type: application/vnd.ms-word");
+    header("content-disposition: attachment;filename=Report.doc");
+?>
 <html>
 <body>
-<script>
-    function exportHTML(){
-       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-            "xmlns='http://www.w3.org/TR/REC-html40'>"+
-            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
-       var footer = "</body></html>";
-       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
-       
-       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-       var fileDownload = document.createElement("a");
-       document.body.appendChild(fileDownload);
-       fileDownload.href = source;
-       fileDownload.download = 'document.doc';
-       fileDownload.click();
-       document.body.removeChild(fileDownload);
-    }
-</script>
-
-<div id="source-html">
-    <h1>
-        <center>Artificial Intelligence</center>
-    </h1>
-    <h2>Overview</h2>
-    <p>
-        Artificial Intelligence(AI) is an emerging technology
-        demonstrating machine intelligence. The sub studies like <u><i>Neural
-                Networks</i>, <i>Robatics</i> or <i>Machine Learning</i></u> are
-        the parts of AI. This technology is expected to be a prime part
-        of the real world in all levels.
-
-    </p>
-</div>
-
-<div class="content-footer">
-    <button id="btn-export" onclick="exportHTML();">Export to
-        word doc</button>
-</div>
-
-
+    <h2>The window.print() Method</h2>
+    <p>Click the button to print the current page.</p>
+    <button id="i" onclick="a()">Print this page</button>
+    <script>
+        function a(){
+        document.getElementById("i").style.display ="NONE"; 
+        window.print();
+        document.getElementById("i").style.display ="block"; 
+        }
+    </script>
 </body>
 </html>

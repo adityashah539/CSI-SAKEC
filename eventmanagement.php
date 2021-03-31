@@ -114,7 +114,7 @@
     </table>
     <div class="spacer" style="height:30px;"></div>
     <div class="container text-center">
-        <a href="addevent.html">
+        <a href="addevent.php">
         <button type="button" class="btn btn-primary" >Add Event</button>    
     </a>
     </div>
