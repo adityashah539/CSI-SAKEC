@@ -18,7 +18,7 @@
     {
         echo
             "<SCRIPT>
-            window.location.replace('signup.html')
+            window.location.replace('signup.php')
             alert('$message');
         </SCRIPT>";
     }
@@ -116,7 +116,7 @@
                 </br>
                 <!-- <input class="me" type="checkbox">Remember me</br> -->
                 <button class="btn btn-primary">Sign Up <i class="fas fa-user-plus "></i></button></br></br>
-                <p>Existing User <a style="color: rgb(168, 192, 212)" ; href="login.html">Login</a></p>
+                <p>Existing User <a style="color: rgb(168, 192, 212)" ; href="login.php">Login</a></p>
                 <div class="spacer" style="height:30px;"></div>
         </div>
     </div>

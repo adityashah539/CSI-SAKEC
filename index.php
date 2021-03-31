@@ -178,13 +178,13 @@
 					else if(($role==='s'))
 					{
 						echo '<li class="nav-item">';
-						echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
+						echo '<a class="nav-link" href="membership.php">Membership</a>';
 						echo '</li>';
 					}
 					else 
 					{
 						echo '<li class="nav-item">';
-						echo '<a class="nav-link" href="membership.html">Membership</a>';
+						echo '<a class="nav-link" href="membership.php">Membership</a>';
 						echo '</li>';
 					}
 				}

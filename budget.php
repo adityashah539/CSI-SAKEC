@@ -39,16 +39,29 @@
                     <td>
                         <form action="collection.php" method="get">
                             <input type="hidden" name="bi_c" value="<?php echo $row['id']; ?>">
-                            <button type="submit" class="btn btn-success"><?php echo $row['collection']; ?></button>
+                            <button type="submit" class="btn btn-outline-dark"><?php echo $row['collection']; ?></button>
                         </form>
                     </td>
                     <td>
                         <form action="expense.php" method="get">
                             <input type="hidden" name="bi_e" value="<?php echo $row['id']; ?>">
-                            <button type="submit" class="btn btn-success"><?php echo $row['expense']; ?></button>
+                            <button type="submit" class="btn btn-outline-dark"><?php echo $row['expense']; ?></button>
                         </form>
                     </td>
-                    <td><?php echo $row['balance']; ?></td>
+                    <td>
+                        <?php
+                            if($row['balance']<0){
+                        ?>
+                                <button type="Button" class="btn btn-outline-success"><?php echo $row['balance']; ?></button>
+                        <?php
+                            }
+                            else{
+                        ?>
+                                <button type="Button" class="btn btn-outline-danger"><?php echo $row['balance']; ?></button>
+                        <?php 
+                            }
+                        ?>
+                    </td>
                 </tr>
                 <?php
                     }
@@ -63,7 +76,7 @@
     <div class="spacer" style="height:10px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
-        <a href="index.html"><i class="fas fa-home"></i></a>
+        <a href="index.php"><i class="fas fa-home"></i></a>
         <div class="spacer" style="height:0px;"></div>
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>

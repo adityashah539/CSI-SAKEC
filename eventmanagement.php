@@ -9,6 +9,40 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="css/admin.css">
     <title>Manage Event</title>
+    <?php
+        require_once "config.php";
+        function function_alert($message){
+            echo"<SCRIPT>
+                    window.location.replace('eventmanagement.php')
+                    alert('$message');
+                </SCRIPT>";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if(isset($_POST['enable_id'])){
+                $id=$_POST['enable_id'];
+                $sql = "UPDATE event SET live='1' WHERE id='$id'";
+                $query = mysqli_query($conn, $sql);
+                mysqli_query($conn, $sql);
+            }
+            else if(isset($_POST['disable_id'])){
+                $id=$_POST['disable_id'];
+                $sql = "UPDATE event SET live='0' WHERE id='$id'";
+                $query = mysqli_query($conn, $sql);
+                mysqli_query($conn, $sql);
+            }
+            else if(isset($_POST['delete_event_btn']))
+            {
+                $id = $_POST['delete_id_event'];
+                $sql = "DELETE FROM event WHERE id='$id' ";
+                $query = mysqli_query($conn, $sql);
+                if ($query) {
+                    function_alert("Update Successful ");
+                }else{
+                    function_alert("Update Unsuccessful, Something went wrong.");
+                }
+            }
+        }
+    ?>
 </head>
 <body>
     <div class="spacer" style="height:10px;"></div>
@@ -79,7 +113,7 @@
                    if($row['live']==1){
                        ?>
                         <td>
-                            <form action="live.php" method="post">
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                                 <input type="hidden" name="disable_id" value="<?php echo $row['id']; ?>">
                                 <button type="submit" class="btn btn-success">Live</button>
                             </form>                                
@@ -89,7 +123,7 @@
                    else{
                        ?>
                         <td>
-                            <form action="disabled_event.php" method="post">
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                             <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
                             <button type="submit" class="btn btn-danger"> Disabled</button>
                             </form>
@@ -98,7 +132,7 @@
                     }
                    ?>
                    <td>             
-                        <form action="delete_event.php" method="post">
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                             <input type="hidden" name="delete_id_event" value="<?php echo $row['id']; ?>">
                             <button type="submit" name="delete_event_btn" class="btn btn-danger"> Delete</button>
                         </form>
@@ -115,13 +149,13 @@
     <div class="spacer" style="height:30px;"></div>
     <div class="container text-center">
         <a href="addevent.php">
-        <button type="button" class="btn btn-primary" >Add Event</button>    
-    </a>
+            <button type="button" class="btn btn-primary" >Add Event</button>    
+        </a>
     </div>
     <div class="spacer" style="height:10px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
-        <a href="index.html"><i class="fas fa-home"></i></a>
+        <a href="index.php"><i class="fas fa-home"></i></a>
         <div class="spacer" style="height:0px;"></div>
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>

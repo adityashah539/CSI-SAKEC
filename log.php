@@ -74,7 +74,7 @@
     <div class="spacer" style="height:10px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
-        <a href="index.html">
+        <a href="index.php">
             <i class="fas fa-home"></i>
         </a> 
         <div class="spacer" style="height:0px;"></div>

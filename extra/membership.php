@@ -3,7 +3,7 @@ require_once "config.php";
 function function_alert($message)
 {
     echo "<SCRIPT>
-    window.location.replace('membership.html')
+    window.location.replace('membership.php')
     alert('$message');
     
 </SCRIPT>";
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             $sql = "INSERT INTO userdata ( firstName  , lastName  , emailID, phonenumber  , branch  , class  ,      r_number         ,  password  ,   m_period     ,role) 
                                                   VALUES ('$firstname','$lastname','$email','$phonenumber','$branch','$class',' $registration_number','$password ','$member_period','m')";
                             $stmt = mysqli_query($conn, $sql);
-                            header("location: login.html");
+                            header("location: login.php");
                             mysqli_close($conn);
                         }else{
                             function_alert("Plese enter the corrrect password.");

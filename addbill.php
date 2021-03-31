@@ -17,17 +17,17 @@
     <link rel="stylesheet" href="css/membership.css">
     <title> Add Event</title>
     <?php 
-    require_once "config.php";
-    function function_alert($message)
-    {
-        echo "<SCRIPT>
-        window.location.replace('expense.php')
-        alert('$message');
-        </SCRIPT>";
-    }
-    session_start();
-    if ($_SERVER['REQUEST_METHOD'] == "POST"){
-        if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
+        require_once "config.php";
+        function function_alert($message)
+        {
+            echo "<SCRIPT>
+            window.location.replace('budget.php')
+            alert('$message');
+            </SCRIPT>";
+        }
+        session_start();
+        if ($_SERVER['REQUEST_METHOD'] == "POST"&&isset($_POST['spent1on'])){
+            if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
                 $phpFileUploadErrors = array(
                 0 => 'There is no error, the file uploaded with success',
                 1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -41,7 +41,7 @@
                 $ext_error=false;
                 $extensions= array('jpg','jpeg','png');
                 $index=1;
-                $budget_id=$_SESSION['budget_id'];
+                $budget_id=$_POST['bi_e1'];
                 $email=$_SESSION['Email'];
                 $sum = 0 ; 
                 while(isset($_POST['spent'.$index.'on'])&&isset($_POST['bill'.$index.'amount'])){
@@ -71,7 +71,7 @@
                 }
                 $sql = "SELECT `expense`,`balance` FROM `budget` WHERE `id` = $budget_id";
                 $result= mysqli_query($conn,$sql);
-                $row= mysql_fetch_assoc($result);
+                $row= mysqli_fetch_assoc($result);
                 $expense= $row['expense']+$sum;
                 $balance= $row['balance']-$expense;
                 $sql = "INSERT INTO `budget`( `expense`, `balance`) VALUES ('$expense','$balance')";
@@ -80,8 +80,6 @@
             }else{
                 function_alert("You have to be admin or cooridinator");
             }
-        } else{
-            function_alert("Someting went worng.");
         }
     ?> 
 </head>
@@ -124,16 +122,18 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         Add Bill
                     </button>
-                    <div class="spacer" style="height:20px;"></div>
+                    <div class="spacer" style="height:10px;"></div>
                 </div>
             </div>
             </div>
-            <div class="spacer" style="height:20px;"></div>
+            <div class="spacer" style="height:10px;"></div>
+            <input type="hidden" name="bi_e1" value="<?php echo $_GETs['bi_e'];?>">
             <div id= "BudgetId">
                 
             </div>
             <button type="submit" class="btn btn-primary">Sumbit</button>
             <div class="spacer" style="height:40px;"></div>
+            
         </form>
 
         <script>
@@ -193,7 +193,7 @@
         </script>
         <div class="footer">
             <div class="spacer" style="height:2px;"></div>
-            <a href="index.html"><i class="fas fa-home"></i></a>
+            <a href="index.php"><i class="fas fa-home"></i></a>
             <div class="spacer" style="height:0px;"></div>
             <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
             <div class="spacer" style="height:1px;"></div>

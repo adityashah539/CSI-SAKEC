@@ -16,7 +16,7 @@
     function function_alert($message)
     {
         echo "<SCRIPT>
-            window.location.replace('loggedinmembership.html')
+            window.location.replace('loggedinmembership.php')
             alert('$message');
             </SCRIPT>";
     }

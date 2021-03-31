@@ -20,12 +20,12 @@
     function function_alert($message)
     {
         echo "<SCRIPT>
-        window.location.replace('addevent.html')
+        window.location.replace('addevent.php')
         alert('$message');
         </SCRIPT>";
     }
     session_start();
-    if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    if ($_SERVER['REQUEST_METHOD'] == "POST"&&!isset($_POST['title'])){
         if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
                 $phpFileUploadErrors = array(
                 0 => 'There is no error, the file uploaded with success',
@@ -99,9 +99,7 @@
         }else{
             function_alert("You have to be admin or cooridinator");
         }
-    } else{
-        function_alert("Someting went worng.");
-    }
+    } 
     ?> 
 </head>
 <body style="background:#ffffff">
@@ -371,7 +369,7 @@
         </script>
         <div class="footer">
             <div class="spacer" style="height:2px;"></div>
-            <a href="index.html"><i class="fas fa-home"></i></a>
+            <a href="index.php"><i class="fas fa-home"></i></a>
             <div class="spacer" style="height:0px;"></div>
             <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
             <div class="spacer" style="height:1px;"></div>

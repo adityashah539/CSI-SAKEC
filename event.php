@@ -143,7 +143,7 @@
     <div class="container-fluid">
         <div class="copyright">
             <div class="spacer" style="height:8px;"></div>
-            <a href="index.html"><i class="fas fa-home"></i></a>
+            <a href="index.php"><i class="fas fa-home"></i></a>
             <div class="spacer" style="height:10px;"></div>
             <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
             <div class="spacer" style="height:5px;"></div>
