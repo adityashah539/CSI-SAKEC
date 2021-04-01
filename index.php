@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
 	<title>CSI-SAKEC</title>
 	<?php
 		session_start();
@@ -763,16 +763,16 @@
 	</div>
 	<!-- Footer -->
 	<div id="contact">
-		<div class="footer">
-			<div class="row">
+		<div class="footer" style="background-color: #edf9ff">
+			<div class="row" >
 				<div class="col-sm-6">
 					<div class="spacer" style="height:110px;"></div>
-					<div class="grid-container">
+					<div class="grid-container" >
 						<div class="grid-item item1">
 							<h4>
 								Important Links
 							</h4>
-							<ul class="list-group list-group-flush">
+							<ul class="list-group list-group-flush" >
 								<a class="list-group-item list-group-item-action" href="#">SAKEC</a>
 								<a class="list-group-item list-group-item-action" href="#gallery">Gallery</a>
 								<a class="list-group-item list-group-item-action" href="#events">Events</a>
@@ -828,7 +828,7 @@
 				</div>
 				<!-- <div class="container" id="ff-compose"></div> -->
 				<div class="col-sm-5">
-					<div class="jumbotron">
+					<div class="jumbotron" style="background-color: #c4d6e0">
 					<!--"Name_of_contact_person"  =  nocp
 					    "Email_of_contact_person" =  eocp
 						"Msg_of_contact_person"  =  mocp -->
@@ -855,7 +855,7 @@
 				</div>
 			</div>
 			<div class="spacer" style="height:30px;"></div>
-			<div class="copyright">
+			<div class="copyright" style="background-color: #c4d6e0">
 				<div class="spacer" style="height:8px;"></div>
 				<a href="#"><i class="fas fa-home"></i></a>
 				<div class="spacer" style="height:10px;"></div>

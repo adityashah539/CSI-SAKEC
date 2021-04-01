@@ -278,7 +278,7 @@ h1 {
 .footer .jumbotron {
   margin: 20px;
   color: rgb(22, 22, 22);
-  background: #569eeca6;
+  background: #c4d6e0;
   border-radius: 30px;
   /* background: #d3d8d9;
 	box-shadow:  20px 20px 60px #b3b8b8, 
@@ -367,7 +367,11 @@ h1 {
 
 .copyright {
   text-align: center;
-  background-color: #569eeca6;
+  background-color: #c4d6e0;
+}
+.footer, .list-group-item {
+  /* background-color: #afe3f8; */
+  background-color: #e8f4fa;
 }
 
 /*************************************/
