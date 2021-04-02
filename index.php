@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-	<link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+	<link rel="stylesheet" href="css/style.css">
 	<title>CSI-SAKEC</title>
 	<?php
 		session_start();
@@ -33,10 +33,10 @@
 						//echo $hashed_Password . " " . $password;
 						if ($password === $hashed_Password) {
 							// this means the password is corrct. Allow user to login
-							$sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
+							$sql = "SELECT `userdata`.`id`,`role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
 							$result = mysqli_query($conn, $sql);
 							$row = mysqli_fetch_assoc($result);
-							$role = $row["role"];
+							$role = $row["role_name"];
 							$id = $row["id"];
 							$loggedin=true;
                             $_SESSION['email']=$email;
@@ -142,7 +142,6 @@
 				</li>
 				<?php
 				if($loggedin){
-					
 					if ($role==='admin') {
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="database.php">Userdata</a>';
@@ -289,7 +288,7 @@
 									</p>
 								</div>
 								<div class="col-sm-8 event-details">
-									<form action="event.php" method="post">
+									<form action="event.php" method="GET">
 										<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
 										<h2>
 										<button type="submit"><?php echo $row['title']; ?></button>
@@ -310,413 +309,82 @@
 	</div>
 	<div class="spacer" style="height:90px;"></div>
 	<div id="ourteam">
-		<!-- Section: Team v.2 -->
 		<section class="team-section text-center my-5">
-			<!-- Section heading -->
 			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team</h1>
-			<!-- Section description -->
-			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">Student Council of CS1
-				SAKEC includes different teams such as Design,
-				Treasury, Registration, Technical, Events,
-				Documentation and Publicity. These teams collectively
-				work for all the events conducted by CS1 SAKEC under
-				the guidance of Staff Coordinators for the benefit of all
-				the members.</p>
+			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">
+				Student Council of CSI SAKEC includes different teams such as Design, Treasury, Registration, Technical, Events, Documentation and Publicity. These teams collectively work for all the events conducted by CS1 SAKEC under he guidance of Staff Coordinators for the benefit of all the members.
+			</p>
 			<div class="spacer" style="height:45px;"></div>
-			<!-- Grid row -->
-			<div class="row text-center">
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Dhruvi-jain.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Dhruvi Jain</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>GENERAL SECRETARY</strong></h6>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/instagram.png" alt="instagram">
-
-					</a>
-					<!--Dribbble -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
+				<?php
+					$sql = "SELECT * FROM `coordinator`";
+					$query = mysqli_query($conn, $sql);
+					$rows = mysqli_num_rows($query);
+					while ($rows >= 3) { //executes while it can accomadate 3 colums in a row i.e. 3 students in a single row
+				?>
+				<div class="row text-center">
+					<?php
+						
+						while ($row = mysqli_fetch_assoc($query)) { // executes each column
+					?>
+						<div class="col-md-4 mb-md-0 mb-5">
+							<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
+							<!--  name of the student members -->
+							<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
+							<!-- // position of the student members -->
+							<h6 class="text-uppercase grey-text mb-3"><strong><?php  echo $row['duty'];?></strong></h6>
+							<div class="spacer" style="height:20px;"></div>
+						</div>
+					<?php
+						$rows -= 3;
+						//echo $rows.'<br>';
+						}
+					?>
 				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Yukta Lapsiya.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Yukta Lapsiya</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>GENERAL COORDINATOR</strong></h6>
-					<!--Email-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- GitHub-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
+				<?php
+					}
+					if ($rows == 2) { //executes if 2 students in a single row i.e. last 2 students
+				?>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<?php
+						while ($row = mysqli_fetch_assoc($query)) {
+					?>
+						<div class="col-md-4">
+							<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
+							<!--  name of the student members -->
+							<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
+							<!-- position of the student members -->
+							<h6 class="text-uppercase grey-text mb-3"><strong><?php echo $row['duty'];?></strong></h6>
+						</div>
+				<?php
+						}
+				?>
 				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4">
-					<div class="avatar mx-auto">
-						<img src="images/Pratik-upadhyaya.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Pratik upadhyay</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>STUDENT COORDINATOR</strong></h6>
-					<!--Linkedin -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!--Pinterest -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-			</div>
-			<!-- Grid row -->
-			<div class="spacer" style="height:120px;"></div>
-			<div class="row text-center">
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Aagam-sheth.jpeg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Aagam Sheth</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Events Team Head</strong></h6>
-
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/instagram.png" alt="instagram">
-
-					</a>
-					<!--Dribbble -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Krutik-patel.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Krutik Patel</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>EVENTS TEAM CO-HEAD</strong></h6>
-					<!--Email-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- GitHub-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4">
-					<div class="avatar mx-auto">
-						<img src="images/Preet-karia.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Preet Karia</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>TECHNICAL TEAM HEAD</strong></h6>
-					<!--Linkedin -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!--Pinterest -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-			</div>
-			<div class="spacer" style="height:120px;"></div>
-			<!-- Grid row -->
-			<div class="row text-center">
-
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Rutvik-dashpande.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Rutvik Deshpande</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>technical team CO-HEAD</strong></h6>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/instagram.png" alt="instagram">
-
-					</a>
-					<!--Dribbble -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Ritik Mahajan.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Ritik Mahajan</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>publicity team head</strong></h6>
-					<!--Email-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- GitHub-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4">
-					<div class="avatar mx-auto">
-						<img src="images/Ridhhi-dagha.jpeg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Ridhi Dagha</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>REGISTRATION AND TREASURE TEAM treasurer</strong></h6>
-					<!--Linkedin -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!--Pinterest -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-			</div>
-			<!-- Grid row -->
-			<div class="spacer" style="height:120px;"></div>
-			<!-- Grid row -->
-			<div class="row text-center">
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Shalini-gund.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Shalin Gund</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>REGISTRATION AND TREASURE TEAM head1</strong></h6>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!--Dribbble -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Simran-jindal.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Simran Jindal</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>REGISTRATION AND TREASURE TEAM head1</strong></h6>
-					<!--Email-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- GitHub-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4">
-					<div class="avatar mx-auto">
-						<img src="images/Zarana-desai.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Zarana Desai</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Documentation team head</strong></h6>
-					<!--Linkedin -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!--Pinterest -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-			</div>
-			<!-- Grid row -->
-			<div class="spacer" style="height:120px;"></div>
-			<!-- Grid row -->
-			<div class="row text-center">
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Parth-panchal.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Parth Panchal</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>design team head1</strong></h6>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/instagram.png" alt="instagram">
-
-					</a>
-					<!--Dribbble -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4 mb-md-0 mb-5">
-					<div class="avatar mx-auto">
-						<img src="images/Atharva Juikar.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Atharva Juikar</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>design team head2</strong></h6>
-					<!--Email-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Facebook-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!-- GitHub-->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-
-				<!-- Grid column -->
-				<div class="col-md-4">
-					<div class="avatar mx-auto">
-						<img src="images/Bhavika-salshingikar.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Bhavika Salshingikar</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Design team co-head1</strong></h6>
-					<!--Linkedin -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!--Pinterest -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-			</div>
-			<!-- Grid row -->
-			<div class="spacer" style="height:120px;"></div>
-			<div class="row">
-				<div class="col-sm-4"></div>
-				<!-- Grid column -->
-				<div class="col-md-4">
-					<div class="avatar mx-auto">
-						<img src="images/Ritika-boricha.jpg" class="rounded z-depth-1-half" alt="Sample avatar">
-					</div>
-					<h4 class="font-weight-bold dark-grey-text my-4">Ritika Boricha</h4>
-					<h6 class="text-uppercase grey-text mb-3"><strong>Design team co-head2</strong></h6>
-					<!--Linkedin -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
-						<img class="social" src="images/instagram.png" alt="instagram">
-					</a>
-					<!-- Twitter -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
-						<img class="social" src="images/facebook.png" alt="facebook">
-					</a>
-					<!--Pinterest -->
-					<a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
-						<img class="social" src="images/twitter.png" alt="twitter">
-					</a>
-				</div>
-				<!-- Grid column -->
-				<div class="col-sm-4"></div>
-			</div>
-			<div class="spacer" style="height:90px;"></div>
-		</section>
-		<!-- Section: Team v.2 -->
-	</div>
+				<?php
+					} 
+					else if ($rows == 1) { //executes if 1 students in a single row i.e. last student
+						$row = mysqli_fetch_assoc($query);
+				?>
+						<div class="row">
+							<div class="col-sm-4"></div>
+								<div class="col-md-4">
+									<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
+									<!-- // name of the student members -->
+									<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
+									<!-- // position of the student members -->
+									<h6 class="text-uppercase grey-text mb-3"><strong><?php echo $row['duty'];?></strong></h6>
+								</div>
+								<div class="col-sm-4"></div>
+							</div>
+						</div>
+						
+				<?php
+					}
+				?>
+	<div class="spacer" style="height:45px;"></div>
 	<!-- Gallery -->
 	<div id="gallery"  style="background-color:black">
 	<div class="spacer" style="height:50px;"></div>
-	
 		<h1 class="h1-responsive">Gallery</h1>
 		<hr class="line1">
 		<div class="spacer" style="height:30px;"></div>
@@ -732,18 +400,10 @@
 							<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 						</ol>
 						<div class="carousel-inner">
-							<div class="carousel-item active">
-								<img class="d-block w-100" src="images/gal-4.jpg" alt="First slide">
-							</div>
-							<div class="carousel-item">
-								<img class="d-block w-100" src="images/gal-2.jpg" alt="Second slide">
-							</div>
-							<div class="carousel-item">
-								<img class="d-block w-100" src="images/gal-3.jpg" alt="Third slide">
-							</div>
-							<div class="carousel-item">
-								<img class="d-block w-100" src="images/gal-1.jpg" alt="ourth slide">
-							</div>
+							<div class="carousel-item active"><img class="d-block w-100" src="images/gal-4.jpg" alt="First slide"></div>
+							<div class="carousel-item"><img class="d-block w-100" src="images/gal-2.jpg" alt="Second slide"></div>
+							<div class="carousel-item"><img class="d-block w-100" src="images/gal-3.jpg" alt="Third slide"></div>
+							<div class="carousel-item"><img class="d-block w-100" src="images/gal-1.jpg" alt="ourth slide"></div>
 						</div>
 						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -754,25 +414,23 @@
 							<span class="sr-only">Next</span>
 						</a>
 					</div>
-
 				</div>
-			
 			</div>
 		</div>
 		<div class="spacer" style="height:15px;"></div>
 	</div>
 	<!-- Footer -->
 	<div id="contact">
-		<div class="footer" style="background-color: #edf9ff">
-			<div class="row" >
+		<div class="footer">
+			<div class="row">
 				<div class="col-sm-6">
 					<div class="spacer" style="height:110px;"></div>
-					<div class="grid-container" >
+					<div class="grid-container">
 						<div class="grid-item item1">
 							<h4>
 								Important Links
 							</h4>
-							<ul class="list-group list-group-flush" >
+							<ul class="list-group list-group-flush">
 								<a class="list-group-item list-group-item-action" href="#">SAKEC</a>
 								<a class="list-group-item list-group-item-action" href="#gallery">Gallery</a>
 								<a class="list-group-item list-group-item-action" href="#events">Events</a>
@@ -783,10 +441,10 @@
 							<div class="vl"></div>
 						</div>
 						<div class="grid-item item3">
-						<div class="spacer" style="height:35px;"></div>
+							<div class="spacer" style="height:35px;"></div>
 							<!-- <h4>
-								Contacts
-							</h4> -->
+									Contacts
+								</h4> -->
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item list-group-item-action">Privacy Policy</li>
 								<li class="list-group-item list-group-item-action">Terms</li>
@@ -828,26 +486,25 @@
 				</div>
 				<!-- <div class="container" id="ff-compose"></div> -->
 				<div class="col-sm-5">
-					<div class="jumbotron" style="background-color: #c4d6e0">
-					<!--"Name_of_contact_person"  =  nocp
-					    "Email_of_contact_person" =  eocp
-						"Msg_of_contact_person"  =  mocp -->
+					<div class="jumbotron" >
+						<!--"Name_of_contact_person"  =  nocp
+						    "Email_of_contact_person" =  eocp
+							"Msg_of_contact_person"  =  mocp -->
 						<h2>Contact Us</h2>
-						<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+						<form action="contactUs.php" method="post">
 							<?php
-								echo '<input type="hidden" name="contact_us_email" value="'.$email.'">';
-								if($loggedin){
-									echo '<label for="message"> Message </label> :';
-									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
-								}
-								else{
-									// echo '<label for="name" >Name</label> :';
-									// echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
-									echo '<label for="email"  >E-Mail</label> :';
-									echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';
-									echo '<label for="message">Message</label> :';
-									echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
-								}
+							echo '<input type="hidden" name="contact_us_email" value="' . $email . '">';
+							if ($loggedin) {
+								echo '<label for="message"> Message </label> :';
+								echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+							} else {
+								// echo '<label for="name" >Name</label> :';
+								// echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
+								echo '<label for="email"  >E-Mail</label> :';
+								echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';
+								echo '<label for="message">Message</label> :';
+								echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+							}
 							?>
 							<button type="submit" class="btn btn-primary  btn-block">Submit</button>
 						</form>
@@ -855,7 +512,7 @@
 				</div>
 			</div>
 			<div class="spacer" style="height:30px;"></div>
-			<div class="copyright" style="background-color: #c4d6e0">
+			<div class="copyright" >
 				<div class="spacer" style="height:8px;"></div>
 				<a href="#"><i class="fas fa-home"></i></a>
 				<div class="spacer" style="height:10px;"></div>

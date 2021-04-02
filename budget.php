@@ -50,7 +50,7 @@
                     </td>
                     <td>
                         <?php
-                            if($row['balance']<0){
+                            if($row['balance']>=0){
                         ?>
                                 <button type="Button" class="btn btn-outline-success"><?php echo $row['balance']; ?></button>
                         <?php

@@ -21,14 +21,13 @@
             </SCRIPT>";
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if ($_SESSION["loggedin"] == true) {
+        if (isset($_SESSION['email'])) {
             $member_period = trim($_POST["member_period"]);
             $registration_number = trim($_POST["registration_number"]);
             if ($_SESSION["role"] === 's') {
                 $id = $_SESSION["id"];
                 $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period',role= 'm' WHERE id='$id'";
                 mysqli_query($conn, $sql);
-                $_SESSION['role'] = 'm';
                 header("location: index.php");
                 mysqli_close($conn);
             } else {
@@ -37,8 +36,6 @@
         } else {
             function_alert("You need to login");
         }
-    } else {
-        function_alert("Some thing went worng ");
     }
     ?>
 </head>

@@ -10,12 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/event.css">
     <title>Event</title>
+    <?php
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+
+        }
+    ?>
 </head>
 <body>
     <?php
-    require_once "config.php";
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $id = $_POST['id_event'];
+        require_once "config.php";
+        $id = $_GET['id_event'];
         $sql = "SELECT * FROM event WHERE id='$id'";
         $query = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($query);
@@ -53,9 +57,9 @@
                     Onwads
                 </h4>
                 <div class="spacer" style="height:20px;"></div>
-                <button action="" type="button" class="btn btn-primary">
-                    Register Now
-                </button>
+                <form action="event.php" method="post">
+                    <button type="submit" class="btn btn-primary">Register Now</button>
+                </form>
             </div>
             <div class="spacer" style="height:40px;"></div>
             <div class="row">
@@ -137,7 +141,7 @@
             </div>
         </div>
     <?php
-    }
+    
     ?>
     <div class="spacer" style="height:90px;"></div>
     <div class="container-fluid">

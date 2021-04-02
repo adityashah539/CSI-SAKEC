@@ -54,10 +54,10 @@
                         mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
                         if (mysqli_stmt_fetch($stmt)) {
                             if ($password === $hashed_Password) {
-                                $sql = "SELECT role,id  FROM userdata WHERE emailID = '$email'";
+                                $sql = "SELECT `userdata`.`id`,`role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
                                 $result = mysqli_query($conn, $sql);
                                 $row = mysqli_fetch_assoc($result);
-                                $_SESSION["role"] = $row["role"];
+                                $_SESSION["role"] = $row["role_name"];
                                 $_SESSION["id"] = $row["id"];
                                 $_SESSION["email"] = $email;
                                 if(isset($_POST['rememeber_me'])){
