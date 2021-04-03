@@ -42,13 +42,17 @@
                             $confrimpassword = trim($_POST["confrimpassword"]);
                             if ($password === $confrimpassword) {
                                 session_start();
+                                $sql="SELECT `id` FROM `role` WHERE `role_name`='student'";
+                                $result = mysqli_query($conn, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $role = $row['id'];
                                 $branch = trim($_POST["branch"]);
                                 $class = trim($_POST["year"]);
                                 $firstname = trim($_POST["firstname"]);
                                 $lastname = trim($_POST["lastname"]);
-                                $sql = "INSERT INTO userdata (  firstName  , lastName  , emailID,  phonenumber  , branch  , class  , password  ,role) 
-                                                    VALUES   ('$firstname','$lastname','$email ','$phonenumber','$branch','$class','$password' , 's')";
-                                $stmt = mysqli_query($conn, $sql);
+                                $sql = "INSERT INTO userdata (  firstName  , lastName  , emailID,  phonenumber  , branch  , class  , password  ,   role) 
+                                                    VALUES   ('$firstname','$lastname','$email ','$phonenumber','$branch','$class','$password' , '$role')";
+                                $result = mysqli_query($conn, $sql);
                                 header("location: login.php");
                                 mysqli_close($conn);
                             } else {

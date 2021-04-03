@@ -56,46 +56,41 @@
 			$id = $_SESSION['id'];
 		}
 		unset($_SESSION['id']);
-		function send_mail($to_email, $subject, $body, $headers)
-		{
-			if (mail($to_email, $subject, $body, $headers)) {
-				echo "Email successfully sent to $to_email...";
-			} else {
-				echo "Email sending failed...";
-			}
-		}
-		function function_alert($message)
-		{
+		function function_alert($message){
 			echo
 				"<SCRIPT>
 				window.location.replace('index.php')
 				alert('$message');
 			</SCRIPT>";
 		}
+		function send_mail($to_email, $subject, $body, $headers){
+			if (mail($to_email, $subject, $body, $headers)) {
+				function_alert("Email successfully sent to".$to_email."...");  
+			} else {
+				function_alert("Email sending failed..."); 
+			}
+		}
 		//full form of abrevations are as follows
 		// "Name_of_contact_person"  =  nocp
 		// "Email_of_contact_person" =  eocp
 		// "Msg_of_contact_person"  =  mocp 
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
-			//$body = $_POST['mocp'];
-			$body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
-			$headers = "From: guptavan96@gmail.com";
-			if($_POST['contact_us_email']!=null){
-				$to_email =trim($_POST['contact_us_email']) ;
+			if($_POST['email']!=null){
+				$to_email =trim($_POST['email']) ;
 			}
 			else{
 				$to_email = trim($_POST['eocp']);
-			} 
-			$msg= trim($_POST['mocp']);
-			$n=strpos($to_email, ".")+1;
-			$subject = "Acknowledgement from CSI to ".substr($to_email,0, strpos($to_email, "."))." ".substr($to_email,$n, strpos($to_email, "_")-$n);
-			if(isset($_POST['contact_us_email'])&&isset($_POST['contact_us_email'])){
-			//send_mail($to_email, $subject, $body, $headers);
+			}
+			$subject = "Acknowledgement from CSI to ".substr($to_email,0, strpos($to_email, "."))." ".substr($to_email,strpos($to_email, ".")+1, strpos($to_email, "_")-strpos($to_email, ".")+1);
+			$body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+			$headers = "From: guptavan96@gmail.com";
+			$query= trim($_POST['mocp']);
+			if(isset($to_mail)){
+				send_mail($to_email, $subject, $body, $headers);
 				if(strpos($to_email, "@sakec.ac.in")||strpos($to_email, "@gmail.com")){
-					$sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$msg')";
+					$sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$query')";
 					$stmt = mysqli_query($conn, $sql);
 					function_alert("Msg has been deliverd."); 
-					mysqli_close($conn);
 				}else {
 					function_alert("Pls enter the sakec's or your own emailid.");
 				}
@@ -159,28 +154,38 @@
 						echo '<a class="nav-link" href="budget.php">Budget</a>';
 						echo '</li>';
 					}
-					else if(($role==='c'))
+					else if(($role==='head coordinator'))
 					{
-						// echo '<li class="nav-item">';
-						// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
-						// echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="database.php">Userdata</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
+						echo '</li>';
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="query.php">Query</a>';
 						echo '</li>';
-					}
-					else if(($role==='m'))
-					{
-						// echo '<li class="nav-item">';
-						// echo '<a class="nav-link" href="loggedinmembership.html">Membership</a>';
-						// echo '</li>';
-					} 
-					else if(($role==='s'))
-					{
-						echo '<li class="nav-item">';
-						echo '<a class="nav-link" href="membership.php">Membership</a>';
+                        echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="budget.php">Budget</a>';
 						echo '</li>';
 					}
-					else 
+					else if(($role==='coordinator'))
+					{
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="query.php">Query</a>';
+						echo '</li>';
+                        echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="budget.php">Budget</a>';
+						echo '</li>';
+					}
+					else if(($role==='member'))
+					{
+						
+					} 
+					else if(($role==='student'))
 					{
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="membership.php">Membership</a>';
@@ -318,12 +323,12 @@
 				<?php
 					$sql = "SELECT * FROM `coordinator`";
 					$query = mysqli_query($conn, $sql);
-					$rows = mysqli_num_rows($query);
-					while ($rows >= 3) { //executes while it can accomadate 3 colums in a row i.e. 3 students in a single row
+					$number_of_coordinator = mysqli_num_rows($query);
+					while ($number_of_coordinator >= 3) { //executes while it can accomadate 3 colums in a row i.e. 3 students in a single row
 				?>
 				<div class="row text-center">
 					<?php
-						
+						$count = 3;
 						while ($row = mysqli_fetch_assoc($query)) { // executes each column
 					?>
 						<div class="col-md-4 mb-md-0 mb-5">
@@ -335,14 +340,16 @@
 							<div class="spacer" style="height:20px;"></div>
 						</div>
 					<?php
-						$rows -= 3;
 						//echo $rows.'<br>';
+						$count--;
+						if($count==0){ break;}
 						}
+						$number_of_coordinator -= 3;
 					?>
 				</div>
 				<?php
 					}
-					if ($rows == 2) { //executes if 2 students in a single row i.e. last 2 students
+					if ($number_of_coordinator == 2) { //executes if 2 students in a single row i.e. last 2 students
 				?>
 				<div class="row">
 					<div class="col-sm-2"></div>
@@ -362,7 +369,7 @@
 				</div>
 				<?php
 					} 
-					else if ($rows == 1) { //executes if 1 students in a single row i.e. last student
+					else if ($number_of_coordinator == 1) { //executes if 1 students in a single row i.e. last student
 						$row = mysqli_fetch_assoc($query);
 				?>
 						<div class="row">
@@ -484,27 +491,20 @@
 						</div>
 					</div>
 				</div>
-				<!-- <div class="container" id="ff-compose"></div> -->
 				<div class="col-sm-5">
 					<div class="jumbotron" >
-						<!--"Name_of_contact_person"  =  nocp
-						    "Email_of_contact_person" =  eocp
-							"Msg_of_contact_person"  =  mocp -->
+						<!--"Email_of_contact_person" =  eocp "Msg_of_contact_person"  =  mocp -->
 						<h2>Contact Us</h2>
-						<form action="contactUs.php" method="post">
+						<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 							<?php
-							echo '<input type="hidden" name="contact_us_email" value="' . $email . '">';
 							if ($loggedin) {
-								echo '<label for="message"> Message </label> :';
-								echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
+								echo '<input type="hidden" name="email" value="' . $email . '">';
 							} else {
-								// echo '<label for="name" >Name</label> :';
-								// echo '<input name="nocp" required="required" type="name" placeholder="Name" class="form-control"><br>';
 								echo '<label for="email"  >E-Mail</label> :';
 								echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';
-								echo '<label for="message">Message</label> :';
-								echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
 							}
+							echo '<label for="message">Message</label> :';
+							echo '<textarea name="mocp" data-toggle="tooltip" required="required" data-placement="bottom" title="Any Queries? Write us " type="text-area" placeholder="Message" class="form-control" rows="5"></textarea>';
 							?>
 							<button type="submit" class="btn btn-primary  btn-block">Submit</button>
 						</form>

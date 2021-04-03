@@ -69,6 +69,12 @@
                 session_start();
                 if(isset($_SESSION['email'])){
                     if($_SESSION['role']==='admin'){
+                        $sql = "SELECT `role_name` FROM `role`";
+                        $result = mysqli_query($conn, $sql);
+                        $role=array();
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $role[]=$row['role_name'];
+                        }
                         $sql = 'SELECT * FROM userdata';
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
