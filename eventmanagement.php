@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
     <title>Manage Event</title>
     <?php
         require_once "config.php";
@@ -16,6 +23,10 @@
                     window.location.replace('eventmanagement.php')
                     alert('$message');
                 </SCRIPT>";
+        }
+        $to_search="";
+        if(isset($_POST['search'])){
+            $to_search = trim(strtolower($_POST['search']));
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['enable_id'])){
@@ -49,6 +60,17 @@
     <header>
         <h2 style="text-align: center;">Manage Events</h2>
     </header>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search" id="form1" name = "search" class="form-control" autocomplete="off"/>
+                <label class="form-label" for="form1">Search</label>
+            </div>
+            <button id="search-button" type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
     <div class="spacer" style="height:10px;"></div>
     <table class="table">
         <thead class="black white-text">
@@ -59,6 +81,7 @@
                 <th>Event Description</th>
                 <th>Fee for Members</th>
                 <th>Fee for non-members</th>
+                <th>Speaker</th>
                 <th>Speaker Description</th>
                 <th>Live</th>
                 <th>Delete</th>
@@ -68,80 +91,91 @@
             <div class="table-content" style="font-size: large;">
             <?php
                 require_once "config.php";
-                $sql = 'SELECT * FROM event';
-                $query = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($query) > 0) {
-                    while ($row = mysqli_fetch_assoc($query)) {
-                ?>
-                <tr>
-                    <th scope="row"><?php echo $row['title']; ?></th>
-                    <td>
-                        <?php 
-                            if($row['e_from_date']!=$row['e_to_date']){
-                                echo date("d-m-Y",strtotime($row['e_from_date']))."to".date("d-m-Y",strtotime($row['e_to_date']));
-                            }
-                            else{
-                                echo date("d-m-Y",strtotime($row['e_from_date']));
-                            }
+                session_start();
+                if (isset($_SESSION['email'])) {
+                    if ($_SESSION['role'] === 'admin') {
+                        $sql = "SELECT * FROM `event` WHERE LOWER(`title`) LIKE '%$to_search%' ";
+                        $query = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($query) > 0) {
+                            while ($row = mysqli_fetch_assoc($query)) {
                         ?>
-                    </td>
-                    <td>
+                        <tr>
+                            <th scope="row"><?php echo $row['title']; ?></th>
+                            <td>
+                                <?php 
+                                    if($row['e_from_date']!=$row['e_to_date']){
+                                        echo date("d-m-Y",strtotime($row['e_from_date']))." to ".date("d-m-Y",strtotime($row['e_to_date']));
+                                    }
+                                    else{
+                                        echo date("d-m-Y",strtotime($row['e_from_date']));
+                                    }
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if($row['e_from_time']!=$row['e_to_time']){
+                                    echo date("h:i",strtotime($row['e_from_time']))." to ".date("h:i",strtotime($row['e_to_time']));
+                                }
+                                else{
+                                    echo date("h:i",strtotime($row['e_from_time']));
+                                } 
+                                ?>
+                            </td>
+                            <td>
+                                <div id="summary">
+                                    <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['e_description']; ?></p>
+                                    <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
+                                </div>
+                            </td>
+                            <td>&#8377;  <?php echo $row['fee_m']; ?></td>
+                            <td>&#8377;  <?php echo $row['fee']; ?></td>
+                            <td> <?php echo $row['s_name']; ?></td>
+                            <td>
+                                <div id="s-description">
+                                    <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['s_descripition']; ?></p>
+                                    <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>"aria-expanded="false" aria-controls="collapseSummary"></a>
+                                </div>
+                            </td>
                         <?php
-                         if($row['e_from_time']!=$row['e_to_time']){
-                            echo date("h:i:sa",strtotime($row['e_from_time']))." to ".date("h:i:sa",strtotime($row['e_to_time']));
-                        }
+                        if($row['live']==1){
+                            ?>
+                                <td>
+                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                        <input type="hidden" name="disable_id" value="<?php echo $row['id']; ?>">
+                                        <button type="submit" class="btn btn-success">Live</button>
+                                    </form>                                
+                                </td>
+                        <?php
+                            }
                         else{
-                            echo date("h:i:sa",strtotime($row['e_from_time']));
-                        } 
+                            ?>
+                                <td>
+                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                    <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
+                                    <button type="submit" class="btn btn-danger"> Disabled</button>
+                                    </form>
+                                </td>
+                        <?php
+                            }
                         ?>
-                    </td>
-                    <td>
-                        <div id="summary">
-                            <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['e_description']; ?></p>
-                            <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
-                        </div>
-                    </td>
-                    <td>&#8377;  <?php echo $row['fee_m']; ?></td>
-                    <td>&#8377;  <?php echo $row['fee']; ?></td>
-                    <td>
-                        <div id="s-description">
-                            <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['s_descripition']; ?></p>
-                            <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>"aria-expanded="false" aria-controls="collapseSummary"></a>
-                        </div>
-                    </td>
-                   <?php
-                   if($row['live']==1){
-                       ?>
-                        <td>
-                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                                <input type="hidden" name="disable_id" value="<?php echo $row['id']; ?>">
-                                <button type="submit" class="btn btn-success">Live</button>
-                            </form>                                
-                        </td>
-                   <?php
-                    }
-                   else{
-                       ?>
-                        <td>
-                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                            <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
-                            <button type="submit" class="btn btn-danger"> Disabled</button>
-                            </form>
-                        </td>
-                   <?php
-                    }
-                   ?>
-                   <td>             
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                            <input type="hidden" name="delete_id_event" value="<?php echo $row['id']; ?>">
-                            <button type="submit" name="delete_event_btn" class="btn btn-danger"> Delete</button>
-                        </form>
-                    </td>
+                        <td>             
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                    <input type="hidden" name="delete_id_event" value="<?php echo $row['id']; ?>">
+                                    <button type="submit" name="delete_event_btn" class="btn btn-danger"> Delete</button>
+                                </form>
+                            </td>
                 <?php
+                            }
+                        } else {
+                            echo "<td>No Record Found</td><td/><td/><td/><td/><td/><td/><td/><td/><td/>";
+                        }
+                    }else {
+                        echo "<td>You need excess to see.</td><td/><td/><td/><td/><td/><td/><td/><td/><td/>";
                     }
-                } else {
-                    echo "No Record Found";
+                }else {
+                    echo "<td>You have not logged in.</td><td/><td/><td/><td/><td/><td/><td/><td/><td/>";
                 }
+                    
                 ?>
             </div>
         </tbody>

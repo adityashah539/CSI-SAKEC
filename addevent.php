@@ -335,15 +335,12 @@
         
         $(document.body).on('click', '.btn-remove-phone' ,function(){
             $(this).closest('.deletephone').remove();
-        });
-        
-        
+        });   
         $('.btn-add-phone').click(function(){
 
             var index = $('.phone-input').length + 1;
-            
-            $('.form-group').append(''+
 
+            $('.form-group').append(''+
             '<div class="deletephone">'+
           '  <div class="col-sm-5">'+
            ' <label class=" control-label">Contact Name :</label>'+
