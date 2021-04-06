@@ -5,7 +5,7 @@
 }
 
 body {
-  font: 300 15px "Times New Roman", Times, serif;
+  font: 300 15px "Open Sans", Times, serif;
   line-height: 1.5;
   padding: 0;
   overflow-x: hidden;
@@ -111,7 +111,7 @@ h1, h2, h3, h4 {
 header {
   margin-top: -65px;
   padding: 230px 0px;
-  background-image: linear-gradient(rgba(0, 0, 90, 0), rgba(0, 0, 0, 0.4)), url(../images/hologram.jpg);
+  background-image: linear-gradient(rgba(0, 0, 90, 0), rgba(0, 0, 0, 0.4)), url(../images/backgrouns.jfif);
   background-size: cover;
   background-position: center;
   color: rgb(170, 170, 170);

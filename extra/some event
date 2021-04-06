@@ -50,3 +50,6 @@
 					</p>
 				</div>
 			</div> -->
+			WHERE LOWER(`firstName`) LIKE '%$to_search%' OR LOWER(`lastName`) LIKE '%$to_search%' OR LOWER(CONCAT(`firstName`,' ', `lastName`))LIKE '%$to_search%' OR LOWER(CONCAT(`lastName`,' ', `firstName`))LIKE '%$to_search%' OR
+                                      LOWER(`emailID`) LIKE '%$to_search%' OR `phonenumber` LIKE '%$to_search%' OR LOWER(`branch`) LIKE '%$to_search%' OR LOWER(`class`) LIKE '%$to_search%' OR
+                                      LOWER(CONCAT(`branch`,' ', `class`)) LIKE '%$to_search%' OR LOWER(CONCAT(`class`,' ', `branch`)) LIKE '%$to_search%' OR LOWER(`role_name`) LIKE '%$to_search%'

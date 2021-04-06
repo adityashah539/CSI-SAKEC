@@ -12,8 +12,31 @@
     <link rel="stylesheet" href="css/event.css?v=<?php echo time(); ?>">
     <title>Event</title>
     <?php
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    }
+        function function_alert($message){
+            echo "<SCRIPT>alert('$message');</SCRIPT>";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if(isset($_POST['register_now'])&&isset($_POST['event_id'])&&isset($_POST['event_fee'])){
+                if (isset($_SESSION['email'])){
+                    $email= $_SESSION['email'];
+                    $event_id=$_POST['event_id'];
+                    $event_fee=$_POST['event_fee'];
+                    if($event_fee==0){
+                        $sql="";
+                    }else{
+                        header("location: login.php");
+                    }
+                }
+                else{
+                    function_alert("Pls login for register.");
+                    header("location: login.php");
+                }
+            }
+            else{
+                function_alert("Something went wrong.");
+                header("location: event.php");
+            }
+        }
     ?>
 </head>
 
@@ -58,9 +81,12 @@
                 Onwads
             </h4>
             <div class="spacer" style="height:20px;"></div>
-            <form action="event.php" method="post">
-                <button type="submit" class="btn btn-primary">Register Now</button>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
+                <input type="hidden" name="event_id" value="<?php echo $id;?>"/>
+                <input type="hidden" name="event_fee" value="<?php echo $row['fee']; ?>"/>
             </form>
+            <div class="spacer" style="height:20px;"></div>
         </div>
         <div class="spacer" style="height:40px;"></div>
         <div class="row">
@@ -91,11 +117,11 @@
                         <br>
                         <br>
                         <?php
-                        $contact = "SELECT `c_name`,`c_phonenumber` FROM `contact` WHERE `event_id`='$id'";
-                        $query_contact = mysqli_query($conn, $contact);
-                        while ($row2 = mysqli_fetch_assoc($query_contact)) {
-                            echo $row2['c_name'] . " - " . $row2['c_phonenumber'] . "<br>";
-                        }
+                            $contact = "SELECT `c_name`,`c_phonenumber` FROM `contact` WHERE `event_id`='$id'";
+                            $query_contact = mysqli_query($conn, $contact);
+                            while ($row2 = mysqli_fetch_assoc($query_contact)) {
+                                echo $row2['c_name'] . " - " . $row2['c_phonenumber'] . "<br>";
+                            }
                         ?>
                     </p>
                 </div>

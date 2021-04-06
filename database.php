@@ -4,17 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="plugins/css/mdb.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
     <title>Database</title>
     <?php
@@ -25,10 +18,6 @@
                 window.location.replace('database.php')
                 alert('$message');
             </SCRIPT>";
-    }
-    $to_search="";
-    if(isset($_POST['search'])){
-        $to_search = trim(strtolower($_POST['search']));
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['update_id'])) {
@@ -64,22 +53,11 @@
     <div class="spacer" style="height:10px;"></div>
     <header>
         <h2 style="text-align: center;">Userdata</h2>
-
     </header>
     <div class="spacer" style="height:5px;"></div>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-        <div class="input-group">
-            <div class="form-outline">
-                <input type="search" id="form1" name = "search" class="form-control" autocomplete="off"/>
-                <label class="form-label" for="form1">Search</label>
-            </div>
-            <button id="search-button" type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </form>
-    <table class="table">
-        <thead class="black white-text">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."/>
+    <table class="table" id="myTable">
+        <thead class="table-head">
             <tr>
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -93,7 +71,7 @@
             </tr>
         </thead>
         <tbody>
-            <div class="table-content" style="font-size: large;">
+            <div  class="table-content" style="font-size: large;">
                 <?php
                 require_once "config.php";
                 session_start();
@@ -108,13 +86,13 @@
                         $sql = "SELECT `userdata`.`id`,`firstName`,`lastName`,`emailID`,`phonenumber`,`branch`,`class`,`role_name` FROM `userdata`  
                                 INNER JOIN `role` 
                                 ON `userdata`.`role`=`role`.`id` 
-                                WHERE LOWER(`firstName`) LIKE '%$to_search%' OR LOWER(`lastName`) LIKE '%$to_search%' OR LOWER(CONCAT(`firstName`,' ', `lastName`))LIKE '%$to_search%' OR LOWER(CONCAT(`lastName`,' ', `firstName`))LIKE '%$to_search%' OR
-                                      LOWER(`emailID`) LIKE '%$to_search%' OR `phonenumber` LIKE '%$to_search%' OR LOWER(`branch`) LIKE '%$to_search%' OR LOWER(`class`) LIKE '%$to_search%' OR
-                                      LOWER(CONCAT(`branch`,' ', `class`)) LIKE '%$to_search%' OR LOWER(CONCAT(`class`,' ', `branch`)) LIKE '%$to_search%' OR LOWER(`role_name`) LIKE '%$to_search%'";
+                                ";
                         //echo $sql;
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
+                            $index=0;
                             while ($row = mysqli_fetch_assoc($query)) {
+                                $index++;
                 ?>
                                 <tr>
                                     <td><?php echo $row['firstName']; ?></td>
@@ -125,7 +103,7 @@
                                     <td><?php echo $row['class']; ?></td>
                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                         <td>
-                                            <select name="role" class="custom-select mb-3">
+                                            <select name="role" id="<?php echo "role".$index; ?>" class="custom-select mb-3">
                                                 <?php
                                                 foreach ($roles as $role) {
                                                     if ($row['role_name'] == $role) {
@@ -164,6 +142,35 @@
             </div>
         </tbody>
     </table>
+    <script>
+        function myFunction(){
+            var  filter, table, tr, td, i,txtValue,first_name,last_name,emailid,phone_number,branch,year,role;
+            filter = document.getElementById('myInput').value.toUpperCase();
+            table = document.getElementById('myTable');
+            tr = table.getElementsByTagName('tr');
+            debugger;
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                if (td) {
+                    first_name  =td[0].textContent || td[0].innerText;
+                    last_name   =td[1].textContent || td[1].innerText;
+                    emailid     =td[2].textContent || td[2].innerText;
+                    phone_number=td[3].textContent || td[3].innerText;
+                    branch      =td[4].textContent || td[4].innerText;
+                    year        =td[5].textContent || td[5].innerText;
+                    role        =document.getElementById('role'+i).value;
+                    if (first_name.toUpperCase().indexOf(filter)>-1||last_name.toUpperCase().indexOf(filter)>-1||(first_name+" "+last_name).toUpperCase().indexOf(filter)>-1||
+                    (last_name+" "+first_name).toUpperCase().indexOf(filter)>-1||emailid.toUpperCase().indexOf(filter)>-1||phone_number.toUpperCase().indexOf(filter)>-1||
+                    branch.toUpperCase().indexOf(filter)>-1||year.toUpperCase().indexOf(filter)>-1||branch.toUpperCase().indexOf(filter)>-1||
+                    (branch+" "+year).toUpperCase().indexOf(filter)>-1||(year+" "+branch).toUpperCase().indexOf(filter)>-1||role.toUpperCase().indexOf(filter)>-1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
         <a href="index.php"><i class="fas fa-home"></i></a>
