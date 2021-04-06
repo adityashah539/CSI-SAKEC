@@ -1,4 +1,5 @@
 <!-- this is code for printing the page  -->
+<!-- code for word -->
 <!DOCTYPE html>
 <?php 
  	header("Content-Type: application/vnd.ms-word");
