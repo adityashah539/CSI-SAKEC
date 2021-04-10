@@ -25,7 +25,7 @@
         </SCRIPT>";
     }
     session_start();
-    if ($_SERVER['REQUEST_METHOD'] == "POST"&&!isset($_POST['title'])){
+    if ($_SERVER['REQUEST_METHOD'] == "POST"&&isset($_POST['title'])){
         if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
                 $phpFileUploadErrors = array(
                 0 => 'There is no error, the file uploaded with success',
@@ -37,10 +37,15 @@
                 7 => 'Failed to write file to disk,', 
                 8 => 'A PHP extension stopped the file upload.',
                 );
-                $ext_error=false;
+                $ext_error=true;
                 $extensions= array('jpg','jpeg','png');
                 $e_banner = $_FILES["e_banner"]["name"];
                 if(isset($_FILES["s_photo"]["name"])){
+                    $file_ext_s_photo=explode(".", $_FILES["s_photo"]["name"]);
+                    $file_ext_s_photo_banner=end($file_ext_s_photo);
+                    if(in_array($file_ext_s_photo_banner,$extensions)){
+                        $ext_error=false;
+                    }
                     $s_photo = $_FILES["s_photo"]["name"];
                     $s_name=$_POST['s_name'];
                     $s_profession=$_POST['s_profession'];
@@ -51,11 +56,17 @@
                     $s_profession=null;
                     $s_descripition=null;
                 }
+                if(isset($_POST["collaboration"])){
+                    $collaboration = $_POST['collaboration'];
+                }else{
+                    $collaboration = null;
+                }
                 $file_ext_banner=explode(".", $_FILES["e_banner"]["name"]);
-                $file_ext_s_photo=explode(".", $_FILES["s_photo"]["name"]);
                 $file_ext_banner=end($file_ext_banner);
-                $file_ext_s_photo_banner=end($file_ext_s_photo);
-                if (in_array($file_ext_banner,$extensions)&&in_array($file_ext_s_photo_banner,$extensions)){
+                if(in_array($file_ext_banner,$extensions)){
+                    $ext_error = false;
+                }
+                if ($ext_error){
                     $title=$_POST['title']; 
                     $subtitle=$_POST['subtitle'];
                     $folder_name_banner = 'Banner/';
@@ -67,8 +78,8 @@
                     $e_descripition=$_POST['e_descripition'];
                     $fee_m=$_POST['fee_m'];
                     $fee=$_POST['fee'];
-                    $sql = "INSERT INTO `event`(`title`,  `subtitle`,    `banner`, `e_from_date`,`e_to_date`, `e_from_time`,`e_to_time`, `e_description`, `fee_m`, `fee`, `s_photo`, `s_name`, `s_profession`  ,`s_descripition`, `live`)
-                                        VALUES ('$title','$subtitle',' $e_banner',' $from_date','  $to_date','$from_time',   '$to_time','$e_descripition','$fee_m','$fee','$s_photo','$s_name','$s_profession','$s_descripition','false')";
+                    $sql = "INSERT INTO `event`(`title`,  `subtitle`,    `banner`, `e_from_date`,`e_to_date`, `e_from_time`,`e_to_time`, `e_description`, `fee_m`, `fee`, `s_photo`, `s_name`, `s_profession`  ,`s_descripition`, `live`,`collaboration`)
+                                        VALUES ('$title','$subtitle',' $e_banner',' $from_date','  $to_date','$from_time',   '$to_time','$e_descripition','$fee_m','$fee','$s_photo','$s_name','$s_profession','$s_descripition','false','$collaboration')";
                     mysqli_query($conn, $sql);
                     move_uploaded_file($_FILES["e_banner"]["tmp_name"],$folder_name_banner.$e_banner);
                     $last_entry= mysqli_insert_id($conn);
@@ -132,6 +143,9 @@
                             <input type="text" id="subtitle" name="subtitle" placeholder="Subtitle" required>
                         </div>
                     </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row" id="collaboration_id_section">
                 </div>
                 <div class="spacer" style="height:20px;"></div>
                 <div class="row">
@@ -300,30 +314,43 @@
                     </div>
                 </div>
             </div>
-            <div id="no_speaker">
-            </div>
             <div class="spacer" style="height:20px;"></div>
+            <button type="button" onclick="collaboration_appearance()" class="btn btn-primary" id="collaboration_id_button">Collaboration</button>
             <button type="button" onclick="Disappear()" class="btn btn-primary" id="speaker_nospeaker">No Speaker</button>
             <button type="submit" class="btn btn-primary">Sumbit</button>
             <div class="spacer" style="height:40px;"></div>
         </form>
         <script>
-            function Disappear() {
-                var x = document.getElementById("speaker");
-                var y = document.getElementById("no_speaker");
-                var element = document.getElementById("speaker_nospeaker");
-                if (x.style.display === "none") {
-                    x.style.display = "block";
-                    element.innerHTML = "No Speaker";
-                    y.style.display = "none";
+            var collaboration_id_section = document.getElementById("collaboration_id_section");
+            collaboration_id_section.innerHTML = '';
+            function collaboration_appearance(){
+                var collaboration_id_button = document.getElementById("collaboration_id_button");
+                if(collaboration_id_section.innerHTML == '') {
+                    collaboration_id_section.innerHTML = '<div class="col-sm-5"><div class="labels"><label for="rnumber">Collaboration :</label></div></div>';
+                    collaboration_id_section.innerHTML += '<div class="col-sm-7"><div class="texts"><input type="text" id="collaboration" name="collaboration" placeholder="Collaboration" required></div></div>';
+                    collaboration_id_button.innerHTML = "No Collaboration";
                 } else {
-                    x.style.display = "none";
-                    element.innerHTML = "Speaker";
-                    y.style.display = "block";
+                    collaboration_id_section.innerHTML = '';
+                    collaboration_id_button.innerHTML = "Collaboration";
                 }
             }
-            var no_speaker = document.getElementById("no_speaker");
-            no_speaker.style.display = "none";
+            function Disappear() {
+                var element = document.getElementById("speaker_nospeaker");
+                var speaker = document.getElementById("speaker");
+                if (speaker.innerHTML != '') {
+                    speaker.innerHTML = '';
+                    element.innerHTML = "Speaker";
+                } else {
+                    speaker.innerHTML =  '<div class="row"><div class="col-sm-5"><div class="labels"><label for="banner-img"> Speaker Name : </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_name" placeholder="Speaker Name" required></div></div></div>';
+                    speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+                    speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="s_profession"> Speaker Profession: </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_profession" placeholder="Speaker Profession" required></div></div></div>';
+                    speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+                    speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="banner-img"> Speaker Image :</label></div></div><div class="col-sm-7"><input type="file" id="img" name="s_photo"  required></div></div>';
+                    speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+                    speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label > Speakers Description :</label></div></div><div class="col-sm-7"><div class="texts"><textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4"  columns="3" name= "s_descripition" required></textarea></div></div></div>';
+                    element.innerHTML = "No Speaker";
+                }
+            }
         </script>
         <script>
             $(function(){

@@ -52,6 +52,8 @@
     <div class="container ">
         <h1>
             <?php echo $row['title']; ?>
+            <?php 
+                if($row['collaboration'] != "")echo "<h2>In collaboration with ".$row['collaboration']."</h2>"; ?>
         </h1>
         <div class="spacer" style="height:20px;"></div>
         <img class="main-img" src="<?php echo "Banner/" . trim($row['banner']); ?>" alt="no image">
