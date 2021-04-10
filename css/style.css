@@ -307,7 +307,7 @@ h1 {
 
 .footer, .list-group-item {
   /* background-color:  #afe3f8; */
-  background-color: #cde2ea;
+  background-color: #b8d9ff;
 }
 
 .list-group-item:hover {
@@ -367,10 +367,10 @@ h1 {
 
 .copyright {
   text-align: center;
-  background-color: #569eeca6;
+  background-color: #78b3f3;
 }
 .footer, .list-group-item {
-  background-color: #569eeca6;
+  background-color: #b8d9ff;
 }
 
 /*************************************/
@@ -441,3 +441,4 @@ h1 {
   color: white;
   border: none;
 }
+
