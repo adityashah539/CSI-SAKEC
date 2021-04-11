@@ -23,7 +23,6 @@
 			$stmt = mysqli_prepare($conn, $sql);
 			mysqli_stmt_bind_param($stmt, 's', $param_email);
 			$param_email = $email;
-			// Try to execute this statement
 			if (mysqli_stmt_execute($stmt)) {
 				mysqli_stmt_store_result($stmt);
 				if (mysqli_stmt_num_rows($stmt) == 1) {
@@ -31,7 +30,6 @@
 					if (mysqli_stmt_fetch($stmt)) {
 						//echo $hashed_Password . " " . $password;
 						if ($password === $hashed_Password) {
-							// this means the password is corrct. Allow user to login
 							$sql = "SELECT `userdata`.`id`,`role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
 							$result = mysqli_query($conn, $sql);
 							$row = mysqli_fetch_assoc($result);

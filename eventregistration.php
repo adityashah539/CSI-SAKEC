@@ -17,18 +17,21 @@
     {
         echo "<SCRIPT>alert('$message');</SCRIPT>";
     }
-    if ($_SERVER['REQUEST_METHOD'] == "GET") {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['register_now']) && isset($_POST['event_id'])) {
             if (isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
                 $event_id = $_POST['event_id'];
-                $sql = "SELECT `budget`.`id` as `budget_id`,`userdata`.`id` as `user_id` FROM `budget`,`userdata` WHERE `event_id`='$event_id' AND `emailID` ='$event_id'";
+                $sql = "SELECT `budget`.`id` as `budget_id`,`userdata`.`id` as `user_id` FROM `budget`,`userdata` WHERE `event_id`='$event_id' AND `emailID` ='$email'";
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($result);
-                $buget_id = $row["buget_id"];
+                $budget_id = $row["budget_id"];
                 $user_id = $row["user_id"];
-                $sql = "INSERT INTO `collection`(`buget_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$buget_id','$user_id','1','auto')";
+                $sql = "INSERT INTO `collection`(`budget_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$budget_id','$user_id','1','auto')";
                 $result = mysqli_query($conn, $sql);
+                header("location:index.php");
+                // for testing 
+                // echo $email."<br>".$event_id."<br>".$sql."<br>".$budget_id."<br>".$user_id."<br>";
             }
         }
     }
