@@ -295,15 +295,15 @@
 									</p>
 								</div>
 								<div class="col-sm-8 event-details">
-									<form action="event.php" method="GET">
-										<input type="hidden" name="id_event" value="<?php echo $row['id']; ?>">
+									<form action="event.php" method="GEt">
+										<input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
 										<h2>
 										<button type="submit"><?php echo $row['title']; ?></button>
 										</h2>
 									</form>
 									<br>
 									<p>
-									<?php echo $row['e_description']; ?>
+										<?php echo $row['e_description']; ?>
 									</p>
 								</div>
 							</div>

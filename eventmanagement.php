@@ -134,10 +134,9 @@
                         if($row['live']==1){
                             ?>
                                 <td>
-                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                                        <input type="hidden" name="disable_id" value="<?php echo $row['id']; ?>">
-                                        <button type="submit" class="btn btn-success">Live</button>
-                                    </form>                                
+                                    <div id = "live" >
+                                        <button type="submit" onclick="" valueclass="btn btn-success">Live</button>
+                                    </div>                             
                                 </td>
                         <?php
                             }
@@ -188,6 +187,34 @@
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
+    <script>
+        function status_change(){
+            var x = document.getElementById("button_live");
+            if(JSON.stringify(x)!="null"){
+                document.getElementById("status").innerHTML='<button type="submit" name="delete_event_btn" onclick="status_change()" class="btn btn-danger"> Delete</button>';
+            }
+            else{
+                document.getElementById("status").innerHTML='<button type="submit" id ="button_live" onclick="status_change()" class="btn btn-success">Live</button>';
+            }
+        }
+    </script>
+    <script>
+        function eventfuvtion(str) {
+            if (str.length == 0) {
+                document.getElementById("txtHint").innerHTML = "";
+                return;
+            } else {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("txtHint").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("GET", "eventfuction.php?q=" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

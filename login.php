@@ -18,11 +18,15 @@
     {
         echo 
         "<SCRIPT>
-            window.location.replace('login.php')
             alert('$message');
         </SCRIPT>";
     }
-    if (isset($_SESSION['id'])) {
+    if(isset($_GET['notlogin'])){
+        if($_GET['notlogin']){
+            function_alert("You need to login to access the feature.");
+        }
+    }
+    if (isset($_SESSION['email'])) {
         header("location: index.php");
         exit;
     }
