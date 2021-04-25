@@ -9,14 +9,10 @@
 	<link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
 	<title>CSI-SAKEC</title>
 	<?php
+
 		session_start();
 		require_once "config.php";
-		$loggedin=false;
-		$email=null;	
-		$role=null;
-		$id=null;
-		if(isset($_COOKIE["email"])&&!isset($_SESSION['id']))
-		{
+		if(isset($_COOKIE["email"])&&!isset($_SESSION['email'])){
 			$email = $_COOKIE['email'];
 			$password = $_COOKIE['password'];
 			$sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
@@ -28,31 +24,17 @@
 				if (mysqli_stmt_num_rows($stmt) == 1) {
 					mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
 					if (mysqli_stmt_fetch($stmt)) {
-						//echo $hashed_Password . " " . $password;
 						if ($password === $hashed_Password) {
-							$sql = "SELECT `userdata`.`id`,`role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
+							$sql = "SELECT `role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
 							$result = mysqli_query($conn, $sql);
 							$row = mysqli_fetch_assoc($result);
-							$role = $row["role_name"];
-							$id = $row["id"];
-							$loggedin=true;
                             $_SESSION['email']=$email;
-			                $_SESSION['role']=$role;
-			                $_SESSION['id']=$id;
-						}else{
-							$email=null;	
+			                $_SESSION['role']=$row["role_name"];
 						}
 					}
 				}
 			}		
 		}
-		else if(isset($_SESSION['id'])){	
-			$loggedin=true;
-			$email=$_SESSION['email'];
-			$role=$_SESSION['role'];
-			$id = $_SESSION['id'];
-		}
-		unset($_SESSION['id']);
 		function function_alert($message){
 			echo
 				"<SCRIPT>
@@ -133,8 +115,8 @@
 					<a class="nav-link" href="#contact">Contact Us</a>
 				</li>
 				<?php
-				if($loggedin){
-					if ($role==='admin') {
+				if(isset($_SESSION['email'])){
+					if ($_SESSION['role']==='admin') {
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="database.php">Userdata</a>';
 						echo '</li>';
@@ -150,8 +132,16 @@
                         echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="budget.php">Budget</a>';
 						echo '</li>';
+						$_SESSION['var'] = 0;
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="audit.php">Audit</a>';
+						echo '</li>';
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="confirmeventregistration.php">Confirm Event Registration</a>';
+						echo '</li>';
+						
 					}
-					else if(($role==='head coordinator'))
+					else if($_SESSION['role']==='head coordinator')
 					{
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="database.php">Userdata</a>';
@@ -166,7 +156,7 @@
 						echo '<a class="nav-link" href="budget.php">Budget</a>';
 						echo '</li>';
 					}
-					else if(($role==='coordinator'))
+					else if($_SESSION['role']==='coordinator')
 					{
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="eventmanagement.php">Event Management</a>';
@@ -178,11 +168,11 @@
 						echo '<a class="nav-link" href="budget.php">Budget</a>';
 						echo '</li>';
 					}
-					else if(($role==='member'))
+					else if($_SESSION['role']==='member')
 					{
 						
 					} 
-					else if(($role==='student'))
+					else if($_SESSION['role']==='student')
 					{
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="membership.php">Membership</a>';
@@ -193,9 +183,9 @@
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
 				<?php
-				if ($loggedin) {
+				if (isset($_SESSION['email'])) {
 					echo '<li class="nav-item">';
-					echo '<a class="nav-link" href="">Email Id :' . $email . ' </a>';
+					echo '<a class="nav-link" href="">Email Id :'.$_SESSION['email'].' </a>';
 					echo '</li>';
 					echo '<li class="nav-item">';
 					echo '<a class="nav-link" href="logout.php">Logout</a>';
@@ -230,9 +220,6 @@
 	<div id="about">
 		<div class="container-fluid text-center">
 			<h1 class=" h1-responsive font-weight-bold my-5">About Us</h1>
-
-			
-
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
 				<div class="col-sm-6">
@@ -293,7 +280,7 @@
 									</p>
 								</div>
 								<div class="col-sm-8 event-details">
-									<form action="event.php" method="GEt">
+									<form action="event.php" method="GET">
 										<input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
 										<h2>
 										<button type="submit"><?php echo $row['title']; ?></button>
@@ -333,9 +320,7 @@
 					?>
 						<div class="col-md-4 mb-md-0 mb-5">
 							<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
-							<!--  name of the student members -->
 							<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
-							<!-- // position of the student members -->
 							<h6 class="text-uppercase grey-text mb-3"><strong><?php  echo $row['duty'];?></strong></h6>
 							<div class="spacer" style="height:20px;"></div>
 						</div>
@@ -497,8 +482,8 @@
 						<h2>Contact Us</h2>
 						<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 							<?php
-							if ($loggedin) {
-								echo '<input type="hidden" name="email" value="' . $email . '">';
+							if (isset($_SESSION['email'])&&isset($_SESSION['role'])) {
+								echo '<input type="hidden" name="email" value="' . $_SESSION['email'] . '">';
 							} else {
 								echo '<label for="email"  >E-Mail</label> :';
 								echo '<input name="eocp" required="required" type="email" class="form-control" placeholder="E-Mail" id="emailid"><br>';

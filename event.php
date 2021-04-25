@@ -26,8 +26,7 @@
     <div class="container ">
         <h1>
             <?php echo $row['title']; ?>
-            <?php 
-                if($row['collaboration'] != "")echo "<h2>In collaboration with ".$row['collaboration']."</h2>"; ?>
+            <?php if($row['collaboration'] != "")echo "<h2>In collaboration with ".$row['collaboration']."</h2>"; ?>
         </h1>
         <div class="spacer" style="height:20px;"></div>
         <img class="main-img" src="<?php echo "Banner/" . trim($row['banner']); ?>" alt="no image">
@@ -85,13 +84,15 @@
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
                             <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
                             <input type="hidden" name="event_id" value="<?php echo $id; ?>" />
+                            <input type="hidden" name="fee" value="<?php echo $row['fee_m']; ?>" />
                         </form>
                     <?php
                     } else {
                     ?>
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
-                            <button type="submit" value="registraation" name="register_now" class="btn btn-primary">Register Now</button>
+                            <button type="submit" value="registration" name="register_now" class="btn btn-primary">Register Now</button>
                             <input type="hidden" name="event_id" value="<?php echo $id; ?>" />
+                            <input type="hidden" name="fee" value="<?php echo $row['fee']; ?>" />
                         </form>
                 <?php
                     }

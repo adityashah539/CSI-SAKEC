@@ -57,7 +57,7 @@
                             break;
                         }
                         //The following code for testing              
-                        echo $budget_id.'<br>'.$spent_on.'<br>'.$email.'<br>'.$bill_photo.'<br>'.$amount.'<br>'.$sql.'<br>'.$sum.'<br>'; 
+                        //echo $budget_id.'<br>'.$spent_on.'<br>'.$email.'<br>'.$bill_photo.'<br>'.$amount.'<br>'.$sql.'<br>'.$sum.'<br>'; 
                     }else{
                         function_alert("Extention of file should be jpg,jpeg,png.");
                     }
