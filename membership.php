@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
-    <link rel="stylesheet" href="css/membership.css">
-    <title>Membership registration</title>
+    <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
+    <title> Membership</title>
     <?php
     require_once "config.php";
     session_start();
@@ -50,8 +50,9 @@
         <h4>CSI-SAKEC</h4>
     </header>
     <div class="spacer" style="height:15px;"></div>
+    <div class="registration">
     <div class="container">
-        <div class="registration">
+       
             <h4>Student Membership Registration </h4>
             <p>Fill all the fields carefully</p>
             <hr>
@@ -134,11 +135,14 @@
         </div>
     </div>
     <div class="spacer" style="height:50px;"></div>
-    <div class="copyright">
-        <div class="spacer" style="height:10px;"></div>
-        <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
-        <div class="spacer" style="height:5px;"></div>
-    </div>
+    <div class="footer">
+            <div class="spacer" style="height:2px;"></div>
+            <a href="index.php"><i class="fas fa-home"></i></a>
+            <div class="spacer" style="height:0px;"></div>
+            <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
+            <div class="spacer" style="height:1px;"></div>
+        </div>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </body>
-
 </html>

@@ -1,6 +1,7 @@
 body {
     text-align: center;
-    background-color: whitesmoke;
+    background-color: #fffdeb;
+
     font-family: 'Times New Roman', Times, serif;
     margin: 0;
     color: white;
@@ -10,18 +11,15 @@ body {
 
 header {
     color: black;
-    background-color: aquamarine;
+    background-color: #a0e9fd;
     padding: 10px;
 }
 
-.add-event-header {
-    background: black;
-    color: white;
-    padding: 10px;
-}
-
-.registration {
+.container {
     text-align: start;
+    background: #f9f9f7;
+    padding: 40px;
+
 }
 
 .labels {
@@ -31,19 +29,19 @@ header {
 
 .footer {
     text-align: center;
-    background-color: #569eeca6;
+    background-color: #a0e9fd;
     left: 0;
-    position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px;
+
+
 
 }
 
-h2 {
-    background: black;
-    color: white;
-    padding: 22px;
+#submit_bill {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
 }
 
 .phone-input {
@@ -81,3 +79,27 @@ h2 {
 .form-group .row {
     margin: 30px;
 }
+
+input[id='myInput'] {
+    border-radius: 20px;
+    padding: 7px 0px 7px 48px;
+    margin: 15px;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background: #fffbdb;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    background: #f9f9f7;
+}
+@media only screen and (min-width: 600px) {
+    .footer {
+        position: fixed;
+    }
+}
+

@@ -10,7 +10,12 @@ body {
     color: white;
     padding: 0;
 }
-
+#classyear
+{
+  width: fit-content ;
+  background-color: #007bff00;
+  color: rgb(133, 133, 133);
+}
 .login {
     font-size:30px;
     font-weight:bolder;

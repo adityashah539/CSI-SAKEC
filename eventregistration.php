@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
-    <link rel="stylesheet" href="css/membership.css?v=<?php echo time();?>">
-    <title>Event registration</title>
+    <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
+    <title>Event Registration</title>
     <?php
         require_once "config.php";
         session_start();
@@ -76,11 +76,88 @@
     ?>
 </head>
 
-<body style="background:#ffffff">
-    <body>
-        <h2 class="add-event-header">Event Registration</h2>
-        <div class="contaniner">
-            <div class="form-group">
+<body>
+    <header>
+        <h6>
+            MAHAVIR EDUCATION TRUST'S<br>
+            SHAH AND ANCHOR KUTCHHI ENGINEERING COLLEGE<br>
+            COMPUTER SOCIETY OF INDIA
+        </h6>
+        <h4>CSI-SAKEC</h4>
+    </header>
+    <div class="spacer" style="height:15px;"></div>
+    <div class="registration">
+    <div class="container">
+       
+            <h4>Register For The Event</h4>
+            <p>Fill all the fields carefully</p>
+            <hr>
+            <div class="spacer" style="height:35px;"></div>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="">Membership period :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <select name="member_period" class="custom-select mb-3" required="required">
+                                <option selected disabled>Select Year</option>
+                                <option value="1">One Year</option>
+                                <option value="2">Two Year</option>
+                                <option value="3">Three Year</option>
+                                <option value="4">Four Year</option>
+                                <option value="5">Life</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="birthday">Date of Birth :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <input type="date" id="birthday" name="birthday">
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:35px;"></div>
+                <div class="row">
+
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="type">Gender :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <input type="radio" id="male" name="gender" value="male">
+                            <label for="male">Male</label>
+                            <input style="margin-left:25px ;" type="radio" id="female" name="gender" value="female">
+                            <label for="Female">Female</label>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="labels">
+                            <label for="rnumber">College Registration Number :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <input type="number" id="rnumber" name="registration_number" value="" required="required">
+                            <small id="rnumberlHelp" class="form-text text-muted">As printed on your ID card</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer" style="height:40px;"></div>
                 <div class="row">
                     <div class="col-sm-12">
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
@@ -101,16 +178,16 @@
                 </div>
             </div>
         </div>
-            <div class="spacer" style="height:20px;"></div>
-        <div class="footer">
+    </div>
+    <div class="spacer" style="height:50px;"></div>
+    <div class="footer">
             <div class="spacer" style="height:2px;"></div>
-            <a href="index.html"><i class="fas fa-home"></i></a>
+            <a href="index.php"><i class="fas fa-home"></i></a>
             <div class="spacer" style="height:0px;"></div>
             <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
             <div class="spacer" style="height:1px;"></div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </body>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</body>
 </html>

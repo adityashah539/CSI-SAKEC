@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
-    <link rel="stylesheet" href="css/membership.css">
+    <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <title> Add Event</title>
@@ -83,12 +83,28 @@
     ?> 
 </head>
 
-<body style="background:#ffffff">
+<body >
     <body>
-        <h2 class="add-event-header">Add a new event</h2>
+
+    <header>
+        <h6>
+            MAHAVIR EDUCATION TRUST'S<br>
+            SHAH AND ANCHOR KUTCHHI ENGINEERING COLLEGE<br>
+            COMPUTER SOCIETY OF INDIA
+        </h6>
+        <h4>CSI-SAKEC</h4>
+    </header>
+    <div class="spacer" style="height:15px;"></div>
+    <div class="registration">
+    <div class="container">
+       
+            <h4>ADD BILL FOR BUDGET</h4>
+            <p>Fill all the fields carefully</p>
+            <hr>
+      
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="bi_e" value="<?php if(isset($_GET['bi_e'])){echo $_GET['bi_e'];}?>">
-            <div class="contaniner">
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-5">
@@ -118,20 +134,25 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success btn-sm btn-add-phone">
+                    <div class="submission text-center">
+
+                 
+                    <button  type="button" class="btn btn-success btn-sm btn-add-phone">
                         <span class="glyphicon glyphicon-plus"></span>
                         Add Bill
                     </button>
-                    <div class="spacer" style="height:10px;"></div>
+                    <div class="spacer" style="height:35px;"></div>
+                    <button id="submit_bill" type="submit" class="btn btn-primary">Sumbit</button>
+            <div class="spacer" style="height:20px;"></div> 
                 </div>
             </div>
-            <div class="spacer" style="height:10px;"></div>
+           
             
-            <div id= "BudgetId"> 
-            </div>
-            <button type="submit" class="btn btn-primary">Sumbit</button>
-            <div class="spacer" style="height:40px;"></div> 
+    </div>
+ 
         </form>
+    </div>
+    </div>
         <script>
             $(function () {
                 $(document.body).on('click', '.changeType', function () {
