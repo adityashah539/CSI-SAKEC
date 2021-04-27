@@ -387,15 +387,29 @@
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+							<?php
+								$gallerysql = "SELECT * FROM `gallery`";
+								$gallerysqlstmt = mysqli_query($conn, $gallerysql);
+								$number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
+								for($i = 1;$i < $number_of_images_gallery; $i++) {
+							?>
+									<li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $i;?>" class="active"></li>
+							<?php
+								}
+							?>
 						</ol>
 						<div class="carousel-inner">
-							<div class="carousel-item active"><img class="d-block w-100" src="images/gal-4.jpg" alt="First slide"></div>
-							<div class="carousel-item"><img class="d-block w-100" src="images/gal-2.jpg" alt="Second slide"></div>
-							<div class="carousel-item"><img class="d-block w-100" src="images/gal-3.jpg" alt="Third slide"></div>
-							<div class="carousel-item"><img class="d-block w-100" src="images/gal-1.jpg" alt="ourth slide"></div>
+							<?php
+								$row = mysqli_fetch_assoc($gallerysqlstmt)
+							?>
+									<div class="carousel-item active"><img class="d-block w-100" src="images/<?php echo $row['image'];?>" alt="First slide"></div>
+							<?php
+								while($row = mysqli_fetch_assoc($gallerysqlstmt)) {
+							?>
+									<div class="carousel-item"><img class="d-block w-100" src="images/<?php echo $row['image'];?>" alt="First slide"></div>
+							<?php
+								}
+							?>
 						</div>
 						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>

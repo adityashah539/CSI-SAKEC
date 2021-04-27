@@ -22,7 +22,7 @@
         <div class="spacer" style="height:30px;"></div>
         <div class="row">
             <div class="col-sm-6"></div>
-            <button onclick="location.href='addmember.html'" type="button" class="btn btn-primary">Add Member</button>
+            <button onclick="location.href='addmember.php'" type="button" class="btn btn-primary">Add Member</button>
         </div>
         <div class="spacer" style="height:10px;"></div>
         <table class="table">
@@ -38,21 +38,31 @@
                 </tr>
             </thead>
             <tbody>
-                <div class="table-content" style="font-size: large;">
-                    <tr>
-                        <th scope="row">Dhruvi Jain</th>
-                        <td>CSI HEAD</td>
+                <?php
+                    require_once "config.php";
+                    session_start();
+                    $sql = "SELECT * FROM `coordinator`";
+                    $result= mysqli_query($conn,$sql);
+                    while($row = mysqli_fetch_assoc($result)) {
+                ?>
+                    <div class="table-content" style="font-size: large;">
+                        <tr>
+                            <th scope="row"><?php echo $row['name']; ?></th>
+                            <td><?php echo $row['duty']; ?></td>
 
-                        <td>
-                            <a target="_blank" href="images/Dhruvi-jain.jpg">
-                                <img src="images/Dhruvi-jain.jpg" alt="Forest" style="width:80px">
-                            </a>
-                        </td>
-                        <td> <button onclick="location.href='addmember.html'" type="button"
-                                class="btn btn-success">Edit</button> </td>
-                        <td><button type="button" class="btn btn-danger">Delete</button> </td>
-                    </tr>
-                </div>
+                            <td>
+                                <a target="_blank" href="images/Dhruvi-jain.jpg">
+                                    <img src="images/<?php echo $row['image']; ?>" alt="Forest" style="width:80px">
+                                </a>
+                            </td>
+                            <td> <button onclick="location.href='addmember.html'" type="button"
+                                    class="btn btn-success">Edit</button> </td>
+                            <td><button type="button" class="btn btn-danger">Delete</button> </td>
+                        </tr>
+                    </div>
+                <?php
+                    }
+                ?>
             </tbody>
         </table>
         <div class="spacer" style="height:30px;"></div>
