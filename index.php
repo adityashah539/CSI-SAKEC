@@ -205,7 +205,7 @@
 	<!-- Heading Section -->
 	<header>
 		<div id="home">
-			<img class="rolling" src="images/logo.png" alt="">
+			<img class="rolling" src="images/logo1.png" alt="">
 			<!-- <img class="roll-support1" src="images/settings.png" alt="">
 			<a href="#events"> <img class="rolling" src="images/settings.png" alt="events"></a>
 			<img class="roll-support2" src="settings.png" alt=""> -->
@@ -220,6 +220,7 @@
 	<div id="about">
 		<div class="container-fluid text-center">
 			<h1 class=" h1-responsive font-weight-bold my-5">About Us</h1>
+			<a href="about.php" class="btn btn-primary">Edit</a>
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
 				<div class="col-sm-6">
@@ -250,9 +251,9 @@
 	</div>
 	<div class="spacer" style="height:170px;"></div>
 	<!-- events -->
+	<div class="container">
 	<div id="events">
-		<div class="container">
-			<div class="spacer" style="height:50px;"></div>
+
 			<div class="row">
 				<h1>
 					Events
@@ -303,6 +304,7 @@
 	<div id="ourteam">
 		<section class="team-section text-center my-5">
 			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team</h1>
+			<a href="addmember.php" class="btn btn-primary">Edit</a>
 			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">
 				Student Council of CSI SAKEC includes different teams such as Design, Treasury, Registration, Technical, Events, Documentation and Publicity. These teams collectively work for all the events conducted by CS1 SAKEC under he guidance of Staff Coordinators for the benefit of all the members.
 			</p>
@@ -375,9 +377,10 @@
 				?>
 	<div class="spacer" style="height:45px;"></div>
 	<!-- Gallery -->
-	<div id="gallery"  style="background-color:black">
-	<div class="spacer" style="height:50px;"></div>
-		<h1 class="h1-responsive">Gallery</h1>
+	<div class="container">
+	<div id="gallery"> 
+		<h1 class="h1-responsive">Gallery</h1>      
+		<a href="gallery.php" class="btn btn-primary">Edit</a>
 		<hr class="line1">
 		<div class="spacer" style="height:30px;"></div>
 		<div class="container-fluid text-center">
@@ -425,6 +428,8 @@
 		</div>
 		<div class="spacer" style="height:15px;"></div>
 	</div>
+	</div>
+	<div class="spacer" style="height:50px;"></div>
 	<!-- Footer -->
 	<div id="contact">
 		<div class="footer">

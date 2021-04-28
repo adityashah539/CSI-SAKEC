@@ -99,7 +99,7 @@ body {
 }
 
 .navbar.navbar-dark .navbar-nav .nav-item .nav-link {
-  color: #f7e6b9;
+  color: #ffffff;
   -webkit-transition: .35s;
   transition: .35s;
 }
@@ -111,7 +111,7 @@ h1, h2, h3, h4 {
 header {
   margin-top: -65px;
   padding: 230px 0px;
-  background-image: linear-gradient(rgba(0, 0, 90, 0), rgba(0, 0, 0, 0.4)), url(../images/backgrouns.jfif);
+  background-image: linear-gradient(rgba(0, 0, 90, 0), rgba(0, 0, 0, 0.4)), url(../images/hologram.jpg);
   background-size: cover;
   background-position: center;
   color: rgb(170, 170, 170);
@@ -119,7 +119,7 @@ header {
 }
 
 header h3 {
-  color: #f7e6b9;
+  color: #ffffff;
   word-spacing: 4px;
 }
 
@@ -140,34 +140,8 @@ header h3 {
   height: 170px;
   width: auto;
   margin-bottom: 22px;
-  filter: brightness(0);
-  filter: invert(1);
-  /* animation: rolling 3.5s infinite ease-in-out;  */
-}
 
-/* .rolling
-{
-	height: 100px;
-	width: auto;
-	margin-bottom: 22px;
-	animation: rolling 3.5s infinite ease-in-out; 
 }
-.roll-support1
-{
-	height: 30px;
-	margin-bottom: 80px;
-	animation: rolling 3.5s infinite reverse;
-  
-} 
-
-@keyframes rolling {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
 
 header h1 {
   color: white;
@@ -199,17 +173,22 @@ header h1 {
 /*  background-image: linear-gradient(to top right, #ff7263,#ebfb65, #98f0ff);*/
 
 #events {
-  background-color: #000000;
+  background-color: #78b3f3;
   color: #ffffff;
+  padding: 72px;
+  border-radius: 76px;
 }
-
+#events  h1
+{
+  color:#fff;
+}
 hr.line1 {
-  border-top: 1px solid #66c0ec;
+  border-top: 1px solid #5a9ae0;
 }
-
 #events p {
   font-size: 16px;
-  font-family: 'Times New Roman', Times, serif;
+  color:#fff;
+  font-family: "Open Sans", Times, serif;
 }
 
 h1 {
@@ -241,11 +220,14 @@ h1 {
 }
 
 /***************************/
-
 .container {
   position: relative;
-  width: 50%;
+  width: 76%;
+  border-radius: 42px;
+  padding: 0px;
 }
+
+
 
 /********Team members mdbootstrap****/
 
@@ -284,10 +266,16 @@ h1 {
 	box-shadow:  20px 20px 60px #b3b8b8, 
 				 -20px -20px 60px #f3f8fa; */
 }
+#gallery
+{
+  background-color: #78b3f3;
+    border-radius: 47px;
+    padding: 61px;
+}
 
 #gallery h1 {
   font-size: 60px;
-  color: #66c0ec;
+  color: #ffffff;
   text-transform: uppercase;
   text-align: center;
 }
@@ -372,6 +360,14 @@ h1 {
 .footer, .list-group-item {
   background-color: #b8d9ff;
 }
+[type=submit]:not(:disabled), button:not(:disabled) {
+  cursor: pointer;
+  background: #5a9ae0;
+  color: white;
+  padding: 7px;
+  border-radius: 12px;
+  border: none;
+}
 
 /*************************************/
 
@@ -388,6 +384,30 @@ h1 {
   }
   .vl {
     margin-left: 51px;
+  }
+  #gallery
+{
+  background-color: #78b3f3;
+    border-radius: 47px;
+    padding:0px;
+}
+.container {
+  position: relative;
+  width: 100%;
+  border-radius: 42px;
+  padding: 0px;
+}
+}
+@media only screen and (max-width: 992px) {
+  
+  .default-color {
+    background-color: #000000 !important;
+  }
+  .container {
+    position: relative;
+    width: 100%;
+    border-radius: 42px;
+    padding: 0px;
   }
 }
 
@@ -418,7 +438,7 @@ h1 {
     text-shadow: -1px 1px rgb(155, 151, 151);
   }
   #about p {
-    font-size: 28px;
+    font-size: 20px;
   }
   #events p {
     font-size: 20px;
@@ -435,10 +455,5 @@ h1 {
   }
 }
 
-[type=submit]:not(:disabled), button:not(:disabled) {
-  cursor: pointer;
-  background: black;
-  color: white;
-  border: none;
-}
+
 
