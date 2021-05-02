@@ -57,10 +57,11 @@
                         $event_id = $_POST['event_id'];
                         $sql = "SELECT `budget`.`id` as `budget_id`,`userdata`.`id` as `user_id` FROM `budget`,`userdata` WHERE `event_id`='$event_id' AND `emailID` ='$email'";
                         $result = mysqli_query($conn, $sql);
+                        echo "<br>".$sql;
                         $row = mysqli_fetch_assoc($result);
                         $budget_id = $row["budget_id"];
                         $user_id = $row["user_id"];
-                        $sql = "INSERT INTO `collection`(`budget_id`,`user_id`,`bill_photo`,`confirmed`) VALUES ('$budget_id','$file_new_name','$user_id','0')";
+                        $sql = "INSERT INTO `collection`(`budget_id`,`user_id`,`bill_photo`,`confirmed`) VALUES ('$budget_id','$user_id','$file_new_name','0')";
                         $result = mysqli_query($conn, $sql);
                         header("location:event.php?event_id=$event_id");
                         // for testing 

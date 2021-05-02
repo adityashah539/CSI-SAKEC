@@ -64,7 +64,7 @@
 			$body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
 			$headers = "From: guptavan96@gmail.com";
 			$query= trim($_POST['mocp']);
-			if(isset($to_mail)){
+			if(isset($to_email)){
 				send_mail($to_email, $subject, $body, $headers);
 				if(strpos($to_email, "@sakec.ac.in")||strpos($to_email, "@gmail.com")){
 					$sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$query')";
@@ -205,7 +205,7 @@
 	<!-- Heading Section -->
 	<header>
 		<div id="home">
-			<img class="rolling" src="images/logo1.png" alt="">
+			<img class="rolling" src="images/logo.png" alt="">
 			<!-- <img class="roll-support1" src="images/settings.png" alt="">
 			<a href="#events"> <img class="rolling" src="images/settings.png" alt="events"></a>
 			<img class="roll-support2" src="settings.png" alt=""> -->
@@ -220,7 +220,12 @@
 	<div id="about">
 		<div class="container-fluid text-center">
 			<h1 class=" h1-responsive font-weight-bold my-5">About Us</h1>
-			<a href="about.php" class="btn btn-primary">Edit</a>
+		<?php 
+			if(isset($_SESSION['role'])&&($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'head coordinator'||$_SESSION['role'] === 'coordinator')){
+				echo'<a href="about.php" class="btn btn-primary">Edit</a>';
+			}
+		?>
+			
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
 				<div class="col-sm-6">
@@ -303,8 +308,12 @@
 	<div class="spacer" style="height:90px;"></div>
 	<div id="ourteam">
 		<section class="team-section text-center my-5">
-			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team</h1>
-			<a href="addmember.php" class="btn btn-primary">Edit</a>
+			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team </h1>
+		<?php 
+			if(isset($_SESSION['role'])&&($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'head coordinator'||$_SESSION['role'] === 'coordinator')){
+				echo'<a href="addmember.php" class="btn btn-primary">Edit</a>';
+			}
+		?>	
 			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">
 				Student Council of CSI SAKEC includes different teams such as Design, Treasury, Registration, Technical, Events, Documentation and Publicity. These teams collectively work for all the events conducted by CS1 SAKEC under he guidance of Staff Coordinators for the benefit of all the members.
 			</p>
@@ -379,37 +388,36 @@
 	<!-- Gallery -->
 	<div class="container">
 	<div id="gallery"> 
-		<h1 class="h1-responsive">Gallery</h1>      
-		<a href="gallery.php" class="btn btn-primary">Edit</a>
+		<h1 class="h1-responsive">Gallery</h1>     
+		<?php 
+			if(isset($_SESSION['role'])&&($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'head coordinator'||$_SESSION['role'] === 'coordinator')){
+				echo'<a href="gallery.php" class="btn btn-primary">Edit</a>';
+			}
+		?>
 		<hr class="line1">
 		<div class="spacer" style="height:30px;"></div>
 		<div class="container-fluid text-center">
 			<div class="row" >
-			
 				<div class="col-sm-12">
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
-							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 							<?php
-								$gallerysql = "SELECT * FROM `gallery`";
+								$gallerysql = "SELECT `image` FROM `gallery` WHERE `status`='1'";
 								$gallerysqlstmt = mysqli_query($conn, $gallerysql);
 								$number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
-								for($i = 1;$i < $number_of_images_gallery; $i++) {
+								for($i = 1;$i <= $number_of_images_gallery; $i++) {
 							?>
-									<li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $i;?>" class="active"></li>
+									<li data-target="#carouselExampleIndicators" data-slide-to="<?php echo ($i-1);?>" <?php if(($i-1)==0)echo 'class="active"';?>></li>
 							<?php
 								}
 							?>
 						</ol>
 						<div class="carousel-inner">
 							<?php
-								$row = mysqli_fetch_assoc($gallerysqlstmt)
+								for($i = 1;$i <= $number_of_images_gallery; $i++) {
+									$row = mysqli_fetch_assoc($gallerysqlstmt)
 							?>
-									<div class="carousel-item active"><img class="d-block w-100" src="images/<?php echo $row['image'];?>" alt="First slide"></div>
-							<?php
-								while($row = mysqli_fetch_assoc($gallerysqlstmt)) {
-							?>
-									<div class="carousel-item"><img class="d-block w-100" src="images/<?php echo $row['image'];?>" alt="First slide"></div>
+									<div class="carousel-item <?php if(($i-1)==0) echo ' active';?>"><img class="d-block w-100" src="Gallery/<?php echo $row['image'];?>" alt="No Image"></div>
 							<?php
 								}
 							?>

@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
-    <title>Expense</title>
+    <title>Event Confirmation</title>
     <?php
         if($_SERVER['REQUEST_METHOD']=='POST'){
             if(isset($_POST['confrim_payment'])&&$_POST['confrim_payment']=="confrim_payment"){
@@ -25,7 +25,7 @@
 <body>
     <div class="spacer" style="height:10px;"></div>
     <header>
-        <h2 style="text-align: center;">Expense</h2>
+        <h2 style="text-align: center;">Event Confirmation</h2>
     </header>
     <div class="spacer" style="height:10px;"></div>
     <table class="table">
@@ -64,7 +64,7 @@
                     <td>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                             <input type="hidden" name="budget_id" value="<?php echo $row['id']; ?>"/>
-                            <button type="submit" value="confrim_payment" name ="confrim_payment"class="btn btn-success" >Confirm</button>
+                            <button type="submit" value="confrim_payment" name ="confrim_payment" class="btn btn-success">Confirm</button>
                         </form> 
                     </td>
                     <td>

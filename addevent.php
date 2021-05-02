@@ -77,6 +77,7 @@
                     mysqli_query($conn, $sql);
                     move_uploaded_file($_FILES["e_banner"]["tmp_name"],$folder_name_banner.$e_banner);
                     $last_entry= mysqli_insert_id($conn);
+                    $sql="INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES (,,,)";
                     $index=1;
                     while(isset($_POST['phone'.$index.'number'])&&isset($_POST['phone'.$index.'name'])){
                         $phonenmber= $_POST['phone'.$index.'number'];

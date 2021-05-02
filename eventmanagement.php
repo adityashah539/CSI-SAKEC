@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/admin.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
-    <title>Database</title>
     <title>Manage Event</title>
     <?php
         require_once "config.php";
@@ -135,7 +134,10 @@
                             ?>
                                 <td>
                                     <div id = "live" >
-                                        <button type="submit" onclick="" valueclass="btn btn-success">Live</button>
+                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                            <input type="hidden" name="disable_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" class="btn btn-success">Live</button>
+                                        </form>
                                     </div>                             
                                 </td>
                         <?php
@@ -144,8 +146,8 @@
                             ?>
                                 <td>
                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                                    <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
-                                    <button type="submit" class="btn btn-danger"> Disabled</button>
+                                        <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
+                                        <button type="submit" class="btn btn-danger"> Disabled</button>
                                     </form>
                                 </td>
                         <?php

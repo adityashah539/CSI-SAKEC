@@ -1,6 +1,5 @@
   <!DOCTYPE html>
   <html lang="en">
-
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,7 +136,6 @@
                         }
                   ?>
                           </div>
-                        </div>
                       </div>
       
                   <?php
@@ -165,7 +163,6 @@
                         }
                   ?>
                           </div>
-                        </div>
                       </div>
                   <?php
                     }else if ($number_of_images_gallery % 3 == 2) {

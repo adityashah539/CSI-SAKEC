@@ -41,7 +41,6 @@
 </head>
 <body>
     <?php
-    echo "before date section";
     if ($_SESSION['var'] == 0) {
         echo "after date section";
     ?>
@@ -120,7 +119,7 @@
                                 <td></td>
                             </tr>
                         <?php
-                            $sqlR = "SELECT `e_id`, `s_on`, `bill_amount` FROM `expences` WHERE budget_id='$id'";
+                            $sqlR = "SELECT `id`, `spent_on`, `bill_amount` FROM `expences` WHERE budget_id='$id'";
                             //$sql = "SELECT title,id,e_from_date FROM `event`";
                             $queryR = mysqli_query($conn, $sqlR);
                             $rowsR = mysqli_num_rows($queryR);
