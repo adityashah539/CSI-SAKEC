@@ -43,10 +43,11 @@
 			</SCRIPT>";
 		}
 		function send_mail($to_email, $subject, $body, $headers){
+			echo $to_email;
 			if (mail($to_email, $subject, $body, $headers)) {
-				function_alert("Email successfully sent to".$to_email."...");  
+				echo "Email successfully sent to $to_email...";
 			} else {
-				function_alert("Email sending failed..."); 
+				echo "Email sending failed...";
 			}
 		}
 		//full form of abrevations are as follows
@@ -139,7 +140,9 @@
 						echo '<li class="nav-item">';
 						echo '<a class="nav-link" href="confirmeventregistration.php">Confirm Event Registration</a>';
 						echo '</li>';
-						
+						echo '<li class="nav-item">';
+						echo '<a class="nav-link" href="gallery.php">Gallery</a>';
+						echo '</li>';
 					}
 					else if($_SESSION['role']==='head coordinator')
 					{
@@ -402,7 +405,7 @@
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							<?php
-								$gallerysql = "SELECT `image` FROM `gallery` WHERE `status`='1'";
+								$gallerysql = "SELECT `image` FROM `gallery` WHERE `status`=1";
 								$gallerysqlstmt = mysqli_query($conn, $gallerysql);
 								$number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
 								for($i = 1;$i <= $number_of_images_gallery; $i++) {
@@ -417,7 +420,7 @@
 								for($i = 1;$i <= $number_of_images_gallery; $i++) {
 									$row = mysqli_fetch_assoc($gallerysqlstmt)
 							?>
-									<div class="carousel-item <?php if(($i-1)==0) echo ' active';?>"><img class="d-block w-100" src="Gallery/<?php echo $row['image'];?>" alt="No Image"></div>
+									<div class="carousel-item <?php if(($i-1)==0) echo ' active';?>"><img class="d-block w-100" src="images/<?php echo $row['image'];?>" alt="No Image"></div>
 							<?php
 								}
 							?>

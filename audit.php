@@ -17,32 +17,31 @@
         }
     </style>
     <?php
-    require_once "config.php";
-    session_start();
-    function function_alert($message)
-    {
-        echo"<SCRIPT>alert('$message');</SCRIPT>";
-    }
-    //$html = preg_replace('#<div id="desc">(.*?)</div>#', '', $html);
-    //$html = preg_replace('#<button id="btnExport">(.*?)</button>#', '', $html);
-    // downloads excell sheet
-    if (($_SERVER['REQUEST_METHOD'] == "POST") && ($_SESSION['var'] == 2)) {
-        if (isset($_POST["export"])) {
-            echo '<script>
-                document.getElementById("btnExport").style.display = "none";
-        </script>';
-            $filename = "AUDIT".time().".xls";
-            header("Content-Type: application/vnd.ms-excel");
-            header("Content-Disposition: attachment; filename=\"$filename");
+        require_once "config.php";
+        session_start();
+        function function_alert($message)
+        {
+            echo"<SCRIPT>alert('$message');</SCRIPT>";
         }
-        $_SESSION['var'] = 1;
-    }
+        //$html = preg_replace('#<div id="desc">(.*?)</div>#', '', $html);
+        //$html = preg_replace('#<button id="btnExport">(.*?)</button>#', '', $html);
+        // downloads excell sheet
+        if (($_SERVER['REQUEST_METHOD'] == "POST") && ($_SESSION['var'] == 2)) {
+            if (isset($_POST["export"])) {
+                echo '<script>
+                    document.getElementById("btnExport").style.display = "none";
+            </script>';
+                $filename = "AUDIT".time().".xls";
+                header("Content-Type: application/vnd.ms-excel");
+                header("Content-Disposition: attachment; filename=\"$filename");
+            }
+            $_SESSION['var'] = 1;
+        }
     ?>
 </head>
 <body>
     <?php
-    if ($_SESSION['var'] == 0) {
-        echo "after date section";
+        if ($_SESSION['var'] == 0) {
     ?>
         <div id="toDate">
             <h3>Choose a date</h3>
@@ -57,10 +56,12 @@
 
         </div>
     <?php
-    }
-    ?>
-    <?php
-    if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION['var'] == 1)) {
+        }
+        if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION['var'] == 1)) {
+            $from_date = $_POST["from"];
+            $to_date = $_POST["to"];
+            $sql = "";
+            $query = mysqli_query($conn, $sql);
     ?>
     <header>
         <h2 style="text-align: center;">Audit</h2>
@@ -73,116 +74,65 @@
                         <th scope="col" rowspan="2">SR .NO</th>
                         <th scope="col" rowspan="2">EVENT NAME </th>
                         <th scope="col" rowspan="2">EVENT DATE</th>
-                        <th scope="col" colspan="2">AMOUNT COLLECTED FROM PARTICIPANTS</th>
-                        <th scope="colgroup" colspan="2"> AMOUNT SPENT</th>
-                        <th scope="col" rowspan="2">PROFIT/LOSS</th>
+                        <th scope="col" rowspan="2">CONDUCTED BY / SPEAKER</th>
+                        <th scope="col" rowspan="2">SPEAKER ORGANIZATION</th>
+                        <th scope="col" rowspan="2">IN COLLABB(DEPT NAME / CELL NAME)</th>
+                        <th scope="col" rowspan="2">DESCRIPTION</th>
+                        <th scope="col" colspan="9">NO OF PARTICIPANTS</th>
+                        <!-- <th scope="col" rowspan="2">PROFIT/LOSS</th> -->
                     </tr>
                     <tr>
-                        <th scope="col">FROM MEMBERS </th>
-                        <th scope="col">FROM NON MEMBERS</th>
-                        <th scope="col">ITEM</th>
-                        <th scope="col">AMOUNT</th>
+                        <th scope="col">COMPUTER</th>
+                        <th scope="col">IT</th>
+                        <th scope="col">ELECTRONICS</th>
+                        <th scope="col">EXTC</th>
+                        <th scope="col">AI - DS</th>
+                        <th scope="col">ECS</th>
+                        <th scope="col">CYBER - SEC</th>
+                        <th scope="col">EXTERNAL</th>
+                        <th scope="col">TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    //$startDate = "2021-01-01";
-                    $startDate =$_POST["from"];
-                   // $endDate = "2021-04-02";
-                    $endDate =$_POST["to"];
-                    $sr_no = 1;
-                    $sql = "SELECT * FROM `event` WHERE e_from_date >= '$startDate' AND e_from_date <= '$endDate'";
-                    // echo "</br>".$sql."</br>";
-                    //$sql = "SELECT title,id,e_from_date FROM `event`";
-                    $query = mysqli_query($conn, $sql);
-                    $row = mysqli_num_rows($query);
-                    if ($row > 0) {
-                        while ($rows = mysqli_fetch_assoc($query)) {
-                            $id = $rows['id'];
-                            $spend = 0;
-                            $collection = 0;
-                            // query to fetch amount collected from members and non members
-                            $sql1 = "SELECT `id`, `event_id`, `collection`, `expense`, `balance` FROM `budget` WHERE event_id='$id'";
-                            $query1 = mysqli_query($conn, $sql1);
-                            $rows1 = mysqli_num_rows($query1);
-                            $rows1A = mysqli_fetch_assoc($query1)
-                    ?>
-                            <tr>
-                                <td <?php echo "rowspan='" . $rows1 . "'"; ?>> <?php echo $sr_no;$sr_no += 1; ?> </td>
-                                <td <?php echo "rowspan='" . $rows1 . "'"; ?>> <?php echo $rows["title"]; ?> </td>
-                                <td <?php echo "rowspan='" . $rows1 . "'"; ?>> <?php echo $rows["e_from_date"]; ?> </td>
-                                <!-- from databse of amount collected from member and nonmembers -->
-                                <td colspan="1" <?php echo "rowspan=" . $rows1; ?>> <?php $collection+=$rows1A["collection"]; echo $rows1A["collection"]; ?> </td>
-                                <td colspan="1" <?php echo "rowspan=" . $rows1; ?>> <?php echo $rows1A["balance"]; ?> </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        <?php
-                            $sqlR = "SELECT `id`, `spent_on`, `bill_amount` FROM `expences` WHERE budget_id='$id'";
-                            //$sql = "SELECT title,id,e_from_date FROM `event`";
-                            $queryR = mysqli_query($conn, $sqlR);
-                            $rowsR = mysqli_num_rows($queryR);
-                            //$rows1 = mysqli_fetch_assoc($query1);
-                            while ($rowsR = mysqli_fetch_assoc($queryR)) {
-                        ?>
-                                <!-- amount spend -->
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td> <?php echo $rowsR["s_on"]; ?></td>
-                                    <td> <?php $spend += $rowsR["bill_amount"];echo $rowsR["bill_amount"]; ?></td>
-                                    <td></td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <th>Total</th>
-                                <td><?php echo $collection; ?></td>
-                                <th>Total</th>
-                                <td><?php echo $spend; ?></td>
-                                <td><?php $pl = ($collection - $spend);
-                                    echo $pl; ?></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                <?php
-                        }
-                    } else {
-                        echo "No data";
+    <?php
+                    for($index = 1; $row = mysqli_fetch_assoc($gallerysqlstmt); $index++) {
+    ?>
+                    <tr>
+                        <td><?php echo $index;?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row[''];?></td>
+                    </tr>
+    <?php
                     }
-                }
-                ?>
-
+    ?>
                 </tbody>
             </table>
-            <?php
-            if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION['var'] == 1)) {
-            ?>
+    <?php
+        }
+        if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION['var'] == 1)) {
+    ?>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <button onclick="a()" type="submit" id="btnExport" name='export' class="btn btn-info">
                         Export to excel
                     </button>
                 </form>
-            <?php
+    <?php
                 $_SESSION['var'] = 2;
-            }
-            ?>
+        }
+    ?>
         </div>
 
         </table>
