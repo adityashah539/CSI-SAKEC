@@ -1,6 +1,5 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
-
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,64 +20,60 @@
     <?php 
         require_once "config.php";
         session_start();
-        echo "before if";
-        if (($_SERVER['REQUEST_METHOD']) == "POST" && ($_SESSION['var']==1)) {
-          $_SESSION['var']=0;
-          //if(isset($_POST['insert'])){
-            // if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
-                $phpFileUploadErrors = array(
-                    0 => 'There is no error, the file uploaded with success',
-                    1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                    2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                    3 => 'The uploaded file was only partially uploaded',
-                    4 => 'No file was uploaded',
-                    6 => 'Missing a temorary folder',
-                    7 => 'Failed to write file to disk,', 
-                    8 => 'A PHP extension stopped the file upload.',
-                ); 
-                $extensions= array('jpg','jpeg','png');
-                $index=1;
-                while(isset($_POST['image'.$index]))
-                {
-                    $bill_photo = $_FILES["image".$index]["name"];
-                    if(!$bill_photo){break;}
-                    echo $bill_photo;
-                    $file_ext_bill=explode(".", $_FILES['image'.$index]["name"]);
-                    $file_ext_bill=end($file_ext_bill);
-                    if (in_array($file_ext_bill,$extensions)){
-                        $folder_name_bill="images/";
-                        //$sql = "INSERT INTO `gallery`(`image`) VALUES ('$bill_photo')";
-                        $sql="INSERT INTO `gallery`(`image`, `status`) VALUES ('$bill_photo','active')";
-                        $stmt = mysqli_query($conn, $sql);
-                        move_uploaded_file($_FILES["image".$index]["tmp_name"],$folder_name_bill.$bill_photo);
-                        if($_FILES["image".$index]["error"]!=0){
-                            $err =  $phpFileUploadErrors[$_FILES["bill".$index."photo"]["error"]];
-                            break;
-                        }
-                    }else{
-                        // function_alert("Extention of file should be jpg,jpeg,png.");
-                    }
-                    $index++;
-                }
-            // }else{
-            //     function_alert("You have to be admin or cooridinator");
-            // }
-        //}
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['insert'])){
+          if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
+              $phpFileUploadErrors = array(
+                  0 => 'There is no error, the file uploaded with success',
+                  1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+                  2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+                  3 => 'The uploaded file was only partially uploaded',
+                  4 => 'No file was uploaded',
+                  6 => 'Missing a temorary folder',
+                  7 => 'Failed to write file to disk,', 
+                  8 => 'A PHP extension stopped the file upload.',
+              ); 
+              $extensions= array('jpg','jpeg','png');
+              $index=1; 
+              while(isset($_POST['uploadimg'.$index])){
+                  $gallery_photo = $_FILES["image".$index]["name"];
+                  $file_ext_gallery=explode(".", $_FILES['image'.$index]["name"]);
+                  $file_ext_gallery=end($file_ext_gallery);
+                  if (in_array($file_ext_gallery,$extensions)){
+                      $folder_name_gallery="images/";
+                      $sql="INSERT INTO `gallery`(`image`, `status`) VALUES ('$gallery_photo',1)";
+                      $stmt = mysqli_query($conn, $sql);
+                      move_uploaded_file($_FILES["image".$index]["tmp_name"],$folder_name_gallery.$gallery_photo);
+                      if($_FILES["image".$index]["error"]!=0){
+                          $err =  $phpFileUploadErrors[$_FILES["image".$index]["error"]];
+                          //break;
+                      }
+                  }else{
+                      function_alert("Extention of file should be jpg,jpeg,png.");
+                  }
+                  $index++;
+              }
+          }/*else{
+              function_alert("You have to be admin or cooridinator");
+          }*/
       }
-      else {
-        echo "not in if condition";
-        echo isset($_POST['insert']);
-      }
-    ?> 
-    <?php
-      if ($_SERVER['REQUEST_METHOD'] == "POST"&&$_SESSION['var']=2){
-        $_SESSION['var']=0;
-        //if(isset($_POST['disable'])){
-          $image=$_FILES["image".$index]["name"];
-            $sql="UPDATE `gallery` SET `status`='inactive' WHERE `image`='$image'";
-            $stmt = mysqli_query($conn, $sql);
-        //}
-      }
+      if ($_SERVER['REQUEST_METHOD'] == "POST" && ($_SESSION['role']==='admin'||$_SESSION['role']==='c')) {
+        if(isset($_POST['enable_id_btn'])){
+          $id=$_POST['enable_id'];
+          $sql = "UPDATE gallery SET status=1 WHERE id=".$id;
+          $query = mysqli_query($conn, $sql);
+        }
+        else if(isset($_POST['disable_id_btn'])){
+          $id=$_POST['disable_id'];
+          $sql = "UPDATE gallery SET status=0 WHERE id=".$id;
+          $query = mysqli_query($conn, $sql);
+        }
+        else if(isset($_POST['delete_id_btn']))
+        {
+          $id = $_POST['delete_id'];
+          $sql = "DELETE FROM `gallery` WHERE id=".$id;
+          $query = mysqli_query($conn, $sql);
+        }
+    }
     ?>
   </head>
 
@@ -109,7 +104,7 @@
         <!-- Single item -->
         
         <?php
-                    $gallerysql = "SELECT * FROM `gallery` WHERE status = 'active'";
+                    $gallerysql = "SELECT * FROM `gallery`";
                     $gallerysqlstmt = mysqli_query($conn, $gallerysql);
                     $number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
                     $j = 0;
@@ -125,24 +120,38 @@
                   ?>
                             <div class="col-lg-4">
                               <div class="card">
-                              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
                                 <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                 <div class="card-body">
-                                  <button name = "disable<?php echo $j; ?>" class="btn btn-primary">Disable</a>
+                                  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                  <?php
+                                      if($row['status'] == 1){
+                  ?>
+                                          <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='disable_id_btn' class='btn btn-warning'>Disable</button>
+                  <?php
+                                      }else{
+                  ?>
+                                          <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='enable_id_btn'  class='btn btn-primary'>Enable</button>
+                  <?php
+                                      }
+                  ?>              
+                                    <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
+                                    <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>                           
+                                  </form>
                                 </div>
-                              </form>
                               </div>
                             </div>
                   <?php
                         }
                   ?>
+                            </div>
                           </div>
-                        </div>
                       </div>
       
                   <?php
                     }
-                    if ($number_of_images_gallery % 3 == 0) {
+                    if ($number_of_images_gallery % 3 == 0 && $number_of_images_gallery >=3) {
                   ?>
                     <div class="carousel-item active">
                       <div class="container">
@@ -153,18 +162,32 @@
                   ?>
                             <div class="col-lg-4">
                               <div class="card">
-                              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
-                                <img name = "<?php echo $row['id'];?>" src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                 <div class="card-body">
-                                  <button name = "disable<?php echo $j; ?>" class="btn btn-primary">Disable</a>
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                  <?php
+                                      if($row['status'] == 1){
+                  ?>
+                                          <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='disable_id_btn' class='btn btn-warning'>Disable</button>
+                  <?php
+                                      }else{
+                  ?>
+                                          <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='enable_id_btn'  class='btn btn-primary'>Enable</button>
+                  <?php
+                                      }
+                  ?>              
+                                    <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
+                                    <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>                           
+                                  </form>
                                 </div>
-                              </form>
                               </div>
                             </div>
                   <?php
                         }
                   ?>
-                          </div>
+                         </div>
                         </div>
                       </div>
                   <?php
@@ -180,19 +203,33 @@
                   ?>
                              <div class="col-lg-4">
                               <div class="card">
-                              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
-                                <img name = "<?php echo $row['id'];?>" src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                 <div class="card-body">
-                                  <button name = "disable<?php echo $j; ?>" class="btn btn-primary">Disable</a>
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                  <?php
+                                      if($row['status'] == 1){
+                  ?>
+                                          <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='disable_id_btn' class='btn btn-warning'>Disable</button>
+                  <?php
+                                      }else{
+                  ?>
+                                          <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='enable_id_btn'  class='btn btn-primary'>Enable</button>
+                  <?php
+                                      }
+                  ?>              
+                                    <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
+                                    <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>                           
+                                  </form>
                                 </div>
-                              </form>
                               </div>
                             </div>
                   <?php
                         }
                   ?>
+                          </div>
                         </div>
-                      </div>
                       </div>
                   <?php
                         }else if ($number_of_images_gallery % 3 == 1){
@@ -201,15 +238,29 @@
                       <div class="carousel-item active">
                         <div class="container">
                           <div class="row">
-                          <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
                             <div class="col-lg-4">
                               <div class="card">
-                              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
-                                <img name = "<?php echo $row['id'];?>" src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                 <div class="card-body">
-                                  <button name = "disable<?php echo $j; ?>" class="btn btn-primary">Disable</a>
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                  <?php
+                                      if($row['status'] == 1){
+                  ?>
+                                          <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='disable_id_btn' class='btn btn-warning'>Disable</button>
+                  <?php
+                                      }else{
+                  ?>
+                                          <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
+                                          <button type='submit'  name='enable_id_btn'  class='btn btn-primary'>Enable</button>
+                  <?php
+                                      }
+                  ?>              
+                                    <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
+                                    <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>                           
+                                  </form>
                                 </div>
-                              </form>
                               </div>
                             </div>
                           </div>
@@ -226,16 +277,17 @@
     <h2 class="text-center">Add images in Gallery </h2>
     <div class="spacer" style="height:20px;"></div>
     <div class="container text-center">
-      <form action="">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
         <label class="form-label" for="customFile">Choose an image</label>
         <div class="form-group">
         <div class="input-group phone-input">
-        <input name="getFile" type="file" class="form-control" id="customFile" />
+        <input type="hidden" name="uploadimg1">
+        <input name="image1" type="file" class="form-control" id="customFile" required  />
               </div>
               </div>
         <div class="spacer" style="height:20px;"></div>
         <button class="btn btn-primary btn-sm btn-add-phone">Add</button> <br> <br>
-        <button class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" name="insert" >Submit</button>
       </form>
     </div>
     <div class="spacer" style="height:40px;"></div>
@@ -261,10 +313,12 @@
                     '<div class="deletephone">' +
                    ' <div class="spacer" style="height:20px;"></div>'+
                             '<div class="row">' +
-                                
-                                '<div class="col-sm-10">' +
-                                    '<input name="getFile" type="file" class="form-control" id="customFile" required>' +
+                                  '<div class="col-sm-10">' +
+                                    '<div class="input-group phone-input">'+
+                                      '<input type="hidden" name="uploadimg'+index+'" value="'+index+'">'+
+                                      '<input name="image'+index+'" type="file" class="form-control" id="customFile" required>' +
                                     '</div>' +
+                                  '</div>' +
                                     '<div class="col-sm-2">' +
                                     '<span  class="input-group-btn">' +
                                             '<button class="btn btn-danger btn-remove-phone" type="button"><i class="fas fa-times"></i></button>' +

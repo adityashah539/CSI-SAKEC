@@ -113,4 +113,67 @@ input[id='myInput'] {
         position: fixed;
     }
 }
+#summary p
+{
+  width: 300px;
+  height: auto;
+}
+#s-description p
+{
+  width: 250px;
+  height: auto;
+}
+#summary {
+  font-size: 14px;
+  line-height: 1.5;
+}
 
+#summary p.collapse:not(.show) {
+    height: 50px !important;
+    width: 70px;
+    overflow: hidden;
+  
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+}
+
+#summary p.collapsing {
+    min-height: 42px !important;
+}
+
+#summary a.collapsed:after  {
+    content: '+ Read More';
+    
+}
+
+#summary a:not(.collapsed):after {
+    content: '- Read Less';
+}
+
+#s-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#s-description p.collapse:not(.show) {
+    height: 50px !important;
+    width: 70px;
+    overflow: hidden;
+  
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+}
+
+#s-description p.collapsing {
+    min-height: 42px !important;
+}
+
+#s-description a.collapsed:after  {
+    content: '+ Read More';
+}
+
+#s-description a:not(.collapsed):after {
+    content: '- Read Less';
+}

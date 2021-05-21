@@ -104,7 +104,6 @@
       
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="bi_e" value="<?php if(isset($_GET['bi_e'])){echo $_GET['bi_e'];}?>">
-
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-5">
