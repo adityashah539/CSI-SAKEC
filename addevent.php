@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
+        integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
     <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <title> Add Event</title>
     <?php 
@@ -37,7 +43,7 @@
                 if(isset($_FILES["s_photo"]["name"])){
                     $file_ext_s_photo=explode(".", $_FILES["s_photo"]["name"]);
                     $file_ext_s_photo_banner=end($file_ext_s_photo);
-                    if(in_array($file_ext_s_photo_banner,$extensions)){
+                    if(!in_array($file_ext_s_photo_banner,$extensions)){
                         $ext_error=false;
                     }
                     $s_photo = $_FILES["s_photo"]["name"];
@@ -57,9 +63,10 @@
                 }
                 $file_ext_banner=explode(".", $_FILES["e_banner"]["name"]);
                 $file_ext_banner=end($file_ext_banner);
-                if(in_array($file_ext_banner,$extensions)){
+                if(!in_array($file_ext_banner,$extensions)){
                     $ext_error = false;
                 }
+                //echo $file_ext_banner.'<br>'.$file_ext_s_photo_banner.'<br>'.$ext_error;
                 if ($ext_error){
                     $title=$_POST['title']; 
                     $subtitle=$_POST['subtitle'];
@@ -91,8 +98,10 @@
                     if($s_photo!==null){
                         move_uploaded_file($_FILES["s_photo"]["tmp_name"],$folder_name_speaker.$s_photo);
                     }
-                    if(!$ext_error&&$_FILES["e_banner"]["error"]==0&&$_FILES["e_banner"]["error"]==0)
+                    if($ext_error&&$_FILES["e_banner"]["error"]==0&&$_FILES["s_photo"]["error"]==0)
                     {
+                        $sql="INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')";
+                        mysqli_query($conn, $sql);
                         function_alert("Your enter is made.");
                     }else{
                         echo $phpFileUploadErrors[$_FILES["e_banner"]["error"]];
@@ -252,19 +261,28 @@
                 
                 <div class="form-group">
                     <div class="col-sm-5">
-                    <label class="control-label">Contact Name :</label>
+                        <div class="labels">
+                            <label class="control-label">Contact Name :</label>
+                        </div>
+                    
                     </div>
                     <div class="col-sm-7">
-                        <input type="text" name="phone1name" class="form-control">
+                        <div class="texts">
+                            <input type="text" name="phone1name" class="form-control">
+                        </div>
                     </div>
          
                     <div class="col-sm-5">
-                    <label class="control-label">Phone number :</label>
+                        <div class="labels">
+                            <label class="control-label">Phone number :</label>
+                        </div>
                     </div>
                     <div class="col-sm-7">
                         <div class="phone-list">
                             <div class="input-group phone-input">
-                                <input type="number" name="phone1number" id="phone1number" class="form-control" placeholder="+91 999 999 9999" />
+                                <div class="texts">
+                                    <input type="number" name="phone1number" id="phone1number" class="form-control" placeholder="+91 999 999 9999" />
+                                </div>
                             </div>
                         </div>
                         <button type="button" class="btn btn-success btn-sm btn-add-phone"><span class="glyphicon glyphicon-plus"></span> Add Phone</button>
@@ -331,6 +349,7 @@
             <button type="submit" class="btn btn-primary">Sumbit</button>
             <div class="spacer" style="height:40px;"></div>
         </form>
+        <div class="spacer" style="height:40px;"></div>
         <div class="footer">
             <div class="spacer" style="height:2px;"></div>
             <a href="index.php"><i class="fas fa-home"></i></a>
@@ -389,17 +408,25 @@
             $('.form-group').append(''+
             '<div class="deletephone">'+
           '  <div class="col-sm-5">'+
+          '<div class="labels">'+
            ' <label class=" control-label">Contact Name :</label>'+
            '</div>'+
+           '</div>'+
                    ' <div class="col-sm-7">'+
+                   '<div class="text">'+
                       '  <input type="text" name="phone'+index+'name" class="form-control">'+
+                      '</div>'+
                '</div>'+
                '  <div class="col-sm-5">'+
+               '<div class="labels">'+
                ' <label class=" control-label">Phone Number :</label>'+
+               '</div>'+
                '</div>'+
                ' <div class="col-sm-7">'+
                     '<div class="input-group phone-input">'+
-                        '<input type="number" name="phone'+index+'number" class="form-control" placeholder="+91 999 999 9999" />'+
+                    '<div class="text">'+
+                        '<input type="number" name="phone'+index+'number" class="form-control" placeholder="999 999 9999" />'+
+                        '</div>'+
                         '<span class="input-group-btn">'+
                             '<button class="btn btn-danger btn-remove-phone" type="button"><span class="glyphicon glyphicon-remove"></span></button>'+
                         '</span>'+
