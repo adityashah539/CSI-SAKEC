@@ -13,7 +13,7 @@
     <?php
         if($_SERVER['REQUEST_METHOD']=='POST'){
             if(isset($_POST['confrim_payment'])&&$_POST['confrim_payment']=="confrim_payment"){
-
+                
             }
             else if(isset($_POST['delete_payment'])&&$_POST['delete_payment']=="delete_payment"){
                 

@@ -93,72 +93,7 @@
             <h4>Register For The Event</h4>
             <p>Fill all the fields carefully</p>
             <hr>
-            <div class="spacer" style="height:35px;"></div>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="">Membership period :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <select name="member_period" class="custom-select mb-3" required="required">
-                                <option selected disabled>Select Year</option>
-                                <option value="1">One Year</option>
-                                <option value="2">Two Year</option>
-                                <option value="3">Three Year</option>
-                                <option value="4">Four Year</option>
-                                <option value="5">Life</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="spacer" style="height:20px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="birthday">Date of Birth :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="date" id="birthday" name="birthday">
-                        </div>
-                    </div>
-                </div>
-                <div class="spacer" style="height:35px;"></div>
-                <div class="row">
-
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="type">Gender :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="radio" id="male" name="gender" value="male">
-                            <label for="male">Male</label>
-                            <input style="margin-left:25px ;" type="radio" id="female" name="gender" value="female">
-                            <label for="Female">Female</label>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="spacer" style="height:20px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="rnumber">College Registration Number :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="number" id="rnumber" name="registration_number" value="" required="required">
-                            <small id="rnumberlHelp" class="form-text text-muted">As printed on your ID card</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="spacer" style="height:40px;"></div>
+            
                 <div class="row">
                     <div class="col-sm-12">
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data">

@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <title>Manage Event</title>
     <?php
         require_once "config.php";
@@ -49,22 +48,41 @@
     ?>
 </head>
 <body>
-    <div class="spacer" style="height:10px;"></div>
     <header>
         <h2 style="text-align: center;">Manage Events</h2>
     </header>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-        <div class="input-group">
-            <div class="form-outline">
-                <input type="search" id="form1" name = "search" class="form-control" autocomplete="off"/>
-                <label class="form-label" for="form1">Search</label>
-            </div>
-            <button id="search-button" type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </form>
-    <div class="spacer" style="height:10px;"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="index.php">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="addevent.php">Add Event</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="attendance.php">Attendents</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="permission.php">Permission Letter</a>
+				</li>
+			</ul>
+            
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <div class="input-group">
+                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off"/>
+                        <button id="search-button" type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+			</ul>
+		</div>
+	</nav>
     <table class="table">
         <thead class="table-head">
             <tr>
@@ -153,7 +171,7 @@
                         <?php
                             }
                         ?>
-                        <td>             
+                            <td>             
                                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                                     <input type="hidden" name="delete_id_event" value="<?php echo $row['id']; ?>">
                                     <button type="submit" name="delete_event_btn" class="btn btn-danger"> Delete</button>
@@ -176,11 +194,11 @@
         </tbody>
     </table>
     <div class="spacer" style="height:30px;"></div>
-    <div class="container text-center">
+    <!-- <div class="container text-center">
         <a href="addevent.php">
             <button type="button" class="btn btn-primary" >Add Event</button>    
         </a>
-    </div>
+    </div> -->
     <div class="spacer" style="height:10px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>

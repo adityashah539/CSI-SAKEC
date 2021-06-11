@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <title>Query</title>
     <?php
+    session_start();
     require_once "config.php";
     function function_alert($message){
         echo"<SCRIPT>
@@ -27,7 +28,7 @@
         $email_replied_by = $_SESSION['email'];
         $query=   $row['c_query'];
         $reply =$_POST['Msg']; 
-        $sql = "INSERT INTO reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$email','$query','$reply','$email_replied_by')";
+        $sql = "INSERT INTO reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$c_email','$query','$reply','$email_replied_by')";
         $query = mysqli_query($conn, $sql);
         $sql = "DELETE FROM query WHERE id='$id' ";
         $query = mysqli_query($conn, $sql);
@@ -56,8 +57,6 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
                 <?php
-                    require_once "config.php";
-                    session_start();
                     if(isset($_SESSION["email"])){
                         if($_SESSION["role"]==='admin'||$_SESSION["role"]==='c'){
                             $sql = 'SELECT * FROM query';

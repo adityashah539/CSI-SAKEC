@@ -23,20 +23,18 @@
         {
             echo"<SCRIPT>alert('$message');</SCRIPT>";
         }
+        /*
         //$html = preg_replace('#<div id="desc">(.*?)</div>#', '', $html);
         //$html = preg_replace('#<button id="btnExport">(.*?)</button>#', '', $html);
         // downloads excell sheet
-        if (($_SERVER['REQUEST_METHOD'] == "POST") && ($_SESSION['var'] == 2)) {
-            if (isset($_POST["export"])) {
+        if (($_SERVER['REQUEST_METHOD'] == "POST") && (isset($_POST["export"]))) {
                 echo '<script>
                     document.getElementById("btnExport").style.display = "none";
             </script>';
                 $filename = "AUDIT".time().".xls";
-                header("Content-Type: application/vnd.ms-excel");
-                header("Content-Disposition: attachment; filename=\"$filename");
-            }
-            $_SESSION['var'] = 1;
-        }
+               // header("Content-Type: application/vnd.ms-excel");
+                //header("Content-Disposition: attachment; filename=\"$filename");
+        }*/
     ?>
 </head>
 <body>
@@ -51,23 +49,27 @@
                 <input type="date" id="r" name="from" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD" />
                 <label for="TO">TO :</label>
                 <input type="date" id="r" name="to" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD" />
-                <button onclick="a()" type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" name="date" class="btn btn-primary">Submit</button>
             </form>
 
         </div>
     <?php
         }
-        if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION['var'] == 1)) {
+        
+        if (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST['date'])) {
             $from_date = $_POST["from"];
             $to_date = $_POST["to"];
-            $sql = "";
+            $sql = "select e.id, e.title, e.e_from_date, e.e_to_date, e.s_name, e.collaboration, e.e_description, c.budget_id 
+                    from event as e, budget as b, collection as c 
+                    where e.e_from_date >= '$from_date' and e.e_to_date <= '$to_date' and e.id = b.event_id and c.budget_id = b.id 
+                    group by e.id";
             $query = mysqli_query($conn, $sql);
     ?>
     <header>
         <h2 style="text-align: center;">Audit</h2>
     </header>
         <div>
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="tblexportData">
                 <thead>
                     <tr>
                         <!-- header of the excell sheet -->
@@ -95,48 +97,46 @@
                 </thead>
                 <tbody>
     <?php
-                    for($index = 1; $row = mysqli_fetch_assoc($gallerysqlstmt); $index++) {
+                    $branch = array("CS", "IT", "ELEC","EXTC","AI","ECS","CYBER","EXTER");
+                    for($index = 1; $row = mysqli_fetch_assoc($query); $index++) {
+                        $count = 0;
     ?>
                     <tr>
                         <td><?php echo $index;?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
-                        <td><?php echo $row[''];?></td>
+                        <td><?php echo $row['title'];?></td>
+                        <td><?php echo $row['e_from_date']."-".$row['e_to_date'];?></td>
+                        <td><?php echo $row['s_name'];?></td>
+                        <td><?php echo "abc";?></td>
+                        <td><?php echo $row['collaboration'];?></td>
+                        <td><?php echo $row['e_description'];?></td>
+    <?php
+                        for($i = 0; $i < 8; $i++) {
+                            $sql1 = "select count(u.id) as total
+                                     from userdata as u, collection as c
+                                     where c.user_id = u.id and c.budget_id =".$row['budget_id']." and u.branch = '$branch[$i]'";
+                            $query1 = mysqli_query($conn, $sql1);
+                            $row1 = mysqli_fetch_assoc($query1);
+                            $count += $row1['total'];
+    ?>
+                            <td><?php echo $row1['total'];?></td>
+    <?php
+                        }
+    ?>
+                        <td><?php echo $count;?></td>
                     </tr>
     <?php
                     }
     ?>
                 </tbody>
             </table>
-    <?php
-        }
-        if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION['var'] == 1)) {
-    ?>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <button onclick="a()" type="submit" id="btnExport" name='export' class="btn btn-info">
+                    <button onclick="exportToExcel('tblexportData', 'Audit')" type="submit" id="btnExport" name='export' class="btn btn-info">
                         Export to excel
-                    </button>
-                </form>
+                    </button>                
     <?php
-                $_SESSION['var'] = 2;
         }
     ?>
-        </div>
-
-        </table>
-    <div class="spacer" style="height:10px;"></div>
+        <!-- </div> -->
+    <div class="spacer" style="height:100px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
         <a href="index.php">
@@ -146,13 +146,39 @@
         <h5>CSI-SAKEC 2021 &copy; All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
-        <!-- <script>
-            function a() {
-                document.getElementById("btnExport").style.display = "none";
-                //document.getElementById("btnExport").style.display = "block";
-                //  document.getElementById("btnExport").style.display = "none";
+    <script type="text/javascript">
+        function exportToExcel(tableID, filename = ''){
+            var downloadurl;
+            var dataFileType = 'application/vnd.ms-excel';
+            var tableSelect = document.getElementById(tableID);
+            var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
+            
+            // Specify file name
+            filename = filename?filename+Date.now()+'.xls':'export_excel_data.xls';
+            
+            // Create download link element
+            downloadurl = document.createElement("a");
+            
+            document.body.appendChild(downloadurl);
+            
+            if(navigator.msSaveOrOpenBlob){
+                var blob = new Blob(['\ufeff', tableHTMLData], {
+                    type: dataFileType
+                });
+                navigator.msSaveOrOpenBlob( blob, filename);
+            }else{
+                // Create a link to the file
+                downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
+            
+                // Setting the file name
+                downloadurl.download = filename;
+                
+                //triggering the function
+                downloadurl.click();
             }
-        </script> -->
+        }
+        
+</script>
 </body>
 
 </html>

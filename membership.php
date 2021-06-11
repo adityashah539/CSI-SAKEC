@@ -24,9 +24,9 @@
         if (isset($_SESSION['email'])) {
             $member_period = trim($_POST["member_period"]);
             $registration_number = trim($_POST["registration_number"]);
-            if ($_SESSION["role"] === 's') {
-                $id = $_SESSION["id"];
-                $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period',role= 'm' WHERE id='$id'";
+            $email=$_SESSION['email'];
+            if ($_SESSION["role"] === 'student') {
+                $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period',role= '5' WHERE emailID='$email'";
                 mysqli_query($conn, $sql);
                 header("location: index.php");
                 mysqli_close($conn);

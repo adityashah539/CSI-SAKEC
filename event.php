@@ -34,26 +34,16 @@
         <div class="event-header">
             <div class="spacer" style="height:20px;"></div>
             <h1> <?php echo $row['subtitle']; ?></h1>
-            <h2>
-                <span id="demo" style="color: rgb(145, 0, 0);">
-                    8
-                </span>
-                <span style="color: rgb(120 134 5)s;">
-                    Days
-                    <span style="color: rgb(0, 99, 16);">
-                        Go
-                    </span>
-            </h2>
             <h1><?php $row['subtitle']; ?></h1>
             <h4>
-                <span style="color: #a10f95;">
-                    21 September
-                </span>
-                2020,
-                <span style="color: rgb(173, 173, 0);">
-                    3 p.m
-                </span>
-                Onwads
+                <?php
+                    if($row['e_from_date']==$row['e_to_date'])
+                        echo "DATE :".date("d-m-Y",strtotime($row['e_from_date'])); 
+                    else 
+                        echo "FROM DATE :".date("d-m-Y",strtotime($row['e_from_date']))."<br> TO DATE :".date("d-m-Y",strtotime($row['e_to_date']));
+                    echo "<br>From Time :".date("h:i:s A",strtotime($row['e_from_time']))."<br> TO Time :".date("h:i:s A",strtotime($row['e_from_time']));
+                ?>
+
             </h4>
             <div class="spacer" style="height:20px;"></div>
             <?php
@@ -143,10 +133,10 @@
                     </p>
                 </div>
             </div>
+            <?php
+            if(isset($row['s_photo'])||isset($row['s_profession'])||isset($row['s_name'])){
+            ?>
             <div class="col-sm-6">
-                <?php
-                if (isset($row['s_photo'])) {
-                ?>
                     <div class="speakers">
                         <h1>Speakers</h1>
                         <hr class="supp">
@@ -178,10 +168,10 @@
                             </div>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
-            </div>
+                </div>
+        <?php
+            }
+        ?>
         </div>
     </div>
     <?php

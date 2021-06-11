@@ -78,7 +78,36 @@
 				function_alert("Pls fill details properly.");
 			}
 		}
+		if (($_SERVER['REQUEST_METHOD'] == "POST")&&isset($_POST['newsletter'])){
+			$sql="";
+			if($_POST['newsletter']!=null){
+				$to_email =trim($_POST['newsletter']) ;
+				$sql="SELECT `emailid` FROM `newsletter` WHERE `emailid`='$to_email' ";
+				$query = mysqli_query($conn, $sql);
+				if(!$row = mysqli_fetch_assoc($query)){
+					$subject = "Acknowledgement from CSI to ".substr($to_email,0, strpos($to_email, "."))." ".substr($to_email,strpos($to_email, ".")+1, strpos($to_email, "_")-strpos($to_email, ".")+1);
+					//$body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+					$body ="Hey Thankyou for subscribing Tight your belt for amazing journey ahead";
+					$headers = "From: guptavan96@gmail.com";
+					if(isset($to_email)){
+						send_mail($to_email, $subject, $body, $headers);
+						if(strpos($to_email, "@sakec.ac.in")||strpos($to_email, "@gmail.com")){
+							$sql ="INSERT INTO `newsletter`(`emailid`) VALUES ('$to_email')";
+							$stmt = mysqli_query($conn, $sql);
+							function_alert("Msg has been deliverd."); 
+						}else {
+							function_alert("Pls enter the sakec's or your own emailid.");
+						}
+					}else {
+						function_alert("Pls fill details properly.");
+					}
+				}else{
+					function_alert("Email have been already entered for newsletter.");
+				}
+			}
+		}
 	?>
+	
 </head>
 <body>
 	<!-- Loader -->
@@ -223,12 +252,6 @@
 	<div id="about">
 		<div class="container-fluid text-center">
 			<h1 class=" h1-responsive font-weight-bold my-5">About Us</h1>
-		<?php 
-			if(isset($_SESSION['role'])&&($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'head coordinator'||$_SESSION['role'] === 'coordinator')){
-				echo'<a href="about.php" class="btn btn-primary">Edit</a>';
-			}
-		?>
-			
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
 				<div class="col-sm-6">
@@ -297,7 +320,7 @@
 									</form>
 									<br>
 									<p>
-										<?php echo $row['e_description']; ?>
+										<?php echo $row['subtitle']; ?>
 									</p>
 								</div>
 							</div>
@@ -311,12 +334,7 @@
 	<div class="spacer" style="height:90px;"></div>
 	<div id="ourteam">
 		<section class="team-section text-center my-5">
-			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team </h1>
-		<?php 
-			if(isset($_SESSION['role'])&&($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'head coordinator'||$_SESSION['role'] === 'coordinator')){
-				echo'<a href="addmember.php" class="btn btn-primary">Edit</a>';
-			}
-		?>	
+			<h1 class="h1-responsive font-weight-bold my-5">Our amazing team </h1>	
 			<p class="grey-text w-responsive mx-auto mb-5" style="font-size:20px">
 				Student Council of CSI SAKEC includes different teams such as Design, Treasury, Registration, Technical, Events, Documentation and Publicity. These teams collectively work for all the events conducted by CS1 SAKEC under he guidance of Staff Coordinators for the benefit of all the members.
 			</p>
@@ -392,11 +410,6 @@
 	<div class="container">
 	<div id="gallery"> 
 		<h1 class="h1-responsive">Gallery</h1>     
-		<?php 
-			if(isset($_SESSION['role'])&&($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'head coordinator'||$_SESSION['role'] === 'coordinator')){
-				echo'<a href="gallery.php" class="btn btn-primary">Edit</a>';
-			}
-		?>
 		<hr class="line1">
 		<div class="spacer" style="height:30px;"></div>
 		<div class="container-fluid text-center">
@@ -482,12 +495,14 @@
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>
-											<div class="modal-body">
-												<input type="email" class="form-control" placeholder="E-Mail" id="emailid">
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-primary">Subscribe</button>
-											</div>
+											<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+												<div class="modal-body">
+														<input type="email" name="newsletter" class="form-control" placeholder="E-Mail" id="newsletter">
+												</div>
+												<div class="modal-footer">
+													<button type="submit" class="btn btn-primary">Subscribe</button>
+												</div>
+											</form>
 										</div>
 									</div>
 								</div>
