@@ -20,7 +20,7 @@
                 $extensions= array('jpg','jpeg','png');
                 $index=1;
                 //echo $_POST['name'.$index];
-                //inserts new coordinatorsb in the database
+                //inserts new coordinatorsb in the database 
                 while(isset($_POST['name'.$index])){
                     $image = $_FILES["image".$index]["name"];
                     $file_ext_img=explode(".", $_FILES['image'.$index]["name"]);
@@ -102,10 +102,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-success btn-sm btn-add-phone">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            Add Member
-                        </button>
+                            <button type="button" class="btn btn-success btn-sm btn-add-phone">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Add Member
+                            </button>
                         <div class="spacer" style="height:20px;"></div>
                     </div>
                 </div>

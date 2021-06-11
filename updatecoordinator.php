@@ -25,7 +25,7 @@
                     8 => 'A PHP extension stopped the file upload.',
                 ); 
                 $extensions= array('jpg','jpeg','png');
-                //inserts new coordinatorsb in the database
+                //inserts new coordinatorsb in the database 
                     $image = $_FILES["image1"]["name"];
                     if($image!=null){
                         $file_ext_img=explode(".", $_FILES['image1']["name"]);
@@ -48,8 +48,6 @@
                     $duty = $_POST['duty1'];
                     $sql = "UPDATE `coordinator` SET `name`='$name',`duty`='$duty' WHERE id=".$id;
                     $stmt = mysqli_query($conn, $sql);
-                    
-
             // }else{
             //     function_alert("You have to be admin or cooridinator");
             // }
@@ -120,7 +118,6 @@
                 <button type="submit" name="update_btn" class="btn btn-primary">Update</button>
                 <div class="spacer" style="height:40px;"></div>
             </form>
-
             <div class="footer">
                 <div class="spacer" style="height:2px;"></div>
                 <a href="index.html"><i class="fas fa-home"></i></a>
