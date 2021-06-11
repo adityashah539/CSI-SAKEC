@@ -12,7 +12,23 @@
     <title>Database</title>
     <title>Team members list</title>
 </head>
-
+<?php
+    require_once "config.php";
+    session_start();
+    if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
+        //if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
+            if (isset($_POST['delete_id_btn'])) {
+                $id = $_POST['delete_id'];
+                $sql = "DELETE FROM `coordinator` WHERE id=" . $id;
+                $query = mysqli_query($conn, $sql);
+            }
+       // }
+        else{
+            function_alert("You have to be admin or cooridinator");
+          }
+    }
+    
+?>
 <body>
     <div class="spacer" style="height:10px;"></div>
     <!-- Members List -->
@@ -39,8 +55,6 @@
             </thead>
             <tbody>
                 <?php
-                    require_once "config.php";
-                    session_start();
                     $sql = "SELECT * FROM `coordinator`";
                     $result= mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_assoc($result)) {
@@ -55,9 +69,21 @@
                                     <img src="images/<?php echo $row['image']; ?>" alt="Forest" style="width:80px">
                                 </a>
                             </td>
-                            <td> <button onclick="location.href='addmember.html'" type="button"
-                                    class="btn btn-success">Edit</button> </td>
-                            <td><button type="button" class="btn btn-danger">Delete</button> </td>
+                            <form action="updatecoordinator.php" method="POST">
+                                <td>
+                                    <input type='hidden' name='coordinator_id' value='<?php echo $row['id']; ?>'>
+                                    <input type='hidden' name='coordinator_name' value='<?php echo $row['name']; ?>'>
+                                    <input type='hidden' name='coordinator_image' value='<?php echo $row['image']; ?>'>
+                                    <input type='hidden' name='coordinator_duty' value='<?php echo $row['duty']; ?>'>
+                                    <button type="submit" class="btn btn-success">Edit</button> 
+                                </td>
+                            </form> 
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+                                <td> 
+                                    <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
+                                    <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button> 
+                                </td>
+                            </form>
                         </tr>
                     </div>
                 <?php

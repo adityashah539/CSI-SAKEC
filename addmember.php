@@ -19,7 +19,7 @@
                 ); 
                 $extensions= array('jpg','jpeg','png');
                 $index=1;
-                echo $_POST['name'.$index];
+                //echo $_POST['name'.$index];
                 //inserts new coordinatorsb in the database
                 while(isset($_POST['name'.$index])){
                     $image = $_FILES["image".$index]["name"];
@@ -31,8 +31,8 @@
                         $folder_name_coordinatorImage="images/";
                         $sql = "INSERT INTO `coordinator`(`name`, `duty`, `image`) VALUES ('$name','$duty','$image')";
                         $stmt = mysqli_query($conn, $sql);
-                        if($stmt)echo "success";
-                        else echo "fail";
+                        // if($stmt)echo "success";
+                        // else echo "fail";
                         move_uploaded_file($_FILES["image".$index]["tmp_name"],$folder_name_coordinatorImage.$image);
                         if($_FILES["image".$index]["error"]!=0){
                             $err =  $phpFileUploadErrors[$_FILES["image".$index]["error"]];
