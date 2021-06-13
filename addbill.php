@@ -43,15 +43,16 @@
                     $bill_photo = $_FILES["bill".$index."photo"]["name"];
                     $file_ext_bill=explode(".", $_FILES['bill'.$index.'photo']["name"]);
                     $file_ext_bill=end($file_ext_bill);
+                    $file_new_name = uniqid('',true).".".$file_ext_bill;
                     if (in_array($file_ext_bill,$extensions)){
                         $spent_on = $_POST['spent'.$index.'on'];
                         $amount =$_POST['bill'.$index.'amount'];
                         $folder_name_bill="Bill/";
                         $sum+=$amount;
                         $sql = "INSERT INTO `expense` ( `buget_id`, `spent_on`, `by`, `bill_photo`, `bill_amount`) 
-                                               VALUES ('$budget_id','$spent_on','$email','$bill_photo','$amount')";
+                                               VALUES ('$budget_id','$spent_on','$email','$file_new_name','$amount')";
                         $stmt = mysqli_query($conn, $sql);
-                        move_uploaded_file($_FILES["bill".$index."photo"]["tmp_name"],$folder_name_bill.$bill_photo);
+                        move_uploaded_file($_FILES["bill".$index."photo"]["tmp_name"],$folder_name_bill.$file_new_name);
                         if($_FILES["bill".$index."photo"]["error"]!=0){
                             $err =  $phpFileUploadErrors[$_FILES["bill".$index."photo"]["error"]];
                             break;

@@ -28,12 +28,13 @@
                     if (in_array($file_ext_img,$extensions)){
                         $name = $_POST['name'.$index];
                         $duty = $_POST['duty'.$index];
-                        $folder_name_coordinatorImage="images/";
-                        $sql = "INSERT INTO `coordinator`(`name`, `duty`, `image`) VALUES ('$name','$duty','$image')";
+                        $folder_name_coordinatorImage="Coordinator_Images/";
+                        $file_new_coordinator = uniqid('',true).".".$file_ext_img;
+                        $sql = "INSERT INTO `coordinator`(`name`, `duty`, `image`) VALUES ('$name','$duty','$file_new_coordinator')";
                         $stmt = mysqli_query($conn, $sql);
                         // if($stmt)echo "success";
                         // else echo "fail";
-                        move_uploaded_file($_FILES["image".$index]["tmp_name"],$folder_name_coordinatorImage.$image);
+                        move_uploaded_file($_FILES["image".$index]["tmp_name"],$folder_name_coordinatorImage.$file_new_coordinator);
                         if($_FILES["image".$index]["error"]!=0){
                             $err =  $phpFileUploadErrors[$_FILES["image".$index]["error"]];
                             break;
@@ -173,7 +174,7 @@
             </script>
             <div class="footer">
                 <div class="spacer" style="height:2px;"></div>
-                <a href="index.html"><i class="fas fa-home"></i></a>
+                <a href="index.php"><i class="fas fa-home"></i></a>
                 <div class="spacer" style="height:0px;"></div>
                 <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
                 <div class="spacer" style="height:1px;"></div>

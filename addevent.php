@@ -79,10 +79,12 @@
                     $e_descripition=$_POST['e_descripition'];
                     $fee_m=$_POST['fee_m'];
                     $fee=$_POST['fee'];
-                    $sql = "INSERT INTO `event`(`title`,  `subtitle`,    `banner`, `e_from_date`,`e_to_date`, `e_from_time`,`e_to_time`, `e_description`, `fee_m`, `fee`, `s_photo`, `s_name`, `s_profession`  ,`s_descripition`, `live`,`collaboration`)
-                                        VALUES ('$title','$subtitle',' $e_banner',' $from_date','  $to_date','$from_time',   '$to_time','$e_descripition','$fee_m','$fee','$s_photo','$s_name','$s_profession','$s_descripition','false','$collaboration')";
+                    $file_new_banner = uniqid('',true).".".$file_ext_banner;
+                    $file_new_speaker = uniqid('',true).".".$file_ext_s_photo;
+                    $sql = "INSERT INTO `event`(`title`,  `subtitle`,    `banner`,       `e_from_date`,`e_to_date`, `e_from_time`,`e_to_time`, `e_description`, `fee_m`, `fee`,           `s_photo`, `s_name`, `s_profession`  ,`s_descripition`, `live`,`collaboration`)
+                                        VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time',   '$to_time','$e_descripition','$fee_m','$fee','$file_new_speaker','$s_name','$s_profession','$s_descripition','false','$collaboration')";
                     mysqli_query($conn, $sql);
-                    move_uploaded_file($_FILES["e_banner"]["tmp_name"],$folder_name_banner.$e_banner);
+                    move_uploaded_file($_FILES["e_banner"]["tmp_name"],$folder_name_banner.$file_new_banner);
                     $last_entry= mysqli_insert_id($conn);
                     $sql="INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES (,,,)";
                     $index=1;
@@ -96,7 +98,7 @@
                         $index++;
                     }
                     if($s_photo!==null){
-                        move_uploaded_file($_FILES["s_photo"]["tmp_name"],$folder_name_speaker.$s_photo);
+                        move_uploaded_file($_FILES["s_photo"]["tmp_name"],$folder_name_speaker.$file_new_speaker);
                     }
                     if($ext_error&&$_FILES["e_banner"]["error"]==0&&$_FILES["s_photo"]["error"]==0)
                     {

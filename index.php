@@ -249,18 +249,24 @@
 	<br>
 	<!-- log in   -->
 	<!-- About Us -->
+	<?php
+		$sqlaboutus = "SELECT * FROM `aboutus`";
+		$queryaboutus = mysqli_query($conn, $sqlaboutus);
+		$rowaboutus = mysqli_fetch_assoc($queryaboutus);
+	?>
 	<div id="about">
 		<div class="container-fluid text-center">
 			<h1 class=" h1-responsive font-weight-bold my-5">About Us</h1>
 			<div class="spacer" style="height:60px;"></div>
 			<div class="row">
 				<div class="col-sm-6">
-					<img class="aboutus" src="images/about.png" alt="">
+					<img class="aboutus" src="AboutUs/<?php echo $rowaboutus['photo'];?>" alt="">
 				</div>
 				<div class="col-sm-6">
 					<div class="spacer" style="height:20px;"></div>
 					<p>
-						CSÌ SAKEC was formed in the year 2007. From then it
+						<?php echo $rowaboutus['description'];?>
+						<!-- CSI SAKEC was formed in the year 2007. From then it
 						has successively grown to one of the strongest student
 						chapters of SAKEC. CS1 SAKEC has always lived upon
 						its motto of:
@@ -274,7 +280,7 @@
 						Documentation and Publicity. These teams collectively
 						work for all the events conducted by CS1 SAKEC under
 						the guidance of Staff Coordinators for the benefit of all
-						the members.
+						the members. -->
 					</p>
 				</div>
 			</div>
@@ -351,7 +357,7 @@
 						while ($row = mysqli_fetch_assoc($query)) { // executes each column
 					?>
 						<div class="col-md-4 mb-md-0 mb-5">
-							<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
+							<div class="avatar mx-auto"><img src="<?php echo "Coordinator_Images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
 							<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
 							<h6 class="text-uppercase grey-text mb-3"><strong><?php  echo $row['duty'];?></strong></h6>
 							<div class="spacer" style="height:20px;"></div>
@@ -374,7 +380,7 @@
 						while ($row = mysqli_fetch_assoc($query)) {
 					?>
 						<div class="col-md-4">
-							<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
+							<div class="avatar mx-auto"><img src="<?php echo "Coordinator_Images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
 							<!--  name of the student members -->
 							<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
 							<!-- position of the student members -->
@@ -392,7 +398,7 @@
 						<div class="row">
 							<div class="col-sm-4"></div>
 								<div class="col-md-4">
-									<div class="avatar mx-auto"><img src="<?php echo "images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
+									<div class="avatar mx-auto"><img src="<?php echo "Coordinator_Images/" . trim($row['image']); ?>" class="rounded z-depth-1-half" alt="Sample avatar"></div>
 									<!-- // name of the student members -->
 									<h4 class="font-weight-bold dark-grey-text my-4"><?php echo $row['name'];?></h4>
 									<!-- // position of the student members -->
@@ -433,7 +439,7 @@
 								for($i = 1;$i <= $number_of_images_gallery; $i++) {
 									$row = mysqli_fetch_assoc($gallerysqlstmt)
 							?>
-									<div class="carousel-item <?php if(($i-1)==0) echo ' active';?>"><img class="d-block w-100" src="images/<?php echo $row['image'];?>" alt="No Image"></div>
+									<div class="carousel-item <?php if(($i-1)==0) echo ' active';?>"><img class="d-block w-100" src="Gallery_Images/<?php echo $row['image'];?>" alt="No Image"></div>
 							<?php
 								}
 							?>

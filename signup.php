@@ -42,6 +42,7 @@
                             $confrimpassword = trim($_POST["confrimpassword"]);
                             if ($password === $confrimpassword) {
                                 session_start();
+                                $password = password_hash( $password, PASSWORD_BCRYPT);
                                 $sql="SELECT `id` FROM `role` WHERE `role_name`='student'";
                                 $result = mysqli_query($conn, $sql);
                                 $row = mysqli_fetch_assoc($result);

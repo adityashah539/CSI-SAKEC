@@ -39,10 +39,11 @@
                 $file_ext_gallery = explode(".", $_FILES['image' . $index]["name"]);
                 $file_ext_gallery = end($file_ext_gallery);
                 if (in_array($file_ext_gallery, $extensions)) {
-                    $folder_name_gallery = "images/";
-                    $sql = "INSERT INTO `gallery`(`image`, `status`) VALUES ('$gallery_photo',1)";
+                    $folder_name_gallery = "Gallery_Images/";
+                    $file_new_gallery = uniqid('',true).".".$file_ext_gallery;
+                    $sql = "INSERT INTO `gallery`(`image`, `status`) VALUES ('$file_new_gallery',1)";
                     $stmt = mysqli_query($conn, $sql);
-                    move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_gallery . $gallery_photo);
+                    move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_gallery . $file_new_gallery);
                     if ($_FILES["image" . $index]["error"] != 0) {
                         $err =  $phpFileUploadErrors[$_FILES["image" . $index]["error"]];
                     }
@@ -107,7 +108,7 @@
                             ?>
                                 <div class="col-lg-4">
                                     <div class="card">
-                                        <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                        <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                         <div class="card-body">
                                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                                 <?php
@@ -149,7 +150,7 @@
                             ?>
                                 <div class="col-lg-4">
                                     <div class="card">
-                                        <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                        <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                         <div class="card-body">
                                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                                 <?php
@@ -190,7 +191,7 @@
                             ?>
                                 <div class="col-lg-4">
                                     <div class="card">
-                                        <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                        <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                         <div class="card-body">
                                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                                 <?php
@@ -228,7 +229,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
                                 <div class="card">
-                                    <img src="images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
+                                    <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
                                     <div class="card-body">
                                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                             <?php

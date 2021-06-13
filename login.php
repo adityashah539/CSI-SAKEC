@@ -48,9 +48,27 @@
                 $err = "Pls enter the college email Id";
             }
             if(empty($err)) {
-                $sql = "SELECT emailID, password  FROM userdata WHERE emailID = ?";
-                $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, 's', $param_email);
+                $sql = "SELECT emailID, password  FROM userdata WHERE emailID = '$email'";
+                $query = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($query) == 1) {
+                    $row = mysqli_fetch_assoc($query);
+                    $hash = $row['password'];
+                    if (password_verify($password, $hash)) {
+                        $sql = "SELECT `role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $_SESSION["role"] = $row["role_name"];
+                        $_SESSION["email"] = $email;
+                        if(isset($_POST['rememeber_me'])){
+                            setcookie('email',$email,time()+86400);
+                            setcookie('password',$password,time()+86400);
+                        }
+                        header("location:index.php");
+                    } else {
+                        function_alert("Plese enter the corrrect password");
+                    }
+                }
+                /*mysqli_stmt_bind_param($stmt, 's', $param_email);
                 $param_email = $email;
                 if (mysqli_stmt_execute($stmt)) {
                     mysqli_stmt_store_result($stmt);
@@ -73,7 +91,8 @@
                             }
                         }
                     }
-                }
+                }*/
+
             }
             else{
                 function_alert($err);

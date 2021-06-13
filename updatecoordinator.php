@@ -31,12 +31,13 @@
                         $file_ext_img=explode(".", $_FILES['image1']["name"]);
                         $file_ext_img=end($file_ext_img);
                         if (in_array($file_ext_img,$extensions)){
-                            $folder_name_coordinatorImage="images/";
-                            $sql = "UPDATE `coordinator` SET `image`= '$image' WHERE id=".$id;
+                            $folder_name_coordinatorImage="Coordinator_Images/";
+                            $file_new_coordinatorimage = uniqid('',true).".".$file_ext_img;
+                            $sql = "UPDATE `coordinator` SET `image`= '$file_new_coordinatorimage' WHERE id=".$id;
                             $stmt = mysqli_query($conn, $sql);
                             // if($stmt)echo "success";
                             // else echo "fail";
-                            move_uploaded_file($_FILES["image1"]["tmp_name"],$folder_name_coordinatorImage.$image);
+                            move_uploaded_file($_FILES["image1"]["tmp_name"],$folder_name_coordinatorImage.$file_new_coordinatorimage);
                             if($_FILES["image1"]["error"]!=0){
                                 $err =  $phpFileUploadErrors[$_FILES["image1"]["error"]];
                             }

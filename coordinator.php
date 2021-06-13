@@ -66,7 +66,7 @@
 
                             <td>
                                 <a target="_blank" href="images/Dhruvi-jain.jpg">
-                                    <img src="images/<?php echo $row['image']; ?>" alt="Forest" style="width:80px">
+                                    <img src="Coordinator_Images/<?php echo $row['image']; ?>" alt="Forest" style="width:80px">
                                 </a>
                             </td>
                             <form action="updatecoordinator.php" method="POST">
