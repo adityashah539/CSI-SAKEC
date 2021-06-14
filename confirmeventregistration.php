@@ -11,12 +11,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
     <title>Event Confirmation</title>
     <?php
+        require_once "config.php";
+        session_start();
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            if(isset($_POST['confrim_payment'])&&$_POST['confrim_payment']=="confrim_payment"){
-                
+            if(isset($_POST['confirm_payment'])){
+                $id = $_POST['budget_id'];
+                $confirmedby = $_SESSION["email"];
+                $sql = "UPDATE `collection` SET `confirmed`='1',`confirmed_by`='$confirmedby' WHERE id = '$id'";
+                $query = mysqli_query($conn, $sql);
             }
-            else if(isset($_POST['delete_payment'])&&$_POST['delete_payment']=="delete_payment"){
-                
+            if(isset($_POST['delete_payment'])){
+                $id = $_POST['budget_id'];
+                $sql = "DELETE FROM `collection` WHERE id = '$id'";
+                $query = mysqli_query($conn, $sql);
             }
         }
     ?>
@@ -41,8 +48,6 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
             <?php
-                require_once "config.php";
-                session_start();
                 if (isset($_SESSION['email'])) {
                     if ($_SESSION['role'] === 'admin') {
                         $sql = 
@@ -64,7 +69,7 @@
                     <td>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                             <input type="hidden" name="budget_id" value="<?php echo $row['id']; ?>"/>
-                            <button type="submit" value="confrim_payment" name ="confrim_payment" class="btn btn-success">Confirm</button>
+                            <button type="submit" value="confirm_payment" name ="confirm_payment" class="btn btn-success">Confirm</button>
                         </form> 
                     </td>
                     <td>

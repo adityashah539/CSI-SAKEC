@@ -20,20 +20,74 @@
             alert('$message');
             </SCRIPT>";
     }
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
         if (isset($_SESSION['email'])) {
+            $phpFileUploadErrors = array(
+                0 => 'There is no error, the file uploaded with success',
+                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+                3 => 'The uploaded file was only partially uploaded',
+                4 => 'No file was uploaded',
+                6 => 'Missing a temorary folder',
+                7 => 'Failed to write file to disk,',
+                8 => 'A PHP extension stopped the file upload.',
+            );
+            $extensions = array('jpg','jpeg','png');
+            //INSERT INTO `membership`(`userid`, `membershipbill`, `smartcard`, `status`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]')
+
+            // Insert Bill in folder
+            $bill_photo = $_FILES["billphoto"]["name"];
+            $file_ext_bill = explode(".", $_FILES['billphoto']["name"]);
+            $file_ext_bill = end($file_ext_bill);
+            if (in_array($file_ext_bill, $extensions)) {
+                $folder_name_bill = "Membership_Bill/";
+                $file_new_bill = uniqid('',true).".".$file_ext_bill;
+                move_uploaded_file($_FILES["billphoto"]["tmp_name"], $folder_name_bill.$file_new_bill);
+                if ($_FILES["billphoto"]["error"] != 0) {
+                    $err =  $phpFileUploadErrors[$_FILES["billphoto"]["error"]];
+                }
+            } else {
+                function_alert("Extention of file should be jpg,jpeg,png.".$file_new_bill);
+            }
+
+
+            // Insert Smart Card in folder
+            $card_photo = $_FILES["smartcard"]["name"];
+            $file_ext_card = explode(".", $_FILES['smartcard']["name"]);
+            $file_ext_card = end($file_ext_card);
+            if (in_array($file_ext_card, $extensions)) {
+                $folder_name_card = "Smart_Card/";
+                $file_new_card = uniqid('',true).".".$file_ext_card;
+                move_uploaded_file($_FILES["smartcard"]["tmp_name"], $folder_name_card.$file_new_card);
+                if ($_FILES["smartcard"]["error"] != 0) {
+                    $err =  $phpFileUploadErrors[$_FILES["smartcard"]["error"]];
+                }
+            } else {
+                function_alert("Extention of file should be jpg,jpeg,png.Smart");
+            }
+
+            $email = $_SESSION['email'];
+            $sqluser = "SELECT id FROM `userdata` WHERE emailID = '$email'";
+            $stmt = mysqli_query($conn, $sqluser);
+            if(mysqli_num_rows($stmt) == 1){
+                $row = mysqli_fetch_assoc($stmt);
+                $id = $row['id'];
+                $sql = "INSERT INTO `membership`(`userid`, `membershipbill`, `smartcard`, `status`) VALUES ('$id','$file_new_bill','$file_new_card',0)";
+                $stmt = mysqli_query($conn, $sql);
+            }
+
+
             $member_period = trim($_POST["member_period"]);
             $registration_number = trim($_POST["registration_number"]);
-            $email=$_SESSION['email'];
             if ($_SESSION["role"] === 'student') {
-                $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period',role= '5' WHERE emailID='$email'";
+                $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period' WHERE emailID='$email'";
                 mysqli_query($conn, $sql);
                 header("location: index.php");
                 mysqli_close($conn);
             } else {
                 function_alert("You are member .You don't need membership");
             }
-        } else {
+        }else{
             function_alert("You need to login");
         }
     }
@@ -57,7 +111,7 @@
             <p>Fill all the fields carefully</p>
             <hr>
             <div class="spacer" style="height:35px;"></div>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="labels">
@@ -123,10 +177,27 @@
                 </div>
                 <div class="spacer" style="height:40px;"></div>
                 <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">Smart card :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="file" name="smartcard" required>
+                    </div>
+                </div>
+                <div class="spacer" style="height:40px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">Bill photo :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="file" name="billphoto" required>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4 text-center">
                         <div class="register">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" name = "submit"class="btn btn-primary">Register</button>
                         </div>
                         <div class="col-sm-4"></div>
                     </div>

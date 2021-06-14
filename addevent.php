@@ -42,7 +42,7 @@
                 $e_banner = $_FILES["e_banner"]["name"];
                 if(isset($_FILES["s_photo"]["name"])){
                     $file_ext_s_photo=explode(".", $_FILES["s_photo"]["name"]);
-                    $file_ext_s_photo_banner=end($file_ext_s_photo);
+                    $file_ext_s_photo=end($file_ext_s_photo);
                     if(!in_array($file_ext_s_photo_banner,$extensions)){
                         $ext_error=false;
                     }
