@@ -10,13 +10,41 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
     <title>Expense</title>
+    <?php 
+        require_once "config.php";
+        session_start();
+        function function_alert($message)
+        {
+        echo "<SCRIPT>
+            window.location.replace('index.php')
+            alert('$message');
+            </SCRIPT>";
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
+            if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
+                $id = $_POST['id'];
+                echo $id;
+                if (isset($_POST['Confirm'])) {
+                    $sql = "UPDATE membership SET status=1 WHERE userid = " . $id;
+                    $query = mysqli_query($conn, $sql);
+                } else if (isset($_POST['Delete'])) {
+                    $sql = "DELETE FROM `membership` WHERE userid=" . $id;
+                    $query = mysqli_query($conn, $sql);
+                } 
+            }
+            else{
+                function_alert("You have to be admin or cooridinator");
+            }
+        }
+        
+    ?>
 </head>
 
 <body>
     
     <div class="spacer" style="height:10px;"></div>
     <header>
-        <h2 style="text-align: center;">Expense</h2>
+        <h2 style="text-align: center;">Confirm Membership</h2>
     </header>
     <div class="spacer" style="height:10px;"></div>
     <table class="table">
@@ -24,8 +52,10 @@
             <tr>
                 <th scope="col">Name</th>
                 <th>Email ID</th>
-                <th>Registration number</th>
                 <th>Amount Paid</th>
+                <th>Bill</th>
+                <th>Registration number</th>
+                <th>Smartcard</th>
                 <th>Confirm</th>
                 <th>Delete</th>
                 <!-- <th>Edit</th> -->
@@ -33,19 +63,39 @@
         </thead>
         <tbody>
             <div class="table-content" style="font-size: large;">
+            <?php
+            //hold
+            $sql = "SELECT * FROM `membership`,`userdata` WHERE membership.userid=userdata.id";
+            $sqlstmt = mysqli_query($conn, $sql);
+            $number_of_data = mysqli_num_rows($sqlstmt);
+            if($number_of_data){
+                while( $row = mysqli_fetch_assoc($sqlstmt)){
+            ?>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" >
                 <tr>
-                    <th scope="row">Israil Alam</th>
-                    <td>israil89@sakec.ac.in</td>
-                    <td>15150</td>
-                  
+                    <th scope="row"><?php  echo $row['firstName']." ".$row['lastName']; ?> </th>
+                    <td><?php echo $row['emailID']; ?> </td>
+                    <td><?php echo $row['ammount']; ?> </td>
                     <td>
-                        <a target="_blank" href="images/Dhruvi-jain.jpg">
-                            <img src="images/Dhruvi-jain.jpg" alt="Forest" style="width:80px">
+                        <a target="_blank" href="Membership_Bill/<?php echo $row['membershipbill']; ?>">
+                            <img src="Membership_Bill/<?php echo $row['membershipbill']; ?>" alt="Membership_Bill" style="width:80px">
                         </a>
                     </td>
-                  <td>  <button type="button" class="btn btn-success" >Confirm</button> </td>
-                    <td><button type="button" class="btn btn-danger" >Delete</button> </td>
+                    <td><?php echo $row['r_number']; ?> </td>
+                    <td>
+                        <a target="_blank" href="Smart_Card/<?php echo $row['smartcard']; ?>">
+                            <img src="Smart_Card/<?php echo $row['smartcard'];  ?>" alt="Smart_Card" style="width:80px">
+                        </a>
+                    </td>
+                    <input type='hidden' name='id' value='<?php echo $row['userid']; ?>'>
+                    <td><button name="Confirm" type="submit" class="btn btn-success" >Confirm</button> </td>
+                    <td><button  name="Delete" type="submit" class="btn btn-danger" >Delete</button> </td>
                 </tr>
+            </form>
+                <?php 
+                    }
+                }
+                ?>
             </div>
         </tbody>
     </table>
