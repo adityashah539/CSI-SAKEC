@@ -58,19 +58,21 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
 			<ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-					<a class="nav-link" href="index.php">Home</a>
+					<a class="nav-link" href="index.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="addevent.php">Add Event</a>
+					<a class="nav-link" href="addevent.php"><i class="fas fa-calendar-plus"></i> Add Event</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="attendance.php">Attendents</a>
+					<a class="nav-link" href="attendance.php"><i class="fas fa-users"></i> Attendance</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="permission.php">Permission Letter</a>
+					<a class="nav-link" href="permission.php"><i class="fas fa-envelope-open-text"></i> Permission Letter</a>
 				</li>
 			</ul>
-            
 			<ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="input-group">

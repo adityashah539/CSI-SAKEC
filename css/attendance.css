@@ -1,8 +1,7 @@
 body {
     text-align: center;
     background-color: #fffdeb;
-
-    font-family: 'Times New Roman', Times, serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     margin: 0;
     color: white;
     padding: 0;
@@ -76,7 +75,6 @@ header {
 .form-group .row {
     margin: 30px;
 }
-
 input[id='myInput'] {
     border-radius: 20px;
     padding: 7px 0px 7px 48px;
@@ -221,7 +219,7 @@ input[id='myInput'] {
 .default-color {
     background-color: #00000070 !important;
 }
-[type=submit]:not(:disabled), button:not(:disabled) {
+.textbutton {
     cursor: pointer;
     background: #f9f9f7;
     /* color: white; */

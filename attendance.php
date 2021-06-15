@@ -28,19 +28,34 @@
 
 <body>
     <header>
-        <h2 style="text-align: center;">Manage Events</h2>
+        <h2 style="text-align: center;">Attendance</h2>
     </header>
     <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <div class="input-group">
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." />
-                <button id="search-button" type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </form>
-        </div>
-    </nav>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
+				
+			</ul>
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <div class="input-group">
+                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off"/>
+                        <button id="search-button" type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                            
+                        </button>
+                    </div>
+                </form>
+			</ul>
+		</div>
+	</nav>
     <table class="table" id="myTable">
         <thead class="table-head">
             <tr>
@@ -49,7 +64,7 @@
         </thead>
         <tbody>
             <div class="table-content" style="font-size: large;">
-        <?php
+                <?php
                 require_once "config.php";
                 session_start();
                 if (isset($_SESSION['email'])) {
@@ -58,17 +73,17 @@
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             while ($row = mysqli_fetch_assoc($query)) {
-        ?>
+                ?>
                                 <tr>
                                     <td>
-                                    <form action="edit_attendance.php" method="GET">
-										<input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
-										<input type="hidden" name="event_title" value="<?php echo $row['title']; ?>">
-										    <button type="submit"><?php echo $row['title']; ?></button>
-									</form>
+                                        <form action="edit_attendance.php" method="GET">
+                                            <input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
+                                            <input type="hidden" name="event_title" value="<?php echo $row['title']; ?>">
+                                            <button type="submit" class="textbutton"><?php echo $row['title']; ?></button>
+                                        </form>
                                     </td>
                                 </tr>
-        <?php
+                <?php
                             }
                         } else {
                             echo "<td>No Record Found</td>";
@@ -80,13 +95,20 @@
                     echo "<td>You have not logged in.</td>";
                 }
 
-        ?>
+                ?>
             </div>
         </tbody>
     </table>
+    <div class="footer">
+        <div class="spacer" style="height:2px;"></div>
+        <a href="index.php"><i class="fas fa-home"></i></a>
+        <div class="spacer" style="height:0px;"></div>
+        <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
+        <div class="spacer" style="height:1px;"></div>
+    </div>
     <script>
-        function myFunction(){
-            var  filter, table, tr, td, i,eventname;
+        function myFunction() {
+            var filter, table, tr, td, i, eventname;
             filter = document.getElementById('myInput').value.toUpperCase();
             table = document.getElementById('myTable');
             tr = table.getElementsByTagName('tr');
@@ -94,8 +116,8 @@
             for (i = 1; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td");
                 if (td) {
-                    eventname=td[0].textContent || td[0].innerText;
-                    if (eventname.toUpperCase().indexOf(filter)>-1) {
+                    eventname = td[0].textContent || td[0].innerText;
+                    if (eventname.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
                     } else {
                         tr[i].style.display = "none";
@@ -104,6 +126,7 @@
             }
         }
     </script>
+    
 </body>
 
 </html>
