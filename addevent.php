@@ -39,38 +39,17 @@
             $ext_error = true;
             $extensions = array('jpg', 'jpeg', 'png');
             $e_banner = $_FILES["e_banner"]["name"];
-            if (isset($_FILES["s_photo"]["name"])) {
-                $file_ext_s_photo = explode(".", $_FILES["s_photo"]["name"]);
-                $file_ext_s_photo_banner = end($file_ext_s_photo);
-                if (!in_array($file_ext_s_photo_banner, $extensions)) {
-                    $ext_error = false;
-                }
-                $s_photo = $_FILES["s_photo"]["name"];
-                $s_name = $_POST['s_name'];
-                $s_profession = $_POST['s_profession'];
-                $s_descripition = $_POST['s_descripition'];
-            } else {
-                $s_photo = null;
-                $s_name = null;
-                $s_profession = null;
-                $s_descripition = null;
-            }
-            if (isset($_POST["collaboration"])) {
-                $collaboration = $_POST['collaboration'];
-            } else {
-                $collaboration = null;
-            }
             $file_ext_banner = explode(".", $_FILES["e_banner"]["name"]);
             $file_ext_banner = end($file_ext_banner);
             if (!in_array($file_ext_banner, $extensions)) {
                 $ext_error = false;
             }
-            //echo $file_ext_banner.'<br>'.$file_ext_s_photo_banner.'<br>'.$ext_error;
             if ($ext_error) {
+
+                // event insert
                 $title = $_POST['title'];
                 $subtitle = $_POST['subtitle'];
                 $folder_name_banner = 'Banner/';
-                $folder_name_speaker = 'Speaker_Image/';
                 $from_date = date("Y-m-d", strtotime($_POST['fromdate']));
                 $to_date = date("Y-m-d", strtotime($_POST['todate']));
                 $from_time = date("h:i:sa", strtotime($_POST['fromtime']));
@@ -79,35 +58,68 @@
                 $fee_m = $_POST['fee_m'];
                 $fee = $_POST['fee'];
                 $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
-                $file_new_speaker = uniqid('', true) . "." . $file_ext_s_photo;
-                $sql = "INSERT INTO `event`(`title`,  `subtitle`,    `banner`,       `e_from_date`,`e_to_date`, `e_from_time`,`e_to_time`, `e_description`, `fee_m`, `fee`,           `s_photo`, `s_name`, `s_profession`  ,`s_descripition`, `live`,`collaboration`)
-                                        VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time',   '$to_time','$e_descripition','$fee_m','$fee','$file_new_speaker','$s_name','$s_profession','$s_descripition','false','$collaboration')";
+                $sql = "INSERT INTO `event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`)
+                                    VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','true')";
                 mysqli_query($conn, $sql);
                 move_uploaded_file($_FILES["e_banner"]["tmp_name"], $folder_name_banner . $file_new_banner);
                 $last_entry = mysqli_insert_id($conn);
-                $sql = "INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES (,,,)";
+
+
+                // coordinators insert
                 $index = 1;
                 while (isset($_POST['phone' . $index . 'number']) && isset($_POST['phone' . $index . 'name'])) {
                     $phonenmber = $_POST['phone' . $index . 'number'];
                     $name = $_POST['phone' . $index . 'name'];
                     $sql = "INSERT INTO `contact`( `c_name`, `c_phonenumber`, `event_id`) VALUES ('$name','$phonenmber','$last_entry')";
                     mysqli_query($conn, $sql);
-                    //This for testing:-)
-                    //echo $name.'<br>'.$phonenmber.'<br>';
                     $index++;
                 }
-                if ($s_photo !== null) {
-                    move_uploaded_file($_FILES["s_photo"]["tmp_name"], $folder_name_speaker . $file_new_speaker);
+
+
+                // speakers insert
+                $index = 1;
+                $folder_name_speaker = 'Speaker_Image/';
+                while (isset($_POST['s_name'.$index])) {
+                    $file_ext_s_photo = explode(".", $_FILES["s_photo".$index]["name"]);
+                    $file_ext_s_photo = end($file_ext_s_photo);
+                    if (!in_array($file_ext_s_photo, $extensions)) {
+                        $ext_error = false;
+                    }
+                    $s_photo = $_FILES["s_photo".$index]["name"];
+                    $s_name = $_POST['s_name'.$index];
+                    $s_profession = $_POST['s_profession'.$index];
+                    $s_organisation = $_POST['s_organisation'.$index];
+                    $s_descripition = $_POST['s_descripition'.$index];
+                    $s_linkedIn = $_POST['s_linkedIn'.$index];
+                    $s_facebook = $_POST['s_facebook'.$index];
+                    $s_instagram = $_POST['s_instagram'.$index];
+                    $file_new_speaker = uniqid('', true) . "." . $file_ext_s_photo;
+                    $sql = "INSERT INTO `speaker`(`event_id`   , `name`  , `organisation`  , `profession`  , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
+                                        VALUES   ('$last_entry','$s_name','$s_organisation','$s_profession','$s_photo','$s_linkedIn','$s_facebook','$s_instagram')";
+                    mysqli_query($conn, $sql);
+                    if ($s_photo != null) {
+                        move_uploaded_file($_FILES["s_photo".$index]["tmp_name"], $folder_name_speaker . $file_new_speaker);
+                    }else{
+                        echo "hihihi".$s_photo;
+                    }
+                    $index++;
                 }
-                if ($ext_error && $_FILES["e_banner"]["error"] == 0 && $_FILES["s_photo"]["error"] == 0) {
+
+                // collaboration insert
+                $index = 1;
+                while (isset($_POST['collaboration'.$index])) {
+                    $collaboration = $_POST['collaboration'.$index];
+                    $sql = "INSERT INTO `collaboration`(`event_id`, `collab_body`) VALUES ('$last_entry','$collaboration')";
+                    mysqli_query($conn, $sql);
+                    $index++;
+                }
+
+
+                if($ext_error){
                     $sql = "INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')";
                     mysqli_query($conn, $sql);
                     function_alert("Your enter is made.");
-                } else {
-                    echo $phpFileUploadErrors[$_FILES["e_banner"]["error"]];
                 }
-                //The following code for testing              
-                //echo $title.'<br>'.$subtitle.'<br>'.$e_banner.'<br>'.$from_date.'<br>'.$to_date.'<br>'.$from_time.'<br>'.$to_time.'<br>'.$e_descripition.'<br>'.$fee_m.'<br>'.$fee.'<br>'.$s_photo.'<br>'.$s_name.'<br>'.$s_profession.'<br>'.$s_descripition.'<br>'.$folder_name_speaker.$s_photo.'<br>'.$folder_name_banner.$e_banner;
             } else {
                 function_alert("Extention of file should be jpg,jpeg,png.");
             }
@@ -160,8 +172,9 @@
                 </div>
             </div>
             <div class="spacer" style="height:20px;"></div>
-            <div class="row" id="collaboration_id_section">
+            <div class="form-group-collab">
             </div>
+            <button type="button" class="btn btn-success btn-sm btn-add-collaborator"><span class="glyphicon glyphicon-plus"></span> Add Collaboration With </button>
             <div class="spacer" style="height:20px;"></div>
             <div class="row">
                 <div class="col-sm-5">
@@ -255,7 +268,7 @@
             <div class="spacer" style="height:20px;"></div>
 
             <div class="form-group">
-                <div class="col-sm-5">
+                <!-- <div class="col-sm-5">
                     <div class="labels">
                         <label class="control-label">Contact Name :</label>
                     </div>
@@ -280,66 +293,111 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success btn-sm btn-add-phone"><span class="glyphicon glyphicon-plus"></span> Add Phone</button>
-                    <div class="spacer" style="height:20px;"></div>
-                </div>
+                </div> -->
             </div>
+            <button type="button" class="btn btn-success btn-sm btn-add-phone"><span class="glyphicon glyphicon-plus"></span> Add coordinator details</button>
             <div class="spacer" style="height:20px;"></div>
-            <div id="speaker">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="banner-img"> Speaker Name : </label>
+            <div class="spacer" style="height:20px;"></div>
+            
+            <div class="form-group-speaker">
+                <div id="speaker">
+                    <!-- <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="banner-img"> Speaker Name : </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" name="s_name" placeholder="Speaker Name" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="text" name="s_name" placeholder="Speaker Name" required>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="s_organisation"> Speaker Organisation: </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" name="s_organisation" placeholder="Speaker Organisation" required>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="spacer" style="height:20px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="s_profession"> Speaker Profession: </label>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="banner-img"> Speaker Image :</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="file" id="img" name="s_photo" required>
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="text" name="s_profession" placeholder="Speaker Profession" required>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label> Speakers Description :</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4" columns="3" name="s_descripition" required></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="spacer" style="height:20px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="banner-img"> Speaker Image :</label>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="s_linkedIn"> Speaker LinkedIn: </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" name="s_linkedIn" placeholder="Speaker LinkedIn" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <input type="file" id="img" name="s_photo" required>
-                    </div>
-                </div>
-                <div class="spacer" style="height:20px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label> Speakers Description :</label>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="s_facebook"> Speaker Facebook: </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" name="s_facebook" placeholder="Speaker Facebook" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4" columns="3" name="s_descripition" required></textarea>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="labels">
+                                <label for="s_instagram"> Speaker Instagram: </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" name="s_instagram" placeholder="Speaker Instagram" required>
+                            </div>
                         </div>
                     </div>
+                    <div class="spacer" style="height:20px;"></div> -->
                 </div>
             </div>
-    </div>
+            <button type="button" class="btn btn-success btn-sm btn-add-speaker"><span class="glyphicon glyphicon-plus"></span> Add Speaker</button>
+            <div class="spacer" style="height:20px;"></div>
+    </div>  
     <div class="spacer" style="height:20px;"></div>
-    <!-- <button type="button" onclick="collaboration_appearance()" class="btn btn-primary" id="collaboration_id_button">Collaboration</button>
-    <button type="button" onclick="Disappear()" class="btn btn-primary" id="speaker_nospeaker">No Speaker</button> -->
+    <!-- <button type="button" onclick="collaboration_appearance()" class="btn btn-primary" id="collaboration_id_button">Collaboration</button> -->
+    <!-- <button type="button" onclick="Disappear()" class="btn btn-primary" id="speaker_nospeaker">No Speaker</button> -->
     <button type="submit" class="btn btn-primary">Sumbit</button>
     <div class="spacer" style="height:40px;"></div>
     </form>
@@ -352,38 +410,44 @@
         <div class="spacer" style="height:1px;"></div>
     </div>
     <script>
-        var collaboration_id_section = document.getElementById("collaboration_id_section");
-        collaboration_id_section.innerHTML = '';
+        // var collaboration_id_section = document.getElementById("collaboration_id_section");
+        // collaboration_id_section.innerHTML = '';
 
-        function collaboration_appearance() {
-            var collaboration_id_button = document.getElementById("collaboration_id_button");
-            if (collaboration_id_section.innerHTML == '') {
-                collaboration_id_section.innerHTML = '<div class="col-sm-5"><div class="labels"><label for="rnumber">Collaboration :</label></div></div>';
-                collaboration_id_section.innerHTML += '<div class="col-sm-7"><div class="texts"><input type="text" id="collaboration" name="collaboration" placeholder="Collaboration" required></div></div>';
-                collaboration_id_button.innerHTML = "No Collaboration";
-            } else {
-                collaboration_id_section.innerHTML = '';
-                collaboration_id_button.innerHTML = "Collaboration";
-            }
-        }
+        // function collaboration_appearance() {
+        //     var collaboration_id_button = document.getElementById("collaboration_id_button");
+        //     if (collaboration_id_section.innerHTML == '') {
+        //         collaboration_id_section.innerHTML = '<div class="col-sm-5"><div class="labels"><label for="rnumber">Collaboration :</label></div></div>';
+        //         collaboration_id_section.innerHTML += '<div class="col-sm-7"><div class="texts"><input type="text" id="collaboration" name="collaboration" placeholder="Collaboration" required></div></div>';
+        //         collaboration_id_button.innerHTML = "No Collaboration";
+        //     } else {
+        //         collaboration_id_section.innerHTML = '';
+        //         collaboration_id_button.innerHTML = "Collaboration";
+        //     }
+        // }
 
-        function Disappear() {
-            var element = document.getElementById("speaker_nospeaker");
-            var speaker = document.getElementById("speaker");
-            if (speaker.innerHTML != '') {
-                speaker.innerHTML = '';
-                element.innerHTML = "Speaker";
-            } else {
-                speaker.innerHTML = '<div class="row"><div class="col-sm-5"><div class="labels"><label for="banner-img"> Speaker Name : </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_name" placeholder="Speaker Name" required></div></div></div>';
-                speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
-                speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="s_profession"> Speaker Profession: </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_profession" placeholder="Speaker Profession" required></div></div></div>';
-                speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
-                speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="banner-img"> Speaker Image :</label></div></div><div class="col-sm-7"><input type="file" id="img" name="s_photo"  required></div></div>';
-                speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
-                speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label > Speakers Description :</label></div></div><div class="col-sm-7"><div class="texts"><textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4"  columns="3" name= "s_descripition" required></textarea></div></div></div>';
-                element.innerHTML = "No Speaker";
-            }
-        }
+        // function Disappear() {
+        //     var element = document.getElementById("speaker_nospeaker");
+        //     var speaker = document.getElementById("speaker");
+        //     if (speaker.innerHTML != '') {
+        //         speaker.innerHTML = '';
+        //         element.innerHTML = "Speaker";
+        //     } else {
+        //         speaker.innerHTML  = '<div class="row"><div class="col-sm-5"><div class="labels"><label for="banner-img"> Speaker Name : </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_name" placeholder="Speaker Name" required></div></div></div>';
+        //         speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+        //         speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="s_organisation"> Speaker Organisation: </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_organisation" placeholder="Speaker Organisation" required></div></div></div>';
+        //         speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+        //         speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="banner-img"> Speaker Image :</label></div></div><div class="col-sm-7"><input type="file" id="img" name="s_photo"  required></div></div>';
+        //         speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+        //         speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label > Speakers Description :</label></div></div><div class="col-sm-7"><div class="texts"><textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4"  columns="3" name= "s_descripition" required></textarea></div></div></div>';
+        //         speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="s_profession"> Speaker Profession: </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_profession" placeholder="Speaker Profession" required></div></div></div>';
+        //         speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+        //         speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="s_profession"> Speaker Profession: </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_profession" placeholder="Speaker Profession" required></div></div></div>';
+        //         speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+        //         speaker.innerHTML += '<div class="row"><div class="col-sm-5"><div class="labels"><label for="s_profession"> Speaker Profession: </label></div></div><div class="col-sm-7"><div class="texts"><input type="text" name="s_profession" placeholder="Speaker Profession" required></div></div></div>';
+        //         speaker.innerHTML += '<div class="spacer" style="height:20px;"></div>';
+        //         element.innerHTML = "No Speaker";
+        //     }
+        // }
     </script>
     <script>
         $(function() {
@@ -428,6 +492,155 @@
                     '</div>' +
                     '</div>' +
                     '</div>'
+                );
+            });
+        });
+
+        $(function() {
+
+            $(document.body).on('click', '.changeType', function() {
+                $(this).closest('.collab-input').find('.type-text').text($(this).text());
+                $(this).closest('.collab-input').find('.type-input').val($(this).data('type-value'));
+            });
+
+            $(document.body).on('click', '.btn-remove-collaborator', function() {
+                $(this).closest('.deletecollaborator').remove();
+            });
+            $('.btn-add-collaborator').click(function() {
+
+                var index = $('.collab-input').length + 1;
+
+                $('.form-group-collab').append('' +
+                    '<div class="deletecollaborator"><div class="collab-input"><div id = row>' +
+                    '<div class="col-sm-5"><div class="labels"><label for="collaboration'+index+'">Collaboration :</label></div></div>'+
+                    '<div class="col-sm-7"><div class="texts"><input type="text" id="collaboration" name="collaboration'+index+'" placeholder="Collaboration" required></div></div>'+
+                    '</div><span class="input-group-btn"><button class="btn btn-danger btn-remove-collaborator" type="button"><span class="glyphicon glyphicon-remove"></span></button></span><div id = "collaboration'+index+'"></div></div>'
+                );
+            });
+        });
+
+        $(function() {
+
+            $(document.body).on('click', '.changeType', function() {
+                $(this).closest('.speaker-input').find('.type-text').text($(this).text());
+                $(this).closest('.speaker-input').find('.type-input').val($(this).data('type-value'));
+            });
+
+            $(document.body).on('click', '.btn-remove-speaker', function() {
+                $(this).closest('.deletespeaker').remove();
+            });
+            $('.btn-add-speaker').click(function() {
+
+                var index = $('.speaker-input').length + 1;
+
+                $('.form-group-speaker').append('' +
+                    '<div class="deletespeaker"><div class="speaker-input">' +
+                        '<span class="input-group-btn">' +
+                        '<button class="btn btn-danger btn-remove-speaker" type="button"><span class="glyphicon glyphicon-remove"></span></button>' +
+                        '</span>' +
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_name'+index+'"> Speaker Name : </label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                    '<input type="text" name="s_name'+index+'" placeholder="Speaker Name" required>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_organisation'+index+'"> Speaker Organisation: </label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                    '<input type="text" name="s_organisation'+index+'" placeholder="Speaker Organisation" required>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_profession'+index+'"> Speaker Profession: </label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                   ' <input type="text" name="s_profession'+index+'" placeholder="Speaker Profession" required>'+
+                               '</div>'+
+                          '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_photo'+index+'"> Speaker Image :</label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                            ' <input type="file" id="img" name="s_photo'+index+'" required>'+
+                        ' </div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label> Speakers Description :</label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                    '<textarea data-toggle="tooltip" data-placement="bottom" title="Enter the Event Descripition" type="text-area" placeholder="Speakers Description" class="form-control" rows="4" columns="3" name="s_descripition'+index+'" required></textarea>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_linkedIn'+index+'"> Speaker LinkedIn: </label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                    '<input type="text" name="s_linkedIn'+index+'" placeholder="LinkedIn">'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_facebook'+index+'"> Speaker Facebook: </label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                    '<input type="text" name="s_facebook'+index+'" placeholder="Facebook">'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                        '<div class="row">'+
+                            '<div class="col-sm-5">'+
+                                '<div class="labels">'+
+                                    '<label for="s_instagram'+index+'"> Speaker Instagram: </label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="col-sm-7">'+
+                                '<div class="texts">'+
+                                    '<input type="text" name="s_instagram'+index+'" placeholder="Instagram">'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="spacer" style="height:20px;"></div>'+
+                    '</div></div>'
                 );
             });
         });
