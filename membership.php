@@ -16,12 +16,16 @@
     function function_alert($message)
     {
         echo "<SCRIPT>
-            window.location.replace('loggedinmembership.php')
             alert('$message');
             </SCRIPT>";
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
-        if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+        $sql = "SELECT * FROM `membership` WHERE status = '0' && userid = (SELECT id from userdata where emailid = '$email')";
+        $query = mysqli_query($conn, $sql);
+        if(mysqli_num_rows($query) == 1){
+            function_alert("You have sent a request already");
+        }else if(isset($_SESSION['email'])) {
             $phpFileUploadErrors = array(
                 0 => 'There is no error, the file uploaded with success',
                 1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -72,7 +76,8 @@
             if(mysqli_num_rows($stmt) == 1){
                 $row = mysqli_fetch_assoc($stmt);
                 $id = $row['id'];
-                $sql = "INSERT INTO `membership`(`userid`, `membershipbill`, `smartcard`, `status`) VALUES ('$id','$file_new_bill','$file_new_card',0)";
+                $amount = $_POST['amount'];
+                $sql = "INSERT INTO `membership`(`userid`,`ammount`, `membershipbill`, `smartcard`, `status`) VALUES ('$id','$amount','$file_new_bill','$file_new_card',0)";
                 $stmt = mysqli_query($conn, $sql);
             }
 
@@ -178,6 +183,15 @@
                 <div class="spacer" style="height:40px;"></div>
                 <div class="row">
                     <div class="col-sm-5">
+                        <label class="control-label">Amount paid :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="text" name="amount" required>
+                    </div>
+                </div>
+                <div class="spacer" style="height:40px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
                         <label class="control-label">Smart card :</label>
                     </div>
                     <div class="col-sm-7">
@@ -193,6 +207,7 @@
                         <input type="file" name="billphoto" required>
                     </div>
                 </div>
+                <div class="spacer" style="height:40px;"></div>
                 <div class="row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4 text-center">
