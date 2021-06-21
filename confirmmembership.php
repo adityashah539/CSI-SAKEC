@@ -16,16 +16,16 @@
         function function_alert($message)
         {
         echo "<SCRIPT>
-            window.location.replace('index.php')
             alert('$message');
             </SCRIPT>";
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
             if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
                 $id = $_POST['id'];
-                echo $id;
                 if (isset($_POST['Confirm'])) {
                     $sql = "UPDATE membership SET status=1 WHERE userid = " . $id;
+                    $query = mysqli_query($conn, $sql);
+                    $sql = "UPDATE userdata SET role=5 WHERE id = " . $id;
                     $query = mysqli_query($conn, $sql);
                 } else if (isset($_POST['Delete'])) {
                     $sql = "DELETE FROM `membership` WHERE userid=" . $id;
@@ -65,7 +65,7 @@
             <div class="table-content" style="font-size: large;">
             <?php
             //hold
-            $sql = "SELECT * FROM `membership`,`userdata` WHERE membership.userid=userdata.id";
+            $sql = "SELECT * FROM `membership`,`userdata` WHERE membership.userid=userdata.id and membership.status = '0'";
             $sqlstmt = mysqli_query($conn, $sql);
             $number_of_data = mysqli_num_rows($sqlstmt);
             if($number_of_data){
