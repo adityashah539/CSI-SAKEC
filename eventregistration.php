@@ -18,19 +18,19 @@
             echo "<SCRIPT>alert('$message');</SCRIPT>";
         }
         if ($_SERVER['REQUEST_METHOD']=="POST") {
+            
             if (isset($_POST['register_now']) && isset($_POST['event_id'])&&isset($_POST['fee'])&&($_POST['fee']==0)&&isset($_SESSION['email'])) {
                 $email = $_SESSION['email'];
                 $event_id = $_POST['event_id'];
-                $sql = "SELECT `budget`.`id` as `budget_id`,`userdata`.`id` as `user_id` FROM `budget`,`userdata` WHERE `event_id`='$event_id' AND `emailID` ='$email'";
+                $sql = "SELECT `userdata`.`id` as `user_id` FROM `userdata` WHERE `emailID`='$email'";
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($result);
-                $budget_id = $row["budget_id"];
                 $user_id = $row["user_id"];
-                $sql = "INSERT INTO `collection`(`budget_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$budget_id','$user_id','1','auto')";
+                $sql = "INSERT INTO `collection`(`event_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$event_id','$user_id','1','auto')";
                 $result = mysqli_query($conn, $sql);
                 header("location:event.php?event_id=$event_id");
                 // for testing 
-                // echo $email."<br>".$event_id."<br>".$sql."<br>".$budget_id."<br>".$user_id."<br>";
+                echo $email."<br>".$event_id."<br>".$sql."<br>".$budget_id."<br>".$user_id."<br>";
             }
             else if(isset($_POST['paid_registration']) && $_POST['paid_registration']=="paid_registration"){
                 echo $_POST['paid_registration'];
@@ -55,17 +55,16 @@
                         move_uploaded_file($_FILES["bill_photo"]["tmp_name"],$location_file);
                         $email = $_SESSION['email'];
                         $event_id = $_POST['event_id'];
-                        $sql = "SELECT `budget`.`id` as `budget_id`,`userdata`.`id` as `user_id` FROM `budget`,`userdata` WHERE `event_id`='$event_id' AND `emailID` ='$email'";
+                        $sql = "SELECT `userdata`.`id` as `user_id` FROM `userdata` WHERE `emailID`='$email'";
                         $result = mysqli_query($conn, $sql);
-                        echo "<br>".$sql;
+                        //echo "<br>".$sql;
                         $row = mysqli_fetch_assoc($result);
-                        $budget_id = $row["budget_id"];
                         $user_id = $row["user_id"];
-                        $sql = "INSERT INTO `collection`(`budget_id`,`user_id`,`bill_photo`,`confirmed`) VALUES ('$budget_id','$user_id','$file_new_name','0')";
+                        $sql = "INSERT INTO `collection`(`event_id`,`user_id`,`bill_photo`,`confirmed`) VALUES ('$event_id','$user_id','$file_new_name','0')";
                         $result = mysqli_query($conn, $sql);
                         header("location:event.php?event_id=$event_id");
                         // for testing 
-                        // echo $email."<br>".$event_id."<br>".$sql."<br>".$budget_id."<br>".$user_id."<br>";
+                        echo $email."<br>".$event_id."<br>".$sql."<br>".$budget_id."<br>".$user_id."<br>".$_POST['fee'];
                     }else{
                         function_alert("The photo of the bill should be of jpg, jpeg, png.");
                     }

@@ -65,34 +65,10 @@
                         }
                         header("location:index.php");
                     } else {
-                        function_alert("Plese enter the corrrect password");
+                        //function_alert("Plese enter the corrrect password");
+                        echo password_hash( $password, PASSWORD_BCRYPT);
                     }
                 }
-                /*mysqli_stmt_bind_param($stmt, 's', $param_email);
-                $param_email = $email;
-                if (mysqli_stmt_execute($stmt)) {
-                    mysqli_stmt_store_result($stmt);
-                    if (mysqli_stmt_num_rows($stmt) == 1) {
-                        mysqli_stmt_bind_result($stmt, $email, $hashed_Password);
-                        if (mysqli_stmt_fetch($stmt)) {
-                            if ($password === $hashed_Password) {
-                                $sql = "SELECT `role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
-                                $result = mysqli_query($conn, $sql);
-                                $row = mysqli_fetch_assoc($result);
-                                $_SESSION["role"] = $row["role_name"];
-                                $_SESSION["email"] = $email;
-                                if(isset($_POST['rememeber_me'])){
-                                    setcookie('email',$email,time()+86400);
-                                    setcookie('password',$password,time()+86400);
-                                }
-                                header("location:index.php");
-                            } else {
-                                function_alert("Plese enter the corrrect password");
-                            }
-                        }
-                    }
-                }*/
-
             }
             else{
                 function_alert($err);

@@ -72,6 +72,15 @@
                 <li class="nav-item">
 					<a class="nav-link" href="permission.php"><i class="fas fa-envelope-open-text"></i> Permission Letter</a>
 				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="budget.php"><i class="fas fa-balance-scale"></i> Budget</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="confirmeventregistration.php"><i class="fas fa-calendar-day"></i> Confirm Event Registration</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="content_repository.php"><i class="fas fa-images"></i> Content Repository</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">

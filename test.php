@@ -3,46 +3,115 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>test </title>
+    <style>
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        .toolbar {}
+
+        .tool-list {
+            display: flex;
+            flex-flow: row nowrap;
+            list-style: none;
+            padding: 0;
+            margin: 1rem;
+            overflow: hidden;
+            border-raduis: 10px;
+        }
+
+        .tool {}
+
+        .tool--btn {
+            display: block;
+            border: none;
+            padding: .5rem;
+            font-size: 20px;
+        }
+
+        #output {
+            height: auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            margin: 1rem;
+            padding: 1rem;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div id="status">
-        <!-- <button type="submit" id="button_live" onclick="status_change()" class="btn btn-success">Live</button> -->
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn btn-outline-success active">
-                <input type="radio" name="options" id="option1" checked> Active
-            </label>
-            <label class="btn btn-outline-danger">
-                <input type="radio" name="options" id="option2"> Radio
-            </label>
-
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-        </div>
+    <div class="toolbar">
+        <ul class="tool-list">
+            <li class="tool">
+                <button type="button" data-command='justifyLeft' class="tool--btn">
+                    <i class=' fas fa-align-left'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command='justifyCenter' class="tool--btn">
+                    <i class=' fas fa-align-center'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command='justifyRight' class="tool--btn">
+                    <i class=' fas fa-align-right'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command="bold" class="tool--btn">
+                    <i class=' fas fa-bold'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command="italic" class="tool--btn">
+                    <i class=' fas fa-italic'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command="underline" class="tool--btn">
+                    <i class=' fas fa-underline'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command="insertOrderedList" class="tool--btn">
+                    <i class=' fas fa-list-ol'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command="insertUnorderedList" class="tool--btn">
+                    <i class=' fas fa-list-ul'></i>
+                </button>
+            </li>
+            <li class="tool">
+                <button type="button" data-command="createlink" class="tool--btn">
+                    <i class=' fas fa-link'></i>
+                </button>
+            </li>
+        </ul>
     </div>
-    <!-- <script>
-        function status_change() {
-            var x = document.getElementById("button_live");
-            if (JSON.stringify(x) != "null") {
-                document.getElementById("status").innerHTML = '<button type="submit" name="delete_event_btn" onclick="status_change()" class="btn btn-danger"> Delete</button>';
-            } else {
-                document.getElementById("status").innerHTML = '<button type="submit" id ="button_live" onclick="status_change()" class="btn btn-success">Live</button>';
-            }
-        }
 
-        function eventfuvtion(data) {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("txtHint").innerHTML = this.responseText;
+    <div id="output" contenteditable="true"></div>
+    <script>
+        let output = document.getElementById('output');
+        let buttons = document.getElementsByClassName('tool--btn');
+        for (let btn of buttons) {
+            btn.addEventListener('click', () => {
+                let cmd = btn.dataset['command'];
+                if (cmd === 'createlink') {
+                    let url = prompt("Enter the link here: ", "http:\/\/");
+                    document.execCommand(cmd, false, url);
+                } else {
+                    document.execCommand(cmd, false, null);
                 }
-            };
-            xmlhttp.open("GET", "eventfuction.php?q=" + str, true);
-            xmlhttp.send();
+            })
         }
-    </script> -->
+    </script>
 </body>
 
 </html>

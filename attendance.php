@@ -49,7 +49,6 @@
                         <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off"/>
                         <button id="search-button" type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
-                            
                         </button>
                     </div>
                 </form>

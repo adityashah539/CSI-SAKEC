@@ -48,7 +48,6 @@
                     $stmt = mysqli_query($conn, $sql);
                     // if($stmt)echo "success";
                     // else echo "fail";
-
                     move_uploaded_file($_FILES["img"]["tmp_name"],$folder_location.$file_new_name);
                     if($_FILES["img"]["error"]!=0){
                         $err =  $phpFileUploadErrors[$_FILES["img"]["error"]];
@@ -87,18 +86,14 @@
                             <textarea rows="4" cols="50" name="description" class="form-control"><?php echo $row['description'];?></textarea>
                         </div>
                     </div>
-               
-                   
                     <div class="spacer" style="height:10px;"></div>
                 </div>
             </div>
             </div>
-         
             <button type="submit" class="btn btn-primary" name = "submit">Sumbit</button>
             <div class="spacer" style="height:40px;"></div>
         </form>
 
-       
         <div  class="footer">
             <div class="spacer" style="height:2px;"></div>
             <a href="index.html"><i class="fas fa-home"></i></a>

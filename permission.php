@@ -1,98 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/attendance.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <title>Attentance</title>
+    <?php
+    require_once "config.php";
+    function function_alert($message)
+    {
+        echo "<SCRIPT>
+                    window.location.replace('eventmanagement.php')
+                    alert('$message');
+                </SCRIPT>";
+    }
+    $to_search = "";
+    if (isset($_POST['search'])) {
+        $to_search = trim(strtolower($_POST['search']));
+    }
+    ?>
 </head>
 
 <body>
-    <div class="container">
-        <img id="header" src="images/CSI-header.jpg" alt="CSI" style="width: 967px; height: 238px;"> <br>
-        <div id="exportContent">
-            <br>
-            <div class="head" style="display: flex;
-            justify-content: space-between;"><span><b>REF NO.:__</b></span> <span><b>DATE:_/_/__</b></span></div>
-            <div class="spacer" style="height: 50px;"></div>
-            <p>
-                To, <br>
-                The Principal, <br>
-                Shah & Anchor Kutchhi Engineering College <br>
-                Chembur, Mumbai 400088
-                <br><br>
-                Subject: Permission to conduct an event on Introduction to ML with Tensor-flow 2.0. {{ EVENT NAME}}
-                <br><br>
-                Respected Sir,
-                <br><br>
-                {{ DETAILS }}<br>
-                CSI-SAKEC is organising an event <b>'Introduction to ML with Tensor-flow 2.0'</b>,in
-                collaboration with Computer Department on 10th August, 2019. For the same, permission
-                is required to access lab 209 and 210 along with screen and projectors as well as social
-                media publicity. <br>
-                Thus, kindly give us permission to access the above mentioned venue from 9:00 AM to 5:00 PM on 10th August,
-                2019.
-                <br><br>
-                Thanking You. <br>
-                Yours sincerely, <br>
-                {{ SIGNATURE OF SECRETARY }}<br>
-                <!-- <img src="images/Chintan-sign.jpg" alt="signature" style="width: 147px;"> --> <br> <br>
-                General Secretary <br>
-                (CSI-SAKEC 2019-20)
-            </p>
-            <br> <br>
-            <form style="text-align:center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <!-- <button name="doc" id="i" onclick="a()">EXPORT TO DOC</button> -->
-                <button class="btn btn-primary" id="i" onclick="Export2Word('exportContent', 'word-content.docx');"><i class="fa-solid fa-phone"></i>Export as .docx</button>
-                
-            </form>
-            <br> <br>
-        </div>
-        <!-- Your content here -->
-    </div>
+    <header>
+        <h2 style="text-align: center;">Permission</h2>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
+				
+			</ul>
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <div class="input-group">
+                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off"/>
+                        <button id="search-button" type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+			</ul>
+		</div>
+	</nav>
+    <table class="table" id="myTable">
+        <thead class="table-head">
+            <tr>
+                <th scope="col">Event Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <div class="table-content" style="font-size: large;">
+                <?php
+                require_once "config.php";
+                session_start();
+                if (isset($_SESSION['email'])) {
+                    if ($_SESSION['role'] === 'admin') {
+                        $sql = "SELECT * FROM `event` WHERE LOWER(`title`) LIKE '%$to_search%' ";
+                        $query = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($query) > 0) {
+                            while ($row = mysqli_fetch_assoc($query)) {
+                ?>
+                                <tr>
+                                    <td>
+                                        <form action="permission_export.php" method="GET">
+                                            <input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" class="textbutton"><?php echo $row['title']; ?></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                <?php
+                            }
+                        } else {
+                            echo "<td>No Record Found</td>";
+                        }
+                    } else {
+                        echo "<td>You need excess to see.</td>";
+                    }
+                } else {
+                    echo "<td>You have not logged in.</td>";
+                }
 
+                ?>
+            </div>
+        </tbody>
+    </table>
+    <div class="footer">
+        <div class="spacer" style="height:2px;"></div>
+        <a href="index.php"><i class="fas fa-home"></i></a>
+        <div class="spacer" style="height:0px;"></div>
+        <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
+        <div class="spacer" style="height:1px;"></div>
+    </div>
     <script>
-        // function a(){
-        // document.getElementById("i").style.display ="NONE"; 
-        // //window.print();
-        // document.getElementById("i").style.display ="block"; 
-        // }
-        function Export2Word(element, filename = '') {
-            document.getElementById("i").style.display = "NONE";
-            document.getElementById("header").style.display = "NONE";
-            //window.print();
-            var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
-            var postHtml = "</body></html>";
-            var html = preHtml + document.getElementById(element).innerHTML + postHtml;
-            var blob = new Blob(['\ufeff', html], {
-                type: 'application/msword'
-            });
-            // Specify link url
-            var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
-            // Specify file name
-            filename = filename ? filename + '.doc' : 'document.doc';
-            // Create download link element
-            var downloadLink = document.createElement("a");
-            document.body.appendChild(downloadLink);
-            if (navigator.msSaveOrOpenBlob) {
-                navigator.msSaveOrOpenBlob(blob, filename);
-            } else {
-                // Create a link to the file
-                downloadLink.href = url;
-                // Setting the file name
-                downloadLink.download = filename;
-                //triggering the function
-                downloadLink.click();
+        function myFunction() {
+            var filter, table, tr, td, i, eventname;
+            filter = document.getElementById('myInput').value.toUpperCase();
+            table = document.getElementById('myTable');
+            tr = table.getElementsByTagName('tr');
+            debugger;
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                if (td) {
+                    eventname = td[0].textContent || td[0].innerText;
+                    if (eventname.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
-            document.body.removeChild(downloadLink);
-            //window.print();
-            document.getElementById("i").style.display = "block";
-            document.getElementById("header").style.display = "NONE";
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>

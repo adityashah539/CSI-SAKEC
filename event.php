@@ -17,8 +17,8 @@
     <?php
     require_once "config.php";
     session_start();
-    $id = $_GET['event_id'];
-    $sql = "SELECT * FROM event WHERE id='$id'";
+    $event_id = $_GET['event_id'];
+    $sql = "SELECT * FROM event WHERE id='$event_id'";
     $query = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($query);
     ?>
@@ -50,12 +50,9 @@
             if (isset($_SESSION["email"])) {
                 $email = $_SESSION["email"];
                 $checkersql =
-                    "SELECT `confirmed`  
-                    FROM `collection`,`budget`,`userdata` 
-                    WHERE `collection`.`budget_id`= `budget`.`id` 
-                    AND   `collection`.`user_id`  = `userdata`.`id`
-                    AND   `userdata`.`emailID`    = '$email'
-                    AND   `budget`.`event_id`     = '$id'";
+                    "SELECT `confirmed` 
+                    FROM `collection`,`userdata` 
+                    WHERE `collection`.`event_id`= '$event_id' AND `collection`.`user_id` = `userdata`.`id` AND `userdata`.`emailID` = '$email' ";
                 $checker = mysqli_query($conn, $checkersql);
                 $row1 = mysqli_fetch_assoc($checker);
                 if (isset($row1["confirmed"])) {
