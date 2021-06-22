@@ -14,13 +14,6 @@
     require_once "config.php";
     session_start();
     ob_start();
-    function function_alert($message)
-    {
-        echo 
-        "<SCRIPT>
-            alert('$message');
-        </SCRIPT>";
-    }
     if(isset($_GET['notlogin'])){
         if($_GET['notlogin']){
             function_alert("You need to login to access the feature.");
@@ -90,6 +83,7 @@
                 <i class="fas fa-lock" style="font-size:30px;"></i>
                 <input  title="your password" id="pass" type="password" class="g" name="password" required="required" placeholder=" Input Password"></br>
                 <input class="me" name="rememeber_me" type="checkbox">Remember me</br>
+                <div class="alert">Your Message has been sent</div>
                 <button type="submit" value="submit" class="btn btn-primary">Login<i class="fas fa-sign-in-alt"></i></button>
             </form>
             </br></br>
@@ -97,6 +91,15 @@
             <p><a style="color: rgb(168, 192, 212);" href="signup.php">Sign Up</a></p>
         </div>
     </div>
+    <script>
+          document.querySelector('.alert').style.display='block';
+    
+    //Hide alert after 3 seconds
+    setTimeout(function(){
+        document.querySelector('.alert').style.display='none';
+    },3000);
+
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
@@ -109,5 +112,4 @@
         })
     </script>
 </body>
-
 </html>

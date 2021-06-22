@@ -22,8 +22,9 @@
     <header class="header_area">
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      
                 <div class="container">
-                    <a class="navbar-brand" href="#" style="color: aliceblue;">CSI SAKEC</a>
+                <a class="navbar-brand" href="#" style="color: aliceblue;">CSI SAKEC</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -54,10 +55,14 @@
                                     </li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
-                            </li> -->
+                            </li>
                             <li class="nav-item active">
                                 <a class="nav-link active" href="#contact">CONTACT</a>
                             </li>
+                            -->
+                        <?php
+                            if(isset($_SESSION['role']) && $_SESSION['role']=='admin'){
+                        ?>
                             <li class="nav-item active">
                                 <a class="nav-link" href="database.php">Userdata</a>
                             </li>
@@ -71,18 +76,25 @@
                                 <a class="nav-link" href="log.php">Reply Log</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="budget.php">Budget</a>
-                            </li>
-                            <li class="nav-item active">
                                 <a class="nav-link" href="audit.php">Audit</a>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="confirmeventregistration.php">Confirm Event Registration</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="gallery.php">Gallery</a>
+                        <?php
+                            }
+                        ?>
                         </ul>
-                        <a class="btn main_btn">Login</a>
+                        <?php
+                            if(isset($_SESSION['email'])){
+                        ?>
+                                <a href="logout.php" class="btn main_btn">Logout</a>
+                        <?php
+                            }
+                            else{
+                        ?>
+                                <a href="login.php" class="btn main_btn">Login</a>
+                                <a href="signup.php" class="btn main_btn">Sigup</a>
+                        <?php  
+                            }
+                        ?>                     
                     </div>
                 </div>
             </nav>
@@ -426,7 +438,9 @@
     </section>
     <!-- footer ends -->
 
-    <!-- ❤ -->
+    <!-- ❤ ❤ ❤ ❤ ❤ ❤ ❤ 
+Israil - +91 7977435942 for any kind of technical support
+-->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery-3.4.1.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
