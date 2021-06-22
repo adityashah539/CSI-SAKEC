@@ -262,7 +262,10 @@
                                                 <p>
                                                     <?php echo $rowevent['e_description']; ?>
                                                 </p>
-                                                <a class="btn main_btn" type="submit">Read More</a>
+                                                <form action="event.php" method="GET">  
+                                                    <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
+                                                    <button class="btn main_btn" type="submit">Read More</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -285,24 +288,27 @@
                                 if ($rowevent['live'] == 1) {
                                     $eventdate = date("d F Y", strtotime($rowevent['e_from_date']));
                         ?>
-                                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                                        <div class="posts">
-                                            <img src="<?php echo "Banner/" . trim($rowevent['banner']); ?>" alt="" class="img-fluid">
-                                            <div class="blog-inner">
-                                                <h2><a href="#"><?php echo $rowevent['title']; ?></a></h2>
-                                                <div class="mh-blog-post-info">
+                                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                                            <div class="posts">
+                                                <img src="<?php echo "Banner/" . trim($rowevent['banner']); ?>" alt="" class="img-fluid">
+                                                <div class="blog-inner">
+                                                    <h2><a href="#"><?php echo $rowevent['title']; ?></a></h2>
+                                                    <div class="mh-blog-post-info">
+                                                        <p>
+                                                            <strong>Event on </strong>
+                                                            <span class="event_date"><?php echo $eventdate; ?></span>
+                                                        </p>
+                                                    </div>
                                                     <p>
-                                                        <strong>Event on </strong>
-                                                        <span class="event_date"><?php echo $eventdate; ?></span>
+                                                        <?php echo $rowevent['e_description']; ?>
                                                     </p>
+                                                    <form action="event.php" method="GET">  
+                                                        <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
+                                                        <button class="btn main_btn" type="submit">Read More</button>
+                                                    </form>
                                                 </div>
-                                                <p>
-                                                    <?php echo $rowevent['e_description']; ?>
-                                                </p>
-                                                <a class="btn main_btn" type="submit">Read More</a>
                                             </div>
                                         </div>
-                                    </div>
                         <?php
                                 }
                             }

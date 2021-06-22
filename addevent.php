@@ -59,7 +59,7 @@
                 $fee = $_POST['fee'];
                 $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
                 $sql = "INSERT INTO `event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`)
-                                    VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','true')";
+                                    VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1'   )";
                 mysqli_query($conn, $sql);
                 move_uploaded_file($_FILES["e_banner"]["tmp_name"], $folder_name_banner . $file_new_banner);
                 $last_entry = mysqli_insert_id($conn);
@@ -94,8 +94,8 @@
                     $s_facebook = $_POST['s_facebook'.$index];
                     $s_instagram = $_POST['s_instagram'.$index];
                     $file_new_speaker = uniqid('', true) . "." . $file_ext_s_photo;
-                    $sql = "INSERT INTO `speaker`(`event_id`   , `name`  , `organisation`  , `profession`  , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
-                                        VALUES   ('$last_entry','$s_name','$s_organisation','$s_profession','$s_photo','$s_linkedIn','$s_facebook','$s_instagram')";
+                    $sql = "INSERT INTO `speaker`(`event_id`   , `name`  , `organisation`  , `profession`, `description`     , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
+                                           VALUES('$last_entry','$s_name','$s_organisation','$s_profession','$s_descripition','$s_photo','$s_linkedIn','$s_facebook','$s_instagram');";
                     mysqli_query($conn, $sql);
                     if ($s_photo != null) {
                         move_uploaded_file($_FILES["s_photo".$index]["tmp_name"], $folder_name_speaker . $file_new_speaker);
