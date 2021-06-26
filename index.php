@@ -414,12 +414,39 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6 offset-lg-1">
                         <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">Top Products</h6>
+                            <h6 class="footer_title">contact</h6>
                             <ul class="list">
-                                <li><a href="#">Managed Website</a></li>
-                                <li><a href="#">Managed Website</a></li>
-                                <li><a href="#">Managed Website</a></li>
-                                <li><a href="#">Managed Website</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">Membership</a></li>
+                                <li>
+                                    <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
+                                </li>
+
+
+                                <!-- Newsletter Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="email" name="name" placeholder="Your Email"
+                                                    onfocus="this.placeholder=''" onblur="this.placeholder='Email'"
+                                                    autocomplete="off" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn news-btn">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </ul>
                         </div>
                     </div>
