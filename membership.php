@@ -75,29 +75,23 @@
             $stmt = mysqli_query($conn, $sqluser);
             if(mysqli_num_rows($stmt) == 1){
                 $row = mysqli_fetch_assoc($stmt);
-                $userid = $row['id'];
+                $id = $row['id'];
                 $amount = $_POST['amount'];
-                $dob = $_POST['birthday'];
-                $primaryemail = $_POST['primaryemail'];
-                $gradstartyear = $_POST['gradstartyear'];
-                $gradendyear = $_POST['gradendyear'];
-                //$sql = "INSERT INTO `membership`(`userid`,`ammount`, `membershipbill`, `smartcard`, `status`) VALUES ('$id','$amount','$file_new_bill','$file_new_card',0)";
-                $sql = "INSERT INTO `membership`( `userid`, `dob`, `primaryEmail`,  `startingYear`, `passingYear`,`ammount`,`membershipbill`,     `smartcard`, `status`) 
-                                        VALUES  ('$userid','$dob','$primaryemail','$gradstartyear','$gradendyear','$amount','$file_new_bill','$file_new_card',        0)";
+                $sql = "INSERT INTO `membership`(`userid`,`ammount`, `membershipbill`, `smartcard`, `status`) VALUES ('$id','$amount','$file_new_bill','$file_new_card',0)";
                 $stmt = mysqli_query($conn, $sql);
             }
 
 
-            // $member_period = trim($_POST["member_period"]);
-            // // $registration_number = trim($_POST["registration_number"]);
-            // if ($_SESSION["role"] === 'student') {
-            //     $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period' WHERE emailID='$email'";
-            //     mysqli_query($conn, $sql);
-            //     header("location: index.php");
-            //     mysqli_close($conn);
-            // } else {
-            //     function_alert("You are member .You don't need membership");
-            // }
+            $member_period = trim($_POST["member_period"]);
+            $registration_number = trim($_POST["registration_number"]);
+            if ($_SESSION["role"] === 'student') {
+                $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period' WHERE emailID='$email'";
+                mysqli_query($conn, $sql);
+                header("location: index.php");
+                mysqli_close($conn);
+            } else {
+                function_alert("You are member .You don't need membership");
+            }
         }else{
             function_alert("You need to login");
         }
@@ -142,7 +136,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="spacer" style="height:20px;"></div>
+                <!-- <div class="spacer" style="height:20px;"></div>
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="labels">
@@ -157,32 +151,6 @@
                 </div>
                 <div class="spacer" style="height:35px;"></div>
                 <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="birthday">Graduation Starting Year :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="number" id="gradstartyear" name="gradstartyear" min="1900" max="2099" step="1" value="2020" />
-                        </div>
-                    </div>
-                </div>
-                <div class="spacer" style="height:35px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="birthday">Graduation Ending Year :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="number" id="gradendyear" name="gradendyear" min="1900" max="2099" step="1" value="2022" >
-                        </div>
-                    </div>
-                </div>
-                <div class="spacer" style="height:35px;"></div>
-                <!-- <div class="row">
 
                     <div class="col-sm-5">
                         <div class="labels">
@@ -197,9 +165,9 @@
                             <label for="Female">Female</label>
                         </div>
                     </div>
-                </div>
-                <div class="spacer" style="height:20px;"></div> -->
-                <!-- <div class="row">
+                </div> -->
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
                     <div class="col-sm-5">
                         <div class="labels">
                             <label for="rnumber">College Registration Number :</label>
@@ -212,18 +180,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="spacer" style="height:40px;"></div> -->
+                <div class="spacer" style="height:40px;"></div>
                 <div class="row">
-                    <div class="col-sm-5 labels">
-                        <label class="control-label">Primary Email :</label>
-                    </div>
-                    <div class="col-sm-7">
-                        <input type="text" name="primaryemail" required>
-                    </div>
-                </div>
-                <div class="spacer" style="height:35px;"></div>
-                <div class="row">
-                    <div class="col-sm-5 labels">
+                    <div class="col-sm-5">
                         <label class="control-label">Amount paid :</label>
                     </div>
                     <div class="col-sm-7">
@@ -232,7 +191,7 @@
                 </div>
                 <div class="spacer" style="height:40px;"></div>
                 <div class="row">
-                    <div class="col-sm-5 labels">
+                    <div class="col-sm-5">
                         <label class="control-label">Smart card :</label>
                     </div>
                     <div class="col-sm-7">
@@ -241,7 +200,7 @@
                 </div>
                 <div class="spacer" style="height:40px;"></div>
                 <div class="row">
-                    <div class="col-sm-5 labels">
+                    <div class="col-sm-5">
                         <label class="control-label">Bill photo :</label>
                     </div>
                     <div class="col-sm-7">
@@ -269,11 +228,6 @@
             <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
             <div class="spacer" style="height:1px;"></div>
         </div>
-        <script>
-            $(function() {
-                $( "#datepicker" ).datepicker({dateFormat: 'yy'});
-            });​
-        </script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </body>

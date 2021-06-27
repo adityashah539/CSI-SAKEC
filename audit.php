@@ -39,25 +39,26 @@
 </head>
 <body>
     <?php
-        if (!isset($_GET['to'])||!isset($_GET['from'])) {
+        if ($_SESSION['var'] == 0) {
     ?>
         <div id="toDate">
             <h3>Choose a date</h3>
             <div class="spacer" style="height: 20px;"></div>
-            <form action="<?php $_SESSION['var'] = 1;echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
+            <form action="<?php $_SESSION['var'] = 1;echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <label for="FROM">FROM :</label>
                 <input type="date" id="r" name="from" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD" />
                 <label for="TO">TO :</label>
                 <input type="date" id="r" name="to" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD" />
-                <button type="submit" name="date" value="date" class="btn btn-primary">Submit</button>
+                <button type="submit" name="date" class="btn btn-primary">Submit</button>
             </form>
 
         </div>
     <?php
         }
-        if (($_SERVER["REQUEST_METHOD"] == "GET") && isset($_GET['date'])) {
-            $from_date = $_GET["from"];
-            $to_date = $_GET["to"];
+        
+        if (($_SERVER["REQUEST_METHOD"] == "POST") && isset($_POST['date'])) {
+            $from_date = $_POST["from"];
+            $to_date = $_POST["to"];
             $sql = "select e.id, e.title, e.e_from_date, e.e_to_date, e.s_name, e.collaboration, e.e_description, c.budget_id 
                     from event as e, budget as b, collection as c 
                     where e.e_from_date >= '$from_date' and e.e_to_date <= '$to_date' and e.id = b.event_id and c.budget_id = b.id 
@@ -151,11 +152,15 @@
             var dataFileType = 'application/vnd.ms-excel';
             var tableSelect = document.getElementById(tableID);
             var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
+            
             // Specify file name
             filename = filename?filename+Date.now()+'.xls':'export_excel_data.xls';
+            
             // Create download link element
             downloadurl = document.createElement("a");
+            
             document.body.appendChild(downloadurl);
+            
             if(navigator.msSaveOrOpenBlob){
                 var blob = new Blob(['\ufeff', tableHTMLData], {
                     type: dataFileType
@@ -164,13 +169,15 @@
             }else{
                 // Create a link to the file
                 downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
+            
                 // Setting the file name
                 downloadurl.download = filename;
+                
                 //triggering the function
                 downloadurl.click();
             }
         }
-
+        
 </script>
 </body>
 
