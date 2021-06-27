@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="css/style.css">
     <title>CSi</title>
     <?php
-        session_start();
-        require_once "config.php";
+    session_start();
+    require_once "config.php";
     ?>
 </head>
 
@@ -22,9 +22,9 @@
     <header class="header_area">
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-      
+
                 <div class="container">
-                <a class="navbar-brand" href="#" style="color: aliceblue;">CSI SAKEC</a>
+                    <a class="navbar-brand" href="#" style="color: aliceblue;">CSI SAKEC</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -60,41 +60,40 @@
                                 <a class="nav-link active" href="#contact">CONTACT</a>
                             </li>
                             -->
-                        <?php
-                            if(isset($_SESSION['role']) && $_SESSION['role']=='admin'){
-                        ?>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="database.php">Userdata</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="eventmanagement.php">Event Management</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="query.php">Query</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="log.php">Reply Log</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="audit.php">Audit</a>
-                            </li>
-                        <?php
+                            <?php
+                            if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="database.php">Userdata</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="eventmanagement.php">Event Management</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="query.php">Query</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="log.php">Reply Log</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="audit.php">Audit</a>
+                                </li>
+                            <?php
                             }
-                        ?>
+                            ?>
                         </ul>
                         <?php
-                            if(isset($_SESSION['email'])){
+                        if (isset($_SESSION['email'])) {
                         ?>
-                                <a href="logout.php" class="btn main_btn">Logout</a>
+                            <a href="logout.php" class="btn main_btn">Logout</a>
                         <?php
-                            }
-                            else{
+                        } else {
                         ?>
-                                <a href="login.php" class="btn main_btn">Login</a>
-                                <a href="signup.php" class="btn main_btn">Sigup</a>
-                        <?php  
-                            }
-                        ?>                     
+                            <a href="login.php" class="btn main_btn">Login</a>
+                            <a href="signup.php" class="btn main_btn">Sigup</a>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </nav>
@@ -274,7 +273,7 @@
                                                 <p>
                                                     <?php echo $rowevent['e_description']; ?>
                                                 </p>
-                                                <form action="event.php" method="GET">  
+                                                <form action="event.php" method="GET">
                                                     <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
                                                     <button class="btn main_btn" type="submit">Read More</button>
                                                 </form>
@@ -300,27 +299,27 @@
                                 if ($rowevent['live'] == 1) {
                                     $eventdate = date("d F Y", strtotime($rowevent['e_from_date']));
                         ?>
-                                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                                            <div class="posts">
-                                                <img src="<?php echo "Banner/" . trim($rowevent['banner']); ?>" alt="" class="img-fluid">
-                                                <div class="blog-inner">
-                                                    <h2><a href="#"><?php echo $rowevent['title']; ?></a></h2>
-                                                    <div class="mh-blog-post-info">
-                                                        <p>
-                                                            <strong>Event on </strong>
-                                                            <span class="event_date"><?php echo $eventdate; ?></span>
-                                                        </p>
-                                                    </div>
+                                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                                        <div class="posts">
+                                            <img src="<?php echo "Banner/" . trim($rowevent['banner']); ?>" alt="" class="img-fluid">
+                                            <div class="blog-inner">
+                                                <h2><a href="#"><?php echo $rowevent['title']; ?></a></h2>
+                                                <div class="mh-blog-post-info">
                                                     <p>
-                                                        <?php echo $rowevent['e_description']; ?>
+                                                        <strong>Event on </strong>
+                                                        <span class="event_date"><?php echo $eventdate; ?></span>
                                                     </p>
-                                                    <form action="event.php" method="GET">  
-                                                        <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
-                                                        <button class="btn main_btn" type="submit">Read More</button>
-                                                    </form>
                                                 </div>
+                                                <p>
+                                                    <?php echo $rowevent['e_description']; ?>
+                                                </p>
+                                                <form action="event.php" method="GET">
+                                                    <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
+                                                    <button class="btn main_btn" type="submit">Read More</button>
+                                                </form>
                                             </div>
                                         </div>
+                                    </div>
                         <?php
                                 }
                             }
@@ -401,12 +400,23 @@
                             <h6 class="footer_title">Contact Us</h6>
                             <p>You can trust us. we only send promo offers, not a single spam.</p>
                             <div class="guery">
-                                <form action="">
+                                <?php
+                                if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['sendit'])) {
+                                    $name = $_POST['name'];
+                                    $email = $_POST['email'];
+                                    $query = $_POST['query'];
+                                    $sql = "INSERT INTO `query`(`c_name`, `c_email`, `c_query`) VALUES ('$name','$email','$query')";
+                                    $querycontact = mysqli_query($conn, $sql);
+                                    //Appending email reply part
+
+                                }
+                                ?>
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                                     <div class="input-group d-flex flex-row">
                                         <input type="text" name="name" placeholder="Your Name" onfocus="this.placeholder=''" onblur="this.placeholder='Name'" autocomplete="off" required>
-                                        <input type="email" name="name" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
-                                        <textarea type="email" name="name" placeholder="Message" onfocus="this.placeholder=''" onblur="this.placeholder='Message'" autocomplete="off" required></textarea>
-                                        <button class="btn sub-btn">Send</button>
+                                        <input type="email" name="email" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
+                                        <textarea type="text" name="query" placeholder="Query" onfocus="this.placeholder=''" onblur="this.placeholder='Query'" autocomplete="off" required></textarea>
+                                        <button value="senditagain" name="sendit" class="btn sub-btn">Send</button>
                                     </div>
                                 </form>
                             </div>
