@@ -14,6 +14,44 @@
     <?php
     session_start();
     require_once "config.php";
+    function function_alert($message){
+        echo
+            "<SCRIPT>
+            window.location.replace('index.php')
+            alert('$message');
+        </SCRIPT>";
+    }
+    function send_mail($to_email, $subject, $body, $headers){
+        if (mail($to_email, $subject, $body, $headers)) {
+            function_alert("Email successfully sent to $to_email...");
+        } else {
+            function_alert("$to_email, $subject, $body, $headers");
+        }
+    }
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['contactusbutton'])) {
+        if($_POST['email']!=null){
+            $to_email =trim($_POST['email']) ;
+        }
+        else{
+            $to_email = trim($_POST['emailentered']);
+        }
+        $subject = "Acknowledgement from CSI to ".substr($to_email,0, strpos($to_email, "."))." ".substr($to_email,strpos($to_email, ".")+1, strpos($to_email, "_")-strpos($to_email, ".")+1);
+        $body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+        $headers = "From: guptavan96@gmail.com";
+        $query= trim($_POST['message']);
+        if(isset($to_email)){
+            send_mail($to_email, $subject, $body, $headers);
+            if(strpos($to_email, "@sakec.ac.in")||strpos($to_email, "@gmail.com")){
+                $sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$query')";
+                $stmt = mysqli_query($conn, $sql);
+                function_alert("Msg has been deliverd."); 
+            }else {
+                function_alert("Pls enter the sakec's or your own emailid.");
+            }
+        }else {
+            function_alert("Pls fill details properly.");
+        }
+    }
     ?>
 </head>
 
@@ -443,12 +481,20 @@
                             <h6 class="footer_title">Contact Us</h6>
                             <p>You can trust us. we only send promo offers, not a single spam.</p>
                             <div class="guery">
-                                <form action="">
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                                     <div class="input-group d-flex flex-row">
-                                        <input type="text" name="name" placeholder="Your Name" onfocus="this.placeholder=''" onblur="this.placeholder='Name'" autocomplete="off" required>
-                                        <input type="email" name="name" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
-                                        <textarea type="email" name="name" placeholder="Message" onfocus="this.placeholder=''" onblur="this.placeholder='Message'" autocomplete="off" required></textarea>
-                                        <button class="btn sub-btn">Send</button>
+                                        <?php
+                                        if (isset($_SESSION['email'])&&isset($_SESSION['role'])) {
+                                            echo '<input type="hidden" name="email" value="' . $_SESSION['email'] . '">';
+                                        } else {
+                                            echo '<input type="email" name="emailentered" placeholder="Your Email" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'Email\'" autocomplete="off" required>';
+                                        }
+                                        echo '<textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder='.'" onblur="this.placeholder=\'Message\'" autocomplete="off" required></textarea>';
+                                        ?>
+                                        <!-- <input type="text" name="name" placeholder="Your Name" onfocus="this.placeholder=''" onblur="this.placeholder='Name'" autocomplete="off" required> -->
+                                        <!-- <input type="email" name="email" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required> -->
+                                        <!-- <textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=''" onblur="this.placeholder='Message'" autocomplete="off" required></textarea> -->
+                                        <button class="btn sub-btn" name = "contactusbutton">Send</button>
                                     </div>
                                 </form>
                             </div>
