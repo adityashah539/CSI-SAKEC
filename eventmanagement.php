@@ -73,6 +73,9 @@
 					<a class="nav-link" href="permission.php"><i class="fas fa-envelope-open-text"></i> Permission Letter</a>
 				</li>
                 <li class="nav-item">
+					<a class="nav-link" href="report_event.php"><i class="fas fa-balance-scale"></i> Report</a>
+				</li>
+                <li class="nav-item">
 					<a class="nav-link" href="budget.php"><i class="fas fa-balance-scale"></i> Budget</a>
 				</li>
                 <li class="nav-item">
