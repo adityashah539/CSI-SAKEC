@@ -188,7 +188,7 @@
                                     <div class="card card-cascade">
                                         <!-- Card image -->
                                         <div class="view view-cascade overlay">
-                                            <img class="card-img-top" src="Speaker_Image/<?php echo trim($rowspeaker['photo']); ?>" alt="Card image cap">
+                                            <img class="card-img-top" src="Speaker_Image/<?php echo trim($rowspeaker['photo']); ?>" alt="<?php echo trim($rowspeaker['photo']); ?>">
                                             <a>
                                                 <div class="mask rgba-white-slight"></div>
                                             </a>
@@ -204,9 +204,17 @@
                                                 <?php echo $rowspeaker['description']; ?>
                                             </p>
                                             <div class="social-sites">
-                                                <a href=""><img class="social" src="images/instagram (1).png" alt="instagram"></a>
-                                                <a href=""><img class="social" src="images/linkedin1.png" alt="linkedin"></a>
-                                                <a href=""> <img class="social" src="images/facebook.png" alt="facebook"></a>
+                                                <?php
+                                                    if($rowspeaker['linkedIn'] != ""){
+                                                        echo "<a href=".$rowspeaker['linkedIn']."><img class='social' src='images/linkedin1.png' alt='linkedin'></a>";
+                                                    }
+                                                    if($rowspeaker['facebook'] != ""){
+                                                        echo "<a href=".$rowspeaker['facebook']."><img class='social' src='images/facebook.png' alt='facebook'></a>";
+                                                    }
+                                                    if($rowspeaker['instagram'] != ""){
+                                                        echo "<a href=".$rowspeaker['instagram']."><img class='social' src='images/instagram (1).png' alt='instagram'></a>";
+                                                    }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
