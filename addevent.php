@@ -45,7 +45,6 @@
                 $ext_error = false;
             }
             if ($ext_error) {
-
                 // event insert
                 $title = $_POST['title'];
                 $subtitle = $_POST['subtitle'];
@@ -64,8 +63,6 @@
                 mysqli_query($conn, $sql);
                 move_uploaded_file($_FILES["e_banner"]["tmp_name"], $folder_name_banner . $file_new_banner);
                 $last_entry = mysqli_insert_id($conn);
-
-
                 // coordinators insert
                 $index = 1;
                 while (isset($_POST['phone' . $index . 'number']) && isset($_POST['phone' . $index . 'name'])) {
@@ -76,7 +73,6 @@
                     mysqli_query($conn, $sql);
                     $index++;
                 }
-
                 // venue insert
                 $index = 1;
                 while (isset($_POST['venue'.$index])) {
@@ -85,8 +81,6 @@
                     mysqli_query($conn, $sql);
                     $index++;
                 }
-
-
                 // speakers insert
                 $index = 1;
                 $folder_name_speaker = 'Speaker_Image/';
@@ -113,7 +107,6 @@
                     }
                     $index++;
                 }
-
                 // collaboration insert
                 $index = 1;
                 while (isset($_POST['collaboration'.$index])) {
@@ -122,8 +115,6 @@
                     mysqli_query($conn, $sql);
                     $index++;
                 }
-
-
                 if($ext_error){
                     $sql = "INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')";
                     mysqli_query($conn, $sql);
@@ -148,7 +139,21 @@
         </h6>
         <h4>CSI-SAKEC</h4>
     </header>
-    <div class="spacer" style="height:15px;"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
     <div class="container">
         <h4>Add a new Event</h4>
         <p>Fill all the fields carefully</p>

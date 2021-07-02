@@ -37,7 +37,7 @@
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light ">
 
-                <img class="invert" src="images/PngItem_2981494.png" alt="SAKEC-icon">
+                <img class="invert" src="images/sakec-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -90,9 +90,7 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="log.php">Reply Log</a>
                             </li>
-
                             <li class="nav-item active">
-
                                 <a class="nav-link" href="audit.php">Audit</a>
                             </li>
                         <?php
@@ -192,16 +190,16 @@
                     ?>
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
                             <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
-                            <input type="hidden" name="event_id" value="<?php echo $id; ?>" />
-                            <input type="hidden" name="fee" value="<?php echo $row['fee_m']; ?>" />
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <input type="hidden" name="fee" value="<?php echo $rowevent['fee_m']; ?>" />
                         </form>
                     <?php
                     } else {
                     ?>
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
                             <button type="submit" value="registration" name="register_now" class="btn btn-primary">Register Now</button>
-                            <input type="hidden" name="event_id" value="<?php echo $id; ?>" />
-                            <input type="hidden" name="fee" value="<?php echo $row['fee']; ?>" />
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <input type="hidden" name="fee" value="<?php echo $rowevent['fee']; ?>" />
                         </form>
                 <?php
                     }

@@ -39,7 +39,7 @@
                 $sql = "DELETE FROM event WHERE id='$id' ";
                 $query = mysqli_query($conn, $sql);
                 if ($query) {
-                    function_alert("Update Successful ");
+                    function_alert("Update Successful.");
                 }else{
                     function_alert("Update Unsuccessful, Something went wrong.");
                 }
@@ -51,7 +51,31 @@
     <header>
         <h2 style="text-align: center;">Content Repository</h2>
     </header>
-    
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav ml-auto nav-flex-icons">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <div class="input-group">
+                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off"/>
+                        <button id="search-button" type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+			</ul>
+		</div>
+	</nav>
     <table class="table">
         <thead class="table-head">
             <tr>

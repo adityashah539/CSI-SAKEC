@@ -30,17 +30,32 @@
 </head>
 
 <body>
-    <div class="spacer" style="height:10px;"></div>
     <header>
         <h2 style="text-align: center;">Event Confirmation</h2>
     </header>
-    <div class="spacer" style="height:10px;"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
     <table class="table">
         <thead class="black white-text">
             <tr>
                 <th scope="col">Name</th>
                 <th>Email ID</th>
+                <th>Event</th>
                 <th>Amount Paid</th>
+                <th>Bill</th>
                 <th>Confirm</th>
                 <th>Delete</th>
             </tr>
@@ -51,9 +66,10 @@
                 if (isset($_SESSION['email'])) {
                     if ($_SESSION['role'] === 'admin') {
                         $sql = 
-                        "SELECT `collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`userdata`.`emailID`,`collection`.`bill_photo`
-                        FROM `event`,`userdata`,`collection` 
-                        WHERE `collection`.`event_id`=`event`.`id` AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0' ";
+                        "SELECT `collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`userdata`.`emailID`,`event`.`title`,`collection`.`amount`,`collection`.`bill_photo` 
+                        FROM `userdata`,`event`,`collection` 
+                        WHERE `collection`.`event_id`=`event`.`id` 
+                        AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0'";
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             while ($row = mysqli_fetch_assoc($query)) {
@@ -61,6 +77,8 @@
                 <tr>
                     <th scope="row"><?php echo $row['name'];?></th>
                     <td><?php echo $row['emailID'];?></td>
+                    <td><?php echo $row['title'];?></td>
+                    <td><?php echo $row['amount'];?></td>
                     <td>
                         <a target="_blank" href="Event_Bill/<?php echo $row['bill_photo'];?>">
                             <img src="Event_Bill/<?php echo $row['bill_photo'];?>" alt="No Image" style="width:80px"/>

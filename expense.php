@@ -10,16 +10,25 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
-    
     <title>Expense</title>
+    <?php
+        require_once "config.php";
+        session_start();
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if(isset($_POST['delete_bill'])){
+                $expense_id=$_POST['expense_id'];
+                $sql = "DELETE FROM `expense` WHERE `id`='$expense_id'";
+                $query = mysqli_query($conn, $sql);
+                mysqli_query($conn, $sql);
+            }
+        }
+    ?>
 </head>
 
 <body>
-    <div class="spacer" style="height:10px;"></div>
     <header>
         <h2 style="text-align: center;">Expense</h2>
     </header>
-    <div class="spacer" style="height:10px;"></div>
     <table class="table">
         <thead class="black white-text">
             <tr>
@@ -27,18 +36,16 @@
                 <th>By</th>
                 <th>Amount</th>
                 <th>Bill</th>
-                <!-- <th>Edit</th> -->
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             <div class="table-content" style="font-size: large;">
 
                 <?php
-                    require_once "config.php";
-                    session_start();
-                    $bi= $_GET['bi_e'];
+                    $event_id= $_GET['e_id'];
                     $sum=0;
-                    $sql = "SELECT `spent_on`, `by` , `bill_photo`, `bill_amount` FROM `expense` WHERE `buget_id` = $bi";
+                    $sql = "SELECT `id`,`spent_on`, `by` , `bill_photo`, `bill_amount` FROM `expense` WHERE `event_id` = $event_id";
                     $query = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
@@ -52,6 +59,18 @@
                                 </a>
                             </td>
                             <td><?php $sum+=$row['bill_amount'];echo $row['bill_amount']; ?></td>
+                            <td>
+                            <?php 
+                                if ($row['by']===$_SESSION['email']){
+                            ?>
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                                    <input type="hidden" name="expense_id" value="<?php echo $row["id"]; ?>"/>
+                                    <button type="submit" name="delete_bill" value="delete" class="btn btn-danger"> Delete</button>
+                                </form>
+                            <?php
+                                }
+                            ?>
+                            </td>
                         </tr>
                     <?php
                         }
@@ -72,11 +91,11 @@
     <div class="spacer" style="height:30px;"></div>
     <div class="container text-center">
     <form action="addbill.php" method="get">
-        <input type="hidden" name="bi_e" value="<?php echo $bi; ?>">
+        <input type="hidden" name="e_id" value="<?php echo $event_id; ?>">
         <button type="submit" class="btn btn-primary" >Add Bill</button>
     </form> 
     </div>
-    <div class="spacer" style="height:10px;"></div>
+    <div class="spacer" style="height:100px;"></div>
 
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>

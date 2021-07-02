@@ -20,7 +20,8 @@
         if(isset($_POST['search'])){
             $to_search = trim(strtolower($_POST['search']));
         }
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['enable_id'])){
                 $id=$_POST['enable_id'];
                 $sql = "UPDATE event SET live='1' WHERE id='$id'";
@@ -85,7 +86,7 @@
 					<a class="nav-link" href="permission.php"><i class="fas fa-envelope-open-text"></i> Permission Letter</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="report_event.php"><i class="fas fa-balance-scale"></i> Report</a>
+					<a class="nav-link" href="report_event.php"><i class="fas fa-chart-bar"></i> Report</a>
 				</li>
                 <li class="nav-item">
 					<a class="nav-link" href="budget.php"><i class="fas fa-balance-scale"></i> Budget</a>
@@ -97,7 +98,7 @@
 					<a class="nav-link" href="content_repository.php"><i class="fas fa-images"></i> Content Repository</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="feedback_log.php"><i class="fas fa-balance-scale"></i>FEEDBACK RESPONSES</a>
+					<a class="nav-link" href="feedback_log.php"><i class="fas fa-comments"></i> Feedback Response</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
@@ -121,8 +122,6 @@
                 <th>Event Description</th>
                 <th>Fee for Members</th>
                 <th>Fee for non-members</th>
-                <th>Speaker</th>
-                <th>Speaker Description</th>
                 <th>Live</th>
                 <th>FEEDBACK</th>
                 <th>Delete</th>
@@ -170,13 +169,6 @@
                             </td>
                             <td>&#8377;  <?php echo $row['fee_m']; ?></td>
                             <td>&#8377;  <?php echo $row['fee']; ?></td>
-                            <td> <?php echo $row['s_name']; ?></td>
-                            <td>
-                                <div id="s-description">
-                                    <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['s_descripition']; ?></p>
-                                    <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>"aria-expanded="false" aria-controls="collapseSummary"></a>
-                                </div>
-                            </td>
                         <?php
                         if($row['live']==1){
                             ?>
@@ -232,13 +224,13 @@
                 <?php
                             }
                         } else {
-                            echo "<td>No Record Found</td><td/><td/><td/><td/><td/><td/><td/><td/><td/>";
+                            echo "<td>No Record Found</td><td/><td/><td/><td/><td/><td/><td/>";
                         }
                     }else {
-                        echo "<td>You need excess to see.</td><td/><td/><td/><td/><td/><td/><td/><td/><td/>";
+                        echo "<td>You need excess to see.</><td/><td/><td/><td/><td/><td/><td/>";
                     }
                 }else {
-                    echo "<td>You have not logged in.</td><td/><td/><td/><td/><td/><td/><td/><td/><td/>";
+                    echo "<td>You have not logged in.</td><td/><td/><td/><td/><td/><td/><td/>";
                 }
                     
                 ?>

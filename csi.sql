@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2021 at 01:38 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.5
+-- Generation Time: Jul 03, 2021 at 03:21 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -73,58 +73,61 @@ CREATE TABLE `collection` (
   `event_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `bill_photo` varchar(255) DEFAULT NULL,
+  `amount` int(11) NOT NULL DEFAULT 0,
   `confirmed` tinyint(4) NOT NULL,
-  `confirmed_by` varchar(255) NOT NULL
+  `confirmed_by` varchar(255) NOT NULL,
+  `attend` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `collection`
 --
 
-INSERT INTO `collection` (`id`, `event_id`, `user_id`, `bill_photo`, `confirmed`, `confirmed_by`) VALUES
-(30, 40, 89, '60aa91916eb673.27003707.jpg', 1, 'c@sakec.ac.in'),
-(32, 43, 1, NULL, 1, 'auto'),
-(34, 43, 16, NULL, 1, 'auto'),
-(35, 43, 72, NULL, 1, 'auto'),
-(39, 43, 17, NULL, 1, 'auto'),
-(40, 43, 18, NULL, 1, 'auto'),
-(41, 43, 19, NULL, 1, 'auto'),
-(42, 43, 20, NULL, 1, 'auto'),
-(43, 43, 21, NULL, 1, 'auto'),
-(44, 43, 22, NULL, 1, 'auto'),
-(45, 43, 23, NULL, 1, 'auto'),
-(46, 43, 24, NULL, 1, 'auto'),
-(47, 43, 25, NULL, 1, 'auto'),
-(48, 43, 26, NULL, 1, 'auto'),
-(49, 43, 27, NULL, 1, 'auto'),
-(50, 43, 28, NULL, 1, 'auto'),
-(51, 43, 29, NULL, 1, 'auto'),
-(52, 43, 30, NULL, 1, 'auto'),
-(53, 43, 31, NULL, 1, 'auto'),
-(54, 43, 32, NULL, 1, 'auto'),
-(55, 43, 33, NULL, 1, 'auto'),
-(56, 43, 34, NULL, 1, 'auto'),
-(57, 43, 35, NULL, 1, 'auto'),
-(58, 43, 36, NULL, 1, 'auto'),
-(60, 43, 37, NULL, 1, 'auto'),
-(61, 43, 38, NULL, 1, 'auto'),
-(62, 43, 39, NULL, 1, 'auto'),
-(63, 43, 40, NULL, 1, 'auto'),
-(64, 43, 41, NULL, 1, 'auto'),
-(65, 43, 57, NULL, 1, 'auto'),
-(66, 43, 58, NULL, 1, 'auto'),
-(67, 43, 59, NULL, 1, 'auto'),
-(68, 43, 60, NULL, 1, 'auto'),
-(69, 43, 61, NULL, 1, 'auto'),
-(70, 43, 62, NULL, 1, 'auto'),
-(71, 43, 63, NULL, 1, 'auto'),
-(72, 43, 64, NULL, 1, 'auto'),
-(73, 43, 65, NULL, 1, 'auto'),
-(74, 43, 66, NULL, 1, 'auto'),
-(75, 43, 67, NULL, 1, 'auto'),
-(76, 43, 68, NULL, 1, 'auto'),
-(77, 43, 69, NULL, 1, 'auto'),
-(78, 43, 70, NULL, 1, 'auto');
+INSERT INTO `collection` (`id`, `event_id`, `user_id`, `bill_photo`, `amount`, `confirmed`, `confirmed_by`, `attend`) VALUES
+(30, 40, 89, '60aa91916eb673.27003707.jpg', 50, 1, 'c@sakec.ac.in', 1),
+(32, 43, 1, NULL, 0, 1, 'auto', 1),
+(34, 43, 16, NULL, 0, 1, 'auto', 1),
+(35, 43, 72, NULL, 0, 1, 'auto', 1),
+(39, 43, 17, NULL, 0, 1, 'auto', 1),
+(40, 43, 18, NULL, 0, 1, 'auto', 1),
+(41, 43, 19, NULL, 0, 1, 'auto', 1),
+(42, 43, 20, NULL, 0, 1, 'auto', 1),
+(43, 43, 21, NULL, 0, 1, 'auto', 0),
+(44, 43, 22, NULL, 0, 1, 'auto', 0),
+(45, 43, 23, NULL, 0, 1, 'auto', 0),
+(46, 43, 24, NULL, 0, 1, 'auto', 0),
+(47, 43, 25, NULL, 0, 1, 'auto', 0),
+(48, 43, 26, NULL, 0, 1, 'auto', 0),
+(49, 43, 27, NULL, 0, 1, 'auto', 0),
+(50, 43, 28, NULL, 0, 1, 'auto', 0),
+(51, 43, 29, NULL, 0, 1, 'auto', 0),
+(52, 43, 30, NULL, 0, 1, 'auto', 0),
+(53, 43, 31, NULL, 0, 1, 'auto', 1),
+(54, 43, 32, NULL, 0, 1, 'auto', 0),
+(55, 43, 33, NULL, 0, 1, 'auto', 0),
+(56, 43, 34, NULL, 0, 1, 'auto', 0),
+(57, 43, 35, NULL, 0, 1, 'auto', 0),
+(58, 43, 36, NULL, 0, 1, 'auto', 0),
+(60, 43, 37, NULL, 0, 1, 'auto', 0),
+(61, 43, 38, NULL, 0, 1, 'auto', 0),
+(62, 43, 39, NULL, 0, 1, 'auto', 1),
+(63, 43, 40, NULL, 0, 1, 'auto', 0),
+(64, 43, 41, NULL, 0, 1, 'auto', 0),
+(65, 43, 57, NULL, 0, 1, 'auto', 0),
+(66, 43, 58, NULL, 0, 1, 'auto', 0),
+(67, 43, 59, NULL, 0, 1, 'auto', 0),
+(68, 43, 60, NULL, 0, 1, 'auto', 0),
+(69, 43, 61, NULL, 0, 1, 'auto', 0),
+(70, 43, 62, NULL, 0, 1, 'auto', 0),
+(71, 43, 63, NULL, 0, 1, 'auto', 0),
+(72, 43, 64, NULL, 0, 1, 'auto', 1),
+(73, 43, 65, NULL, 0, 1, 'auto', 1),
+(74, 43, 66, NULL, 0, 1, 'auto', 0),
+(75, 43, 67, NULL, 0, 1, 'auto', 1),
+(76, 43, 68, NULL, 0, 1, 'auto', 0),
+(77, 43, 69, NULL, 0, 1, 'auto', 1),
+(78, 43, 70, NULL, 0, 1, 'auto', 1),
+(95, 47, 89, '60df83f2abb561.41638877.png', 50, 1, 'c@sakec.ac.in', 0);
 
 -- --------------------------------------------------------
 
@@ -238,14 +241,12 @@ CREATE TABLE `event` (
 
 INSERT INTO `event` (`id`, `title`, `subtitle`, `banner`, `e_from_date`, `e_to_date`, `e_from_time`, `e_to_time`, `e_description`, `fee_m`, `fee`, `live`, `feedback`, `selfie`) VALUES
 (40, 'Tensorflow', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2019-08-23', '2019-08-10', '09:00:00', '05:00:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 50, 1, 1, 1),
-(41, 'Introduction with IOT', 'Introduction with IOT with NODE MCU', ' nodemcu.jpg', '2019-08-30', '2019-08-31', '09:00:00', '05:00:00', 'Topics covered were: Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. ', 150, 200, 1, 0, 0),
-(42, 'Pune Outbound', 'Outbound', 'outbound.jpg', '2019-09-20', '2019-09-21', '06:00:00', '06:00:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 2350, 2500, 1, 0, 0),
-(43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-06-27', '2021-06-27', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1, 0, 0),
-(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-06-28', '2021-06-28', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1, 0, 0),
-(48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-06-29', '2021-06-29', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 0, 0),
-(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-06-30', '2021-06-30', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 0, 0),
-(50, 'tensorflow 4.6', 'Introduction To ML with TENSORFLOW 2.0', ' 60dec27b053f73.67977106.jpg', '2021-07-02', '2021-07-02', '04:08:00', '02:08:00', 'vhcgf', 50, 200, 1, 0, 0),
-(51, 'test 4.1', 'Introduction To ML with TENSORFLOW 2.0', ' 60dec608a65261.75093828.jpg', '2021-07-14', '2021-07-13', '05:23:00', '01:23:00', 'test 1', 50, 200, 1, 0, 1);
+(41, 'Introduction with IOT', 'Introduction with IOT with NODE MCU', ' nodemcu.jpg', '2019-08-30', '2019-08-31', '09:00:00', '05:00:00', 'Topics covered were: Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. ', 150, 200, 1, 1, 0),
+(42, 'Pune Outbound', 'Outbound', 'outbound.jpg', '2019-09-20', '2019-09-21', '06:00:00', '06:00:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 2350, 2500, 1, 1, 0),
+(43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-07-03', '2021-07-03', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1, 1, 0),
+(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-04', '2021-07-04', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1, 1, 0),
+(48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-05', '2021-07-05', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 1, 0),
+(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-07-06', '2021-07-06', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -287,7 +288,7 @@ CREATE TABLE `feedback` (
   `Q4` int(11) NOT NULL,
   `Q5` int(11) NOT NULL,
   `Q6` int(11) NOT NULL,
-  `Q7` varchar(10) NOT NULL,
+  `Q7` int(11) NOT NULL,
   `any_queries` varchar(255) NOT NULL,
   `selfie` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -297,7 +298,9 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`id`, `collection_id`, `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `selfie`) VALUES
-(19, 30, 1, 5, 3, 3, 5, 2, 'current', 'test 19', '60ded961db7fd8.81904065.jpg');
+(19, 30, 1, 5, 3, 3, 5, 2, 5, 'test 19', '60ded961db7fd8.81904065.jpg'),
+(22, 95, 3, 3, 3, 3, 3, 3, 0, 'asd', ''),
+(23, 95, 3, 3, 3, 3, 3, 3, 0, 'asd', '');
 
 -- --------------------------------------------------------
 
@@ -620,7 +623,8 @@ ALTER TABLE `expense`
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `collection_id` (`collection_id`);
 
 --
 -- Indexes for table `gallery`
@@ -700,7 +704,7 @@ ALTER TABLE `collaboration`
 -- AUTO_INCREMENT for table `collection`
 --
 ALTER TABLE `collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `contact`
@@ -736,7 +740,7 @@ ALTER TABLE `expense`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `gallery`
@@ -826,6 +830,12 @@ ALTER TABLE `contentrepository`
 --
 ALTER TABLE `expense`
   ADD CONSTRAINT `expense_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`collection_id`) REFERENCES `collection` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `membership`

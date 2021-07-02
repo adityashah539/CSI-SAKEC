@@ -62,7 +62,7 @@
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 
-                <img class="invert" src="images/PngItem_2981494.png" alt="SAKEC-icon">
+                <img class="invert" src="images/sakec-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -73,10 +73,10 @@
                             <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#events">Events</a>
+                            <a class="nav-link" href="#team">Our Team</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#team">Our Team</a>
+                            <a class="nav-link" href="#events">Events</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="#gallery">Gallery</a>
@@ -113,11 +113,6 @@
                                 <a class="nav-link" href="query.php">Query</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="log.php">Reply Log</a>
-                            </li>
-
-                            <li class="nav-item active">
-
                                 <a class="nav-link" href="audit.php">Audit</a>
                             </li>
                         <?php
@@ -254,8 +249,6 @@
         <div class="container">
             <div class="main_title">
                 <h2>OUR CSI SAKEC TEAM</h2>
-                <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in
-                    price. You may see some for as low as $.17 each.</p>
                 <?php
                 if (isset($_SESSION['email'])) {
                 ?>

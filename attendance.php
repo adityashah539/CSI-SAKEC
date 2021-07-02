@@ -76,8 +76,8 @@
                                 <tr>
                                     <td>
                                         <form action="edit_attendance.php" method="GET">
-                                            <input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
-                                            <input type="hidden" name="event_title" value="<?php echo $row['title']; ?>">
+                                            <input type="hidden" name="e_id" value="<?php echo $row['id']; ?>">
+                                            <input type="hidden" name="e_title" value="<?php echo $row['title']; ?>">
                                             <button type="submit" class="textbutton"><?php echo $row['title']; ?></button>
                                         </form>
                                     </td>
