@@ -54,7 +54,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                    $Q1=0;$Q2=0;$Q3=0;$Q4=0;$Q5=0;$Q6=0;$Q7=0;
+                    $Q1=0;$Q2=0;$Q3=0;$Q4=0;$Q5=0;$Q6=0;$Q71=0;$Q72=0;$Q73=0;
                     for($index=1;$row = mysqli_fetch_assoc($query);$index++){
                 ?>
                     <tr>
@@ -67,7 +67,18 @@
                         <td><?php echo $row['Q4']; $Q4+=$row['Q4'];?></td>
                         <td><?php echo $row['Q5']; $Q5+=$row['Q5'];?></td>
                         <td><?php echo $row['Q6']; $Q6+=$row['Q6'];?></td>
-                        <td><?php echo $row['Q7']; $Q7+=$row['Q7'];?></td>
+                        <?php
+                        if($row['Q7']=="fast"){
+                            $Q71++;
+                        }
+                        else if($row['Q7']=="current"){
+                            $Q72++;
+                        }
+                        else if($row['Q7']=="slow"){
+                            $Q73++;
+                        }
+                        ?>
+                        <td><?php echo $row['Q7']; ?></td>
                         <td><?php echo $row['any_queries'];?></td>
                     </tr>
                 <?php 
@@ -125,8 +136,11 @@
                 </tr>
                 <tr>
                     <td>7</td>
-                    <td>How do you want the pace of teaching</td>
-                    <td><?php echo $Q7/$number_of_responses; ?></td>
+                    <td>  How do you want the pace of teaching ?</td>
+                    <td>WANT FAST : <?php echo $Q71; ?><br>
+                        WANT CURRENT :<?php echo $Q72; ?><br>
+                        WANT SLOW :<?php echo $Q73; ?>
+                    </td>
                 </tr>
             </tbody>
         </table>          

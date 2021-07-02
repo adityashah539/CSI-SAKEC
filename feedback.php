@@ -150,7 +150,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="labels">
-                        <label >Q1: Was the session contents relevant and</label>
+                        <label >Q1: Was the session contents relevant and helpful ?</label>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -167,7 +167,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="labels">
-                        <label >Q2: How informative did you find this </label>
+                        <label >Q2:How informative did you find this session ? </label>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -184,7 +184,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="labels">
-                        <label >Q3: How much would you rate the</label>
+                        <label >Q3: How much would you rate the Presenter ?</label>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -201,7 +201,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="labels">
-                        <label >Q4: How timely, efficient and effective was the execution of the</label>
+                        <label >Q4: How timely, efficient and effective was the execution of the session ? </label>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -218,7 +218,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="labels">
-                        <label >Q5 : How would you rate your overall experience with this</label>
+                        <label >Q5 : How would you rate your overall experience with this session ? </label>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -235,7 +235,8 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="labels">
-                        <label >Q6: Would you like to participate in future such Session, Events and Activities with </label>
+                        <label >Q6:Would you like to participate in future such Session, Events and Activities with
+us ?</label>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -257,11 +258,15 @@
                 </div>
                 <div class="col-sm-5">
                     <div class="texts">
-                        <input type="radio"  name="seven" value="1" required="required">
-                        <input type="radio"  name="seven" value="2">                    
-                        <input type="radio"  name="seven" value="3">
-                        <input type="radio"  name="seven" value="4">
-                        <input type="radio"  name="seven" value="5">
+                        <input type="radio"  name="seven" value="fast" required="required">
+                        <label >I want fast</label>
+                        <br>
+                        <input type="radio"  name="seven" value="current">
+                        <label >Current speed is good</label>
+                        <br>                    
+                        <input type="radio"  name="seven" value="slow">
+                        <label>I want slow</label>
+                        <br>
                     </div>
                 </div>
             </div>

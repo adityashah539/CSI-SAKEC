@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2021 at 12:52 PM
+-- Generation Time: Jul 02, 2021 at 01:38 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.5
 
@@ -287,7 +287,7 @@ CREATE TABLE `feedback` (
   `Q4` int(11) NOT NULL,
   `Q5` int(11) NOT NULL,
   `Q6` int(11) NOT NULL,
-  `Q7` int(11) NOT NULL,
+  `Q7` varchar(10) NOT NULL,
   `any_queries` varchar(255) NOT NULL,
   `selfie` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -297,7 +297,7 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`id`, `collection_id`, `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `selfie`) VALUES
-(19, 30, 1, 5, 3, 3, 5, 2, 5, 'test 19', '60ded961db7fd8.81904065.jpg');
+(19, 30, 1, 5, 3, 3, 5, 2, 'current', 'test 19', '60ded961db7fd8.81904065.jpg');
 
 -- --------------------------------------------------------
 
