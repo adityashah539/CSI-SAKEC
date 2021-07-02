@@ -15,12 +15,25 @@
 <?php
     require_once "config.php";
     session_start();
+    function function_alert($message){
+        echo "  <SCRIPT>
+                    alert('$message');
+                </SCRIPT>";
+    }
     if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
         //if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
             if (isset($_POST['delete_id_btn'])) {
                 $id = $_POST['delete_id'];
                 $sql = "DELETE FROM `coordinator` WHERE id=" . $id;
                 $query = mysqli_query($conn, $sql);
+                // Delete file from folder
+                $filename = $_POST['delete_file'];
+                if (file_exists($filename)) {
+                    unlink($filename);
+                    function_alert('File has been deleted');
+                } else {
+                    function_alert('Could not delete, file does not exist');
+                }
             }
        // }
         else{
@@ -81,6 +94,7 @@
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
                                 <td> 
                                     <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
+                                    <input type="hidden" value="<?php echo "Coordinator_Images/".$row['image'];?>" name="delete_file" />
                                     <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button> 
                                 </td>
                             </form>

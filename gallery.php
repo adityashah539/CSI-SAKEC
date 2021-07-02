@@ -19,6 +19,11 @@
     <?php
     require_once "config.php";
     session_start();
+    function function_alert($message){
+        echo "  <SCRIPT>
+                    alert('$message');
+                </SCRIPT>";
+    }
     if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
         if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
            // if(isset($_))
@@ -64,10 +69,18 @@
                 $id = $_POST['delete_id'];
                 $sql = "DELETE FROM `gallery` WHERE id=" . $id;
                 $query = mysqli_query($conn, $sql);
+                // Delete file from folder
+                $filename = $_POST['delete_file'];
+                if (file_exists($filename)) {
+                    unlink($filename);
+                    function_alert('File has been deleted');
+                } else {
+                    function_alert('Could not delete, file does not exist');
+                }
             }
         }else{
-              function_alert("You have to be admin or cooridinator");
-          }
+            function_alert("You have to be admin or cooridinator");
+        }
     }
     ?>
 </head>
@@ -95,15 +108,18 @@
             $gallerysql = "SELECT * FROM `gallery`";
             $gallerysqlstmt = mysqli_query($conn, $gallerysql);
             $number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
-            $j = 0;
-            while ($number_of_images_gallery - $j > 3) {
+            for($j = 0;$j < $number_of_images_gallery;) {
 
             ?>
-                <div class="carousel-item">
+                <div class="carousel-item <?php if($number_of_images_gallery - $j <= 3)echo "active";?>">
                     <div class="container">
                         <div class="row">
                             <?php
-                            for ($i = 0; $i < 3; $i++, $j++) {
+                            // to give extre space if two image are left
+                            if($number_of_images_gallery - $j == 2)echo "<div class='col-sm-2'></div>";
+                            // to give extre space if one image if left
+                            else if($number_of_images_gallery - $j == 1)echo "<div class='col-sm-4'></div>";
+                            for ($i = 0; $i < 3 && $j < $number_of_images_gallery; $i++, $j++) {
                                 $row = mysqli_fetch_assoc($gallerysqlstmt);
                             ?>
                                 <div class="col-lg-4">
@@ -124,6 +140,7 @@
                                                 <?php
                                                 }
                                                 ?>
+                                                <input type="hidden" value="<?php echo "Gallery_Images/".$row['image'];?>" name="delete_file" />
                                                 <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
                                                 <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
                                             </form>
@@ -138,124 +155,6 @@
                 </div>
 
             <?php
-            }
-            if ($number_of_images_gallery % 3 == 0 && $number_of_images_gallery >= 3) {
-            ?>
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <?php
-                            for ($i = 0; $i < 3; $i++, $j++) {
-                                $row = mysqli_fetch_assoc($gallerysqlstmt);
-                            ?>
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
-                                        <div class="card-body">
-                                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                                <?php
-                                                if ($row['status'] == 1) {
-                                                ?>
-                                                    <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
-                                                    <button type='submit' name='disable_id_btn' class='btn btn-warning'>Disable</button>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
-                                                    <button type='submit' name='enable_id_btn' class='btn btn-primary'>Enable</button>
-                                                <?php
-                                                }
-                                                ?>
-                                                <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
-                                                <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            <?php
-            } else if ($number_of_images_gallery % 3 == 2) {
-            ?>
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-2"></div>
-                            <?php
-                            for ($i = 0; $i < 2; $i++, $j++) {
-                                $row = mysqli_fetch_assoc($gallerysqlstmt)
-                            ?>
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
-                                        <div class="card-body">
-                                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                                <?php
-                                                if ($row['status'] == 1) {
-                                                ?>
-                                                    <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
-                                                    <button type='submit' name='disable_id_btn' class='btn btn-warning'>Disable</button>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
-                                                    <button type='submit' name='enable_id_btn' class='btn btn-primary'>Enable</button>
-                                                <?php
-                                                }
-                                                ?>
-                                                <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
-                                                <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            <?php
-            } else if ($number_of_images_gallery % 3 == 1) {
-                $row = mysqli_fetch_assoc($gallerysqlstmt)
-            ?>
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <img src="Gallery_Images/<?php echo $row['image']; ?>" class="card-img-top" alt="..." />
-                                    <div class="card-body">
-                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                            <?php
-                                            if ($row['status'] == 1) {
-                                            ?>
-                                                <input type='hidden' name='disable_id' value='<?php echo $row['id']; ?>'>
-                                                <button type='submit' name='disable_id_btn' class='btn btn-warning'>Disable</button>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <input type='hidden' name='enable_id' value='<?php echo $row['id']; ?>'>
-                                                <button type='submit' name='enable_id_btn' class='btn btn-primary'>Enable</button>
-                                            <?php
-                                            }
-                                            ?>
-                                            <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
-                                            <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php
-                $j++;
             }
             ?>
         </div>
