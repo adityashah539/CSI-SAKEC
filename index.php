@@ -14,14 +14,16 @@
     <?php
     session_start();
     require_once "config.php";
-    function function_alert($message){
+    function function_alert($message)
+    {
         echo
-            "<SCRIPT>
+        "<SCRIPT>
             window.location.replace('index.php')
             alert('$message');
         </SCRIPT>";
     }
-    function send_mail($to_email, $subject, $body, $headers){
+    function send_mail($to_email, $subject, $body, $headers)
+    {
         if (mail($to_email, $subject, $body, $headers)) {
             function_alert("Email successfully sent to $to_email...");
         } else {
@@ -29,26 +31,25 @@
         }
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['contactusbutton'])) {
-        if($_POST['email']!=null){
-            $to_email =trim($_POST['email']) ;
-        }
-        else{
+        if ($_POST['email'] != null) {
+            $to_email = trim($_POST['email']);
+        } else {
             $to_email = trim($_POST['emailentered']);
         }
-        $subject = "Acknowledgement from CSI to ".substr($to_email,0, strpos($to_email, "."))." ".substr($to_email,strpos($to_email, ".")+1, strpos($to_email, "_")-strpos($to_email, ".")+1);
-        $body ="Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+        $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
+        $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
         $headers = "From: guptavan96@gmail.com";
-        $query= trim($_POST['message']);
-        if(isset($to_email)){
+        $query = trim($_POST['message']);
+        if (isset($to_email)) {
             send_mail($to_email, $subject, $body, $headers);
-            if(strpos($to_email, "@sakec.ac.in")||strpos($to_email, "@gmail.com")){
+            if (strpos($to_email, "@sakec.ac.in") || strpos($to_email, "@gmail.com")) {
                 $sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$query')";
                 $stmt = mysqli_query($conn, $sql);
-                function_alert("Msg has been deliverd."); 
-            }else {
+                function_alert("Msg has been deliverd.");
+            } else {
                 function_alert("Pls enter the sakec's or your own emailid.");
             }
-        }else {
+        } else {
             function_alert("Pls fill details properly.");
         }
     }
@@ -60,27 +61,27 @@
     <header class="header_area">
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-                <div class="container">
-                    <img class="invert" src="images/PngItem_2981494.png" alt="SAKEC-icon">
-                    <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarScroll">
-                        <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#events">Events</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#team">Our Team</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#gallery">Gallery</a>
-                            </li>
-                            <!-- <li class="nav-item dropdown active">
+
+                <img class="invert" src="images/PngItem_2981494.png" alt="SAKEC-icon">
+                <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#events">Events</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#team">Our Team</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#gallery">Gallery</a>
+                        </li>
+                        <!-- <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
                                     data-toggle="dropdown" aria-expanded="false">
                                     Membership
@@ -98,45 +99,45 @@
                                 <a class="nav-link active" href="#contact">CONTACT</a>
                             </li>
                             -->
-                            <?php
-                            if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
-                                $_SESSION['var'] = 0;
-                            ?>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="database.php">Userdata</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="eventmanagement.php">Event Management</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="query.php">Query</a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="log.php">Reply Log</a>
-                                </li>
-
-                                <li class="nav-item active">
-
-                                    <a class="nav-link" href="audit.php">Audit</a>
-                                </li>
-                            <?php
-                            }
-                            ?>
-                        </ul>
                         <?php
-                        if (isset($_SESSION['email'])) {
+                        if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+                            $_SESSION['var'] = 0;
                         ?>
-                            <a href="logout.php" class="btn main_btn">Logout</a>
-                        <?php
-                        } else {
-                        ?>
-                            <a href="login.php" class="btn main_btn">Login</a>
-                            <a href="signup.php" class="btn main_btn">Sigup</a>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="database.php">Userdata</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="eventmanagement.php">Event Management</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="query.php">Query</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="log.php">Reply Log</a>
+                            </li>
+
+                            <li class="nav-item active">
+
+                                <a class="nav-link" href="audit.php">Audit</a>
+                            </li>
                         <?php
                         }
                         ?>
-                    </div>
+                    </ul>
+                    <?php
+                    if (isset($_SESSION['email'])) {
+                    ?>
+                        <a href="logout.php" class="btn main_btn">Logout</a>
+                    <?php
+                    } else {
+                    ?>
+                        <a href="login.php" class="btn main_btn">Login</a>
+                        <a href="signup.php" class="btn main_btn">Sigup</a>
+                    <?php
+                    }
+                    ?>
                 </div>
+
             </nav>
         </div>
     </header>
@@ -160,13 +161,11 @@
     $data;
     $sqlNextEvent = "SELECT `id`, `title`, `e_from_date`,  `e_from_time` FROM `event` WHERE `live`='1'";
     $queryNextEvent = mysqli_query($conn, $sqlNextEvent);
-    while ($rowNextEvent = mysqli_fetch_assoc($queryNextEvent)) 
-    {
-        if ((date("Y-m-d", strtotime($rowNextEvent['e_from_date'])) > date("Y-m-d", strtotime("now"))) && (isset($data)?(date("Y-m-d", strtotime($rowNextEvent['e_from_date'])) <= date("Y-m-d", strtotime($data['e_from_date']))):true)) {
+    while ($rowNextEvent = mysqli_fetch_assoc($queryNextEvent)) {
+        if ((date("Y-m-d", strtotime($rowNextEvent['e_from_date'])) > date("Y-m-d", strtotime("now"))) && (isset($data) ? (date("Y-m-d", strtotime($rowNextEvent['e_from_date'])) <= date("Y-m-d", strtotime($data['e_from_date']))) : true)) {
             $data = $rowNextEvent;
-        }
-        else if (date("Y-m-d", strtotime($rowNextEvent["e_from_date"])) == date("Y-m-d", strtotime("now"))){
-            if ((date("H:i:s", strtotime($rowNextEvent['e_from_time'])) > date("H:i:s", strtotime("now"))) && (isset($data)?(date(" H:i:s", strtotime($rowNextEvent['e_from_time'])) < date(" H:i:s", strtotime($data['e_from_time']))): true)) {
+        } else if (date("Y-m-d", strtotime($rowNextEvent["e_from_date"])) == date("Y-m-d", strtotime("now"))) {
+            if ((date("H:i:s", strtotime($rowNextEvent['e_from_time'])) > date("H:i:s", strtotime("now"))) && (isset($data) ? (date(" H:i:s", strtotime($rowNextEvent['e_from_time'])) < date(" H:i:s", strtotime($data['e_from_time']))) : true)) {
                 $data = $rowNextEvent;
             }
         }
@@ -187,7 +186,7 @@
                         <div class="col-lg-6">
                             <div class="timer_inner">
                                 <div id="timer" class="timer">
-                                    <input type="hidden" id="next_event" value="<?php echo (date("M d, Y", strtotime($data['e_from_date']))).(date(" H:i:s", strtotime($data['e_from_time']))); ?>">
+                                    <input type="hidden" id="next_event" value="<?php echo (date("M d, Y", strtotime($data['e_from_date']))) . (date(" H:i:s", strtotime($data['e_from_time']))); ?>">
                                     <div class="timer__section days">
                                         <div class="timer__number" id="days"></div>
                                         <div class="timer__label">days</div>
@@ -313,10 +312,10 @@
                     price. You may see some for as low as $.17 each.</p> -->
             </div>
             <div class="event_schedule_inner">
-                <div class="tab">
+                <div class="tab" style="text-align: center;">
                     <button class="tablinks active" onclick="openCity(event, 'London')">Upcoming AND RECENT
                         events</button>
-                    <button class="tablinks" onclick="openCity(event, 'Paris')">All Events</button>
+
                 </div>
                 <div id="London" class="tabcontent" style="display:block;">
                     <div class="row ">
@@ -363,6 +362,7 @@
                     </div>
                 </div>
 
+                <!-- need to comment out -->
                 <div id="Paris" class="tabcontent">
                     <div class="row">
                         <?php
@@ -402,6 +402,10 @@
                         ?>
                     </div>
                 </div>
+
+            </div>
+            <div class="tab" style="text-align: center;">
+                <a href="allevents.php" class="btn main_btn_welcome tablinks">All Events</a>
             </div>
         </div>
     </section>
@@ -481,20 +485,20 @@
                             <h6 class="footer_title">Contact Us</h6>
                             <p>You can trust us. we only send promo offers, not a single spam.</p>
                             <div class="guery">
-                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                     <div class="input-group d-flex flex-row">
                                         <?php
-                                        if (isset($_SESSION['email'])&&isset($_SESSION['role'])) {
+                                        if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
                                             echo '<input type="hidden" name="email" value="' . $_SESSION['email'] . '">';
                                         } else {
                                             echo '<input type="email" name="emailentered" placeholder="Your Email" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'Email\'" autocomplete="off" required>';
                                         }
-                                        echo '<textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder='.'" onblur="this.placeholder=\'Message\'" autocomplete="off" required></textarea>';
+                                        echo '<textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=' . '" onblur="this.placeholder=\'Message\'" autocomplete="off" required></textarea>';
                                         ?>
                                         <!-- <input type="text" name="name" placeholder="Your Name" onfocus="this.placeholder=''" onblur="this.placeholder='Name'" autocomplete="off" required> -->
                                         <!-- <input type="email" name="email" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required> -->
                                         <!-- <textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=''" onblur="this.placeholder='Message'" autocomplete="off" required></textarea> -->
-                                        <button class="btn sub-btn" name = "contactusbutton">Send</button>
+                                        <button class="btn sub-btn" name="contactusbutton">Send</button>
                                     </div>
                                 </form>
                             </div>
@@ -513,21 +517,17 @@
 
 
                                 <!-- Newsletter Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <input type="email" name="name" placeholder="Your Email"
-                                                    onfocus="this.placeholder=''" onblur="this.placeholder='Email'"
-                                                    autocomplete="off" required>
+                                                <input type="email" name="name" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn news-btn">Send</button>
@@ -546,11 +546,11 @@
                         </script> All rights reserved | This template is made with ❤ by Israil
                     </p>
                     <div class="col-lg-4 col-md-4 footer-social">
-                        <a href="">
+                        <a href="https://www.facebook.com/csisakec/photos">
                             <i class="fab fa-facebook-f"></i>
-                        </a><a href=""><i class="fab fa-instagram"></i></a>
-                        <a href=""><i class="fab fa-twitter"></i></a>
-                        <a href=""><i class="fab fa-youtube"></i></a>
+                        </a><a href="https://www.instagram.com/csi.sakec/?utm_medium=copy_link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com/sakectweets?lang=en"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/c/SAKECYouTubeChannel"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
 

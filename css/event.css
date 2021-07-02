@@ -1,96 +1,104 @@
-
 body {
   text-align: center;
 
-    font-family:'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
   margin: 0;
   padding: 0;
 
 }
-.main-img
-{
-width:100%;
-height: auto;
+
+.bg-light {
+
+  padding: 15px 65px;
+  transition: 500ms ease;
+  background-image: -moz-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%);
+  background-image: -webkit-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%);
+  background-image: -ms-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%);
 }
-.event-header
-{
-    text-align: center;
-    background-color: #e9ecec;
+
+.main-img {
+  width: 100%;
+  height: auto;
 }
-.event-header h1
-{
-    font-family: "Times New Roman", Times, serif;
-    font-size: 40px;
-    letter-spacing: -1.2px;
-    word-spacing: 12px;
-    color: #000000;
-    font-weight: 700;
-    text-decoration: none;
-    font-style: normal;
-    font-variant: small-caps;
-    text-transform: uppercase;
+
+.event-header {
+  text-align: center;
+  background-color: #e9ecec;
 }
-.event-header h2
-{
-    font-family: "Times New Roman", Times, serif;
-    font-size: 30px;
-    letter-spacing: -1.2px;
-    word-spacing: 12px;
-    color: #000000;
-    font-weight: 700;
-    text-decoration: none;
-    font-style: normal;
-    font-variant: small-caps;
-    text-transform: uppercase;
+
+.event-header h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 40px;
+  letter-spacing: -1.2px;
+  word-spacing: 12px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: small-caps;
+  text-transform: uppercase;
 }
-.description
-{
-    font-size: 20px;
-    font-family: 'Times New Roman', Times, serif;
-    
+
+.event-header h2 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 30px;
+  letter-spacing: -1.2px;
+  word-spacing: 12px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: small-caps;
+  text-transform: uppercase;
 }
-.speakers h1
-{
+
+.description {
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+.speakers h1 {
   font-size: 45px;
-  font-weight: 600  ;
- text-align: left;
+  font-weight: 600;
+  text-align: left;
 }
-.supp
-{
+
+.supp {
   border-top: 2px solid rgb(241, 129, 148);
 }
-.supp1
-{
+
+.supp1 {
   width: 150px;
-  margin-left:0%;
+  margin-left: 0%;
 
   border-top: 2px solid rgb(241, 129, 148);
 }
-.know-more
-{
+
+.know-more {
   text-align: left;
 }
-.know-more p
-{
+
+.know-more p {
   font-size: 20px;
 }
 
-.social
-{
-	height: 28px;
-	margin: 17px;
-	
-	width: auto;
+.social {
+  height: 28px;
+  margin: 17px;
+
+  width: auto;
 
 }
-.social:hover
-{
-    filter: grayscale(1);
+
+.social:hover {
+  filter: grayscale(1);
 }
-.speakers .social:hover
-{
-	filter: grayscale(1);
+
+.speakers .social:hover {
+  filter: grayscale(1);
 }
+
 /* 
 ul {
   display: flex;
