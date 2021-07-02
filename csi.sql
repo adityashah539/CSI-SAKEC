@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2021 at 06:20 PM
+-- Generation Time: Jul 02, 2021 at 12:52 PM
 -- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- PHP Version: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -57,7 +57,7 @@ CREATE TABLE `collaboration` (
 --
 
 INSERT INTO `collaboration` (`id`, `event_id`, `collab_body`) VALUES
-(1, 47, 'computer engineering'),
+(1, 40, 'computer engineering'),
 (2, 47, 'ieee'),
 (3, 48, 'ieee'),
 (4, 48, 'ipr');
@@ -82,7 +82,7 @@ CREATE TABLE `collection` (
 --
 
 INSERT INTO `collection` (`id`, `event_id`, `user_id`, `bill_photo`, `confirmed`, `confirmed_by`) VALUES
-(30, 40, 1, '60aa91916eb673.27003707.jpg', 1, 'c@sakec.ac.in'),
+(30, 40, 89, '60aa91916eb673.27003707.jpg', 1, 'c@sakec.ac.in'),
 (32, 43, 1, NULL, 1, 'auto'),
 (34, 43, 16, NULL, 1, 'auto'),
 (35, 43, 72, NULL, 1, 'auto'),
@@ -227,21 +227,25 @@ CREATE TABLE `event` (
   `e_description` text NOT NULL,
   `fee_m` int(5) NOT NULL,
   `fee` int(5) NOT NULL,
-  `live` tinyint(1) NOT NULL
+  `live` tinyint(1) NOT NULL,
+  `feedback` tinyint(4) NOT NULL,
+  `selfie` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`id`, `title`, `subtitle`, `banner`, `e_from_date`, `e_to_date`, `e_from_time`, `e_to_time`, `e_description`, `fee_m`, `fee`, `live`) VALUES
-(40, 'Tensorflow', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2019-08-23', '2019-08-10', '09:00:00', '05:00:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 50, 1),
-(41, 'Introduction with IOT', 'Introduction with IOT with NODE MCU', ' nodemcu.jpg', '2019-08-30', '2019-08-31', '09:00:00', '05:00:00', 'Topics covered were: Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. ', 150, 200, 1),
-(42, 'Pune Outbound', 'Outbound', 'outbound.jpg', '2019-09-20', '2019-09-21', '06:00:00', '06:00:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 2350, 2500, 1),
-(43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-06-27', '2021-06-27', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1),
-(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-06-28', '2021-06-28', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1),
-(48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-06-29', '2021-06-29', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1),
-(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-06-30', '2021-06-30', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1);
+INSERT INTO `event` (`id`, `title`, `subtitle`, `banner`, `e_from_date`, `e_to_date`, `e_from_time`, `e_to_time`, `e_description`, `fee_m`, `fee`, `live`, `feedback`, `selfie`) VALUES
+(40, 'Tensorflow', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2019-08-23', '2019-08-10', '09:00:00', '05:00:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 50, 1, 1, 1),
+(41, 'Introduction with IOT', 'Introduction with IOT with NODE MCU', ' nodemcu.jpg', '2019-08-30', '2019-08-31', '09:00:00', '05:00:00', 'Topics covered were: Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. ', 150, 200, 1, 0, 0),
+(42, 'Pune Outbound', 'Outbound', 'outbound.jpg', '2019-09-20', '2019-09-21', '06:00:00', '06:00:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 2350, 2500, 1, 0, 0),
+(43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-06-27', '2021-06-27', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1, 0, 0),
+(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-06-28', '2021-06-28', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1, 0, 0),
+(48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-06-29', '2021-06-29', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 0, 0),
+(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-06-30', '2021-06-30', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 0, 0),
+(50, 'tensorflow 4.6', 'Introduction To ML with TENSORFLOW 2.0', ' 60dec27b053f73.67977106.jpg', '2021-07-02', '2021-07-02', '04:08:00', '02:08:00', 'vhcgf', 50, 200, 1, 0, 0),
+(51, 'test 4.1', 'Introduction To ML with TENSORFLOW 2.0', ' 60dec608a65261.75093828.jpg', '2021-07-14', '2021-07-13', '05:23:00', '01:23:00', 'test 1', 50, 200, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -267,6 +271,33 @@ INSERT INTO `expense` (`id`, `event_id`, `spent_on`, `by`, `bill_photo`, `bill_a
 (25, 40, 'book', 'aditya.shah_19@sakec.ac.in', '60c5aabd20e615.59719138.png', 10),
 (26, 40, 'book 2', 'aditya.shah_19@sakec.ac.in', '60c5ab28dab3f2.82965889.png', 50),
 (27, 41, 'book 3', 'aditya.shah_19@sakec.ac.in', '60c5ab28dcd876.74772786.jpg', 100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `collection_id` int(11) NOT NULL,
+  `Q1` int(11) NOT NULL,
+  `Q2` int(11) NOT NULL,
+  `Q3` int(11) NOT NULL,
+  `Q4` int(11) NOT NULL,
+  `Q5` int(11) NOT NULL,
+  `Q6` int(11) NOT NULL,
+  `Q7` int(11) NOT NULL,
+  `any_queries` varchar(255) NOT NULL,
+  `selfie` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `collection_id`, `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `selfie`) VALUES
+(19, 30, 1, 5, 3, 3, 5, 2, 5, 'test 19', '60ded961db7fd8.81904065.jpg');
 
 -- --------------------------------------------------------
 
@@ -505,7 +536,7 @@ INSERT INTO `userdata` (`id`, `firstName`, `middleName`, `lastName`, `year`, `di
 (70, 'Atharva ', '', 'Juikar', '', '', 0, 'atharva.juikar_17@sakec.ac.in', 9999999999, 'CS', 'BE', '123', 54545, 3, ''),
 (71, 'Bhavika ', '', 'Salshingikar', '', '', 0, 'bhavika.salshingikar_17@sakec.ac.in', 9999999999, 'CS', 'BE', '123', 54545, 3, ''),
 (72, 'Ritika ', '', 'Boricha', '', '', 0, 'ritika.boricha_17@sakec.ac.in', 9999999999, 'CS', 'BE', '123', 54545, 3, ''),
-(89, 'D', 'e', 'f', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 'FE', '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2', 12345, 1, ''),
+(89, 'Dhiraj', 'harish', 'shetty', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 'FE', '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2', 12345, 1, ''),
 (90, 'Rahul', '', 'Lit', '', '', 0, 'sixnine@sakec.ac.in ', 6969696969, 'CS', 'TE', '$2y$10$dt8CQgxhc1AZTHHGOXKblu188qhrcYadG2bmBPYTNdY5hUfaK886S', 11111, 6, '');
 
 -- --------------------------------------------------------
@@ -586,6 +617,12 @@ ALTER TABLE `expense`
   ADD KEY `event_id` (`event_id`);
 
 --
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `gallery`
 --
 ALTER TABLE `gallery`
@@ -663,7 +700,7 @@ ALTER TABLE `collaboration`
 -- AUTO_INCREMENT for table `collection`
 --
 ALTER TABLE `collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `contact`
@@ -687,13 +724,19 @@ ALTER TABLE `coordinator`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `gallery`

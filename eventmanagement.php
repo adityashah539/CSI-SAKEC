@@ -44,6 +44,18 @@
                     function_alert("Update Unsuccessful, Something went wrong.");
                 }
             }
+            else if(isset($_POST['enable_feedback'])){
+                $id=$_POST['enable_feedback'];
+                $sql = "UPDATE event SET feedback='1' WHERE id='$id'";
+                $query = mysqli_query($conn, $sql);
+                mysqli_query($conn, $sql);
+            }
+            else if(isset($_POST['disable_feedback'])){
+                $id=$_POST['disable_feedback'];
+                $sql = "UPDATE event SET feedback='0' WHERE id='$id'";
+                $query = mysqli_query($conn, $sql);
+                mysqli_query($conn, $sql);
+            }
         }
     ?>
 </head>
@@ -84,6 +96,9 @@
                 <li class="nav-item">
 					<a class="nav-link" href="content_repository.php"><i class="fas fa-images"></i> Content Repository</a>
 				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="feedback_log.php"><i class="fas fa-balance-scale"></i>FEEDBACK RESPONSES</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -109,6 +124,7 @@
                 <th>Speaker</th>
                 <th>Speaker Description</th>
                 <th>Live</th>
+                <th>FEEDBACK</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -179,6 +195,28 @@
                                 <td>
                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                                         <input type="hidden" name="enable_id" value="<?php echo $row['id']; ?>">
+                                        <button type="submit" class="btn btn-danger"> Disabled</button>
+                                    </form>
+                                </td>
+                        <?php
+                            }
+                        if($row['feedback']==1){
+                        ?>
+                                <td>
+                                    <div id = "live" >
+                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                            <input type="hidden" name="disable_feedback" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" class="btn btn-success">Live</button>
+                                        </form>
+                                    </div>                             
+                                </td>
+                        <?php
+                            }
+                        else{
+                            ?>
+                                <td>
+                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                                        <input type="hidden" name="enable_feedback" value="<?php echo $row['id']; ?>">
                                         <button type="submit" class="btn btn-danger"> Disabled</button>
                                     </form>
                                 </td>

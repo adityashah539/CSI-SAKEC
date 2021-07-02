@@ -160,7 +160,7 @@
             </h4>
             <div class="spacer" style="height:20px;"></div>
             <?php
-            /*if (isset($_SESSION["email"])) {
+            if (isset($_SESSION["email"])) {
                 $email = $_SESSION["email"];
                 $checkersql =
                     "SELECT `confirmed` 
@@ -172,7 +172,16 @@
                     if ($row1["confirmed"] == '1') {
             ?>
                         <button type="button" class="btn btn-success">Registered</button>
+                        <?php 
+                            if($rowevent['feedback']==1){                            
+                        ?>
+                        <form action="feedback.php" method="GET">
+                            <br>
+                            <input type="hidden" name="e_id"  value="<?php echo $rowevent['id']; ?>">
+                            <button type="submit" class="btn btn-success">Feedback</button>
+                        </form>
                     <?php
+                            }
                     } else {
                     ?>
                         <button type="button" class="btn btn-info">Waiting for Confrimation</button>
@@ -201,7 +210,7 @@
                 ?>
                 <a href="login.php?notlogin=true"> <button type="button" class="btn btn-primary">Register Now</button></a>
             <?php
-            }*/
+            }
             ?>
             <div class="spacer" style="height:20px;"></div>
         </div>

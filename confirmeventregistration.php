@@ -52,8 +52,8 @@
                     if ($_SESSION['role'] === 'admin') {
                         $sql = 
                         "SELECT `collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`userdata`.`emailID`,`collection`.`bill_photo`
-                        FROM `budget`,`userdata`,`collection` 
-                        WHERE `collection`.`budget_id`=`budget`.`id` AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0' ";
+                        FROM `event`,`userdata`,`collection` 
+                        WHERE `collection`.`event_id`=`event`.`id` AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0' ";
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             while ($row = mysqli_fetch_assoc($query)) {

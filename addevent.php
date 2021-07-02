@@ -57,9 +57,10 @@
                 $e_descripition = $_POST['e_descripition'];
                 $fee_m = $_POST['fee_m'];
                 $fee = $_POST['fee'];
+                $selfie=$_POST['selfie'];
                 $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
-                $sql = "INSERT INTO `event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`)
-                                    VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1'   )";
+                $sql = "INSERT INTO `event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`,`selfie`)
+                                    VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1' ,'$selfie'  )";
                 mysqli_query($conn, $sql);
                 move_uploaded_file($_FILES["e_banner"]["tmp_name"], $folder_name_banner . $file_new_banner);
                 $last_entry = mysqli_insert_id($conn);
@@ -286,7 +287,22 @@
             <div class="form-group-speaker"></div>
             <button type="button" class="btn btn-success btn-sm btn-add-speaker"><span class="glyphicon glyphicon-plus"></span> Add Speaker</button>
             <div class="spacer" style="height:20px;"></div>
-    </div>  
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="labels">
+                        <label for="rnumber">Mandidate Selfie in Feedback :</label>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="texts">
+                        <input type="radio"  name="selfie" value="1" required="required">
+                        <label for="rnumber">yes</label> <br>  
+                        <input type="radio"  name="selfie" value="0">
+                        <label for="rnumber">no</label>   
+                    </div>
+                </div>
+            </div>
+    </div>
     <div class="spacer" style="height:20px;"></div>
     <button type="submit" class="btn btn-primary">Sumbit</button>
     <div class="spacer" style="height:40px;"></div>
