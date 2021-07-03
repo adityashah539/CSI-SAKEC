@@ -58,11 +58,12 @@
         if (($_SERVER["REQUEST_METHOD"] == "GET") && isset($_GET['date'])) {
             $from_date = $_GET["from"];
             $to_date = $_GET["to"];
-            $sql = "select e.id, e.title, e.e_from_date, e.e_to_date, e.s_name, e.collaboration, e.e_description, c.budget_id 
-                    from event as e, budget as b, collection as c 
-                    where e.e_from_date >= '$from_date' and e.e_to_date <= '$to_date' and e.id = b.event_id and c.budget_id = b.id 
-                    group by e.id";
-            $query = mysqli_query($conn, $sql);
+            // event details
+            $sqlevent = "select id, title, e_from_date, e_to_date, e_description
+                        from event
+                        where e_from_date >= '$from_date' and e_to_date <= '$to_date'
+                        group by id";
+            $queryevent = mysqli_query($conn, $sqlevent);
     ?>
     <header>
         <h2 style="text-align: center;">Audit</h2>
@@ -97,27 +98,46 @@
                 <tbody>
     <?php
                     $branch = array("CS", "IT", "ELEC","EXTC","AI","ECS","CYBER","EXTER");
-                    for($index = 1; $row = mysqli_fetch_assoc($query); $index++) {
+                    for($index = 1; $rowevent = mysqli_fetch_assoc($queryevent); $index++) {
                         $count = 0;
+                        // speaker
+                        $sqlspeaker = "SELECT `name`, `organisation` FROM `speaker` WHERE event_id = ".$rowevent['id'];
+                        $queryspeaker = mysqli_query($conn, $sqlspeaker);
+                        $speakername = "";
+                        $speakerorganisation = "";
+                        for($i = 1;$rowspeaker = mysqli_fetch_assoc($queryspeaker);$i++){
+                            $speakername = $speakername . $i . ". " . $rowspeaker['name'] . "<br>";
+                            $speakerorganisation = $speakerorganisation. $i . ". " . $rowspeaker['organisation'] . "<br>";
+                        }
+
+                        // collaboration
+                        $sqlcollaboration = "SELECT * FROM collaboration WHERE event_id=".$rowevent['id'];
+                        $querycollaboration = mysqli_query($conn, $sqlcollaboration);
+                        $collaboration = "";
+                        for ($i = 1;$rowcollaboration = mysqli_fetch_assoc($querycollaboration);$i++) {
+                            $collaboration = $collaboration . $i.". ". $rowcollaboration['collab_body'] . "<br>";
+                        }
+
     ?>
                     <tr>
                         <td><?php echo $index;?></td>
-                        <td><?php echo $row['title'];?></td>
-                        <td><?php echo $row['e_from_date']."-".$row['e_to_date'];?></td>
-                        <td><?php echo $row['s_name'];?></td>
-                        <td><?php echo "abc";?></td>
-                        <td><?php echo $row['collaboration'];?></td>
-                        <td><?php echo $row['e_description'];?></td>
+                        <td><?php echo $rowevent['title'];?></td>
+                        <td><?php echo $rowevent['e_from_date']."-".$rowevent['e_to_date'];?></td>
+                        <td><?php echo $speakername;?></td>
+                        <td><?php echo $speakerorganisation;?></td>
+                        <td><?php echo $collaboration;?></td>
+                        <td><?php echo $rowevent['e_description'];?></td>
     <?php
                         for($i = 0; $i < 8; $i++) {
-                            $sql1 = "select count(u.id) as total
-                                     from userdata as u, collection as c
-                                     where c.user_id = u.id and c.budget_id =".$row['budget_id']." and u.branch = '$branch[$i]'";
-                            $query1 = mysqli_query($conn, $sql1);
-                            $row1 = mysqli_fetch_assoc($query1);
-                            $count += $row1['total'];
+                            // count number of students who registered for the event
+                            $sqlcollection = "select count(u.id) as total
+                                    from userdata as u, collection as c
+                                    where c.user_id = u.id and u.branch = '$branch[$i]' and c.event_id = ".$rowevent['id'];
+                            $querycollection = mysqli_query($conn, $sqlcollection);
+                            $rowcollection = mysqli_fetch_assoc($querycollection);
+                            $count += $rowcollection['total'];
     ?>
-                            <td><?php echo $row1['total'];?></td>
+                            <td><?php echo $rowcollection['total'];?></td>
     <?php
                         }
     ?>
