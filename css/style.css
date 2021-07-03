@@ -91,13 +91,13 @@ body {
   bottom: 30px;
   position: absolute;
 }
-
+/* 
 .main_btn:hover {
   color: white;
   background-image: -webkit-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
   background-image: -o-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
   background-image: linear-gradient(to right, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
-}
+} */
 
 .main_btn_read_more:hover {
   color: white;
@@ -117,6 +117,11 @@ body {
 /* navbar ends */
 
 /* hero section */
+.homelogo{
+  height: 300px;
+  margin-bottom: 20px;
+}
+
 .home {
   margin-top: -58px;
   min-height: 100vh;
@@ -378,7 +383,7 @@ body {
   text-transform: uppercase;
 }
 
-.event_schedule_inner .tab .tablinks:hover {
+/* .event_schedule_inner .tab .tablinks:hover {
   background: #4331b0;
   border: none;
   color: #fff;
@@ -388,10 +393,10 @@ body {
   background: #4331b0;
   border: none;
   color: #fff;
-}
+} */
 
 .tabcontent {
-  display: none;
+  /*display: none;*/
   background: #f9f9ff;
   padding: 50px 20px;
 }

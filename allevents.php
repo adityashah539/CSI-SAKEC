@@ -28,7 +28,7 @@ require_once "config.php";
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light ">
 
-                <img class="invert" src="images/PngItem_2981494.png" alt="SAKEC-icon">
+                <img class="invert" src="images/sakec-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -117,14 +117,15 @@ require_once "config.php";
             </div>
             <div class="event_schedule_inner">
                 <div class="tab" style="text-align: center;">
-                    <button class="tablinks active" onclick="openCity(event, 'London')">All Events</button>
+                    <button class="tablinks">All Events</button>
 
                 </div>
 
-                <div id="Paris" class="tabcontent">
+                <div id="London" class="tabcontent">
                     <div class="row">
                         <?php
                         // TODO: change $sqlevent according to requirement
+                        $currentdate = date("Y-m-d");
                         $sqlevent = "SELECT * FROM `event` WHERE `e_from_date`<'$currentdate'";
                         $queryevent = mysqli_query($conn, $sqlevent);
                         if (mysqli_num_rows($queryevent) > 0) {

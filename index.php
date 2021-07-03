@@ -144,9 +144,10 @@
 
         <div class="container text-center">
             <div class="home-heading">
+                <img src="images/logo.png" alt="" class="homelogo">
                 <h2>Building Technical skills professionally</h2>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt beatae hic harum placeat
-                    perferendis totam consectetur dolore alias</p>
+                <!-- <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt beatae hic harum placeat
+                    perferendis totam consectetur dolore alias</p> -->
             </div>
         </div>
     </section>
@@ -354,48 +355,6 @@
                         ?>
                     </div>
                 </div>
-
-                <!-- need to comment out -->
-                <div id="Paris" class="tabcontent">
-                    <div class="row">
-                        <?php
-                        // TODO: change $sqlevent according to requirement
-                        $sqlevent = "SELECT * FROM `event` WHERE `e_from_date`<'$currentdate' and live = 1";
-                        $queryevent = mysqli_query($conn, $sqlevent);
-                        if (mysqli_num_rows($queryevent) > 0) {
-                            while ($rowevent = mysqli_fetch_assoc($queryevent)) {
-                                if ($rowevent['live'] == 1) {
-                                    $eventdate = date("d F Y", strtotime($rowevent['e_from_date']));
-                        ?>
-                                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                                        <div class="posts">
-                                            <img src="<?php echo "Banner/" . trim($rowevent['banner']); ?>" alt="" class="img-fluid">
-                                            <div class="blog-inner">
-                                                <h2><a href="#"><?php echo $rowevent['title']; ?></a></h2>
-                                                <div class="mh-blog-post-info">
-                                                    <p>
-                                                        <strong>Event on </strong>
-                                                        <span class="event_date"><?php echo $eventdate; ?></span>
-                                                    </p>
-                                                </div>
-                                                <p>
-                                                    <?php echo $rowevent['e_description']; ?>
-                                                </p>
-                                                <form action="event.php" method="GET">
-                                                    <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
-                                                    <button class="btn main_btn_read_more" type="submit">Read More</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                        <?php
-                                }
-                            }
-                        }
-                        ?>
-                    </div>
-                </div>
-
             </div>
             <div class="tab" style="text-align: center;">
                 <a href="allevents.php" class="btn main_btn_welcome tablinks">All Events</a>
