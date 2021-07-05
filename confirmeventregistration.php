@@ -15,13 +15,13 @@
         session_start();
         if($_SERVER['REQUEST_METHOD']=='POST'){
             if(isset($_POST['confirm_payment'])){
-                $id = $_POST['budget_id'];
+                $id = $_POST['collection_id'];
                 $confirmedby = $_SESSION["email"];
                 $sql = "UPDATE `collection` SET `confirmed`='1',`confirmed_by`='$confirmedby' WHERE id = '$id'";
                 $query = mysqli_query($conn, $sql);
             }
             if(isset($_POST['delete_payment'])){
-                $id = $_POST['budget_id'];
+                $id = $_POST['collection_id'];
                 $sql = "DELETE FROM `collection` WHERE id = '$id'";
                 $query = mysqli_query($conn, $sql);
             }
@@ -86,13 +86,13 @@
                     </td>
                     <td>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                            <input type="hidden" name="budget_id" value="<?php echo $row['id']; ?>"/>
+                            <input type="hidden" name="collection_id" value="<?php echo $row['id']; ?>"/>
                             <button type="submit" value="confirm_payment" name ="confirm_payment" class="btn btn-success">Confirm</button>
                         </form> 
                     </td>
                     <td>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                            <input type="hidden" name="budget_id" value="<?php echo $row['id']; ?>"/>
+                            <input type="hidden" name="collection_id" value="<?php echo $row['id']; ?>"/>
                             <button type="submit" name="delete_payment"class="btn btn-danger" >Delete</button>
                         </form> 
                     </td>

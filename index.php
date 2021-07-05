@@ -62,7 +62,7 @@
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 
-                <img class="invert" src="images/sakec-logo.png" alt="SAKEC-icon">
+                <img class="invert" src="images/csi-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -122,6 +122,7 @@
                     <?php
                     if (isset($_SESSION['email'])) {
                     ?>
+                        <a href="changeuserdata.php" class="btn main_btn">Edit Profile</a>
                         <a href="logout.php" class="btn main_btn">Logout</a>
                     <?php
                     } else {
@@ -144,8 +145,8 @@
 
         <div class="container text-center">
             <div class="home-heading">
-                <img src="images/logo.png" alt="" class="homelogo">
-                <h2>Building Technical skills professionally</h2>
+                <!-- <img src="images/logo.png" alt="" class="homelogo"> -->
+                <h3>"Building Technical skills professionally"</h3>
                 <!-- <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt beatae hic harum placeat
                     perferendis totam consectetur dolore alias</p> -->
             </div>
