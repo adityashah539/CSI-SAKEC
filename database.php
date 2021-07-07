@@ -4,17 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
+    <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/membership.css?v=<?php echo time(); ?>">
     <title>Database</title>
     <?php
+    // Database Connection
     require_once "config.php";
-    function function_alert($message)
-    {
+    // To give warning or notification 
+    function function_alert($message){
         echo "<SCRIPT>
                 window.location.replace('database.php')
                 alert('$message');
@@ -52,11 +49,38 @@
 
 <body>
    
-    <header>
-        <h2 style="text-align: center;">Userdata</h2>
-    </header>
-    <div class="spacer" style="height:5px;"></div>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."/>
+    <header><h2 style="text-align: center;">Userdata</h2></header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <form action="" method="get"></form>
+			<ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="index.php"><i class="fas fa-home"></i>  Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="role.php"><i class="fas fa-user"></i> Role</a>
+				</li>
+			</ul>
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <div class="input-group">
+                    <input type="search"  onkeyup="myFunction()" id="myInput"placeholder="Search" class="form-control" />
+                        <button id="search-button" type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+			</ul>
+		</div>
+	</nav>
+    <!-- Navbar -->
     <table class="table" id="myTable">
         <thead class="table-head">
             <tr>
@@ -172,6 +196,8 @@
             }
         }
     </script>
+    <div class="spacer" style="height:59px;"></div>
+    <!-- Footer -->
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
         <a href="index.php"><i class="fas fa-home"></i></a>
@@ -179,9 +205,11 @@
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Footer -->
+    <!-- DO NOT DELETE THIS  -->
+    <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
+    <script src="plugins/jquery-3.4.1.min.js"></script>
+    <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

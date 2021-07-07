@@ -15,10 +15,11 @@
         session_start();
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['delete_bill'])){
-                $expense_id=$_POST['collection_id'];
+                $collection_id=$_POST['collection_id'];
                 $sql = "SELECT `bill_photo` FROM `collection` WHERE `id`='$collection_id'";
                 $query = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($query);
+                $folder_location="Event_Bill/";
                 if(file_exists($folder_location.$row['bill_photo'])){
                     gc_collect_cycles();
                     unlink($folder_location.$row['bill_photo']);

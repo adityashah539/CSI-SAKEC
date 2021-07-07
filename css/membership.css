@@ -1,7 +1,7 @@
 body {
     text-align: center;
     background-color: #fffdeb;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     margin: 0;
     color: white;
     padding: 0;
@@ -76,11 +76,6 @@ header {
     margin: 30px;
 }
 
-input[id='myInput'] {
-    border-radius: 20px;
-    padding: 7px 0px 7px 48px;
-    margin: 15px;
-}
 
 .table thead th {
     vertical-align: bottom;
@@ -89,7 +84,7 @@ input[id='myInput'] {
 }
 .table {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
     color: #212529;
     background: #f9f9f7;
 }
@@ -208,4 +203,12 @@ input[id='myInput'] {
   }
   .default-color {
     background-color: #00000070 !important;
+}
+.textbutton {
+    cursor: pointer;
+    background: #f9f9f7;
+    /* color: white; */
+    padding: 7px;
+    border-radius: 12px;
+    border: none;
 }

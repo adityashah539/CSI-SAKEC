@@ -38,6 +38,7 @@
     ?>
 </head>
 <body>
+    <header><h2 style="text-align: center;">Audit</h2></header>
     <?php
         if (!isset($_GET['to'])||!isset($_GET['from'])) {
     ?>
@@ -65,9 +66,6 @@
                         group by id";
             $queryevent = mysqli_query($conn, $sqlevent);
     ?>
-    <header>
-        <h2 style="text-align: center;">Audit</h2>
-    </header>
         <div>
             <table class="table table-bordered" id="tblexportData">
                 <thead>

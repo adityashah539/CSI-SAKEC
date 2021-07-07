@@ -12,7 +12,6 @@
         require_once "config.php";
         function function_alert($message){
             echo"<SCRIPT>
-                    window.location.replace('eventmanagement.php')
                     alert('$message');
                 </SCRIPT>";
         }
@@ -80,25 +79,7 @@
 					<a class="nav-link" href="addevent.php"><i class="fas fa-calendar-plus"></i> Add Event</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="attendance.php"><i class="fas fa-users"></i> Attendance</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="permission.php"><i class="fas fa-envelope-open-text"></i> Permission Letter</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="report_event.php"><i class="fas fa-chart-bar"></i> Report</a>
-				</li>
-                <li class="nav-item">
 					<a class="nav-link" href="budget.php"><i class="fas fa-balance-scale"></i> Budget</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="confirmeventregistration.php"><i class="fas fa-calendar-day"></i> Confirm Event Registration</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="content_repository.php"><i class="fas fa-images"></i> Content Repository</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="feedback_log.php"><i class="fas fa-comments"></i> Feedback Response</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto nav-flex-icons">
@@ -117,11 +98,6 @@
         <thead class="table-head">
             <tr>
                 <th scope="col">Title</th>
-                <th>Event date</th>
-                <th>Event time</th>
-                <th>Event Description</th>
-                <th>Fee for Members</th>
-                <th>Fee for non-members</th>
                 <th>Live</th>
                 <th>FEEDBACK</th>
                 <th>Delete</th>
@@ -140,35 +116,12 @@
                             while ($row = mysqli_fetch_assoc($query)) {
                         ?>
                         <tr>
-                            <th scope="row"><?php echo $row['title']; ?></th>
-                            <td>
-                                <?php 
-                                    if($row['e_from_date']!=$row['e_to_date']){
-                                        echo date("d-m-Y",strtotime($row['e_from_date']))." to ".date("d-m-Y",strtotime($row['e_to_date']));
-                                    }
-                                    else{
-                                        echo date("d-m-Y",strtotime($row['e_from_date']));
-                                    }
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                if($row['e_from_time']!=$row['e_to_time']){
-                                    echo date("h:i",strtotime($row['e_from_time']))." to ".date("h:i",strtotime($row['e_to_time']));
-                                }
-                                else{
-                                    echo date("h:i",strtotime($row['e_from_time']));
-                                } 
-                                ?>
-                            </td>
-                            <td>
-                                <div id="summary">
-                                    <p class="collapse" id="<?php echo 'collapseSummary'.$row['id'];?>"><?php echo $row['e_description']; ?></p>
-                                    <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary'.$row['id']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
-                                </div>
-                            </td>
-                            <td>&#8377;  <?php echo $row['fee_m']; ?></td>
-                            <td>&#8377;  <?php echo $row['fee']; ?></td>
+                            <th scope="row">
+                                <form action="managementevent.php" method="GET">
+                                    <input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
+                                    <button type="submit" class="textbutton"><?php echo $row['title']; ?></button>
+                                </form>
+                            </th>
                         <?php
                         if($row['live']==1){
                             ?>

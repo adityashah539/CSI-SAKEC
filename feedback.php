@@ -76,6 +76,7 @@
         $sql="INSERT INTO `feedback`( `collection_id`,`Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`) 
                         VALUES ('$collection_id','".$_POST['one']."','".$_POST['two']."','".$_POST['three']."','".$_POST['four']."','".$_POST['five']."','".$_POST['six']."','".$_POST['seven']."','".$_POST['query']."')";
         mysqli_query($conn, $sql);
+        
         $selfie_img = mysqli_insert_id($conn);
     
         if (isset($_FILES['selfie'])) {

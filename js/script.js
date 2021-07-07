@@ -27,10 +27,11 @@ var x = setInterval(function () {
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Output the result in an element with id="demo"
-  document.getElementById("days").innerHTML = days;
-  document.getElementById("hours").innerHTML = hours;
-  document.getElementById("minutes").innerHTML = minutes;
-  document.getElementById("seconds").innerHTML = seconds;
+  document.getElementById("days").innerHTML = (days < 10 ? "0" : "") + days;
+  document.getElementById("hours").innerHTML = (hours < 10 ? "0" : "") + hours;
+  document.getElementById("minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes;
+  document.getElementById("seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds;
+ips-hodb-xrq
 
   // If the count down is over, write some text 
   if (distance < 0) {

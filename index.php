@@ -61,14 +61,13 @@
     <header class="header_area">
         <div class="main_menu">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-
                 <img class="invert" src="images/csi-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll " style="height: auto;" >
                         <li class="nav-item active">
                             <a class="nav-link" href="#">Home</a>
                         </li>
@@ -81,28 +80,11 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="#gallery">Gallery</a>
                         </li>
-                        <!-- <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
-                                    data-toggle="dropdown" aria-expanded="false">
-                                    Membership
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link active" href="#contact">CONTACT</a>
-                            </li>
-                            -->
+                        
                         <?php
                         if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
                             $_SESSION['var'] = 0;
-                        ?>
+                            ?>
                             <li class="nav-item active">
                                 <a class="nav-link" href="database.php">Userdata</a>
                             </li>
@@ -115,25 +97,28 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="audit.php">Audit</a>
                             </li>
-                        <?php
+                            <li class="nav-item active">
+                                <a class="nav-link" href="membership.php"> Membership</a>
+                            </li>
+                            <?php
                         }
                         ?>
                     </ul>
                     <?php
                     if (isset($_SESSION['email'])) {
-                    ?>
-                        <a href="changeuserdata.php" class="btn main_btn">Edit Profile</a>
-                        <a href="logout.php" class="btn main_btn">Logout</a>
-                    <?php
+                        ?>
+                        <a href="logout.php" class="btn main_btn ">Logout</a>
+                        <a href="changeuserdata.php" class="btn main_btn ">Edit Profile</a>
+                        <?php
                     } else {
-                    ?>
-                        <a href="login.php" class="btn main_btn">Login</a>
-                        <a href="signup.php" class="btn main_btn">Sigup</a>
-                    <?php
+                        ?>
+
+                            <a href="login.php" class="btn main_btn">Login</a>
+                            <a href="signup.php" class="btn main_btn">Sigup</a>
+                        <?php
                     }
                     ?>
                 </div>
-
             </nav>
         </div>
     </header>
@@ -142,10 +127,9 @@
 
     <!-- Landing -->
     <section class="home">
-
         <div class="container text-center">
             <div class="home-heading">
-                <!-- <img src="images/logo.png" alt="" class="homelogo"> -->
+                <img src="images/logo.png" alt="" class="homelogo ">
                 <h3>"Building Technical skills professionally"</h3>
                 <!-- <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt beatae hic harum placeat
                     perferendis totam consectetur dolore alias</p> -->
@@ -302,7 +286,6 @@
     <section id="events" class="p_120">
         <div class="container">
             <div class="main_title">
-                <h2>Event Schedule</h2>
                 <!-- <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in
                     price. You may see some for as low as $.17 each.</p> -->
             </div>
@@ -499,9 +482,8 @@
                         </script> All rights reserved | This template is made with ❤ by Israil
                     </p>
                     <div class="col-lg-4 col-md-4 footer-social">
-                        <a href="https://www.facebook.com/csisakec/photos">
-                            <i class="fab fa-facebook-f"></i>
-                        </a><a href="https://www.instagram.com/csi.sakec/?utm_medium=copy_link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/csisakec/photos"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/csi.sakec/?utm_medium=copy_link"><i class="fab fa-instagram"></i></a>
                         <a href="https://twitter.com/sakectweets?lang=en"><i class="fab fa-twitter"></i></a>
                         <a href="https://www.youtube.com/c/SAKECYouTubeChannel"><i class="fab fa-youtube"></i></a>
                     </div>

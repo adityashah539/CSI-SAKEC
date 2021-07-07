@@ -24,9 +24,9 @@
         alert('$message');
         </SCRIPT>";
     }
-    if(isset($_POST['event'])){   
-        $id = $_POST['event_id'];
-        $title = $_POST['event_title'];
+    if(isset($_GET['event_id'])){   
+        $id = $_GET['event_id'];
+        $title = $_GET['event_title'];
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
         // if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
@@ -84,7 +84,7 @@
 
 <body style="background-image: linear-gradient(#ff9a9aa8, #ffffd66b);">
     <div class="row text-center" style="background-color:#b1d7ff; padding:10px;">
-        <h2>Upload Event Images</h2>
+        <h2>Upload Event for <?php echo $title; ?></h2>
     </div>
     <div id="carouselMultiItemExample" class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
         <div class="d-flex justify-content-center mb-4">

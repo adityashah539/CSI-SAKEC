@@ -110,7 +110,6 @@
                     }
                     ?>
                 </div>
-
             </nav>
         </div>
     </header>
@@ -301,18 +300,13 @@
                                                 <p class="card-text">
                                                     <?php echo $rowspeaker['description']; ?>
                                                 </p>
-                                                <div class="social-sites">
+                                                <div class="footer-social">
                                                     <?php
-                                                    if ($rowspeaker['linkedIn'] != "") {
-                                                        echo "<a href=" . $rowspeaker['linkedIn'] . "><img class='social' src='images/linkedin1.png' alt='linkedin'></a>";
-                                                    }
-                                                    if ($rowspeaker['facebook'] != "") {
-                                                        echo "<a href=" . $rowspeaker['facebook'] . "><img class='social' src='images/facebook.png' alt='facebook'></a>";
-                                                    }
-                                                    if ($rowspeaker['instagram'] != "") {
-                                                        echo "<a href=" . $rowspeaker['instagram'] . "><img class='social' src='images/instagram (1).png' alt='instagram'></a>";
-                                                    }
+                                                    // if ($rowspeaker['linkedIn'] != "") {
+                                                    //     echo "<a href=" . $rowspeaker['linkedIn'] . " ><i class='fab fa-linkedin-in'></i></a>";
+                                                    // }
                                                     ?>
+                                                    <a href=" <?php if ($rowspeaker['linkedIn'] != "") {echo $rowspeaker['linkedIn'];}?> " ><i class="fab fa-linkedin"></i></a>
                                                 </div>
                                             </div>
                                         </div>

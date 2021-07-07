@@ -120,6 +120,9 @@ body {
 .homelogo{
   height: 300px;
   margin-bottom: 20px;
+  height:auto;
+  width:100%;
+
 }
 
 .home {
@@ -623,7 +626,6 @@ textarea {
   }
 
 }
-
 
 @media (min-width: 992px) {
   .navbar-expand-lg .navbar-collapse {

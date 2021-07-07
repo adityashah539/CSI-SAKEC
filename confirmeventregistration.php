@@ -13,6 +13,9 @@
     <?php
         require_once "config.php";
         session_start();
+        if(isset($_GET['event_id'])){
+            $event_id = $_GET['event_id'];
+        }
         if($_SERVER['REQUEST_METHOD']=='POST'){
             if(isset($_POST['confirm_payment'])){
                 $id = $_POST['collection_id'];
@@ -69,7 +72,7 @@
                         "SELECT `collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`userdata`.`emailID`,`event`.`title`,`collection`.`amount`,`collection`.`bill_photo` 
                         FROM `userdata`,`event`,`collection` 
                         WHERE `collection`.`event_id`=`event`.`id` 
-                        AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0'";
+                        AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0' AND `event`.`id`='$event_id'";
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             while ($row = mysqli_fetch_assoc($query)) {
