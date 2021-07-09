@@ -33,7 +33,7 @@
                         if (in_array($file_ext_img,$extensions)){
                             $folder_name_coordinatorImage="Coordinator_Images/";
                             $file_new_coordinatorimage = uniqid('',true).".".$file_ext_img;
-                            $sql = "UPDATE `coordinator` SET `image`= '$file_new_coordinatorimage' WHERE id=".$id;
+                            $sql = "UPDATE `csi_coordinator` SET `image`= '$file_new_coordinatorimage' WHERE id=".$id;
                             $stmt = mysqli_query($conn, $sql);
                             // if($stmt)echo "success";
                             // else echo "fail";
@@ -47,7 +47,7 @@
                     }
                     $name = $_POST['name1'];
                     $duty = $_POST['duty1'];
-                    $sql = "UPDATE `coordinator` SET `name`='$name',`duty`='$duty' WHERE id=".$id;
+                    $sql = "UPDATE `csi_coordinator` SET `name`='$name',`duty`='$duty' WHERE id=".$id;
                     $stmt = mysqli_query($conn, $sql);
             // }else{
             //     function_alert("You have to be admin or cooridinator");

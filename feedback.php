@@ -38,7 +38,7 @@
         function_alert("please go to event");
 
     //checking if feedback is enabled
-    $eventsql = "SELECT * FROM event WHERE id='$event_id' and feedback='1'";
+    $eventsql = "SELECT * FROM csi_event WHERE id='$event_id' and feedback='1'";
     $eventquery = mysqli_query($conn, $eventsql);
     $number_of_event = mysqli_num_rows($eventquery);
     if($number_of_event==0){
@@ -47,7 +47,7 @@
     $rowevent = mysqli_fetch_assoc($eventquery);
     
     //checking wheather user is registered
-    $sql = "SELECT `id` FROM collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM userdata WHERE emailID='".$_SESSION['email']."')";
+    $sql = "SELECT `id` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='".$_SESSION['email']."')";
     $query = mysqli_query($conn, $sql);
     $number_of_rows = mysqli_num_rows($query);
     if($number_of_rows==0){
@@ -57,7 +57,7 @@
     $collection_id=$row['id'];
 
     //checking wheather user has already filled he feedback
-    $sql = "SELECT * FROM feedback WHERE collection_id='".$collection_id."'";
+    $sql = "SELECT * FROM csi_feedback WHERE collection_id='".$collection_id."'";
     $query = mysqli_query($conn, $sql);
     $number_of_rows = mysqli_num_rows($query);
     if($number_of_rows>=1){
@@ -73,7 +73,7 @@
         $q6=$_POST['six'];
         $q7=$_POST['seven'];
         $query=$_POST['query'];
-        $sql="INSERT INTO `feedback`( `collection_id`,`Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`) 
+        $sql="INSERT INTO `csi_feedback`( `collection_id`,`Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`) 
                         VALUES ('$collection_id','".$_POST['one']."','".$_POST['two']."','".$_POST['three']."','".$_POST['four']."','".$_POST['five']."','".$_POST['six']."','".$_POST['seven']."','".$_POST['query']."')";
         mysqli_query($conn, $sql);
         
@@ -101,7 +101,7 @@
             if ($ext_error) {
                 $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
                 echo $selfie_img;                
-                $sql="UPDATE `feedback` SET `selfie`='$file_new_banner' WHERE id='$selfie_img'";
+                $sql="UPDATE `csi_feedback` SET `selfie`='$file_new_banner' WHERE id='$selfie_img'";
                 mysqli_query($conn, $sql);
                 move_uploaded_file($_FILES["selfie"]["tmp_name"],"Selfies/".$file_new_banner);
             }            
@@ -122,7 +122,7 @@
         <h2>
         <?php
                 // collaboration of event
-                $sqlcollaboration = "SELECT * FROM collaboration WHERE event_id='$event_id'";
+                $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
                 $querycollaboration = mysqli_query($conn, $sqlcollaboration);
                 $collaboration = "";
                 for($i = mysqli_num_rows($querycollaboration); $i > 0; $i--){

@@ -24,12 +24,12 @@
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['update_id'])) {
             $update_role = $_POST['role'];
-            $sql = "SELECT `id` FROM `role` WHERE `role_name`='$update_role'";
+            $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='$update_role'";
             $query = mysqli_query($conn, $sql);
             $row = mysqli_fetch_assoc($query);
             $update_role = $row['id'];
             $id = $_POST['update_id'];
-            $sql = "UPDATE userdata SET role='$update_role' WHERE id='$id'";
+            $sql = "UPDATE csi_userdata SET role='$update_role' WHERE id='$id'";
             $query = mysqli_query($conn, $sql);
             if ($query) {
                 function_alert("Update Successful ");
@@ -39,7 +39,7 @@
         }
         if (isset($_POST['delete_id'])) {
             $id = $_POST['delete_id'];
-            $sql = "DELETE FROM userdata WHERE id='$id' ";
+            $sql = "DELETE FROM csi_userdata WHERE id='$id' ";
             $query = mysqli_query($conn, $sql);
             if ($query) {
                 function_alert("Update Successful ");
@@ -99,7 +99,7 @@
                 session_start();
                 if (isset($_SESSION['email'])) {
                     if ($_SESSION['role'] === 'admin') {
-                        $sql = "SELECT * FROM `role`";
+                        $sql = "SELECT * FROM `csi_role`";
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             $index=0;

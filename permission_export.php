@@ -96,10 +96,10 @@
         if($_SERVER['REQUEST_METHOD'] === "GET"){
             if(isset($_GET['event_id'])){
                 $event_id=$_GET['event_id'];
-                $sql="SELECT * FROM `event` WHERE `id`=$event_id";
+                $sql="SELECT * FROM `csi_event` WHERE `id`=$event_id";
                 $query = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($query);
-                $collaboration_sql = "SELECT `collab_body` FROM `collaboration` WHERE `event_id`='$event_id'";
+                $collaboration_sql = "SELECT `collab_body` FROM `csi_collaboration` WHERE `event_id`='$event_id'";
                 $collaboration_query = mysqli_query($conn, $collaboration_sql);
                 $collaboration_row = mysqli_fetch_assoc($collaboration_query);
             } 

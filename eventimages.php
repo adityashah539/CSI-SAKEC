@@ -56,7 +56,7 @@
                         echo "<script>alert('You create directory successfully')</script>";
                     }
                     $file_new_event = uniqid('',true).".".$file_ext_event;
-                    $sql = "INSERT INTO `contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')";
+                    $sql = "INSERT INTO `csi_contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')";
                     $stmt = mysqli_query($conn, $sql);
                     echo "<script>alert(".$folder_name_event.")</script>";
                     move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_event .'/'. $file_new_event);
@@ -72,7 +72,7 @@
                 $title = $_POST['eventtitle'];
                 $id = $_POST['eventid'];
                 $imgid = $_POST['delete_id'];
-                $sql = "DELETE FROM `contentrepository` WHERE id=" . $imgid;
+                $sql = "DELETE FROM csi_contentrepository` WHERE id=" . $imgid;
                 $query = mysqli_query($conn, $sql);
             }
         // }else{
@@ -102,7 +102,7 @@
             <!-- Single item -->
 
             <?php
-            $sql = "SELECT * FROM `contentrepository` where eventid = '$id'";
+            $sql = "SELECT * FROM `csi_contentrepository` where eventid = '$id'";
             $sqlstmt = mysqli_query($conn, $sql);
             $number_of_images = mysqli_num_rows($sqlstmt);
             $j = 0;

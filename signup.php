@@ -23,7 +23,7 @@
         </SCRIPT>";
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $sql = "SELECT * FROM userdata WHERE emailId = ? or phonenumber= ?";
+        $sql = "SELECT * FROM csi_userdata WHERE emailId = ? or phonenumber= ?";
         $stmt = mysqli_prepare($conn, $sql);
         if ($stmt) {
             $param_email = trim($_POST["email"]);
@@ -43,16 +43,22 @@
                             if ($password === $confrimpassword) {
                                 session_start();
                                 $password = password_hash( $password, PASSWORD_BCRYPT);
-                                $sql="SELECT `id` FROM `role` WHERE `role_name`='student'";
+                                $sql="SELECT `id` FROM `csi_role` WHERE `role_name`='student'";
                                 $result = mysqli_query($conn, $sql);
                                 $row = mysqli_fetch_assoc($result);
                                 $role = $row['id'];
                                 $branch = trim($_POST["branch"]);
-                                $class = trim($_POST["year"]);
+                                $year = trim($_POST["year"]);
                                 $firstname = trim($_POST["firstname"]);
                                 $lastname = trim($_POST["lastname"]);
-                                $sql = "INSERT INTO userdata (  firstName  , lastName  , emailID,  phonenumber  , branch  , class  , password  ,   role) 
-                                                    VALUES   ('$firstname','$lastname','$email ','$phonenumber','$branch','$class','$password' , '$role')";
+                                $middlename = trim($_POST["middlename"]);
+                                $rollno = trim($_POST["rollno"]);
+                                $division = trim($_POST["division"]);
+                                $gender = trim($_POST["gender"]);
+                                $sql = "INSERT INTO `csi_userdata`(`firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `csi_role`, `gender`) 
+                                                    VALUES   ('$firstname','$middlename','$lastname','$year','$division','$rollno',  '$email','$phonenumber','$branch','$password', '$role','$gender')";
+                                // $sql = "INSERT INTO userdata (  firstName  , lastName  , emailID,  phonenumber  , branch  , year  , password  ,   role) 
+                                //                     VALUES   ('$firstname','$lastname','$email ','$phonenumber','$branch','$year','$password' , '$role')";
                                 $result = mysqli_query($conn, $sql);
                                 header("location: login.php");
                                 mysqli_close($conn);
@@ -83,6 +89,8 @@
                 <i class="fas fa-file-signature" style="font-size:30px;"></i>
                 <input data-toggle="tooltip" data-placement="bottom" title="Your First name" id="text" type="text" class="g" name="firstname" placeholder=" First Name" required /></br>
                 <i class="fas fa-signature" style="font-size:30px;"></i>
+                <input data-toggle="tooltip" data-placement="bottom" title="Your Middle name" id="text" type="text" class="g" name="middlename" placeholder="Middle Name" required /></br>
+                <i class="fas fa-signature" style="font-size:30px;"></i>
                 <input data-toggle="tooltip" data-placement="bottom" title="Your Last name" id="text" type="text" class="g" name="lastname" placeholder="Last Name" required /></br>
                 <div class="grid-container">
                     <div class="grid-item item1">
@@ -107,7 +115,42 @@
                             </select>
                         </div>
                     </div>
+                    <div class="grid-item item3">
+                        <div class="texts">
+                            <select id="classyear" name="division" required="required" class="custom-select mb-3">
+                                <option disabled>Select Division</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid-item item4">
+                        <div class="texts">
+                            <select id="classyear" name="gender" required="required" class="custom-select mb-3">
+                                <option disabled>Select Division</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+                <i class="fas fa-mobile-alt" style="font-size:30px;"></i>
+                <input data-toggle="tooltip" data-placement="bottom" title="Your Roll number" id="text" type="text" class="g" name="rollno" placeholder="Roll Number" required />
+                </br>
                 <i class="fas fa-mobile-alt" style="font-size:30px;"></i>
                 <input data-toggle="tooltip" data-placement="bottom" title="Your Phone number" id="text" type="text" class="g" name="phonenumber" placeholder=" Phone Number" required />
                 </br>

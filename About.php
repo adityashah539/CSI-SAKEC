@@ -14,7 +14,7 @@
 <?php
 require_once "config.php";
 session_start();
-$sqlselect = "SELECT * FROM `aboutus`";
+$sqlselect = "SELECT * FROM `csi_aboutus`";
 $query = mysqli_query($conn, $sqlselect);
 $row = mysqli_fetch_assoc($query);
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
             if (in_array($file_ext_img, $extensions)) {
                 $file_new_name = uniqid('', true) . "." . $file_ext_img;
                 $folder_location = "AboutUs/";
-                $sql = "UPDATE `aboutus` SET `photo`='$file_new_name',`description`='$description' WHERE `id`='1'";
+                $sql = "UPDATE `csi_aboutus` SET `photo`='$file_new_name',`description`='$description' WHERE `id`='1'";
                 $stmt = mysqli_query($conn, $sql);
                 if(file_exists($folder_location.$row['photo'])){
                     gc_collect_cycles();
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
                 function_alert("Extention of file should be jpg,jpeg,png.");
             }
         }
-        $sql = "UPDATE `aboutus` SET `description`='$description' WHERE 1";
+        $sql = "UPDATE `csi_aboutus` SET `description`='$description' WHERE 1";
         $stmt = mysqli_query($conn, $sql);
     } else {
         function_alert("You have to be admin or cooridinator");

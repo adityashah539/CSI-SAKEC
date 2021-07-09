@@ -61,7 +61,7 @@
             $to_date = $_GET["to"];
             // event details
             $sqlevent = "select id, title, e_from_date, e_to_date, e_description
-                        from event
+                        from csi_event
                         where e_from_date >= '$from_date' and e_to_date <= '$to_date'
                         group by id";
             $queryevent = mysqli_query($conn, $sqlevent);
@@ -99,7 +99,7 @@
                     for($index = 1; $rowevent = mysqli_fetch_assoc($queryevent); $index++) {
                         $count = 0;
                         // speaker
-                        $sqlspeaker = "SELECT `name`, `organisation` FROM `speaker` WHERE event_id = ".$rowevent['id'];
+                        $sqlspeaker = "SELECT `name`, `organisation` FROM `csi_speaker` WHERE event_id = ".$rowevent['id'];
                         $queryspeaker = mysqli_query($conn, $sqlspeaker);
                         $speakername = "";
                         $speakerorganisation = "";
@@ -109,7 +109,7 @@
                         }
 
                         // collaboration
-                        $sqlcollaboration = "SELECT * FROM collaboration WHERE event_id=".$rowevent['id'];
+                        $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id=".$rowevent['id'];
                         $querycollaboration = mysqli_query($conn, $sqlcollaboration);
                         $collaboration = "";
                         for ($i = 1;$rowcollaboration = mysqli_fetch_assoc($querycollaboration);$i++) {
@@ -129,7 +129,7 @@
                         for($i = 0; $i < 8; $i++) {
                             // count number of students who registered for the event
                             $sqlcollection = "select count(u.id) as total
-                                    from userdata as u, collection as c
+                                    from csi_userdata as u, csi_collection as c
                                     where c.user_id = u.id and u.branch = '$branch[$i]' and c.event_id = ".$rowevent['id'];
                             $querycollection = mysqli_query($conn, $sqlcollection);
                             $rowcollection = mysqli_fetch_assoc($querycollection);

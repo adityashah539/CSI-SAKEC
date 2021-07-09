@@ -24,7 +24,7 @@
         //if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
             if (isset($_POST['delete_id_btn'])) {
                 $id = $_POST['delete_id'];
-                $sql = "DELETE FROM `coordinator` WHERE id=" . $id;
+                $sql = "DELETE FROM `csi_coordinator` WHERE id=" . $id;
                 $query = mysqli_query($conn, $sql);
                 // Delete file from folder
                 $filename = $_POST['delete_file'];
@@ -68,7 +68,7 @@
             </thead>
             <tbody>
                 <?php
-                    $sql = "SELECT * FROM `coordinator`";
+                    $sql = "SELECT * FROM `csi_coordinator`";
                     $result= mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_assoc($result)) {
                 ?>

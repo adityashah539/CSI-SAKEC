@@ -31,10 +31,10 @@
             $division = trim($_POST["division"]);
             $phone = trim($_POST["phone"]);
             $branch = trim($_POST["branch"]);
-            $sqlupdate = "UPDATE `userdata` SET `firstName`='$firstname',`middleName`='$middlename',`lastName`='$lastname',`year`='$year',`division`='$division',`rollNo`='$rollno',`phonenumber`='$phone',`branch`='$branch' WHERE id = $id";
+            $sqlupdate = "UPDATE `csi_userdata` SET `firstName`='$firstname',`middleName`='$middlename',`lastName`='$lastname',`year`='$year',`division`='$division',`rollNo`='$rollno',`phonenumber`='$phone',`branch`='$branch' WHERE id = $id";
             $result = mysqli_query($conn, $sqlupdate);
         }
-        $sqlshowdata = "SELECT `id`, `firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `r_number`, `role`, `gender` FROM `userdata` WHERE emailID = '$email'";
+        $sqlshowdata = "SELECT `id`, `firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `r_number`, `role`, `gender` FROM `csi_userdata` WHERE emailID = '$email'";
         $resulshowdata = mysqli_query($conn, $sqlshowdata);
         $rowshowdata = mysqli_fetch_assoc($resulshowdata);
     }else{

@@ -15,17 +15,19 @@
         session_start();
         if(isset($_GET['event_id'])){
             $event_id = $_GET['event_id'];
+        }else if(isset($_POST['event_id'])){
+            $event_id = $_POST['event_id'];
         }
         if($_SERVER['REQUEST_METHOD']=='POST'){
             if(isset($_POST['confirm_payment'])){
                 $id = $_POST['collection_id'];
                 $confirmedby = $_SESSION["email"];
-                $sql = "UPDATE `collection` SET `confirmed`='1',`confirmed_by`='$confirmedby' WHERE id = '$id'";
+                $sql = "UPDATE `csi_collection` SET `confirmed`='1',`confirmed_by`='$confirmedby' WHERE id = '$id'";
                 $query = mysqli_query($conn, $sql);
             }
             if(isset($_POST['delete_payment'])){
                 $id = $_POST['collection_id'];
-                $sql = "DELETE FROM `collection` WHERE id = '$id'";
+                $sql = "DELETE FROM `csi_collection` WHERE id = '$id'";
                 $query = mysqli_query($conn, $sql);
             }
         }
@@ -69,10 +71,10 @@
                 if (isset($_SESSION['email'])) {
                     if ($_SESSION['role'] === 'admin') {
                         $sql = 
-                        "SELECT `collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`userdata`.`emailID`,`event`.`title`,`collection`.`amount`,`collection`.`bill_photo` 
-                        FROM `userdata`,`event`,`collection` 
-                        WHERE `collection`.`event_id`=`event`.`id` 
-                        AND`collection`.`user_id`=`userdata`.`id` AND `confirmed`='0' AND `event`.`id`='$event_id'";
+                        "SELECT `csi_collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`csi_userdata`.`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo` 
+                        FROM `csi_userdata`,`csi_event`,`csi_collection` 
+                        WHERE `csi_collection`.`event_id`=`csi_event`.`id` 
+                        AND`csi_collection`.`user_id`=`csi_userdata`.`id` AND `confirmed`='0' AND `csi_event`.`id`='$event_id'";
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             while ($row = mysqli_fetch_assoc($query)) {
@@ -89,12 +91,14 @@
                     </td>
                     <td>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                            <input type="hidden" name="event_id" value = "<?php echo $event_id;?>">
                             <input type="hidden" name="collection_id" value="<?php echo $row['id']; ?>"/>
                             <button type="submit" value="confirm_payment" name ="confirm_payment" class="btn btn-success">Confirm</button>
                         </form> 
                     </td>
                     <td>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                            <input type="hidden" name="event_id" value = "<?php echo $event_id;?>">
                             <input type="hidden" name="collection_id" value="<?php echo $row['id']; ?>"/>
                             <button type="submit" name="delete_payment"class="btn btn-danger" >Delete</button>
                         </form> 

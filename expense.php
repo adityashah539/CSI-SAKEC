@@ -17,7 +17,7 @@
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['delete_bill'])){
                 $expense_id=$_POST['expense_id'];
-                $sql = "DELETE FROM `expense` WHERE `id`='$expense_id'";
+                $sql = "DELETE FROM `csi_expense` WHERE `id`='$expense_id'";
                 $query = mysqli_query($conn, $sql);
                 mysqli_query($conn, $sql);
             }
@@ -45,7 +45,7 @@
                 <?php
                     $event_id= $_GET['e_id'];
                     $sum=0;
-                    $sql = "SELECT `id`,`spent_on`, `by` , `bill_photo`, `bill_amount` FROM `expense` WHERE `event_id` = $event_id";
+                    $sql = "SELECT `id`,`spent_on`, `by` , `bill_photo`, `bill_amount` FROM `csi_expense` WHERE `event_id` = $event_id";
                     $query = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {

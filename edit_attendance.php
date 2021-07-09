@@ -31,7 +31,7 @@
                 while (isset($_POST[("username_".$index)])) {
                     $username = $_POST[("username_".$index)];
                     $attend = $_POST[("attend_".$index)];
-                    $sql = "UPDATE `collection` SET `attend`='$attend' WHERE `user_id`='$username' AND `event_id`='$event_id'";
+                    $sql = "UPDATE `csi_collection` SET `attend`='$attend' WHERE `user_id`='$username' AND `event_id`='$event_id'";
                     $query = mysqli_query($conn, $sql);
                     $index++;
                 }
@@ -86,8 +86,8 @@
                     <?php
                     if (isset($_SESSION['email'])) {
                         if ($_SESSION['role'] === 'admin') {
-                            $sql = "SELECT CONCAT(`userdata`.`firstName`,' ', `userdata`.`lastName`) as `name`,`userdata`.`emailID`,`attend`,`userdata`.`id` FROM `collection`,`userdata` 
-                            WHERE `collection`.`event_id`='$event_id' AND `userdata`.`id`=`user_id` AND (LOWER(CONCAT(`userdata`.`firstName`,' ', `userdata`.`lastName`)) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')";
+                            $sql = "SELECT CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`) as `name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
+                            WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`)) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')";
                             //echo $sql;
                             $query = mysqli_query($conn, $sql);
                             $number_of_rows = mysqli_num_rows($query);

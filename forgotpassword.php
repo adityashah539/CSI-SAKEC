@@ -24,7 +24,7 @@
         if(isset($_POST['email'])){
             $_SESSION['email'] =filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
             $email =$_SESSION['email'];
-            $sql = "SELECT * FROM `userdata` WHERE  emailID='$email'";
+            $sql = "SELECT * FROM `csi_userdata` WHERE  emailID='$email'";
             $query = mysqli_query($conn, $sql);
             $emailcount = mysqli_num_rows($query);
             if ($emailcount == 1) {
@@ -84,7 +84,7 @@
             $confrim_password = trim($_POST['confirm_password']);
             if($confrim_password==$new_password){
                 $email =$_SESSION['email'];
-                $sql = "UPDATE `userdata` SET `password`='$new_password' WHERE emailID = '$email'";
+                $sql = "UPDATE `csi_userdata` SET `password`='$new_password' WHERE emailID = '$email'";
                 $query = mysqli_query($conn, $sql);
                 unset($_SESSION['email'],$_SESSION['otp'],$_SESSION['time']);
                 header("location:login.php");

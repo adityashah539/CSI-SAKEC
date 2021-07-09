@@ -58,8 +58,8 @@
                 $fee = $_POST['fee'];
                 $selfie=$_POST['selfie'];
                 $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
-                $sql = "INSERT INTO `event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`,`selfie`)
-                                    VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1' ,'$selfie'  )";
+                $sql = "INSERT INTO `csi_event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`,`selfie`)
+                                        VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1' ,'$selfie'  )";
                 mysqli_query($conn, $sql);
                 move_uploaded_file($_FILES["e_banner"]["tmp_name"], $folder_name_banner . $file_new_banner);
                 $last_entry = mysqli_insert_id($conn);
@@ -69,7 +69,7 @@
                     $phonenmber = $_POST['phone' . $index . 'number'];
                     $name = $_POST['phone' . $index . 'name'];
                     $type = $_POST['type'.$index];
-                    $sql = "INSERT INTO `contact`( `c_name`, `c_phonenumber`, `event_id`,`c_type`) VALUES ('$name','$phonenmber','$last_entry','$type')";
+                    $sql = "INSERT INTO `csi_contact`( `c_name`, `c_phonenumber`, `event_id`,`c_type`) VALUES ('$name','$phonenmber','$last_entry','$type')";
                     mysqli_query($conn, $sql);
                     $index++;
                 }
@@ -77,7 +77,7 @@
                 $index = 1;
                 while (isset($_POST['venue'.$index])) {
                     $venue = $_POST['venue'.$index];
-                    $sql = "INSERT INTO `venue`(`event_id`, `location`) VALUES ('$last_entry','$venue')";
+                    $sql = "INSERT INTO `csi_venue`(`event_id`, `location`) VALUES ('$last_entry','$venue')";
                     mysqli_query($conn, $sql);
                     $index++;
                 }
@@ -99,7 +99,7 @@
                     $s_facebook = $_POST['s_facebook'.$index];
                     $s_instagram = $_POST['s_instagram'.$index];
                     $file_new_speaker = uniqid('', true) . "." . $file_ext_s_photo;
-                    $sql = "INSERT INTO `speaker`(`event_id`   , `name`  , `organisation`  , `profession`, `description`     , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
+                    $sql = "INSERT INTO `csi_speaker`(`event_id`   , `name`  , `organisation`  , `profession`, `description`     , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
                                            VALUES('$last_entry','$s_name','$s_organisation','$s_profession','$s_descripition','$s_photo','$s_linkedIn','$s_facebook','$s_instagram');";
                     mysqli_query($conn, $sql);
                     if ($s_photo != null) {
@@ -111,12 +111,12 @@
                 $index = 1;
                 while (isset($_POST['collaboration'.$index])) {
                     $collaboration = $_POST['collaboration'.$index];
-                    $sql = "INSERT INTO `collaboration`(`event_id`, `collab_body`) VALUES ('$last_entry','$collaboration')";
+                    $sql = "INSERT INTO `csi_collaboration`(`event_id`, `collab_body`) VALUES ('$last_entry','$collaboration')";
                     mysqli_query($conn, $sql);
                     $index++;
                 }
                 if($ext_error){
-                    $sql = "INSERT INTO `budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')";
+                    $sql = "INSERT INTO `csi_budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')";
                     mysqli_query($conn, $sql);
                     function_alert("Your enter is made.");
                 }

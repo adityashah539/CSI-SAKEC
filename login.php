@@ -47,13 +47,13 @@
                     $err .= "<br>";
                 $err .= "Pls enter the college email Id ";
             } else {
-                $sql = "SELECT emailID, password  FROM userdata WHERE emailID = '$email'";
+                $sql = "SELECT emailID, password  FROM csi_userdata WHERE emailID = '$email'";
                 $query = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($query) == 1) {
                     $row = mysqli_fetch_assoc($query);
                     $hash = $row['password'];
                     if (password_verify($password, $hash)) {
-                        $sql = "SELECT `role`.`role_name`  FROM `userdata` INNER JOIN `role` ON `userdata`.`role`=`role`.`id`WHERE `userdata`.`emailID` = '$email'";
+                        $sql = "SELECT `csi_role`.`role_name`  FROM `csi_userdata` INNER JOIN `csi_role` ON `csi_userdata`.`csi_role`=`csi_role`.`id`WHERE `csi_userdata`.`emailID` = '$email'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $_SESSION["role"] = $row["role_name"];

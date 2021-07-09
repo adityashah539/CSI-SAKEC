@@ -21,7 +21,7 @@
         require_once "config.php";
         session_start();
         $event=$_GET['event_id'];
-        $sql = "SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, userdata.firstName, userdata.middleName , userdata.lastName , userdata.emailID FROM `feedback`,`userdata`,`collection` WHERE collection.event_id='$event' and collection.id=feedback.collection_id and userdata.id=collection.user_id";
+        $sql = "SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, csi_userdata.firstName, csi_userdata.middleName , csi_userdata.lastName , csi_userdata.emailID FROM `csi_feedback`,`csi_userdata`,`csi_collection` WHERE csi_collection.event_id='$event' and csi_collection.id=csi_feedback.collection_id and csi_userdata.id=csi_collection.user_id";
         $query = mysqli_query($conn, $sql);
         $number_of_responses = mysqli_num_rows($query);
     ?>

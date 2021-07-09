@@ -10,7 +10,7 @@ require_once "config.php";
             <?php
             if (isset($_POST['edit_btn'])) {
                 $id = $_POST['edit_id'];
-                $sql = "SELECT * FROM userdata WHERE id='$id' ";
+                $sql = "SELECT * FROM csi_userdata WHERE id='$id' ";
                 $query = mysqli_query($conn, $sql);
                 foreach ($query as $row) {
             ?>

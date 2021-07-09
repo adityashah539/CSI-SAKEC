@@ -126,7 +126,7 @@ require_once "config.php";
                         <?php
                         // TODO: change $sqlevent according to requirement
                         $currentdate = date("Y-m-d");
-                        $sqlevent = "SELECT * FROM `event` WHERE `e_from_date`<'$currentdate'";
+                        $sqlevent = "SELECT * FROM `csi_event` WHERE `e_from_date`<'$currentdate'";
                         $queryevent = mysqli_query($conn, $sqlevent);
                         if (mysqli_num_rows($queryevent) > 0) {
                             while ($rowevent = mysqli_fetch_assoc($queryevent)) {

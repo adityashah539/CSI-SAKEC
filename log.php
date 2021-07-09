@@ -57,7 +57,7 @@
                     session_start();
                     if(isset($_SESSION["email"])){
                         if($_SESSION["role"]==='admin'){
-                            $sql = 'SELECT * FROM reply';
+                            $sql = 'SELECT * FROM csi_reply';
                             $query = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($query) > 0) {
                                 while ($row = mysqli_fetch_assoc($query)) {

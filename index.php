@@ -43,7 +43,7 @@
         if (isset($to_email)) {
             send_mail($to_email, $subject, $body, $headers);
             if (strpos($to_email, "@sakec.ac.in") || strpos($to_email, "@gmail.com")) {
-                $sql = "INSERT INTO query (c_email,c_query) VALUES ('$to_email','$query')";
+                $sql = "INSERT INTO csi_query (c_email,c_query) VALUES ('$to_email','$query')";
                 $stmt = mysqli_query($conn, $sql);
                 function_alert("Msg has been deliverd.");
             } else {
@@ -140,7 +140,7 @@
 
     <?php
     $data;
-    $sqlNextEvent = "SELECT `id`, `title`, `e_from_date`,  `e_from_time` FROM `event` WHERE `live`='1'";
+    $sqlNextEvent = "SELECT `id`, `title`, `e_from_date`,  `e_from_time` FROM `csi_event` WHERE `live`='1'";
     $queryNextEvent = mysqli_query($conn, $sqlNextEvent);
     while ($rowNextEvent = mysqli_fetch_assoc($queryNextEvent)) {
         if ((date("Y-m-d", strtotime($rowNextEvent['e_from_date'])) > date("Y-m-d", strtotime("now"))) && (isset($data) ? (date("Y-m-d", strtotime($rowNextEvent['e_from_date'])) <= date("Y-m-d", strtotime($data['e_from_date']))) : true)) {
@@ -203,7 +203,7 @@
             <div class="welcome row">
                 <?php
                 // query for image and description in about us section 
-                $sqlaboutus = "SELECT * FROM `aboutus`";
+                $sqlaboutus = "SELECT * FROM `csi_aboutus`";
                 $queryaboutus = mysqli_query($conn, $sqlaboutus);
                 $rowaboutus = mysqli_fetch_assoc($queryaboutus);
                 ?>
@@ -245,7 +245,7 @@
             </div>
             <div class="spacer" style="height:45px;"></div>
             <?php
-            $sqlcoordinator = "SELECT * FROM `coordinator`";
+            $sqlcoordinator = "SELECT * FROM `csi_coordinator`";
             $querycoordinator = mysqli_query($conn, $sqlcoordinator);
             $number_of_coordinator = mysqli_num_rows($querycoordinator);
             // Will execute for no of coordinators
@@ -302,7 +302,7 @@
                         // TODO: change $sqlevent according to your needs
                         date_default_timezone_set('Asia/Kolkata');
                         $currentdate = date("Y-m-d");
-                        $sqlevent = "SELECT * FROM `event` WHERE `e_from_date` >= '$currentdate' and live = 1";
+                        $sqlevent = "SELECT * FROM `csi_event` WHERE `e_from_date` >= '$currentdate' and live = 1";
                         $queryevent = mysqli_query($conn, $sqlevent);
                         if (mysqli_num_rows($queryevent) > 0) {
                             while ($rowevent = mysqli_fetch_assoc($queryevent)) {
@@ -365,7 +365,7 @@
             <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <?php
-                    $sqlgallery = "SELECT `image` FROM `gallery` WHERE `status`=1";
+                    $sqlgallery = "SELECT `image` FROM `csi_gallery` WHERE `status`=1";
                     $querygallery = mysqli_query($conn, $sqlgallery);
                     $number_of_images_gallery = mysqli_num_rows($querygallery);
                     for ($i = 0; $i < $number_of_images_gallery; $i++) {

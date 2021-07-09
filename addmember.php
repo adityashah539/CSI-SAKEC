@@ -30,7 +30,7 @@
                         $duty = $_POST['duty'.$index];
                         $folder_name_coordinatorImage="Coordinator_Images/";
                         $file_new_coordinator = uniqid('',true).".".$file_ext_img;
-                        $sql = "INSERT INTO `coordinator`(`name`, `duty`, `image`) VALUES ('$name','$duty','$file_new_coordinator')";
+                        $sql = "INSERT INTO `csi_coordinator`(`name`, `duty`, `image`) VALUES ('$name','$duty','$file_new_coordinator')";
                         $stmt = mysqli_query($conn, $sql);
                         // if($stmt)echo "success";
                         // else echo "fail";

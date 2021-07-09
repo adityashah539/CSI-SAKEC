@@ -21,16 +21,16 @@
     }
     if($_SERVER['REQUEST_METHOD'] == "POST"&&isset($_POST['reply_id'])){
         $id = $_POST['reply_id'];
-        $sql = "SELECT * FROM query WHERE id='$id'";
+        $sql = "SELECT * FROM csi_query WHERE id='$id'";
         $query = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($query);
         $c_email=  $row['c_email'];
         $email_replied_by = $_SESSION['email'];
         $query=   $row['c_query'];
         $reply =$_POST['Msg']; 
-        $sql = "INSERT INTO reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$c_email','$query','$reply','$email_replied_by')";
+        $sql = "INSERT INTO csi_reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$c_email','$query','$reply','$email_replied_by')";
         $query = mysqli_query($conn, $sql);
-        $sql = "DELETE FROM query WHERE id='$id' ";
+        $sql = "DELETE FROM csi_query WHERE id='$id' ";
         $query = mysqli_query($conn, $sql);
         if ($query) {
             function_alert("Update Successful ");
@@ -86,7 +86,7 @@
                 <?php
                     if(isset($_SESSION["email"])){
                         if($_SESSION["role"]==='admin'||$_SESSION["role"]==='c'){
-                            $sql = 'SELECT * FROM query';
+                            $sql = 'SELECT * FROM csi_query';
                             $query = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($query) > 0) {
                                 while ($row = mysqli_fetch_assoc($query)) {

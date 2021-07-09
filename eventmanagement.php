@@ -23,20 +23,20 @@
         if ($_SERVER['REQUEST_METHOD'] == "POST"){
             if(isset($_POST['enable_id'])){
                 $id=$_POST['enable_id'];
-                $sql = "UPDATE event SET live='1' WHERE id='$id'";
+                $sql = "UPDATE csi_event SET live='1' WHERE id='$id'";
                 $query = mysqli_query($conn, $sql);
                 mysqli_query($conn, $sql);
             }
             else if(isset($_POST['disable_id'])){
                 $id=$_POST['disable_id'];
-                $sql = "UPDATE event SET live='0' WHERE id='$id'";
+                $sql = "UPDATE csi_event SET live='0' WHERE id='$id'";
                 $query = mysqli_query($conn, $sql);
                 mysqli_query($conn, $sql);
             }
             else if(isset($_POST['delete_event_btn']))
             {
                 $id = $_POST['delete_id_event'];
-                $sql = "DELETE FROM event WHERE id='$id' ";
+                $sql = "DELETE FROM csi_event WHERE id='$id' ";
                 $query = mysqli_query($conn, $sql);
                 if ($query) {
                     function_alert("Update Successful ");
@@ -46,13 +46,13 @@
             }
             else if(isset($_POST['enable_feedback'])){
                 $id=$_POST['enable_feedback'];
-                $sql = "UPDATE event SET feedback='1' WHERE id='$id'";
+                $sql = "UPDATE csi_event SET feedback='1' WHERE id='$id'";
                 $query = mysqli_query($conn, $sql);
                 mysqli_query($conn, $sql);
             }
             else if(isset($_POST['disable_feedback'])){
                 $id=$_POST['disable_feedback'];
-                $sql = "UPDATE event SET feedback='0' WHERE id='$id'";
+                $sql = "UPDATE csi_event SET feedback='0' WHERE id='$id'";
                 $query = mysqli_query($conn, $sql);
                 mysqli_query($conn, $sql);
             }
@@ -110,7 +110,7 @@
                 session_start();
                 if (isset($_SESSION['email'])) {
                     if ($_SESSION['role'] === 'admin') {
-                        $sql = "SELECT * FROM `event` WHERE LOWER(`title`) LIKE '%$to_search%' ";
+                        $sql = "SELECT * FROM `csi_event` WHERE LOWER(`title`) LIKE '%$to_search%' ";
                         $query = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($query) > 0) {
                             while ($row = mysqli_fetch_assoc($query)) {

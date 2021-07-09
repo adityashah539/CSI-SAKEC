@@ -54,14 +54,14 @@
             <div class="table-content" style="font-size: large;">            
                 <?php
                 require_once "config.php";
-                $sql = "SELECT `id`, `title`  FROM `event` ";
+                $sql = "SELECT `id`, `title`  FROM `csi_event` ";
                 $query = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($query) > 0) {
                     while ($row = mysqli_fetch_assoc($query)) {
                         $id= $row['id'];
                         $title= $row['title'];
-                        $expense_sql="SELECT SUM( `bill_amount`) as `amount` FROM `expense` WHERE `event_id`='$id' GROUP BY `event_id`";
-                        $collection_sql="SELECT SUM( `amount`)as `amount` FROM `collection` WHERE `event_id`='$id' GROUP BY `event_id`";
+                        $expense_sql="SELECT SUM( `bill_amount`) as `amount` FROM `csi_expense` WHERE `event_id`='$id' GROUP BY `event_id`";
+                        $collection_sql="SELECT SUM( `amount`)as `amount` FROM `csi_collection` WHERE `event_id`='$id' GROUP BY `event_id`";
                         $expense_query = mysqli_query($conn, $expense_sql);
                         $collection_query = mysqli_query($conn, $collection_sql);
                         $expense_row=mysqli_fetch_assoc($expense_query);

@@ -16,14 +16,14 @@
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['delete_bill'])){
                 $collection_id=$_POST['collection_id'];
-                $sql = "SELECT `bill_photo` FROM `collection` WHERE `id`='$collection_id'";
+                $sql = "SELECT `bill_photo` FROM `csi_collection` WHERE `id`='$collection_id'";
                 $query = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($query);
                 $folder_location="Event_Bill/";
                 if(file_exists($folder_location.$row['bill_photo'])){
                     gc_collect_cycles();
                     unlink($folder_location.$row['bill_photo']);
-                    $sql = "DELETE FROM `collection` WHERE `id`='$collection_id'";
+                    $sql = "DELETE FROM `csi_collection` WHERE `id`='$collection_id'";
                     $query = mysqli_query($conn, $sql);
                     mysqli_query($conn, $sql);
                 }
@@ -54,7 +54,7 @@
                 <?php
                     $event_id= $_GET['e_id'];
                     $sum=0;
-                    $sql = "SELECT `collection`.`id`,`userdata`.`emailID`, `bill_photo`, `amount`, `confirmed_by` FROM `collection`,`userdata` WHERE `confirmed`='1' AND `userdata`.`id`=`user_id` AND `event_id` = $event_id";
+                    $sql = "SELECT `csi_collection`.`id`,`csi_userdata`.`emailID`, `bill_photo`, `amount`, `confirmed_by` FROM `csi_collection`,`csi_userdata` WHERE `confirmed`='1' AND `csi_userdata`.`id`=`user_id` AND `event_id` = $event_id";
                     $query = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {

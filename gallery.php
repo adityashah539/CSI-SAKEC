@@ -46,7 +46,7 @@
                 if (in_array($file_ext_gallery, $extensions)) {
                     $folder_name_gallery = "Gallery_Images/";
                     $file_new_gallery = uniqid('',true).".".$file_ext_gallery;
-                    $sql = "INSERT INTO `gallery`(`image`, `status`) VALUES ('$file_new_gallery',1)";
+                    $sql = "INSERT INTO `csi_gallery`(`image`, `status`) VALUES ('$file_new_gallery',1)";
                     $stmt = mysqli_query($conn, $sql);
                     move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_gallery . $file_new_gallery);
                     if ($_FILES["image" . $index]["error"] != 0) {
@@ -59,15 +59,15 @@
             }
             if (isset($_POST['enable_id_btn'])) {
                 $id = $_POST['enable_id'];
-                $sql = "UPDATE gallery SET status=1 WHERE id=" . $id;
+                $sql = "UPDATE csi_gallery SET status=1 WHERE id=" . $id;
                 $query = mysqli_query($conn, $sql);
             } else if (isset($_POST['disable_id_btn'])) {
                 $id = $_POST['disable_id'];
-                $sql = "UPDATE gallery SET status=0 WHERE id=" . $id;
+                $sql = "UPDATE csi_gallery SET status=0 WHERE id=" . $id;
                 $query = mysqli_query($conn, $sql);
             } else if (isset($_POST['delete_id_btn'])) {
                 $id = $_POST['delete_id'];
-                $sql = "DELETE FROM `gallery` WHERE id=" . $id;
+                $sql = "DELETE FROM `csi_gallery` WHERE id=" . $id;
                 $query = mysqli_query($conn, $sql);
                 // Delete file from folder
                 $filename = $_POST['delete_file'];
@@ -105,7 +105,7 @@
             <!-- Single item -->
 
             <?php
-            $gallerysql = "SELECT * FROM `gallery`";
+            $gallerysql = "SELECT * FROM `csi_gallery`";
             $gallerysqlstmt = mysqli_query($conn, $gallerysql);
             $number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
             for($j = 0;$j < $number_of_images_gallery;) {

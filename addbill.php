@@ -46,7 +46,7 @@
                     $spent_on = $_POST['spent' . $index . 'on'];
                     $amount = $_POST['bill' . $index . 'amount'];
                     $folder_name_bill = "Bill/";
-                    $sql = "INSERT INTO `expense` ( `event_id`, `spent_on`, `by`, `bill_photo`, `bill_amount`) VALUES ('$event_id','$spent_on','$email','$file_new_name','$amount')";
+                    $sql = "INSERT INTO `csi_expense` ( `event_id`, `spent_on`, `by`, `bill_photo`, `bill_amount`) VALUES ('$event_id','$spent_on','$email','$file_new_name','$amount')";
                     $stmt = mysqli_query($conn, $sql);
                     move_uploaded_file($_FILES["bill" . $index . "photo"]["tmp_name"], $folder_name_bill . $file_new_name);
                     if ($_FILES["bill" . $index . "photo"]["error"] != 0) {

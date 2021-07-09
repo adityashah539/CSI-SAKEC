@@ -96,25 +96,25 @@
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (isset($_GET['event_id'])) {
             $event_id = $_GET['event_id'];
-            $sqlevent = "SELECT * FROM `event` WHERE `id`=$event_id";
+            $sqlevent = "SELECT * FROM `csi_event` WHERE `id`=$event_id";
             $queryevent = mysqli_query($conn, $sqlevent);
             $rowevent = mysqli_fetch_assoc($queryevent);
 
             // Event collaboration details
-            $sqlcollaboration = "SELECT * FROM collaboration WHERE event_id='$event_id'";
+            $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
             $querycollaboration = mysqli_query($conn, $sqlcollaboration);
             //$rowcollaboration = mysqli_fetch_assoc($querycollaboration);
 
             // Event Speaker details
-            $sqlspeaker = "SELECT * FROM speaker WHERE event_id='$event_id'";
+            $sqlspeaker = "SELECT * FROM csi_speaker WHERE event_id='$event_id'";
             $queryspeaker = mysqli_query($conn, $sqlspeaker);
 
             // Event coordinators details
-            $sqlcoordinator = "SELECT `c_name`,`c_phonenumber`, `c_type` FROM `contact` WHERE `event_id`='$event_id'";
+            $sqlcoordinator = "SELECT `c_name`,`c_phonenumber`, `c_type` FROM `csi_contact` WHERE `event_id`='$event_id'";
             $querycoordinator = mysqli_query($conn, $sqlcoordinator);
 
             // Event venue details
-            $sqlvenue = "SELECT `location` FROM `venue` WHERE event_id = '$event_id'";
+            $sqlvenue = "SELECT `location` FROM `csi_venue` WHERE event_id = '$event_id'";
             $queryvenue = mysqli_query($conn, $sqlvenue);
             }
         }
@@ -224,7 +224,7 @@
                                 $venue = $venue.$rowvenue['location'];
                                 if($i != 1)$venue = $venue.", ";
                             }
-                            if(mysqli_num_rows($querycollaboration)){
+                            if($venue != ""){
                                 echo "<b>Venue:</b> ".$venue;
                             }
                         ?>
@@ -273,7 +273,7 @@
                     </div>
                     <div class="contentrepository">
                         <?php
-                            $sqlcontentrepository = "SELECT `image` FROM `contentrepository` WHERE eventid = $event_id";
+                            $sqlcontentrepository = "SELECT `image` FROM `csi_contentrepository` WHERE eventid = $event_id";
                             $querycontentrepository = mysqli_query($conn, $sqlcontentrepository);
                             while($rowcontentrepository = mysqli_fetch_assoc($querycontentrepository)){
                                 $img = file_get_contents("EventImages/".$rowevent['title'].$rowevent['id']."/".$rowcontentrepository['image']);
