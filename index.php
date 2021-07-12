@@ -86,19 +86,19 @@
                             $_SESSION['var'] = 0;
                             ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="database.php">Userdata</a>
+                                <a class="nav-link" href="Userdata/database.php">Userdata</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="eventmanagement.php">Event Management</a>
+                                <a class="nav-link" href="Eventmanagement/eventmanagement.php">Event Management</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="query.php">Query</a>
+                                <a class="nav-link" href="Query/query.php">Query</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="audit.php">Audit</a>
+                                <a class="nav-link" href="Audit/audit.php">Audit</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="membership.php"> Membership</a>
+                                <a class="nav-link" href="Membership/membership.php"> Membership</a>
                             </li>
                             <?php
                         }
@@ -107,14 +107,13 @@
                     <?php
                     if (isset($_SESSION['email'])) {
                         ?>
-                        <a href="logout.php" class="btn main_btn ">Logout</a>
-                        <a href="changeuserdata.php" class="btn main_btn ">Edit Profile</a>
+                        <a href="Login/logout.php" class="btn main_btn ">Logout</a>
+                        <a href="edit_profile.php" class="btn main_btn ">Edit Profile</a>
                         <?php
                     } else {
                         ?>
-
-                            <a href="login.php" class="btn main_btn">Login</a>
-                            <a href="signup.php" class="btn main_btn">Sigup</a>
+                            <a href="Login/login.php" class="btn main_btn">Login</a>
+                            <a href="Login/signup.php" class="btn main_btn">Sigup</a>
                         <?php
                     }
                     ?>
