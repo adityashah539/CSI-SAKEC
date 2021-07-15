@@ -52,7 +52,7 @@
                     $row = mysqli_fetch_assoc($query);
                     $hash = $row['password'];
                     if (password_verify($password, $hash)) {
-                        $sql = "SELECT `csi_role`.`role_name`  FROM `csi_userdata` INNER JOIN `csi_role` ON `csi_userdata`.`csi_role`=`csi_role`.`id`WHERE `csi_userdata`.`emailID` = '$email'";
+                        $sql = "SELECT `csi_role`.`role_name` from `csi_userdata`,`csi_role` WHERE `emailID`='$email' And `csi_role`.`id`=`csi_userdata`.`role`";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $_SESSION["role"] = $row["role_name"];
@@ -61,7 +61,7 @@
                             setcookie('email', $email, time() + 86400);
                             setcookie('password', $password, time() + 86400);
                         }
-                        header("location:index.php");
+                        header("location:../index.php");
                     } else if ($email !== "") {
                         if ($err !== "")
                             $err .= "<br>";

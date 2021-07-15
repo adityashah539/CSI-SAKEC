@@ -301,11 +301,6 @@
                                                     <?php echo $rowspeaker['description']; ?>
                                                 </p>
                                                 <div class="footer-social">
-                                                    <?php
-                                                    // if ($rowspeaker['linkedIn'] != "") {
-                                                    //     echo "<a href=" . $rowspeaker['linkedIn'] . " ><i class='fab fa-linkedin-in'></i></a>";
-                                                    // }
-                                                    ?>
                                                     <a href=" <?php if ($rowspeaker['linkedIn'] != "") {echo $rowspeaker['linkedIn'];}?> " ><i class="fab fa-linkedin"></i></a>
                                                 </div>
                                             </div>

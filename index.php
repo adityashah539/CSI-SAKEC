@@ -244,7 +244,9 @@
             </div>
             <div class="spacer" style="height:45px;"></div>
             <?php
-            $sqlcoordinator = "SELECT * FROM `csi_coordinator`";
+            $sqlcoordinator =  "SELECT CONCAT(u.firstname,' ',u.lastname) as name, r.role_name as duty, c.image as image
+                                FROM `csi_coordinator` as c, `csi_userdata` as u,`csi_role` as r
+                                WHERE c.user_id = u.id and u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%')";
             $querycoordinator = mysqli_query($conn, $sqlcoordinator);
             $number_of_coordinator = mysqli_num_rows($querycoordinator);
             // Will execute for no of coordinators

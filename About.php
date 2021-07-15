@@ -38,15 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
             if (in_array($file_ext_img, $extensions)) {
                 $file_new_name = uniqid('', true) . "." . $file_ext_img;
                 $folder_location = "AboutUs/";
-                $sql = "UPDATE `csi_aboutus` SET `photo`='$file_new_name',`description`='$description' WHERE `id`='1'";
+                $sql = "UPDATE `csi_aboutus` SET `photo`='$file_new_name'";
                 $stmt = mysqli_query($conn, $sql);
-                if(file_exists($folder_location.$row['photo'])){
+                /*if(file_exists($folder_location.$row['photo'])){
                     gc_collect_cycles();
                     unlink($folder_location.$row['photo']);
-                }
-                else{
+                }else{
                     echo "Some Error ".$folder_location.$row['photo'];
-                }
+                }*/
                 move_uploaded_file($_FILES["img"]["tmp_name"], $folder_location . $file_new_name);
                 if ($_FILES["img"]["error"] != 0) {
                     $err =  $phpFileUploadErrors[$_FILES["img"]["error"]];

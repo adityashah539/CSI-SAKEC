@@ -35,20 +35,15 @@
                             $file_new_coordinatorimage = uniqid('',true).".".$file_ext_img;
                             $sql = "UPDATE `csi_coordinator` SET `image`= '$file_new_coordinatorimage' WHERE id=".$id;
                             $stmt = mysqli_query($conn, $sql);
-                            // if($stmt)echo "success";
-                            // else echo "fail";
                             move_uploaded_file($_FILES["image1"]["tmp_name"],$folder_name_coordinatorImage.$file_new_coordinatorimage);
                             if($_FILES["image1"]["error"]!=0){
                                 $err =  $phpFileUploadErrors[$_FILES["image1"]["error"]];
                             }
+                            header("Location: coordinator.php");
                         }else{
                             function_alert("Extention of file should be jpg,jpeg,png.");
                         }
                     }
-                    $name = $_POST['name1'];
-                    $duty = $_POST['duty1'];
-                    $sql = "UPDATE `csi_coordinator` SET `name`='$name',`duty`='$duty' WHERE id=".$id;
-                    $stmt = mysqli_query($conn, $sql);
             // }else{
             //     function_alert("You have to be admin or cooridinator");
             // }
@@ -82,19 +77,10 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-5">
-                                <label class="control-label">MEMBER IMAGE :</label>
-                                <img src="images/<?php echo $co_image;?>" alt="">
-                            </div>
-                            <div class="col-sm-7">
-                                <input type="file" name="image1" >
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5">
                                 <label class="control-label">NAME:</label>
                             </div>
                             <div class="col-sm-7">
-                                <input type="text" value="<?php echo $name;?>" name="name1" class="form-control" required>
+                                <?php echo $name;?>
                             </div>
                         </div>
                     
@@ -105,11 +91,21 @@
                             <div class="col-sm-7">
                                 <div class="phone-list">
                                     <div class="input-group phone-input">
-                                        <input type="text" value="<?php echo $duty; ?>" name="duty1" id="bill1amount" class="form-control" required>
+                                        <?php echo $duty;?>
                                     </div>
                                 </div>
                             </div>
                         </div>  
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="control-label">MEMBER IMAGE :</label>
+                                <img src="images/<?php echo $co_image;?>" alt="">
+                                <input type="hidden" name="previmage" value="<?php echo $co_image;?>">
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="file" name="image1" >
+                            </div>
+                        </div>
                         <div class="spacer" style="height:20px;"></div>
                     </div>
                 </div>

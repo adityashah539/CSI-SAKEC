@@ -12,6 +12,19 @@
             "username": "root",
             "name": "conn",
             "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "csi",
+            "database": "csi",
+            "username": "root",
+            "password": ""
         }
     ]
 }

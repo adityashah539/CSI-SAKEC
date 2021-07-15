@@ -10,7 +10,8 @@ body {
   padding: 15px 65px;
   transition: 500ms ease;
   background-image: -moz-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%);
-  background-image: -webkit-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%);
+  /* background-image: -webkit-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%); */
+  background-image: linear-gradient(to right, #2c28b1 0%, #5652d6 51%, #9b5cf6 100%);
   background-image: -ms-linear-gradient(0deg, #141da2 0%, #9b5cf6 100%);
 }
 

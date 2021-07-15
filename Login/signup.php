@@ -52,7 +52,7 @@
                                 $rollno = trim($_POST["rollno"]);
                                 $division = trim($_POST["division"]);
                                 $gender = trim($_POST["gender"]);
-                                $sql = "INSERT INTO `csi_userdata`(`firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `csi_role`, `gender`) 
+                                $sql = "INSERT INTO `csi_userdata`(`firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `role`, `gender`) 
                                                     VALUES   ('$firstname','$middlename','$lastname','$year','$division','$rollno',  '$email','$phonenumber','$branch','$password', '$role','$gender')";
                                 // $sql = "INSERT INTO userdata (  firstName  , lastName  , emailID,  phonenumber  , branch  , year  , password  ,   role) 
                                 //                     VALUES   ('$firstname','$lastname','$email ','$phonenumber','$branch','$year','$password' , '$role')";

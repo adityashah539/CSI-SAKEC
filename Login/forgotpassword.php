@@ -79,7 +79,7 @@
             $_SESSION['time']=time();
         }
         else if(isset($_POST['new_password'])){
-            $new_password = trim($_POST['new_password']);
+            $new_password = password_hash(trim($_POST['new_password']), PASSWORD_BCRYPT);
             $confrim_password = trim($_POST['confirm_password']);
             if($confrim_password==$new_password){
                 $email =$_SESSION['email'];

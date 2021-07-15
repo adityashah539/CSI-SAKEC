@@ -185,11 +185,8 @@
         
             <div id="output" contenteditable="true">
                 <div>
-                    <div id = "date" style = "text-align:right;">
-                        <?php
-                            echo date("jS  F Y",strtotime($rowevent['e_to_date']));
-                        ?>
-                    </div>
+                    <div><img src = "data:image/jpg;base64,<?php echo base64_encode(file_get_contents("images/CSI-header.jpg"));?>" alt = "No Image" style = "width:600px;"></div>
+                    <div>REF:-<?php echo date("y-",strtotime("-1 years")).date("y",strtotime("now"))."[Enter the event Number]".str_repeat("&nbsp; ",26);?> Date:- <?php echo date("d/m/Y",strtotime("now"))?></div>
                     <h2 id="eventreportheader"style = "text-align:center;"> <u> EVENT REPORT </u></h2>
                     <div id="eventname">
                         <b>Event Name:</b> 

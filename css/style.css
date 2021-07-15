@@ -91,6 +91,11 @@ body {
   bottom: 30px;
   position: absolute;
 }
+.likes {
+  position:absolute;
+  bottom: 5.5%;
+  left: 43%;
+}
 /* 
 .main_btn:hover {
   color: white;

@@ -106,7 +106,7 @@
                         while ($row = mysqli_fetch_assoc($result)) {
                             $roles[] = $row['role_name'];
                         }
-                        $sql = "SELECT `csi_userdata`.`id`,`firstName`,`lastName`,`emailID`,`phonenumber`,`branch`,`year`,`role` FROM `csi_userdata`  
+                        $sql = "SELECT `csi_userdata`.`id`,`firstName`,`lastName`,`emailID`,`phonenumber`,`branch`,`year`,`role_name` FROM `csi_userdata`  
                                 INNER JOIN `csi_role` 
                                 ON `csi_userdata`.`role`=`csi_role`.`id`";
                         //echo $sql;

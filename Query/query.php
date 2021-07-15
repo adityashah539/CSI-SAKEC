@@ -113,7 +113,7 @@
                                             <input type="hidden" name="reply_id" value="<?php echo $row['id']; ?>">
                                             <button type="submit" class="btn btn-primary">Send</button>
                                         </form>
-                                        <button type="button" onClick="<?php echo 'addTextArea('.$row['id'].');'; ?>" class="btn btn-primary">Cancle</button>
+                                        <button type="button" onClick="<?php echo 'addTextArea('.$row['id'].');'; ?>" class="btn btn-primary">Cancel</button>
                                     </div>
                                 </td>
                                 <td><button type="button" class="btn btn-danger">Delete</button></td>
