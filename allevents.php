@@ -18,7 +18,20 @@
 <?php
 session_start();
 require_once "config.php";
+$email = $_SESSION['email'];
 
+$sql_user_id = "SELECT id FROM csi_userdata where emailID = '$email'";
+$query_user_id = mysqli_query($conn, $sql_user_id);
+$row_user_id = mysqli_fetch_assoc($query_user_id);
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
+    $event_id = $_POST['event_id'];
+    $sql_add_like = "INSERT INTO `csi_event_likes`(`event_id`, `user_id`) VALUES ('$event_id',".$row_user_id['id'].")";
+    $query_add_like = mysqli_query($conn, $sql_add_like);
+} else if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['unlike'])){
+    $event_id = $_POST['event_id'];
+    $sql_remove_like = "DELETE FROM `csi_event_likes` WHERE user_id = ".$row_user_id['id']." and event_id = '$event_id'";
+    $query_remove_like = mysqli_query($conn, $sql_remove_like);
+}
 ?>
 
 <body>
@@ -127,6 +140,32 @@ require_once "config.php";
                                                 <p>
                                                     <?php echo $rowevent['e_description']; ?>
                                                 </p>
+                                                        <?php
+                                                            $sql_count_likes = "SELECT COUNT(user_id) as count FROM `csi_event_likes` where `event_id` = ".$rowevent['id'];
+                                                            $query_count_likes = mysqli_query($conn, $sql_count_likes);
+                                                            $row_count_likes = mysqli_fetch_assoc($query_count_likes);
+                                                            $count = $row_count_likes['count'];
+                                                            $sqlliked = "SELECT COUNT(`csi_event_likes`.`id`) as count FROM `csi_event_likes`, `csi_userdata` WHERE event_id = ".$rowevent['id']." and emailID = '$email'";
+                                                            $queryliked = mysqli_query($conn, $sqlliked);
+                                                            $liked = mysqli_fetch_assoc($queryliked);
+                                                            $event_id = $rowevent['id'];
+                                                        ?>
+                                                        <div class="likes">
+                                                            <p>Like <?php echo ;?></p>
+                                                            <div id="like_<?php echo $rowevent['id'];?>">
+                                                                <button class="btn" name = "like" value="<?php echo $rowevent['id'];?>"><i class="far fa-heart fa-2x"></i></button>
+                                                            </div>
+                                                            <div id="unlike_<?php echo $rowevent['id'];?>">
+                                                                <button class="btn" name = "unlike"><i class="fas fa-heart fa-2x"></i></button>  
+                                                            </div>
+                                                        </div>
+                                                        <?php
+                                                            if($liked['count'] == 0){
+                                                                echo "<script>document.getElementById('unlike_$event_id').style.display = 'none';</script>";
+                                                            }else {
+                                                                echo "<script>document.getElementById('like_$event_id').style.display = 'none';</script>";
+                                                            }
+                                                        ?>
                                                 <form action="event.php" method="GET">
                                                     <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
                                                     <button class="btn main_btn_read_more" type="submit">Read More</button>
@@ -243,7 +282,16 @@ require_once "config.php";
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery-3.4.1.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("button[name='like']").click(function(){
+                
+            });
+            $("button[name='unlike']").click(function(){
+                
+            });
+        });
+    </script>
 </body>
 
 </html>

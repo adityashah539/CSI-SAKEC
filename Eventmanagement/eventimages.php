@@ -72,7 +72,7 @@
                 $title = $_POST['eventtitle'];
                 $id = $_POST['eventid'];
                 $imgid = $_POST['delete_id'];
-                $sql = "DELETE FROM csi_contentrepository` WHERE id=" . $imgid;
+                $sql = "DELETE FROM `csi_contentrepository` WHERE id=" . $imgid;
                 $query = mysqli_query($conn, $sql);
             }
         // }else{
@@ -98,22 +98,25 @@
             </button>
         </div>
         <!-- Inner -->
-        <div class="carousel-inner py-4">
+        <div class="carousel-inner py-4" id = 'reload'>
             <!-- Single item -->
 
             <?php
             $sql = "SELECT * FROM `csi_contentrepository` where eventid = '$id'";
             $sqlstmt = mysqli_query($conn, $sql);
             $number_of_images = mysqli_num_rows($sqlstmt);
-            $j = 0;
-            while ($number_of_images - $j > 3) {
+            for($j = 0;$j < $number_of_images;) {
 
             ?>
-                <div class="carousel-item">
+                <div class="carousel-item <?php if($j < 3)echo "active";?>">
                     <div class="container">
                         <div class="row">
                             <?php
-                            for ($i = 0; $i < 3; $i++, $j++) {
+                            // to give extre space if two image are left
+                            if($number_of_images - $j == 2)echo "<div class='col-sm-2'></div>";
+                            // to give extre space if one image if left
+                            else if($number_of_images - $j == 1)echo "<div class='col-sm-4'></div>";
+                            for ($i = 0; $i < 3 && $j < $number_of_images; $i++, $j++) {
                                 $row = mysqli_fetch_assoc($sqlstmt);
                             ?>
                                 <div class="col-lg-4">
@@ -135,93 +138,7 @@
                         </div>
                     </div>
                 </div>
-
             <?php
-            }
-            if ($number_of_images % 3 == 0 && $number_of_images >= 3) {
-            ?>
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <?php
-                            for ($i = 0; $i < 3; $i++, $j++) {
-                                $row = mysqli_fetch_assoc($sqlstmt);
-                            ?>
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <img src="<?php echo "EventImages/".str_replace(" ", "", $title.$id).'/'.$row['image']; ?>" class="card-img-top" alt="..." />
-                                        <div class="card-body">
-                                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                                <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
-                                                <input type="hidden" name="eventtitle" value = "<?php echo $title;?>">
-                                                <input type="hidden" name="eventid" value = "<?php echo $id;?>">
-                                                <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            <?php
-            } else if ($number_of_images % 3 == 2) {
-            ?>
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-2"></div>
-                            <?php
-                            for ($i = 0; $i < 2; $i++, $j++) {
-                                $row = mysqli_fetch_assoc($sqlstmt)
-                            ?>
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <img src="<?php echo "EventImages/".str_replace(" ", "", $title.$id).'/'.$row['image']; ?>" class="card-img-top" alt="..." />
-                                        <div class="card-body">
-                                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                                <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
-                                                <input type="hidden" name="eventtitle" value = "<?php echo $title;?>">
-                                                <input type="hidden" name="eventid" value = "<?php echo $id;?>">
-                                                <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            <?php
-            } else if ($number_of_images % 3 == 1) {
-                $row = mysqli_fetch_assoc($sqlstmt)
-            ?>
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <img src="<?php echo "EventImages/".str_replace(" ", "", $title.$id).'/'.$row['image']; ?>" class="card-img-top" alt="..." />
-                                    <div class="card-body">
-                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                            <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
-                                            <input type="hidden" name="eventtitle" value = "<?php echo $title;?>">
-                                            <input type="hidden" name="eventid" value = "<?php echo $id;?>">
-                                            <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php
-                $j++;
             }
             ?>
         </div>

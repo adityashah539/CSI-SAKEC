@@ -93,8 +93,13 @@ body {
 }
 .likes {
   position:absolute;
-  bottom: 5.5%;
-  left: 43%;
+  bottom: 4.75%;
+  left: 17%;
+}
+
+.likes button{
+  color: linear-gradient(to right, #2c28b1 0%, #9b5cf6 51%, #2c28b1 100%);
+  /* background-image:  */
 }
 /* 
 .main_btn:hover {
