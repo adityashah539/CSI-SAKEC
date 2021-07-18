@@ -18,82 +18,63 @@
             alert('$message');
             </SCRIPT>";
     }
+    $email = $_SESSION['email'];
+    $sqluserid= "SELECT `id` from `csi_userdata` where emailID = '$email'";
+    $queryuserid= mysqli_query($conn, $sqluserid);
+    $rows=mysqli_fetch_assoc($queryuserid);
+    $userid=$rows['id'];
+    $sql = "SELECT `id` ,`userid` FROM `csi_membership` WHERE userid = $userid";
+    $query = mysqli_query($conn, $sql);
+    $noOfRows=mysqli_num_rows($query);  
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
-        $email = $_SESSION['email'];
-        $sql = "SELECT * FROM `membership` WHERE status = '0' && userid = (SELECT id from userdata where emailid = '$email')";
-        $query = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($query) == 1) {
-            function_alert("You have sent a request already");
-        } else if (isset($_SESSION['email'])) {
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,',
-                8 => 'A PHP extension stopped the file upload.',
-            );
-            $extensions = array('jpg', 'jpeg', 'png');
-            //INSERT INTO `membership`(`userid`, `membershipbill`, `smartcard`, `status`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]')
-
-            // Insert Bill in folder
-            $bill_photo = $_FILES["billphoto"]["name"];
-            $file_ext_bill = explode(".", $_FILES['billphoto']["name"]);
-            $file_ext_bill = end($file_ext_bill);
-            if (in_array($file_ext_bill, $extensions)) {
-                $folder_name_bill = "Membership_Bill/";
-                $file_new_bill = uniqid('', true) . "." . $file_ext_bill;
-                move_uploaded_file($_FILES["billphoto"]["tmp_name"], $folder_name_bill . $file_new_bill);
-                if ($_FILES["billphoto"]["error"] != 0) {
-                    $err =  $phpFileUploadErrors[$_FILES["billphoto"]["error"]];
-                }
-            } else {
-                function_alert("Extention of file should be jpg,jpeg,png." . $file_new_bill);
-            }
-
-
-            // Insert Smart Card in folder
-            $card_photo = $_FILES["smartcard"]["name"];
-            $file_ext_card = explode(".", $_FILES['smartcard']["name"]);
-            $file_ext_card = end($file_ext_card);
-            if (in_array($file_ext_card, $extensions)) {
-                $folder_name_card = "Smart_Card/";
-                $file_new_card = uniqid('', true) . "." . $file_ext_card;
-                move_uploaded_file($_FILES["smartcard"]["tmp_name"], $folder_name_card . $file_new_card);
-                if ($_FILES["smartcard"]["error"] != 0) {
-                    $err =  $phpFileUploadErrors[$_FILES["smartcard"]["error"]];
-                }
-            } else {
-                function_alert("Extention of file should be jpg,jpeg,png.Smart");
-            }
-
-            $email = $_SESSION['email'];
-            $sqluser = "SELECT id FROM `userdata` WHERE emailID = '$email'";
-            $stmt = mysqli_query($conn, $sqluser);
-            if (mysqli_num_rows($stmt) == 1) {
-                $row = mysqli_fetch_assoc($stmt);
-                $id = $row['id'];
-                $amount = $_POST['amount'];
-                $sql = "INSERT INTO `membership`(`userid`,`ammount`, `membershipbill`, `smartcard`, `status`) VALUES ('$id','$amount','$file_new_bill','$file_new_card',0)";
-                $stmt = mysqli_query($conn, $sql);
-            }
-
-
-            $member_period = trim($_POST["member_period"]);
-            $registration_number = trim($_POST["registration_number"]);
-            if ($_SESSION["role"] === 'student') {
-                $sql = "UPDATE userdata SET r_number='$registration_number',m_period='$member_period' WHERE emailID='$email'";
-                mysqli_query($conn, $sql);
-                header("location: index.php");
-                mysqli_close($conn);
-            } else {
-                function_alert("You are member .You don't need membership");
-            }
-        } else {
-            function_alert("You need to login");
+        $amount=$_POST['amount'];
+        if($noOfRows==0){              
+            $pemail=$_POST['pemail'];
+            $regno=$_POST['registration_number'];
+            $dob=$_POST['dob'];
+            $syear=$_POST['syear'];
+            $eyear=$_POST['eyear'];
+            $sqlinsert="INSERT INTO `csi_membership`(`userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`)
+                                            VALUES ('$userid','$dob','$pemail','$syear','$eyear','$regno')";
+            $queryinsert = mysqli_query($conn, $sqlinsert);
         }
+        $sqlmembershipid= "SELECT `id` from `csi_membership` where userid = '$userid'";
+        $querymembershipid= mysqli_query($conn, $sqlmembershipid);
+        $rows=mysqli_fetch_assoc($querymembershipid);
+        $membership_id=$rows['id'];
+        $phpFileUploadErrors = array(
+            0 => 'There is no error, the file uploaded with success',
+            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+            3 => 'The uploaded file was only partially uploaded',
+            4 => 'No file was uploaded',
+            6 => 'Missing a temorary folder',
+            7 => 'Failed to write file to disk,',
+            8 => 'A PHP extension stopped the file upload.',
+        );
+         $extensions = array('jpg', 'jpeg', 'png');
+        //INSERT INTO `membership`(`userid`, `membershipbill`, `smartcard`, `status`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]')
+        // Insert Bill in folder
+                    $bill_photo = $_FILES["billphoto"]["name"];
+                    $file_ext_bill = explode(".", $_FILES['billphoto']["name"]);
+                    $file_ext_bill = end($file_ext_bill);
+                    if (in_array($file_ext_bill, $extensions)) {
+                        $folder_name_bill = "Membership_Bill/";
+                        $file_new_bill = uniqid('', true) . "." . $file_ext_bill;
+                        move_uploaded_file($_FILES["billphoto"]["tmp_name"], $folder_name_bill . $file_new_bill);
+                        if ($_FILES["billphoto"]["error"] != 0) {
+                            $err =  $phpFileUploadErrors[$_FILES["billphoto"]["error"]];
+                        }
+                        else{
+                            $sqlbill="INSERT INTO `csi_membership_bills`( `membership_id`, `bill_photo`, `amount`)
+                                                                VALUES ('$membership_id','$file_new_bill','$amount')";
+                            $querybill= mysqli_query($conn, $sqlbill);
+                            function_alert("success");                            
+                            header("location:../index.php");
+                        }
+                    } else {
+                        function_alert("Extention of file should be jpg,jpeg,png." . $file_new_bill);
+                    }
     }
     ?>
 </head>
@@ -114,9 +95,22 @@
             <h4>Student Membership Registration </h4>
             <p>Fill all the fields carefully</p>
             <hr>
+        <!-- DOB
+STARTING YEAR
+ENDING YEAR
+P EMIAL
+REG. NO
+DURATION
+
+MEMBERSHIP ID
+BILLS PHOTO
+AMOUNT
+MEMBERSHIP TAKEN YEAR(DATE TIME)
+NO. OF YEARS
+-->
             <div class="spacer" style="height:35px;"></div>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-5">
                         <div class="labels">
                             <label for="">Membership period :</label>
@@ -134,37 +128,46 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <!-- <div class="spacer" style="height:20px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="birthday">Date of Birth :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="date" id="birthday" name="birthday">
-                        </div>
-                    </div>
-                </div>
+                </div> -->
+                <?php 
+                    if($noOfRows==0){
+                ?>
                 <div class="spacer" style="height:35px;"></div>
                 <div class="row">
-
                     <div class="col-sm-5">
-                        <div class="labels">
-                            <label for="type">Gender :</label>
-                        </div>
+                        <label for="">Dob </label>
                     </div>
                     <div class="col-sm-7">
-                        <div class="texts">
-                            <input type="radio" id="male" name="gender" value="male">
-                            <label for="male">Male</label>
-                            <input style="margin-left:25px ;" type="radio" id="female" name="gender" value="female">
-                            <label for="Female">Female</label>
-                        </div>
+                        <input type="date" name= "dob"  required="required">
                     </div>
-                </div> -->
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label for="">Primary Email </label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="email" name="pemail" required="required">
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label for="">starting year </label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="number" name="syear" required="required">
+                    </div>
+                </div>
+                <div class="spacer" style="height:20px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label for="">Ending year </label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input type="number" name="eyear" required="required">
+                    </div>
+                </div>
                 <div class="spacer" style="height:20px;"></div>
                 <div class="row">
                     <div class="col-sm-5">
@@ -179,6 +182,9 @@
                         </div>
                     </div>
                 </div>
+                <?php 
+                    }
+                ?>
                 <div class="spacer" style="height:40px;"></div>
                 <div class="row">
                     <div class="col-sm-5">
@@ -186,15 +192,6 @@
                     </div>
                     <div class="col-sm-7">
                         <input type="text" name="amount" required>
-                    </div>
-                </div>
-                <div class="spacer" style="height:40px;"></div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <label class="control-label">Smart card :</label>
-                    </div>
-                    <div class="col-sm-7">
-                        <input type="file" name="smartcard" required>
                     </div>
                 </div>
                 <div class="spacer" style="height:40px;"></div>
@@ -211,7 +208,7 @@
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4 text-center">
                         <div class="register">
-                            <button type="submit" name="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Submit Application</button>
                         </div>
                         <div class="col-sm-4"></div>
                     </div>

@@ -451,8 +451,29 @@
                                 <li>
                                     <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
                                 </li>
+                                <?php 
 
+                                ?>
+                            <?php
+                            //    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['newsletter_email'])) {
+                            //         if ($_POST['newsletter_email'] != null) {
+                            //             $nEmail = trim($_POST['newsletter_email']);
+                            //             $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
+                            //             $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+                            //             $headers = "From: guptavan96@gmail.com";
+                            //             send_mail($to_email, $subject, $body, $headers);
 
+                            //         } else {
+                            //         $to_email = trim($_POST['emailentered']);
+                            //         }
+                            //         $nEmail=$_POST['newsletter_email'];
+                            //         $sql="INSERT INTO `newsletter`('email') VALUES('$nEmail')";
+                            //         $stmt = mysqli_query($conn, $sql);
+                            //         if($stmt){
+                                       
+                            //         }
+                            //     }
+                            ?>
                                 <!-- Newsletter Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -463,12 +484,51 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <div class="modal-body">
-                                                <input type="email" name="name" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn news-btn">Send</button>
-                                            </div>
+                                            <?php
+                                                if($_SERVER['REQUEST_METHOD'] == "POST"&&isset($_POST['newsletter_email'])){
+                                                        $nEmail = $_POST['newsletter_email'];
+                                                        //function_alert($nEmail);
+                                                        //vkey=verification key
+                                                        $vkey= md5(time().$nEmail);
+                                                        $sql = "SELECT * FROM `csi_newsletter` WHERE emailid='$nEmail'";
+                                                        $query = mysqli_query($conn, $sql);
+                                                        $row=mysqli_fetch_assoc($query);
+                                                        $no_of_rows=mysqli_num_rows($query);
+                                                        if($no_of_rows==1&&$row['status']==0){
+                                                            $sqle="DELETE FROM `csi_newsletter` WHERE emailid='$nEmail'";
+                                                            $querye = mysqli_query($conn, $sqle);
+                                                            $no_of_rows--;
+                                                            function_alert($no_of_rows);
+                                                        }
+                                                        if($no_of_rows==0){
+                                                            $subject = "Acknowledgement from CSI to " ;
+                                                            $body = "<a href='http://localhost/CSI-SAKEC/newsletter.php?vKey=$vkey'>Register here</a>";
+                                                            $headers = "From: guptavan96@gmail.com";
+                                                            $headers.="MIME-VERSION: newsletter"."\r\n";
+                                                            $headers.="Content-type:text/html;charset=UTF-8"."\r\n";
+                                                            //send_mail($nEmail, $subject, $body, $headers);
+                                                            if(mail($nEmail, $subject, $body, $headers)){                                                               
+                                                                $sql = "INSERT INTO `csi_newsletter`(`emailid`, `vKey`, `status`) VALUES ('$nEmail','$vkey','0')";
+                                                                $stmt = mysqli_query($conn, $sql);
+                                                                function_alert("mail success");
+                                                            }
+                                                            else{
+                                                                function_alert("mail sending failed");
+                                                            }
+                                                        }
+                                                        else {
+                                                            function_alert("email exists");
+                                                        }                                                        
+                                                    }
+                                            ?>
+                                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                                                <div class="modal-body">
+                                                    <input type="email" name="newsletter_email" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button name='sendotp' class="btn news-btn">Subscribe</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
