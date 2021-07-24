@@ -18,6 +18,16 @@
                 alert('$message');
             </SCRIPT>";
     }
+
+    // Fetching Access Details
+    $access=NULL;
+    if(isset($_SESSION["role_id"])){
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['update_id'])) {
             $update_role = $_POST['role'];
@@ -64,9 +74,15 @@
                 <li class="nav-item">
 					<a class="nav-link" href="../index.php"><i class="fas fa-home"></i>  Home</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="role.php"><i class="fas fa-user"></i> Role</a>
-				</li>
+                <?php
+                if($access['role']== '1'){
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="role.php"><i class="fas fa-user"></i> Role</a>
+                </li>
+                <?php
+                }
+                ?>
 			</ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -99,7 +115,7 @@
             <div  class="table-content" style="font-size: large;">
                 <?php
                 if (isset($_SESSION['email'])) {
-                    if ($_SESSION['role'] === 'admin') {
+                    if($access['user_data']== '1'){
                         $sql = "SELECT `role_name` FROM `csi_role`";
                         $result = mysqli_query($conn, $sql);
                         $roles = array();
@@ -155,10 +171,10 @@
                             echo "<td>No Record Found.</td><td/><td/><td/><td/><td/><td/><td/><td/>";
                         }
                     } else {
-                        echo "<td>You need excess to see.</td><td/><td/><td/><td/><td/><td/><td/><td/>";
+                        header("location:../index.php");
                     }
                 } else {
-                    echo "<td>You have not logged in.</td><td/><td/><td/><td/><td/><td/><td/><td/>";
+                    header("../Login/login.php?notlogin=true");
                 }
                 ?>
             </div>
@@ -205,7 +221,7 @@
     <!-- Footer -->
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src=../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 </body>

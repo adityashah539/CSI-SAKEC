@@ -15,6 +15,10 @@ body {
     padding: 10px;
 }
 
+h1, h2{
+    text-align: center;
+  }
+
 .textbutton {
     cursor: pointer;
     background: transparent;
@@ -41,11 +45,13 @@ body {
 .main-img {
     width: 100%;
     height: auto;
+    border-radius:15px;
 }
 
 .event-header {
     text-align: center;
-    background-color: #e9ecec;
+    background-color: #f0f0f0;
+    border-radius: 18px;
 }
 
 .event-header h1 {

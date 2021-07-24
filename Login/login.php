@@ -52,10 +52,10 @@
                     $row = mysqli_fetch_assoc($query);
                     $hash = $row['password'];
                     if (password_verify($password, $hash)) {
-                        $sql = "SELECT `csi_role`.`role_name` from `csi_userdata`,`csi_role` WHERE `emailID`='$email' And `csi_role`.`id`=`csi_userdata`.`role`";
+                        $sql = "SELECT `role` from `csi_userdata` WHERE `emailID`='$email' ";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
-                        $_SESSION["role"] = $row["role_name"];
+                        $_SESSION["role_id"] = $row["role"];
                         $_SESSION["email"] = $email;
                         if (isset($_POST['rememeber_me'])) {
                             setcookie('email', $email, time() + 86400);
@@ -102,7 +102,7 @@
 
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 

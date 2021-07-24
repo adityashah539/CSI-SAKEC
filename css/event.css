@@ -1,10 +1,16 @@
 body {
-  text-align: center;
-  margin: 0;
-  padding: 0;
+
+  line-height: 24px;
+  font-size: 1rem;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-weight: normal;
+  color: rgb(39, 39, 39);
+  scroll-behavior: smooth;
 
 }
-
+h1, h2{
+  text-align: center;
+}
 .bg-light {
 
   padding: 15px 65px;
@@ -18,15 +24,16 @@ body {
 .main-img {
   width: 100%;
   height: auto;
+  border-radius:15px;
 }
 
 .event-header {
   text-align: center;
-  background-color: #e9ecec;
+  background-color: #f0f0f0;
+  border-radius: 18px;
 }
 
 .event-header h1 {
-  font-family: "Times New Roman", Times, serif;
   font-size: 40px;
   letter-spacing: -1.2px;
   word-spacing: 12px;
@@ -39,7 +46,6 @@ body {
 }
 
 .event-header h2 {
-  font-family: "Times New Roman", Times, serif;
   font-size: 30px;
   letter-spacing: -1.2px;
   word-spacing: 12px;
@@ -53,8 +59,6 @@ body {
 
 .description {
   font-size: 20px;
-  font-family: 'Times New Roman', Times, serif;
-
 }
 
 .speakers h1 {
@@ -169,4 +173,10 @@ ul li:nth-child(3) a:before {
 .copyright {
   text-align: center;
   background-color: #569eeca6;
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
 }

@@ -14,11 +14,22 @@
 <?php
 require_once "config.php";
 session_start();
+// Fetching Access Details
+$access = NULL;
+if (isset($_SESSION["role_id"])) {
+    $role_id = $_SESSION["role_id"];
+    $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+    $query =  mysqli_query($conn, $sql);
+    $access = mysqli_fetch_assoc($query);
+}
+if(isset($access) && $access['main_page_edit'] == 0){
+    header("location:../index.php");
+}
 $sqlselect = "SELECT * FROM `csi_aboutus`";
 $query = mysqli_query($conn, $sqlselect);
 $row = mysqli_fetch_assoc($query);
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
-    if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'c') {
+    if (isset($access) && $access['main_page_edit'] == 1) {
         $phpFileUploadErrors = array(
             0 => 'There is no error, the file uploaded with success',
             1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -56,8 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
         }
         $sql = "UPDATE `csi_aboutus` SET `description`='$description' WHERE 1";
         $stmt = mysqli_query($conn, $sql);
-    } else {
-        function_alert("You have to be admin or cooridinator");
     }
 }
 ?>

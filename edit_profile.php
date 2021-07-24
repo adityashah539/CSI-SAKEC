@@ -4,9 +4,6 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/changeuserdata.css?v=<?php echo time(); ?>">
     <title> Membership</title>
@@ -272,7 +269,7 @@
     <!-- Footer Ends -->
     <!-- Javascript -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="plugins/jquery-3.4.1.min.js"></script>
+    <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
 </body>
 </html>

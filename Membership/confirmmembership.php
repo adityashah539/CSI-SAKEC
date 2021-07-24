@@ -13,6 +13,17 @@
     <?php 
         require_once "../config.php";
         session_start();
+        // Fetching Access Details
+        $access = NULL;
+        if (isset($_SESSION["role_id"])) {
+            $role_id = $_SESSION["role_id"];
+            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+            $query =  mysqli_query($conn, $sql);
+            $access = mysqli_fetch_assoc($query);
+        }
+        if($access['confirm_membership']==0){
+            header("location:../index.php");
+        }
         function function_alert($message) {
             echo "<SCRIPT>
                 alert('$message');
@@ -40,12 +51,7 @@
 </head>
 
 <body>
-    
-    <div class="spacer" style="height:10px;"></div>
-    <header>
-        <h2 style="text-align: center;">Confirm Membership</h2>
-    </header>
-    <div class="spacer" style="height:10px;"></div>
+    <header><h2 style="text-align: center;">Confirm Membership</h2></header>
     <table class="table">
         <thead class="black white-text">
             <tr>
@@ -73,7 +79,7 @@
             if($number_of_data){
                 while( $row = mysqli_fetch_assoc($sqlstmt)){
             ?>
-                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" >
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" >
                         <input type="hidden" name="id" value="<?php echo $row['id'];?>">
                         <tr>
                             <td><?php echo $row['name'];?></td>
@@ -115,10 +121,7 @@
             </div>
         </tbody>
     </table>
-    <div class="spacer" style="height:30px;"></div>
-   
-    <div class="spacer" style="height:10px;"></div>
-
+    <div class="spacer" style="height:40px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
         <a href="index.php"><i class="fas fa-home"></i></a>
@@ -128,7 +131,7 @@
     </div>
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 

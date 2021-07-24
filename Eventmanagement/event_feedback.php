@@ -20,6 +20,17 @@
     <?php
         require_once "../config.php";
         session_start();
+        // Fetching Access Details
+        $access = NULL;
+        if (isset($_SESSION["role_id"])) {
+            $role_id = $_SESSION["role_id"];
+            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+            $query =  mysqli_query($conn, $sql);
+            $access = mysqli_fetch_assoc($query);
+        }
+        if($access['edit_attendance']==0){
+            header("location:../index.php");
+        }
         $event=$_GET['event_id'];
         $sql = "SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, csi_userdata.firstName, csi_userdata.middleName , csi_userdata.lastName , csi_userdata.emailID FROM `csi_feedback`,`csi_userdata`,`csi_collection` WHERE csi_collection.event_id='$event' and csi_collection.id=csi_feedback.collection_id and csi_userdata.id=csi_collection.user_id";
         $query = mysqli_query($conn, $sql);
@@ -186,7 +197,7 @@
     </script>
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 

@@ -15,6 +15,16 @@
     <?php
     require_once "../config.php";
     session_start();
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    if( $access['edit_attendance'] == '0' && $access['permission_letter'] == '0' && $access['report'] == '0'  && $access['confirm_event_registration'] == '0' && $access['content_repository'] == '0' && $access['feedback_response'] == '0'){
+        header("location:../index.php");
+    }
     $event_id = $_GET['event_id'];
     $sqlevent = "SELECT * FROM csi_event WHERE id='$event_id'";
     $queryevent = mysqli_query($conn, $sqlevent);
@@ -31,7 +41,6 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-            <form action="" method="get"></form>
 			<ul class="navbar-nav mr-auto">
                 <li class="nav-item">
 					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
@@ -39,6 +48,9 @@
                 <li class="nav-item">
 					<a class="nav-link" href="../index.php"><i class="fas fa-home"></i>  Home</a>
 				</li>
+                <?php
+                if($access['edit_attendance'] == '1'){
+                ?>
                 <li class="nav-item">
                     <form action="attendance.php" method="get">
                         <input type="hidden" name="e_id" value="<?php echo $event_id; ?>"/>
@@ -46,32 +58,40 @@
                         <button type="submit" class ="textbutton"><i class="fas fa-users"></i> Attendance</button>
                     </form>
                 </li>
+                <?php 
+                }
+                if($access['permission_letter'] == '1'){
+                ?>
                 <li class="nav-item">
                     <form action="permission_export.php" method="get">
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
                         <button type="submit" class ="textbutton"><i class="fas fa-envelope-open-text"></i> Permission Letter</button>
                     </form>
 				</li>
+                <?php
+                }
+                if($access['report'] == '1'){ 
+                ?>
                 <li class="nav-item">
                     <form action="report.php" method="get">
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
                         <button type="submit" class ="textbutton"><i class="fas fa-chart-bar"></i> Report</button>
                     </form>
 				</li>
-                <!-- <li class="nav-item">
-                    <form action="edit_attendance.php" method="get">
-                        <input type="hidden" name="e_id" value="<?php echo $event_id; ?>"/>
-                        <input type="hidden" name="e_title" value="<?php echo $rowevent['title'];?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-users"></i> Attendance</button>
-                    </form>
-					<a class="nav-link" href="budget.php"><i class="fas fa-balance-scale"></i> Budget</a>
-				</li> -->
+                <?php 
+                }
+                if($access['confirm_event_registration'] == '1'){
+                ?>
                 <li class="nav-item">
                     <form action="confirmeventregistration.php" method="get">
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
                         <button type="submit" class ="textbutton"><i class="fas fa-calendar-day"></i> Confirm Event Registration</button>
                     </form>
                 </li>
+                <?php 
+                }
+                if($access['content_repository'] == '1'){
+                ?>
                 <li class="nav-item">
                     <form action="eventimages.php" method="get">
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
@@ -79,17 +99,24 @@
                         <button type="submit" class ="textbutton"><i class="fas fa-images"></i> Content Repository</button>
                     </form>
                 </li>
+                <?php
+                }
+                if($access['feedback_response'] == '1'){ 
+                ?>
                 <li class="nav-item">
                     <form action="event_feedback.php" method="get">
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
                         <button type="submit" class ="textbutton"><i class="fas fa-comments"></i> Feedback Response</button>
                     </form>
                 </li>
+                <?php 
+                }
+                ?>
 			</ul>
 		</div>
 	</nav>
-
     <div class="spacer" style="height:15px;"></div>
+    <!-- Content -->
     <div class="container ">
         <h1>
             <?php
@@ -112,7 +139,7 @@
             ?>
         </h1>
         <div class="spacer" style="height:20px;"></div>
-        <img class="main-img" src="<?php echo "Banner/" . trim($rowevent['banner']); ?>" alt="no image">
+        <img class="main-img" src="<?php echo "../Banner/" . trim($rowevent['banner']); ?>" alt="no image">
         <div class="spacer" style="height:35px;"></div>
         <div class="event-header">
             <div class="spacer" style="height:20px;"></div>
@@ -120,13 +147,12 @@
             <h1><?php $rowevent['subtitle']; ?></h1>
             <h4>
                 <?php
-                if ($rowevent['e_from_date'] == $rowevent['e_to_date'])
-                    echo "DATE :" . date("d-m-Y", strtotime($rowevent['e_from_date']));
+                if($rowevent['e_from_date'] == $rowevent['e_to_date'])
+                    echo date("jS  F Y",strtotime($rowevent['e_from_date']));
                 else
-                    echo "FROM DATE :" . date("d-m-Y", strtotime($rowevent['e_from_date'])) . "<br> TO DATE :" . date("d-m-Y", strtotime($rowevent['e_to_date']));
-                echo "<br>From Time :" . date("h:i:s A", strtotime($rowevent['e_from_time'])) . "<br> TO Time :" . date("h:i:s A", strtotime($rowevent['e_from_time']));
+                    echo date("jS F Y",strtotime($rowevent['e_from_date']))."-".date("jS F Y",strtotime($rowevent['e_to_date']));
+                echo "<br>".date(" h:i A",strtotime($rowevent['e_from_time']))." to ".date("h:i A",strtotime($rowevent['e_to_time']));
                 ?>
-
             </h4>
             <div class="spacer" style="height:20px;"></div>
             <?php
@@ -158,7 +184,7 @@
                     <?php
                     }
                 } else {
-                    if ($_SESSION['role'] == "member" || $_SESSION['role'] == "coordinator" || $_SESSION['role'] == "head coordinator" || $_SESSION['role'] == "admin") {
+                    if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
                     ?>
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
                             <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
@@ -192,9 +218,10 @@
             </p>
         </div>
         <div class="spacer" style="height:90px;"></div>
+        <hr class="supp1">
         <div class="row">
             <div class="col-sm-6">
-                <div class="spacer" style="height:150px;"></div>
+                <div class="spacer" style="height:50px;"></div>
                 <div class="know-more">
                     <h3><b style="color: #941616;">Registration Fees</b> <i class="fas fa-dollar-sign"></i></h3>
                     <div class="spacer" style="height:20px;"></div>
@@ -207,17 +234,17 @@
                     <?php
                     if ($number_of_speakers > 0) {
                     ?>
-                        <hr class="supp1">
-                        <div class="spacer" style="height:50px;"></div>
+                        <div class="spacer" style="height:10px;"></div>
                         <h3><b style="color: #729416;">For Any Queries </b><i class="fas fa-question-circle"></i></h3>
                         <br>
                         <div class="spacer" style="height:0px;"></div>
-                        <p><b>Contact:</b>
+                        <p>
+                            <b>Contact:</b>
                             <br>
                             <br>
                             <?php
                             // Event coordinators details
-                            $contact = "SELECT `c_name`,`c_phonenumber` FROM `contact` WHERE `event_id`='$event_id'";
+                            $contact = "SELECT `c_name`,`c_phonenumber` FROM `csi_contact` WHERE `event_id`='$event_id'";
                             $query_contact = mysqli_query($conn, $contact);
                             while ($row2 = mysqli_fetch_assoc($query_contact)) {
                                 echo $row2['c_name'] . " - " . $row2['c_phonenumber'] . "<br>";
@@ -253,7 +280,6 @@
                                     $rowspeaker = mysqli_fetch_assoc($queryspeaker);
                                 ?>
                                     <div class="carousel-item<?php if ($i == 0) echo ' active'; ?>">
-
                                         <!-- Card Regular -->
                                         <div class="card card-cascade">
                                             <!-- Card image -->
@@ -273,22 +299,11 @@
                                                 <p class="card-text">
                                                     <?php echo $rowspeaker['description']; ?>
                                                 </p>
-                                                <div class="social-sites">
-                                                    <?php
-                                                    if ($rowspeaker['linkedIn'] != "") {
-                                                        echo "<a href=" . $rowspeaker['linkedIn'] . "><img class='social' src='images/linkedin1.png' alt='linkedin'></a>";
-                                                    }
-                                                    if ($rowspeaker['facebook'] != "") {
-                                                        echo "<a href=" . $rowspeaker['facebook'] . "><img class='social' src='images/facebook.png' alt='facebook'></a>";
-                                                    }
-                                                    if ($rowspeaker['instagram'] != "") {
-                                                        echo "<a href=" . $rowspeaker['instagram'] . "><img class='social' src='images/instagram (1).png' alt='instagram'></a>";
-                                                    }
-                                                    ?>
+                                                <div class="footer-social">
+                                                    <a href=" <?php if ($rowspeaker['linkedIn'] != "") {echo $rowspeaker['linkedIn'];}?> " ><i class="fab fa-linkedin"></i></a>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 <?php
                                 }
@@ -306,7 +321,7 @@
                     <?php
                     } else {
                     ?>
-                        <div class="spacer" style="height:150px;"></div>
+                        <div class="spacer" style="height:50px;"></div>
                         <h3><b style="color: #729416;">For Any Queries </b><i class="fas fa-question-circle"></i></h3>
                         <br>
                         <div class="spacer" style="height:0px;"></div>
@@ -329,6 +344,7 @@
             </div>
         </div>
     </div>
+    <!-- Content -->
     <?php
 
     ?>
@@ -428,7 +444,7 @@
     </section>
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 

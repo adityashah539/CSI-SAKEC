@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <!-- CSS file  -->
-    <link rel="stylesheet" href="../css/gallery.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="xyz.css?v=<?php echo time(); ?>">
     <title>Gallery</title>
 
     <?php
@@ -90,6 +90,7 @@
             <?php
                 }
             ?>
+            <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $number_of_images_gallery; ?>" <?php if($number_of_images_gallery==0){echo 'class="active"';} ?>></li>
             </ol>
             <div class="carousel-inner">  
             <?php
@@ -113,6 +114,7 @@
                         ?>
                         </div>
                         <button type='submit' name="deletePhoto" value='<?php echo $row['id']; ?>' class='btn btn-danger'>Delete</button>
+                        
                     </div>
                 </div>
             <?php

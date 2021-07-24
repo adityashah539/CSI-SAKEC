@@ -31,7 +31,6 @@ var x = setInterval(function () {
   document.getElementById("hours").innerHTML = (hours < 10 ? "0" : "") + hours;
   document.getElementById("minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes;
   document.getElementById("seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds;
-ips-hodb-xrq
 
   // If the count down is over, write some text 
   if (distance < 0) {

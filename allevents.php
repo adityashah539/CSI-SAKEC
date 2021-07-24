@@ -18,6 +18,15 @@
 <?php
 session_start();
 require_once "config.php";
+// Fetching Access Details
+$access = NULL;
+if (isset($_SESSION["role_id"])) {
+    $role_id = $_SESSION["role_id"];
+    $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+    $query =  mysqli_query($conn, $sql);
+    $access = mysqli_fetch_assoc($query);
+}
+
 $email = $_SESSION['email'];
 
 $sql_user_id = "SELECT id FROM csi_userdata where emailID = '$email'";
@@ -39,81 +48,94 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
     <!-- navbar -->
     <header class="header_area">
         <div class="main_menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light ">
-
-                <img class="invert" src="images/sakec-logo.png" alt="SAKEC-icon">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+                <img class="invert" src="images/csi-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll " style="height: auto;">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php">Home</a>
+                            <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php#events">Events</a>
+                            <a class="nav-link" href="#team">Our Team</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php#team">Our Team</a>
+                            <a class="nav-link" href="#events">Events</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php#gallery">Gallery</a>
+                            <a class="nav-link" href="#gallery">Gallery</a>
                         </li>
                         <?php
-                        if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
-                            $_SESSION['var'] = 0;
-                            ?>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="Userdata/database.php">Userdata</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="Eventmanagement/eventmanagement.php">Event Management</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="Query/query.php">Query</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="Audit/audit.php">Audit</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="Membership/membership.php"> Membership</a>
-                            </li>
+                        if (isset($_SESSION['email']) && isset($access)) {
+                            if ($access['user_data'] == '1' || $access['role'] == '1') {
+                        ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Userdata/database.php">Userdata</a>
+                                </li>
                             <?php
+                            }
+                            if (
+                                $access['add_event'] == '1' || $access['budget'] == '1' || $access['edit_attendance'] == '1' || $access['permission_letter'] == '1' ||
+                                $access['report'] == '1' ||$access['manage_event'] == '1' || $access['confirm_event_registration'] == '1' || $access['content_repository'] == '1' || $access['feedback_response'] == '1'
+                            ) {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Eventmanagement/eventmanagement.php">Event Management</a>
+                                </li>
+                            <?php
+                            }
+                            if ($access['query'] == '1' || $access['reply_log'] == '1') {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Query/query.php">Query</a>
+                                </li>
+                            <?php
+                            }
+                            if ($access['audit']) {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Audit/audit.php">Audit</a>
+                                </li>
+                            <?php
+                            }
+                            if ($access['confirm_membership']) {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Membership/membership.php"> Membership</a>
+                                </li>
+                        <?php
+                            }
                         }
                         ?>
                     </ul>
                     <?php
                     if (isset($_SESSION['email'])) {
-                        ?>
+                    ?>
                         <a href="Login/logout.php" class="btn main_btn ">Logout</a>
-                        <?php
+                        <a href="edit_profile.php" class="btn main_btn ">Edit Profile</a>
+                    <?php
                     } else {
-                        ?>
-                            <a href="Login/login.php" class="btn main_btn">Login</a>
-                            <a href="Login/signup.php" class="btn main_btn">Sigup</a>
-                        <?php
+                    ?>
+                        <a href="Login/login.php" class="btn main_btn">Login</a>
+                        <a href="Login/signup.php" class="btn main_btn">Sigup</a>
+                    <?php
                     }
                     ?>
                 </div>
-
             </nav>
         </div>
     </header>
+    <!-- Navbar ends -->
 
     <section id="events" class="p_120">
         <div class="container">
-            <div class="main_title">
-                <h2>Event Schedule</h2>
-                <!-- <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in
-                    price. You may see some for as low as $.17 each.</p> -->
-            </div>
             <div class="event_schedule_inner">
                 <div class="tab" style="text-align: center;">
                     <button class="tablinks">All Events</button>
-
                 </div>
-
                 <div id="London" class="tabcontent">
                     <div class="row">
                         <?php
@@ -137,35 +159,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
                                                         <span class="event_date"><?php echo $eventdate; ?></span>
                                                     </p>
                                                 </div>
-                                                <p>
+                                                <p class="line-clamp">
                                                     <?php echo $rowevent['e_description']; ?>
-                                                </p>
+                                                </pc>
                                                         <?php
+                                                            $event_id = $rowevent['id'];
                                                             $sql_count_likes = "SELECT COUNT(user_id) as count FROM `csi_event_likes` where `event_id` = ".$rowevent['id'];
                                                             $query_count_likes = mysqli_query($conn, $sql_count_likes);
                                                             $row_count_likes = mysqli_fetch_assoc($query_count_likes);
                                                             $count = $row_count_likes['count'];
-                                                            $sqlliked = "SELECT COUNT(`csi_event_likes`.`id`) as count FROM `csi_event_likes`, `csi_userdata` WHERE event_id = ".$rowevent['id']." and emailID = '$email'";
+                                                            $sqlliked = "SELECT COUNT(`csi_event_likes`.`id`) as count FROM `csi_event_likes`, `csi_userdata` WHERE `emailID` = '$email' AND `user_id`= `csi_userdata`.`id` AND`event_id` = '$event_id'";
                                                             $queryliked = mysqli_query($conn, $sqlliked);
                                                             $liked = mysqli_fetch_assoc($queryliked);
-                                                            $event_id = $rowevent['id'];
                                                         ?>
-                                                        <div class="likes">
-                                                            <p>Like <?php echo ;?></p>
-                                                            <div id="like_<?php echo $rowevent['id'];?>">
-                                                                <button class="btn" name = "like" value="<?php echo $rowevent['id'];?>"><i class="far fa-heart fa-2x"></i></button>
-                                                            </div>
-                                                            <div id="unlike_<?php echo $rowevent['id'];?>">
-                                                                <button class="btn" name = "unlike"><i class="fas fa-heart fa-2x"></i></button>  
-                                                            </div>
-                                                        </div>
+                                                        <div class="likes" id="likes_<?php echo $event_id; ?>">
                                                         <?php
                                                             if($liked['count'] == 0){
-                                                                echo "<script>document.getElementById('unlike_$event_id').style.display = 'none';</script>";
+                                                        ?>
+                                                                <button class="btn icon_btn" name = "like" value="<?php echo $event_id;?>"><i class="far fa-thumbs-up fa-2x"></i></button>
+                                                        <?php
                                                             }else {
-                                                                echo "<script>document.getElementById('like_$event_id').style.display = 'none';</script>";
+                                                        ?>
+                                                                <button class="btn icon_btn" name = "unlike" value="<?php echo $event_id;?>" ><i class="fas fa-thumbs-up fa-2x"></i></button>  
+                                                        <?php
                                                             }
                                                         ?>
+                                                        <?php echo $count;?> 
+                                                    </div>
                                                 <form action="event.php" method="GET">
                                                     <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
                                                     <button class="btn main_btn_read_more" type="submit">Read More</button>
@@ -235,8 +255,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
                                 <li>
                                     <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
                                 </li>
-
-
                                 <!-- Newsletter Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -274,21 +292,48 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
                         <a href=""><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
             </div>
         </footer>
     </section>
 
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="plugins/jquery-3.4.1.min.js"></script>
+    <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
-            $("button[name='like']").click(function(){
-                
+            $(document).on('click', "button[name='like']", function() {
+                var event_id = $(this).val();
+                var email = 
+                <?php 
+                if (isset($_SESSION['email'])) {
+                    echo '"' . $_SESSION['email'] . '"';
+                } else {
+                    echo "null";
+                } 
+                ?>;
+                if (email !== null) {
+                    $("#likes_" + event_id).load("likes.php", {
+                        e_id: event_id,
+                        increment: 1
+                    });
+                }
             });
-            $("button[name='unlike']").click(function(){
-                
+            $(document).on('click', "button[name='unlike']", function() {
+                var event_id = $(this).val();
+                var email = 
+                <?php 
+                if (isset($_SESSION['email'])) {
+                    echo '"' . $_SESSION['email'] . '"';
+                } else {
+                    echo "null";
+                } 
+                ?>;
+                if (email !== null) {
+                    $("#likes_" + event_id).load("likes.php", {
+                        e_id: event_id,
+                        increment: 0
+                    });
+                }
             });
         });
     </script>

@@ -15,8 +15,7 @@
     <title> Add Event</title>
     <?php
     require_once "../config.php";
-    function function_alert($message)
-    {
+    function function_alert($message){
         echo "<script> alert('$message'); </script>";
     }
     session_start();

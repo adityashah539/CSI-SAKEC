@@ -7,8 +7,47 @@
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/permission.css?v=<?php echo time(); ?>">
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/FileSaver/FileSaver.min.js"></script>
+    <?php
+    require_once '../config.php';
+    session_start();
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    if ($access['report'] == 0) {
+        header("location:../index.php");
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if (isset($_GET['event_id'])) {
+            $event_id = $_GET['event_id'];
+            $sqlevent = "SELECT * FROM `csi_event` WHERE `id`=$event_id";
+            $queryevent = mysqli_query($conn, $sqlevent);
+            $rowevent = mysqli_fetch_assoc($queryevent);
+
+            // Event collaboration details
+            $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
+            $querycollaboration = mysqli_query($conn, $sqlcollaboration);
+            //$rowcollaboration = mysqli_fetch_assoc($querycollaboration);
+
+            // Event Speaker details
+            $sqlspeaker = "SELECT * FROM csi_speaker WHERE event_id='$event_id'";
+            $queryspeaker = mysqli_query($conn, $sqlspeaker);
+
+            // Event coordinators details
+            $sqlcoordinator = "SELECT `c_name`,`c_phonenumber`, `c_type` FROM `csi_contact` WHERE `event_id`='$event_id'";
+            $querycoordinator = mysqli_query($conn, $sqlcoordinator);
+
+            // Event venue details
+            $sqlvenue = "SELECT `location` FROM `csi_venue` WHERE event_id = '$event_id'";
+            $queryvenue = mysqli_query($conn, $sqlvenue);
+        }
+    }
+    ?>
     <script>
         if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
             (function($) {
@@ -91,41 +130,14 @@
             });
         });
     </script>
-    <?php
-        require_once '../config.php';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (isset($_GET['event_id'])) {
-            $event_id = $_GET['event_id'];
-            $sqlevent = "SELECT * FROM `csi_event` WHERE `id`=$event_id";
-            $queryevent = mysqli_query($conn, $sqlevent);
-            $rowevent = mysqli_fetch_assoc($queryevent);
-
-            // Event collaboration details
-            $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
-            $querycollaboration = mysqli_query($conn, $sqlcollaboration);
-            //$rowcollaboration = mysqli_fetch_assoc($querycollaboration);
-
-            // Event Speaker details
-            $sqlspeaker = "SELECT * FROM csi_speaker WHERE event_id='$event_id'";
-            $queryspeaker = mysqli_query($conn, $sqlspeaker);
-
-            // Event coordinators details
-            $sqlcoordinator = "SELECT `c_name`,`c_phonenumber`, `c_type` FROM `csi_contact` WHERE `event_id`='$event_id'";
-            $querycoordinator = mysqli_query($conn, $sqlcoordinator);
-
-            // Event venue details
-            $sqlvenue = "SELECT `location` FROM `csi_venue` WHERE event_id = '$event_id'";
-            $queryvenue = mysqli_query($conn, $sqlvenue);
-            }
-        }
-    ?>
-    <title>Document</title>
+    
+    <title>Report</title>
 
 </head>
 
 <body>
     <header>
-        <h2 style="text-align: center;">Permission Letter <?php echo $rowevent['title']?></h2>
+        <h2 style="text-align: center;">Permission Letter <?php echo $rowevent['title'] ?></h2>
     </header>
     <div class="container">
         <div class="toolbar">
@@ -176,121 +188,121 @@
                     </button>
                 </li>
                 <li class="tool">
-                    <a class="word-export tool--btn btn btn-success"  href="javascript:void(0)" onclick="ExportToDoc()">
-                    <i class="fas fa-file-export"></i>Export to Doc
+                    <a class="word-export tool--btn btn btn-success" href="javascript:void(0)" onclick="ExportToDoc()">
+                        <i class="fas fa-file-export"></i>Export to Doc
                     </a>
                 </li>
             </ul>
         </div>
-        
-            <div id="output" contenteditable="true">
-                <div>
-                    <div><img src = "data:image/jpg;base64,<?php echo base64_encode(file_get_contents("images/CSI-header.jpg"));?>" alt = "No Image" style = "width:600px;"></div>
-                    <div>REF:-<?php echo date("y-",strtotime("-1 years")).date("y",strtotime("now"))."[Enter the event Number]".str_repeat("&nbsp; ",26);?> Date:- <?php echo date("d/m/Y",strtotime("now"))?></div>
-                    <h2 id="eventreportheader"style = "text-align:center;"> <u> EVENT REPORT </u></h2>
-                    <div id="eventname">
-                        <b>Event Name:</b> 
-                        <?php echo $rowevent['title']; ?>
-                    </div>
-                    <div id="organizedby">
-                        <b>Organized By:</b> CSI-SAKEC
-                        <?php
-                            $collaboration = "";
-                            for($i = mysqli_num_rows($querycollaboration); $i > 0; $i--){
-                                $rowcollaboration = mysqli_fetch_assoc($querycollaboration);
-                                $collaboration = $collaboration.$rowcollaboration['collab_body'];
-                                if($i != 1)$collaboration = $collaboration.", ";
-                            }
-                            if(mysqli_num_rows($querycollaboration)){
-                                echo " in collaboration with ".$collaboration."</h2>";
-                            }
-                        ?>
-                    </div>
-                    <div id="dateandtime"><b>Date & time:</b>
-                     <!-- 30th-31st August & 11th September, 2019, 10:00 AM to 5:00 PM  -->
+
+        <div id="output" contenteditable="true">
+            <div>
+                <div><img src="data:image/jpg;base64,<?php echo base64_encode(file_get_contents("../images/CSI-header.jpg")); ?>" alt="No Image" style="width:600px;"></div>
+                <div>REF:-<?php echo date("y-", strtotime("-1 years")) . date("y", strtotime("now")) . "[Enter the event Number]" . str_repeat("&nbsp; ", 26); ?> Date:- <?php echo date("d/m/Y", strtotime("now")) ?></div>
+                <h2 id="eventreportheader" style="text-align:center;"> <u> EVENT REPORT </u></h2>
+                <div id="eventname">
+                    <b>Event Name:</b>
+                    <?php echo $rowevent['title']; ?>
+                </div>
+                <div id="organizedby">
+                    <b>Organized By:</b> CSI-SAKEC
                     <?php
-                        if($rowevent['e_from_date'] == $rowevent['e_to_date'])
-                            echo date("jS  F Y",strtotime($rowevent['e_from_date'])).",".date(" h:i A",strtotime($rowevent['e_from_time']))." to ".date("h:i A",strtotime($rowevent['e_to_time']));
-                        else
-                            echo date("jS F Y",strtotime($rowevent['e_from_date']))."-".date("jS F Y",strtotime($rowevent['e_to_date'])).",".date(" h:i A",strtotime($rowevent['e_from_time']))." to ".date("h:i A",strtotime($rowevent['e_to_time']))
+                    $collaboration = "";
+                    for ($i = mysqli_num_rows($querycollaboration); $i > 0; $i--) {
+                        $rowcollaboration = mysqli_fetch_assoc($querycollaboration);
+                        $collaboration = $collaboration . $rowcollaboration['collab_body'];
+                        if ($i != 1) $collaboration = $collaboration . ", ";
+                    }
+                    if (mysqli_num_rows($querycollaboration)) {
+                        echo " in collaboration with " . $collaboration . "</h2>";
+                    }
                     ?>
-                    </div>
-                    <div id="venue">
-                        <?php
-                            $venue = "";
-                            for($i = mysqli_num_rows($queryvenue); $i > 0; $i--){
-                                $rowvenue = mysqli_fetch_assoc($queryvenue);
-                                $venue = $venue.$rowvenue['location'];
-                                if($i != 1)$venue = $venue.", ";
-                            }
-                            if($venue != ""){
-                                echo "<b>Venue:</b> ".$venue;
-                            }
-                        ?>
-                    </div>
+                </div>
+                <div id="dateandtime"><b>Date & time:</b>
+                    <!-- 30th-31st August & 11th September, 2019, 10:00 AM to 5:00 PM  -->
                     <?php
-                        $studentcoordinators = "";
-                        $staffcoordinators = "";
-                        while ($rowcoordinator = mysqli_fetch_assoc($querycoordinator)) {
-                            if($rowcoordinator['c_type'] == 0) $studentcoordinators = $studentcoordinators . $rowcoordinator['c_name'] . " (No." . $rowcoordinator['c_phonenumber'] . ")<br>";
-                            else  $staffcoordinators = $staffcoordinators . $rowcoordinator['c_name'] . " (No." . $rowcoordinator['c_phonenumber'] . ")<br>";
-                        }
+                    if ($rowevent['e_from_date'] == $rowevent['e_to_date'])
+                        echo date("jS  F Y", strtotime($rowevent['e_from_date'])) . "," . date(" h:i A", strtotime($rowevent['e_from_time'])) . " to " . date("h:i A", strtotime($rowevent['e_to_time']));
+                    else
+                        echo date("jS F Y", strtotime($rowevent['e_from_date'])) . "-" . date("jS F Y", strtotime($rowevent['e_to_date'])) . "," . date(" h:i A", strtotime($rowevent['e_from_time'])) . " to " . date("h:i A", strtotime($rowevent['e_to_time']))
                     ?>
-                    <div id="staffcoordinator">
-                        <?php 
-                            if($staffcoordinators != "")
-                                echo "<b>Staff Coordinator:</b> ".$staffcoordinators;
-                        ?>
-                    </div>
-                    <div id="studentcoordinator">
-                        <?php 
-                            if($studentcoordinators != "")
-                                echo "<b>Student Coordinator:</b> ".$studentcoordinators;
-                        ?>
-                    </div>
-                    <div class="description">
-                        <b>Description:</b>  
-                        <?php echo $rowevent['e_description']; ?>
-                        <br>
-                    </div>
-                    <div id="sincerely" style = "text-align:right;">
-                        Sincerely,<br>
-                        <b>CSI-SAKEC 
+                </div>
+                <div id="venue">
+                    <?php
+                    $venue = "";
+                    for ($i = mysqli_num_rows($queryvenue); $i > 0; $i--) {
+                        $rowvenue = mysqli_fetch_assoc($queryvenue);
+                        $venue = $venue . $rowvenue['location'];
+                        if ($i != 1) $venue = $venue . ", ";
+                    }
+                    if ($venue != "") {
+                        echo "<b>Venue:</b> " . $venue;
+                    }
+                    ?>
+                </div>
+                <?php
+                $studentcoordinators = "";
+                $staffcoordinators = "";
+                while ($rowcoordinator = mysqli_fetch_assoc($querycoordinator)) {
+                    if ($rowcoordinator['c_type'] == 0) $studentcoordinators = $studentcoordinators . $rowcoordinator['c_name'] . " (No." . $rowcoordinator['c_phonenumber'] . ")<br>";
+                    else  $staffcoordinators = $staffcoordinators . $rowcoordinator['c_name'] . " (No." . $rowcoordinator['c_phonenumber'] . ")<br>";
+                }
+                ?>
+                <div id="staffcoordinator">
+                    <?php
+                    if ($staffcoordinators != "")
+                        echo "<b>Staff Coordinator:</b> " . $staffcoordinators;
+                    ?>
+                </div>
+                <div id="studentcoordinator">
+                    <?php
+                    if ($studentcoordinators != "")
+                        echo "<b>Student Coordinator:</b> " . $studentcoordinators;
+                    ?>
+                </div>
+                <div class="description">
+                    <b>Description:</b>
+                    <?php echo $rowevent['e_description']; ?>
+                    <br>
+                </div>
+                <div id="sincerely" style="text-align:right;">
+                    Sincerely,<br>
+                    <b>CSI-SAKEC
                         <?php
-                            echo date("Y-",strtotime("-1 years")).date("y",strtotime("now")); 
+                        echo date("Y-", strtotime("-1 years")) . date("y", strtotime("now"));
                         ?>
                         <b>
-                    </div>
-                    <div id="banner">
-                        <b>Banner:</b> 
-                        <?php
-                            //echo "<img src = 'Banner/".$rowevent['banner']."' alt = 'No Image'>";
-                            $img = file_get_contents("Banner/".$rowevent['banner']);
-                            $data = base64_encode($img);
-                        ?>
-                            <img src = "data:image/jpg;base64,<?php echo $data;?>" alt = "No Image" style = "width:600px;">
-                    </div>
-                    <div class="contentrepository">
-                        <?php
-                            $sqlcontentrepository = "SELECT `image` FROM `csi_contentrepository` WHERE eventid = $event_id";
-                            $querycontentrepository = mysqli_query($conn, $sqlcontentrepository);
-                            while($rowcontentrepository = mysqli_fetch_assoc($querycontentrepository)){
-                                $img = file_get_contents("EventImages/".$rowevent['title'].$rowevent['id']."/".$rowcontentrepository['image']);
-                                $data = base64_encode($img);
-                        ?>
-                                <img src = "data:image/jpg;base64,<?php echo $data;?>" alt = "No Image" style = "width:600px;">
-                                <br>
-                        <?php
-                            }
-                        ?>
-                    </div>
+                </div>
+                <div id="banner">
+                    <b>Banner:</b>
+                    <?php
+                    //echo "<img src = 'Banner/".$rowevent['banner']."' alt = 'No Image'>";
+                    $img = file_get_contents("../Banner/" . $rowevent['banner']);
+                    $data = base64_encode($img);
+                    ?>
+                    <img src="data:image/jpg;base64,<?php echo $data; ?>" alt="No Image" style="width:600px;">
+                </div>
+                <div class="contentrepository">
+                    <?php
+                    $sqlcontentrepository = "SELECT `image` FROM `csi_contentrepository` WHERE eventid = $event_id";
+                    $querycontentrepository = mysqli_query($conn, $sqlcontentrepository);
+                    while ($rowcontentrepository = mysqli_fetch_assoc($querycontentrepository)) {
+                        $img = file_get_contents("EventImages/" . $rowevent['title'] . $rowevent['id'] . "/" . $rowcontentrepository['image']);
+                        $data = base64_encode($img);
+                    ?>
+                        <img src="data:image/jpg;base64,<?php echo $data; ?>" alt="No Image" style="width:600px;">
+                        <br>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
-        
-        
+        </div>
+
+
     </div>
-        <!-- Footer -->
-        <section id="contact">
+    <!-- Footer -->
+    <section id="contact">
         <footer class="footer-area  p_60">
             <div class="container">
                 <div class="row">
@@ -364,7 +376,9 @@
                 </div>
                 <div class="row footer-bottom d-flex justify-content-between align-items-center">
                     <p class="col-lg-8 col-md-8 footer-text m-0">
-                        Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved || By CSI-SAKEC 
+                        Copyright © <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved || By CSI-SAKEC
                     </p>
                     <div class="col-lg-4 col-md-4 footer-social">
                         <a href="https://www.facebook.com/csisakec/photos"><i class="fab fa-facebook-f"></i></a>
@@ -394,7 +408,7 @@
         }
     </script>
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
 
 </body>

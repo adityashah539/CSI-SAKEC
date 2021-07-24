@@ -19,65 +19,72 @@
     <?php
     require_once "../config.php";
     session_start();
+    // Fetching Access Details
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    if ($access['content_repository'] == 0) {
+        header("location:../index.php");
+    }
     function function_alert($message){
         echo "<SCRIPT>
         alert('$message');
         </SCRIPT>";
     }
-    if(isset($_GET['event_id'])){   
+    if (isset($_GET['event_id'])) {
         $id = $_GET['event_id'];
         $title = $_GET['event_title'];
     }
-    if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
-        // if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator'||$_SESSION['role'] == 'head coordinator'){
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,',
-                8 => 'A PHP extension stopped the file upload.',
-            );
-            $extensions = array('jpg', 'jpeg', 'png');
-            $index = 1;
-            while (isset($_POST['uploadimg' . $index])) {
-                $event_photo = $_FILES["image" . $index]["name"];
-                $file_ext_event = explode(".", $_FILES['image' . $index]["name"]);
-                $file_ext_event = end($file_ext_event);
-                if (in_array($file_ext_event, $extensions)) {
-                    $title = $_POST['eventtitle'];
-                    $id = $_POST['eventid'];
-                    $dir = str_replace(" ", "", $title.$id);
-                    $folder_name_event = "EventImages/".$dir;
-                    if(!file_exists($folder_name_event)){
-                        mkdir($folder_name_event);
-                        echo "<script>alert('You create directory successfully')</script>";
-                    }
-                    $file_new_event = uniqid('',true).".".$file_ext_event;
-                    $sql = "INSERT INTO `csi_contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')";
-                    $stmt = mysqli_query($conn, $sql);
-                    echo "<script>alert(".$folder_name_event.")</script>";
-                    move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_event .'/'. $file_new_event);
-                    if ($_FILES["image" . $index]["error"] != 0) {
-                        $err =  $phpFileUploadErrors[$_FILES["image" . $index]["error"]];
-                    }
-                } else {
-                    function_alert("Extention of file should be jpg,jpeg,png.");
-                }
-                $index++;
-            }
-            if (isset($_POST['delete_id_btn'])) {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $phpFileUploadErrors = array(
+            0 => 'There is no error, the file uploaded with success',
+            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+            3 => 'The uploaded file was only partially uploaded',
+            4 => 'No file was uploaded',
+            6 => 'Missing a temorary folder',
+            7 => 'Failed to write file to disk,',
+            8 => 'A PHP extension stopped the file upload.',
+        );
+        $extensions = array('jpg', 'jpeg', 'png');
+        $index = 1;
+        while (isset($_POST['uploadimg' . $index])) {
+            $event_photo = $_FILES["image" . $index]["name"];
+            $file_ext_event = explode(".", $_FILES['image' . $index]["name"]);
+            $file_ext_event = end($file_ext_event);
+            if (in_array($file_ext_event, $extensions)) {
                 $title = $_POST['eventtitle'];
                 $id = $_POST['eventid'];
-                $imgid = $_POST['delete_id'];
-                $sql = "DELETE FROM `csi_contentrepository` WHERE id=" . $imgid;
-                $query = mysqli_query($conn, $sql);
+                $dir = str_replace(" ", "", $title . $id);
+                $folder_name_event = "EventImages/" . $dir;
+                if (!file_exists($folder_name_event)) {
+                    mkdir($folder_name_event);
+                    echo "<script>alert('You create directory successfully')</script>";
+                }
+                $file_new_event = uniqid('', true) . "." . $file_ext_event;
+                $sql = "INSERT INTO `csi_contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')";
+                $stmt = mysqli_query($conn, $sql);
+                echo "<script>alert(" . $folder_name_event . ")</script>";
+                move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_event . '/' . $file_new_event);
+                if ($_FILES["image" . $index]["error"] != 0) {
+                    $err =  $phpFileUploadErrors[$_FILES["image" . $index]["error"]];
+                }
+            } else {
+                function_alert("Extention of file should be jpg,jpeg,png.");
             }
-        // }else{
-        //     function_alert("You have to be admin or cooridinator");
-        // }
+            $index++;
+        }
+        if (isset($_POST['delete_id_btn'])) {
+            $title = $_POST['eventtitle'];
+            $id = $_POST['eventid'];
+            $imgid = $_POST['delete_id'];
+            $sql = "DELETE FROM `csi_contentrepository` WHERE id=" . $imgid;
+            $query = mysqli_query($conn, $sql);
+        }
     }
     ?>
 </head>
@@ -98,34 +105,34 @@
             </button>
         </div>
         <!-- Inner -->
-        <div class="carousel-inner py-4" id = 'reload'>
+        <div class="carousel-inner py-4" id='reload'>
             <!-- Single item -->
 
             <?php
             $sql = "SELECT * FROM `csi_contentrepository` where eventid = '$id'";
             $sqlstmt = mysqli_query($conn, $sql);
             $number_of_images = mysqli_num_rows($sqlstmt);
-            for($j = 0;$j < $number_of_images;) {
+            for ($j = 0; $j < $number_of_images;) {
 
             ?>
-                <div class="carousel-item <?php if($j < 3)echo "active";?>">
+                <div class="carousel-item <?php if ($j < 3) echo "active"; ?>">
                     <div class="container">
                         <div class="row">
                             <?php
                             // to give extre space if two image are left
-                            if($number_of_images - $j == 2)echo "<div class='col-sm-2'></div>";
+                            if ($number_of_images - $j == 2) echo "<div class='col-sm-2'></div>";
                             // to give extre space if one image if left
-                            else if($number_of_images - $j == 1)echo "<div class='col-sm-4'></div>";
+                            else if ($number_of_images - $j == 1) echo "<div class='col-sm-4'></div>";
                             for ($i = 0; $i < 3 && $j < $number_of_images; $i++, $j++) {
                                 $row = mysqli_fetch_assoc($sqlstmt);
                             ?>
                                 <div class="col-lg-4">
                                     <div class="card">
-                                        <img src="<?php echo "EventImages/".str_replace(" ", "", $title.$id).'/'.$row['image']; ?>" class="card-img-top" alt="..." />
+                                        <img src="<?php echo "EventImages/" . str_replace(" ", "", $title . $id) . '/' . $row['image']; ?>" class="card-img-top" alt="..." />
                                         <div class="card-body">
                                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                                <input type="hidden" name="eventtitle" value = "<?php echo $title;?>">
-                                                <input type="hidden" name="eventid" value = "<?php echo $id;?>">
+                                                <input type="hidden" name="eventtitle" value="<?php echo $title; ?>">
+                                                <input type="hidden" name="eventid" value="<?php echo $id; ?>">
                                                 <input type='hidden' name='delete_id' value='<?php echo $row['id']; ?>'>
                                                 <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE</button>
                                             </form>
@@ -156,8 +163,8 @@
                 </div>
                 <div class="spacer" style="height:20px;"></div>
                 <button class="btn btn-primary btn-sm btn-add-phone">Add</button> <br> <br>
-                <input type="hidden" name="eventtitle" value = "<?php echo $title;?>">
-                <input type="hidden" name="eventid" value = "<?php echo $id;?>">
+                <input type="hidden" name="eventtitle" value="<?php echo $title; ?>">
+                <input type="hidden" name="eventid" value="<?php echo $id; ?>">
                 <button class="btn btn-primary" name="insert" value="submit">Submit</button>
             </form>
         </div>
@@ -182,21 +189,21 @@
                     var index = $('.phone-input').length + 1;
                     $('.form-group').append('' +
                         '<div class="deletephone">' +
-                            '<div class="spacer" style="height:20px;"></div>' +
-                                '<div class="row">' +
-                                    '<div class="col-sm-10">' +
-                                        '<div class="input-group phone-input">' +
-                                            '<input type="hidden" name="uploadimg' + index + '" value="' + index + '">' +
-                                            '<input name="image' + index + '" type="file" class="form-control" id="customFile" required>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="col-sm-2">' +
-                                        '<span  class="input-group-btn">' +
-                                            '<button class="btn btn-danger btn-remove-phone" type="button"><i class="fas fa-times"></i></button>' +
-                                        '</span>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
+                        '<div class="spacer" style="height:20px;"></div>' +
+                        '<div class="row">' +
+                        '<div class="col-sm-10">' +
+                        '<div class="input-group phone-input">' +
+                        '<input type="hidden" name="uploadimg' + index + '" value="' + index + '">' +
+                        '<input name="image' + index + '" type="file" class="form-control" id="customFile" required>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-sm-2">' +
+                        '<span  class="input-group-btn">' +
+                        '<button class="btn btn-danger btn-remove-phone" type="button"><i class="fas fa-times"></i></button>' +
+                        '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>'
                     );
                 });
@@ -207,4 +214,5 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 </html>

@@ -19,6 +19,15 @@
     <?php
     require_once "config.php";
     session_start();
+     // Fetching Access Details
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    
     $event_id = $_GET['event_id'];
 
     $sqlevent = "SELECT * FROM csi_event WHERE id='$event_id'";
@@ -31,81 +40,82 @@
     $number_of_speakers = mysqli_num_rows($queryspeaker);
     ?>
 
-
-    <!-- navbar -->
+    <!-- Navbar -->
     <header class="header_area">
         <div class="main_menu">
-            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light ">
-
-                <img class="invert" src="images/sakec-logo.png" alt="SAKEC-icon">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+                <img class="invert" src="images/csi-logo.png" alt="SAKEC-icon">
                 <a class="navbar-brand" href="#" style="color: aliceblue;"> CSI SAKEC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+                    <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll " style="height: auto;">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php">Home</a>
+                            <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php#events">Events</a>
+                            <a class="nav-link" href="#team">Our Team</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php#team">Our Team</a>
+                            <a class="nav-link" href="#events">Events</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.php#gallery">Gallery</a>
+                            <a class="nav-link" href="#gallery">Gallery</a>
                         </li>
-                        <!-- <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
-                                    data-toggle="dropdown" aria-expanded="false">
-                                    Membership
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link active" href="#contact">CONTACT</a>
-                            </li>
-                            -->
                         <?php
-                        if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
-                            $_SESSION['var'] = 0;
+                        if (isset($_SESSION['email']) && isset($access)) {
+                            if ($access['user_data'] == '1' || $access['role'] == '1') {
                         ?>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="database.php">Userdata</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="eventmanagement.php">Event Management</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="query.php">Query</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="log.php">Reply Log</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="audit.php">Audit</a>
-                            </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Userdata/database.php">Userdata</a>
+                                </li>
+                            <?php
+                            }
+                            if (
+                                $access['add_event'] == '1' || $access['budget'] == '1' || $access['edit_attendance'] == '1' || $access['permission_letter'] == '1' ||
+                                $access['report'] == '1' ||$access['manage_event'] == '1' || $access['confirm_event_registration'] == '1' || $access['content_repository'] == '1' || $access['feedback_response'] == '1'
+                            ) {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Eventmanagement/eventmanagement.php">Event Management</a>
+                                </li>
+                            <?php
+                            }
+                            if ($access['query'] == '1' || $access['reply_log'] == '1') {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Query/query.php">Query</a>
+                                </li>
+                            <?php
+                            }
+                            if ($access['audit']) {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Audit/audit.php">Audit</a>
+                                </li>
+                            <?php
+                            }
+                            if ($access['confirm_membership']) {
+                            ?>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="Membership/membership.php"> Membership</a>
+                                </li>
                         <?php
+                            }
                         }
                         ?>
                     </ul>
                     <?php
                     if (isset($_SESSION['email'])) {
                     ?>
-                        <a href="logout.php" class="btn main_btn">Logout</a>
+                        <a href="Login/logout.php" class="btn main_btn ">Logout</a>
+                        <a href="edit_profile.php" class="btn main_btn ">Edit Profile</a>
                     <?php
                     } else {
                     ?>
-                        <a href="login.php" class="btn main_btn">Login</a>
-                        <a href="signup.php" class="btn main_btn">Sigup</a>
+                        <a href="Login/login.php" class="btn main_btn">Login</a>
+                        <a href="Login/signup.php" class="btn main_btn">Sigup</a>
                     <?php
                     }
                     ?>
@@ -113,10 +123,13 @@
             </nav>
         </div>
     </header>
+    <!-- Navbar  -->
 
-
-
+    <!-- Spacer -->
     <div class="spacer" style="height:150px;"></div>
+    <!-- Spacer -->
+
+    <!-- Content -->
     <div class="container ">
         <h1>
             <?php
@@ -147,13 +160,12 @@
             <h1><?php $rowevent['subtitle']; ?></h1>
             <h4>
                 <?php
-                if ($rowevent['e_from_date'] == $rowevent['e_to_date'])
-                    echo "DATE :" . date("d-m-Y", strtotime($rowevent['e_from_date']));
+                if($rowevent['e_from_date'] == $rowevent['e_to_date'])
+                    echo date("jS  F Y",strtotime($rowevent['e_from_date']));
                 else
-                    echo "FROM DATE :" . date("d-m-Y", strtotime($rowevent['e_from_date'])) . "<br> TO DATE :" . date("d-m-Y", strtotime($rowevent['e_to_date']));
-                echo "<br>From Time :" . date("h:i:s A", strtotime($rowevent['e_from_time'])) . "<br> TO Time :" . date("h:i:s A", strtotime($rowevent['e_from_time']));
+                    echo date("jS F Y",strtotime($rowevent['e_from_date']))."-".date("jS F Y",strtotime($rowevent['e_to_date']));
+                echo "<br>".date(" h:i A",strtotime($rowevent['e_from_time']))." to ".date("h:i A",strtotime($rowevent['e_to_time']));
                 ?>
-
             </h4>
             <div class="spacer" style="height:20px;"></div>
             <?php
@@ -185,7 +197,7 @@
                     <?php
                     }
                 } else {
-                    if ($_SESSION['role'] == "member" || $_SESSION['role'] == "coordinator" || $_SESSION['role'] == "head coordinator" || $_SESSION['role'] == "admin") {
+                    if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
                     ?>
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
                             <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
@@ -219,9 +231,10 @@
             </p>
         </div>
         <div class="spacer" style="height:90px;"></div>
+        <hr class="supp1">
         <div class="row">
             <div class="col-sm-6">
-                <div class="spacer" style="height:150px;"></div>
+                <div class="spacer" style="height:50px;"></div>
                 <div class="know-more">
                     <h3><b style="color: #941616;">Registration Fees</b> <i class="fas fa-dollar-sign"></i></h3>
                     <div class="spacer" style="height:20px;"></div>
@@ -234,12 +247,12 @@
                     <?php
                     if ($number_of_speakers > 0) {
                     ?>
-                        <hr class="supp1">
-                        <div class="spacer" style="height:50px;"></div>
+                        <div class="spacer" style="height:10px;"></div>
                         <h3><b style="color: #729416;">For Any Queries </b><i class="fas fa-question-circle"></i></h3>
                         <br>
                         <div class="spacer" style="height:0px;"></div>
-                        <p><b>Contact:</b>
+                        <p>
+                            <b>Contact:</b>
                             <br>
                             <br>
                             <?php
@@ -280,7 +293,6 @@
                                     $rowspeaker = mysqli_fetch_assoc($queryspeaker);
                                 ?>
                                     <div class="carousel-item<?php if ($i == 0) echo ' active'; ?>">
-
                                         <!-- Card Regular -->
                                         <div class="card card-cascade">
                                             <!-- Card image -->
@@ -305,7 +317,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 <?php
                                 }
@@ -323,7 +334,7 @@
                     <?php
                     } else {
                     ?>
-                        <div class="spacer" style="height:150px;"></div>
+                        <div class="spacer" style="height:50px;"></div>
                         <h3><b style="color: #729416;">For Any Queries </b><i class="fas fa-question-circle"></i></h3>
                         <br>
                         <div class="spacer" style="height:0px;"></div>
@@ -346,10 +357,12 @@
             </div>
         </div>
     </div>
-    <?php
+    <!-- Content -->
 
-    ?>
+    <!-- Spacer -->
     <div class="spacer" style="height:90px;"></div>
+    <!-- Spacer -->
+
     <!-- Footer -->
     <section id="contact">
         <footer class="footer-area p_120 p_60">
@@ -400,8 +413,6 @@
                                 <li>
                                     <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
                                 </li>
-
-
                                 <!-- Newsletter Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -427,9 +438,7 @@
                 </div>
                 <div class="row footer-bottom d-flex justify-content-between align-items-center">
                     <p class="col-lg-8 col-md-8 footer-text m-0">
-                        Copyright © <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with ❤ by Israil
+                        Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved by CSI-SAKEC
                     </p>
                     <div class="col-lg-4 col-md-4 footer-social">
                         <a href="">
@@ -439,12 +448,12 @@
                         <a href=""><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
             </div>
         </footer>
     </section>
+    <!-- Footer -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="plugins/jquery-3.4.1.min.js"></script>
+    <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 

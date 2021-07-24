@@ -7,11 +7,22 @@
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/attendance.css?v=<?php echo time(); ?>">
-    <title>Edit Attendance</title>
     <?php
     require_once "../config.php";
     session_start();
-    function function_alert($message){
+    // Fetching Access Details
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    if ($access['edit_attendance'] == 0) {
+        header("location:../index.php");
+    }
+    function function_alert($message)
+    {
         echo "<SCRIPT>window.location.replace('eventmanagement.php') alert('$message');</SCRIPT>";
     }
     $to_search = $event_title = $event_id = "";
@@ -23,22 +34,21 @@
         $event_id = $_GET['e_id'];
     }
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        if (isset($_SESSION['email'])) {
-            if ($_SESSION['role'] == "admin" ) {
-                $index = 1;
-                $event_id = $_POST['event_id'];
-                while (isset($_POST[("username_".$index)])) {
-                    $username = $_POST[("username_".$index)];
-                    $attend = $_POST[("attend_".$index)];
-                    $sql = "UPDATE `csi_collection` SET `attend`='$attend' WHERE `user_id`='$username' AND `event_id`='$event_id'";
-                    $query = mysqli_query($conn, $sql);
-                    $index++;
-                }
-                header("location: attendance.php");
+        if ($access['edit_attendance'] == 1) {
+            $index = 1;
+            $event_id = $_POST['event_id'];
+            while (isset($_POST[("username_" . $index)])) {
+                $username = $_POST[("username_" . $index)];
+                $attend = $_POST[("attend_" . $index)];
+                $sql = "UPDATE `csi_collection` SET `attend`='$attend' WHERE `user_id`='$username' AND `event_id`='$event_id'";
+                $query = mysqli_query($conn, $sql);
+                $index++;
             }
+            header("location: attendance.php");
         }
     }
     ?>
+    <title>Edit Attendance</title>
 </head>
 
 <body>
@@ -52,7 +62,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="managementevent.php?event_id=<?php echo $event_id;?>"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
+                    <a class="nav-link" href="managementevent.php?event_id=<?php echo $event_id; ?>"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../index.php"><i class="fas fa-home"></i> Home</a>
@@ -83,43 +93,40 @@
             <tbody>
                 <div class="table-content" style="font-size: large;">
                     <?php
-                    if (isset($_SESSION['email'])) {
-                        if ($_SESSION['role'] === 'admin') {
-                            $sql = "SELECT CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`) as `name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
+                    if ($access['edit_attendance'] == 1) {
+                        $sql = "SELECT CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`) as `name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
                             WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`)) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')";
-                            //echo $sql;
-                            $query = mysqli_query($conn, $sql);
-                            $number_of_rows = mysqli_num_rows($query);
-                            if ($number_of_rows > 0) {
-                                $index = 1;
-                                while ($row = mysqli_fetch_assoc($query)) {
+                        $query = mysqli_query($conn, $sql);
+                        $number_of_rows = mysqli_num_rows($query);
+                        if ($number_of_rows > 0) {
+                            $index = 1;
+                            while ($row = mysqli_fetch_assoc($query)) {
                     ?>
-                                    <tr>
-                                        <td><?php echo $row['name'] ?></td>
-                                        <td><?php echo $row['emailID'] ?></td>
-                                        <td>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <input type="hidden" name="username_<?php echo $index; ?>" value="<?php echo $row['id']; ?>">
-                                                <label class="btn btn btn-outline-success  ">
-                                                    <input type="radio" name='<?php echo "attend_$index"; ?>' value="1" <?php if ($row['attend'] == "1") {echo 'checked';} ?> > Present
-                                                </label>
-                                                <label class="btn btn-outline-danger ">
-                                                    <input type="radio" name='<?php echo "attend_$index"; ?>' value="0" <?php if ($row['attend'] == "0") {echo 'checked';} ?>> Absent
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td><?php echo $row['name'] ?></td>
+                                    <td><?php echo $row['emailID'] ?></td>
+                                    <td>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <input type="hidden" name="username_<?php echo $index; ?>" value="<?php echo $row['id']; ?>">
+                                            <label class="btn btn btn-outline-success  ">
+                                                <input type="radio" name='<?php echo "attend_$index"; ?>' value="1" <?php if ($row['attend'] == "1") {
+                                                                                                                        echo 'checked';
+                                                                                                                    } ?>> Present
+                                            </label>
+                                            <label class="btn btn-outline-danger ">
+                                                <input type="radio" name='<?php echo "attend_$index"; ?>' value="0" <?php if ($row['attend'] == "0") {
+                                                                                                                        echo 'checked';
+                                                                                                                    } ?>> Absent
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
                     <?php
-                                    $index++;
-                                }
-                            } else {
-                                echo "<td>No Record Found</td><td/><td/>";
+                                $index++;
                             }
                         } else {
-                            echo "<td>You need excess to see.</td><td/>";
+                            echo "<td>No Record Found</td><td/><td/>";
                         }
-                    } else {
-                        echo "<td>You have not logged in.</td><td/>";
                     }
                     ?>
                 </div>
@@ -137,7 +144,7 @@
     </div>
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery-3.4.1.min.js"></script>
+    <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 </body>

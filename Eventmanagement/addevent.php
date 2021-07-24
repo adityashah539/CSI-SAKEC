@@ -16,16 +16,25 @@
     <title> Add Event</title>
     <?php
     require_once "../config.php";
-    function function_alert($message)
-    {
+    session_start();
+    function function_alert($message){
         echo "<SCRIPT>
         window.location.replace('addevent.php')
         alert('$message');
         </SCRIPT>";
     }
-    session_start();
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    if(isset($access) && $access['add_event'] == 0){
+        header("location:../index.php");
+    }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['title'])) {
-        if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'c') {
+        if (isset($access) && $access['add_event'] == 1) {
             $phpFileUploadErrors = array(
                 0 => 'There is no error, the file uploaded with success',
                 1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
