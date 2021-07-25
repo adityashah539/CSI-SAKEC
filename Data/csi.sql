@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2021 at 06:54 PM
+-- Generation Time: Jul 25, 2021 at 01:13 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -337,6 +337,18 @@ INSERT INTO `csi_newsletter` (`id`, `emailid`, `vKey`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `csi_password`
+--
+
+CREATE TABLE `csi_password` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `password` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `csi_query`
 --
 
@@ -467,16 +479,13 @@ INSERT INTO `csi_speaker` (`id`, `event_id`, `name`, `organisation`, `profession
 
 CREATE TABLE `csi_userdata` (
   `id` int(11) NOT NULL,
-  `firstName` varchar(50) NOT NULL,
-  `middleName` varchar(50) NOT NULL,
-  `lastName` varchar(50) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `year` varchar(5) NOT NULL,
   `division` varchar(10) NOT NULL,
   `rollNo` int(10) NOT NULL,
   `emailID` varchar(50) NOT NULL,
   `phonenumber` bigint(10) NOT NULL,
   `branch` varchar(10) NOT NULL,
-  `password` varchar(255) NOT NULL,
   `role` int(15) NOT NULL,
   `gender` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -485,9 +494,9 @@ CREATE TABLE `csi_userdata` (
 -- Dumping data for table `csi_userdata`
 --
 
-INSERT INTO `csi_userdata` (`id`, `firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `role`, `gender`) VALUES
-(89, 'Dhiraj', 'harish', 'shetty', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2', 1, ''),
-(91, 'Dhiraj', 'Harish', 'Shetty', 'TE', '3', 75, 'dhiraj.shetty_19@sakec.ac.in', 8779633138, 'CS', '$2y$10$3BzXbe.vE6VmocyQlJUGMOV1TcchPwrqWzG1zuWuRb8dOZE5BKbFi', 11, 'male');
+INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) VALUES
+(89, 'Dhiraj', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 1, ''),
+(91, 'Dhiraj', 'TE', '3', 75, 'dhiraj.shetty_19@sakec.ac.in', 8779633138, 'CS', 11, 'male');
 
 -- --------------------------------------------------------
 
@@ -607,6 +616,13 @@ ALTER TABLE `csi_membership_bills`
 --
 ALTER TABLE `csi_newsletter`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `csi_password`
+--
+ALTER TABLE `csi_password`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `csi_query`
@@ -736,6 +752,12 @@ ALTER TABLE `csi_newsletter`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `csi_password`
+--
+ALTER TABLE `csi_password`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `csi_query`
 --
 ALTER TABLE `csi_query`
@@ -830,6 +852,12 @@ ALTER TABLE `csi_feedback`
 --
 ALTER TABLE `csi_membership_bills`
   ADD CONSTRAINT `csi_membership_bills_ibfk_1` FOREIGN KEY (`membership_id`) REFERENCES `csi_membership` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `csi_password`
+--
+ALTER TABLE `csi_password`
+  ADD CONSTRAINT `csi_password_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `csi_userdata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `csi_userdata`
