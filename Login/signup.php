@@ -46,17 +46,16 @@
                                 $role = $row['id'];
                                 $branch = trim($_POST["branch"]);
                                 $year = trim($_POST["year"]);
-                                $firstname = trim($_POST["firstname"]);
-                                $lastname = trim($_POST["lastname"]);
-                                $middlename = trim($_POST["middlename"]);
+                                $name = trim($_POST["name"]);
                                 $rollno = trim($_POST["rollno"]);
                                 $division = trim($_POST["division"]);
                                 $gender = trim($_POST["gender"]);
-                                $sql = "INSERT INTO `csi_userdata`(`firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `password`, `role`, `gender`) 
-                                                    VALUES   ('$firstname','$middlename','$lastname','$year','$division','$rollno',  '$email','$phonenumber','$branch','$password', '$role','$gender')";
-                                // $sql = "INSERT INTO userdata (  firstName  , lastName  , emailID,  phonenumber  , branch  , year  , password  ,   role) 
-                                //                     VALUES   ('$firstname','$lastname','$email ','$phonenumber','$branch','$year','$password' , '$role')";
-                                $result = mysqli_query($conn, $sql);
+                                $sql = "INSERT INTO `csi_userdata`(`name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) 
+                                                    VALUES   ('$name','$year','$division','$rollno',  '$email','$phonenumber','$branch','$role','$gender')";
+                                mysqli_query($conn, $sql);
+                                $user_id = mysqli_insert_id($conn);
+                                $sql = "INSERT INTO `csi_password`(`user_id`,`password`) VALUES ('$user_id','$password')";
+                                mysqli_query($conn, $sql);
                                 header("location: login.php");
                                 mysqli_close($conn);
                             } else {
@@ -84,11 +83,7 @@
                 <!-- </br></br><i class="fas fa-user-circle" style="font-size:80px;"></i></p></br> -->
                 <div class="spacer" style="height:30px;"></div>
                 <i class="fas fa-file-signature" style="font-size:30px;"></i>
-                <input data-toggle="tooltip" data-placement="bottom" title="Your First name" id="text" type="text" class="g" name="firstname" placeholder=" First Name" required /></br>
-                <i class="fas fa-signature" style="font-size:30px;"></i>
-                <input data-toggle="tooltip" data-placement="bottom" title="Your Middle name" id="text" type="text" class="g" name="middlename" placeholder="Middle Name" required /></br>
-                <i class="fas fa-signature" style="font-size:30px;"></i>
-                <input data-toggle="tooltip" data-placement="bottom" title="Your Last name" id="text" type="text" class="g" name="lastname" placeholder="Last Name" required /></br>
+                <input data-toggle="tooltip" data-placement="bottom" title="Your  name" id="text" type="text" class="g" name="name" placeholder=" Name" required /></br>
                 <div class="grid-container">
                     <div class="grid-item item1">
                         <div class="texts">

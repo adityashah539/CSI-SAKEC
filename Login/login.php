@@ -46,7 +46,7 @@
                     $err .= "<br>";
                 $err .= "Pls enter the college email Id ";
             } else {
-                $sql = "SELECT emailID, password  FROM csi_userdata WHERE emailID = '$email'";
+                $sql = "SELECT `csi_password`.`password` FROM `csi_password`,`csi_userdata` WHERE `csi_userdata`.`emailID`='$email' AND `csi_password`.`user_id`=`csi_userdata`.`id`";
                 $query = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($query) == 1) {
                     $row = mysqli_fetch_assoc($query);

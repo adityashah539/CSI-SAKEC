@@ -43,7 +43,7 @@
         }
     }
     // Fetching Access Details
-    $access = NULL;
+    $access['role_name'] = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
         $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";

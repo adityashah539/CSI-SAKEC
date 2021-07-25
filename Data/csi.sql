@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2021 at 01:13 PM
+-- Generation Time: Jul 25, 2021 at 04:22 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -346,6 +346,15 @@ CREATE TABLE `csi_password` (
   `password` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `csi_password`
+--
+
+INSERT INTO `csi_password` (`id`, `user_id`, `password`) VALUES
+(1, 89, '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2'),
+(2, 91, '$2y$10$3BzXbe.vE6VmocyQlJUGMOV1TcchPwrqWzG1zuWuRb8dOZE5BKbFi'),
+(5, 92, '$2y$10$7VA4NpTZ0joR5ekuewf7x.rYtWVIKZAimD3yxSuY7/znaH3NtJzhq');
+
 -- --------------------------------------------------------
 
 --
@@ -496,7 +505,8 @@ CREATE TABLE `csi_userdata` (
 
 INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) VALUES
 (89, 'Dhiraj', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 1, ''),
-(91, 'Dhiraj', 'TE', '3', 75, 'dhiraj.shetty_19@sakec.ac.in', 8779633138, 'CS', 11, 'male');
+(91, 'Dhiraj', 'TE', '3', 75, 'dhiraj.shetty_19@sakec.ac.in', 8779633138, 'CS', 11, 'male'),
+(92, 'abc', 'FE', '1', 69, 'abc@sakec.ac.in', 1111111111, 'CS', 6, 'male');
 
 -- --------------------------------------------------------
 
@@ -755,7 +765,7 @@ ALTER TABLE `csi_newsletter`
 -- AUTO_INCREMENT for table `csi_password`
 --
 ALTER TABLE `csi_password`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `csi_query`
@@ -785,7 +795,7 @@ ALTER TABLE `csi_speaker`
 -- AUTO_INCREMENT for table `csi_userdata`
 --
 ALTER TABLE `csi_userdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `csi_venue`
