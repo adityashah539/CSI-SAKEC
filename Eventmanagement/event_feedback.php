@@ -29,7 +29,7 @@
             $query =  mysqli_query($conn, $sql);
             $access = mysqli_fetch_assoc($query);
         }
-        if($access['edit_attendance']==0){
+        if($access['feedback_response']==0){
             header("location:../index.php");
         }
         $event=$_GET['event_id'];

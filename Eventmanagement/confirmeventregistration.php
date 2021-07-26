@@ -21,7 +21,7 @@
         $query =  mysqli_query($conn, $sql);
         $access = mysqli_fetch_assoc($query);
     }
-    if ($access['edit_attendance'] == 0) {
+    if ($access['confirm_event_registration'] == 0) {
         header("location:../index.php");
     }
     if (isset($_GET['event_id'])) {

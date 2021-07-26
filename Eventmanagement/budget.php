@@ -54,6 +54,17 @@
             <div class="table-content" style="font-size: large;">            
                 <?php
                 require_once "../config.php";
+                session_start();
+                
+                if (isset($_SESSION["role_id"])) {
+                    $role_id = $_SESSION["role_id"];
+                    $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+                    $query =  mysqli_query($conn, $sql);
+                    $access = mysqli_fetch_assoc($query);
+                }
+                if ($access['budget'] == 0) {
+                    header("location:../index.php");
+                }
                 $sql = "SELECT `id`, `title`  FROM `csi_event` ";
                 $query = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($query) > 0) {

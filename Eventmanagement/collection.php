@@ -13,6 +13,16 @@
     <?php
         require_once "../config.php";
         session_start();
+        
+        if (isset($_SESSION["role_id"])) {
+            $role_id = $_SESSION["role_id"];
+            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+            $query =  mysqli_query($conn, $sql);
+            $access = mysqli_fetch_assoc($query);
+        }
+        if ($access['budget'] == 0) {
+            header("location:../index.php");
+        }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['delete_bill'])){
                 $collection_id=$_POST['collection_id'];
