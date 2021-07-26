@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/csi-logo.png">
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <!-- CSS file  -->
@@ -29,10 +30,9 @@
             if ($emailcount == 1) {
                 $_SESSION['otp']=rand(100001,999999);
                 $userdata = mysqli_fetch_array($query);
-                $firstName = $userdata['firstName'];
-                $lastName = $userdata['lastName'];
+                $name = $userdata['name'];
                 $subject = "Password Reset ";
-                $body = "Hello, " . $firstName . " " . $lastName . " your O.T.P. for resting the password from Sakec csi website is " .$_SESSION['otp'];
+                $body = "Hello, " . $name ." your O.T.P. for resting the password from Sakec csi website is " .$_SESSION['otp'];
                 $headers = "From: guptavan96@gmail.com";
                 if (mail($email, $subject, $body, $headers)) {
                     $step=2;
@@ -139,15 +139,11 @@
                 ?>
         </div>
     </div>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
         <!-- DO NOT DELETE THIS  -->
         <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
-    <script src="../plugins/jquery.min.js"></script>
-    <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
-    <!-- DO NOT DELETE THIS  -->
+        <script src="../plugins/jquery.min.js"></script>
+        <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+        <!-- DO NOT DELETE THIS  -->
 
     <script>
         let timerOn = true;

@@ -28,7 +28,7 @@ body {
 }
 
 .login {
-    font-size: 30px;
+    font-size: 50px;
     font-weight: bolder;
     color: whitesmoke;
 
@@ -111,4 +111,10 @@ p {
     background-image: -webkit-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
     background-image: -o-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
     background-image: linear-gradient(to right, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
+}
+ 
+.ddm{
+    width: fit-content;
+    background-color: #007bff00;
+    color: rgb(133, 133, 133);
 }

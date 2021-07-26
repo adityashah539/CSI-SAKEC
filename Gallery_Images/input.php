@@ -4,6 +4,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<link rel="icon" href="images/csi-logo.png">
 	<title>Preview Image Before Upload | CodingNepal</title>
 	<link rel="stylesheet" href="st.css">
 	<link rel="stylesheet" href="st.css?v=<?php echo time(); ?>">

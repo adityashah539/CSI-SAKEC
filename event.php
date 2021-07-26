@@ -199,7 +199,7 @@
                 } else {
                     if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
                     ?>
-                        <form action="<?php echo "eventregistration.php"; ?>" method="POST">
+                        <form action="<?php echo "Eventmanagement/eventregistration.php"; ?>" method="POST">
                             <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
                             <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
                             <input type="hidden" name="fee" value="<?php echo $rowevent['fee_m']; ?>" />
@@ -207,7 +207,7 @@
                     <?php
                     } else {
                     ?>
-                        <form action="<?php echo "eventregistration.php"; ?>" method="POST">
+                        <form action="<?php echo "Eventmanagement/eventregistration.php"; ?>" method="POST">
                             <button type="submit" value="registration" name="register_now" class="btn btn-primary">Register Now</button>
                             <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
                             <input type="hidden" name="fee" value="<?php echo $rowevent['fee']; ?>" />
@@ -217,7 +217,7 @@
                 }
             } else {
                 ?>
-                <a href="login.php?notlogin=true"> <button type="button" class="btn btn-primary">Register Now</button></a>
+                <a href="Eventmanagement/eventregistration.php?event_id=<?php echo $event_id; ?>" <button type="button" class="btn btn-primary">Register Now</button></a>
             <?php
             }
             ?>

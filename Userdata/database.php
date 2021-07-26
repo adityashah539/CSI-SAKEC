@@ -100,8 +100,7 @@
     <table class="table" id="myTable">
         <thead class="table-head">
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Email ID</th>
                 <th>Phone Number</th>
                 <th>Branch</th>
@@ -122,7 +121,7 @@
                         while ($row = mysqli_fetch_assoc($result)) {
                             $roles[] = $row['role_name'];
                         }
-                        $sql = "SELECT `csi_userdata`.`id`,`firstName`,`lastName`,`emailID`,`phonenumber`,`branch`,`year`,`role_name` FROM `csi_userdata`  
+                        $sql = "SELECT `csi_userdata`.`id`,`name`,`emailID`,`phonenumber`,`branch`,`year`,`role_name` FROM `csi_userdata`  
                                 INNER JOIN `csi_role` 
                                 ON `csi_userdata`.`role`=`csi_role`.`id`";
                         //echo $sql;
@@ -133,8 +132,7 @@
                                 $index++;
                 ?>
                                 <tr>
-                                    <td><?php echo $row['firstName']; ?></td>
-                                    <td><?php echo $row['lastName']; ?></td>
+                                    <td><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['emailID']; ?></td>
                                     <td><?php echo $row['phonenumber']; ?></td>
                                     <td><?php echo $row['branch']; ?></td>

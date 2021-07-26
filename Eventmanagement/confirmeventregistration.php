@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/csi-logo.png">
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <!-- CSS file  -->
@@ -80,7 +81,7 @@
                 <?php
                 if ($access['confirm_event_registration'] == 1) {
                     $sql =
-                        "SELECT `csi_collection`.`id`,CONCAT(`firstName`,' ', `lastName`) as `name`,`csi_userdata`.`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo` 
+                        "SELECT `csi_collection`.`id`, `csi_userdata`.`name`,`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo` 
                         FROM `csi_userdata`,`csi_event`,`csi_collection` 
                         WHERE `csi_collection`.`event_id`=`csi_event`.`id` 
                         AND`csi_collection`.`user_id`=`csi_userdata`.`id` AND `confirmed`='0' AND `csi_event`.`id`='$event_id'";

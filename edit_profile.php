@@ -20,18 +20,16 @@
         $email = $_SESSION["email"];
         if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
             $id = trim($_POST["id"]);
-            $firstname = trim($_POST["fname"]);
-            $middlename = trim($_POST["mname"]);
-            $lastname = trim($_POST["lname"]);
+            $name = trim($_POST["name"]);
             $rollno = trim($_POST["rollno"]);
             $year = trim($_POST["year"]);
             $division = trim($_POST["division"]);
             $phone = trim($_POST["phone"]);
             $branch = trim($_POST["branch"]);
-            $sqlupdate = "UPDATE `csi_userdata` SET `firstName`='$firstname',`middleName`='$middlename',`lastName`='$lastname',`year`='$year',`division`='$division',`rollNo`='$rollno',`phonenumber`='$phone',`branch`='$branch' WHERE id = $id";
+            $sqlupdate = "UPDATE `csi_userdata` SET `name`='$name',`year`='$year',`division`='$division',`rollNo`='$rollno',`phonenumber`='$phone',`branch`='$branch' WHERE id = $id";
             $result = mysqli_query($conn, $sqlupdate);
         }
-        $sqlshowdata = "SELECT `id`, `firstName`, `middleName`, `lastName`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch` FROM `csi_userdata` WHERE `emailID` = '$email'";
+        $sqlshowdata = "SELECT `id`, `name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch` FROM `csi_userdata` WHERE `emailID` = '$email'";
         $resulshowdata = mysqli_query($conn, $sqlshowdata);
         $rowshowdata = mysqli_fetch_assoc($resulshowdata);
     }else{
@@ -44,7 +42,7 @@
     <header>
         <h2 style="text-align: center;">Edit Profile</h2>
     </header>
-    <div class="spacer" style="height:32px;"></div>
+    <div class="spacer" style="height:46px;"></div>
     <div class="changedata">
         <div class="container">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -57,31 +55,7 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="texts">
-                            <input type="text" id="fname" name="fname" value = "<?php echo $rowshowdata['firstName']; ?>" required/>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-sm-2">
-                        <div class="labels">
-                            <label for="mname">Middle Name :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="texts">
-                            <input type="text" id="mname" name="mname" value = "<?php echo $rowshowdata['middleName']; ?>" required/>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-sm-2">
-                        <div class="labels">
-                            <label for="lname">Last Name :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="texts">
-                            <input type="text" id="lname" name="lname" value = "<?php echo $rowshowdata['lastName']; ?>" required/>
+                            <input type="text" id="fname" name="name" value = "<?php echo $rowshowdata['name']; ?>" required/>
                         </div>
                     </div>
                 </div>
@@ -175,7 +149,7 @@
             </form>
         </div>
     </div>
-    <div class="spacer" style="height:50px;"></div>
+    <div class="spacer" style="height:100px;"></div>
         <!-- Footer -->
         <section id="contact">
         <footer class="footer-area  p_60">

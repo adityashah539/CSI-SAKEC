@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/csi-logo.png">
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <!-- CSS file  -->
@@ -32,7 +33,7 @@
             header("location:../index.php");
         }
         $event=$_GET['event_id'];
-        $sql = "SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, csi_userdata.firstName, csi_userdata.middleName , csi_userdata.lastName , csi_userdata.emailID FROM `csi_feedback`,`csi_userdata`,`csi_collection` WHERE csi_collection.event_id='$event' and csi_collection.id=csi_feedback.collection_id and csi_userdata.id=csi_collection.user_id";
+        $sql = "SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `csi_userdata`.`name`, `csi_userdata`.`emailID` FROM `csi_feedback`,`csi_userdata`,`csi_collection` WHERE csi_collection.event_id='$event' and csi_collection.id=csi_feedback.collection_id and csi_userdata.id=csi_collection.user_id";
         $query = mysqli_query($conn, $sql);
         $number_of_responses = mysqli_num_rows($query);
     ?>
@@ -70,7 +71,7 @@
                 ?>
                     <tr>
                         <td><?php echo $index;?></td>
-                        <td><?php echo $row['firstName']." ".$row['middleName']." ".$row['lastName'];?></td>
+                        <td><?php echo $row['name'];?></td>
                         <td><?php echo $row['emailID'];?></td>
                         <td><?php echo $row['Q1']; $Q1+=$row['Q1'];?></td>
                         <td><?php echo $row['Q2']; $Q2+=$row['Q2'];?></td>

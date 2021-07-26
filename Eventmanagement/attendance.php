@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/csi-logo.png">
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/attendance.css?v=<?php echo time(); ?>">
@@ -94,8 +95,8 @@
                 <div class="table-content" style="font-size: large;">
                     <?php
                     if ($access['edit_attendance'] == 1) {
-                        $sql = "SELECT CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`) as `name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
-                            WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(CONCAT(`csi_userdata`.`firstName`,' ', `csi_userdata`.`lastName`)) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')";
+                        $sql = "SELECT  `csi_userdata`.`name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
+                            WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(`name`) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')";
                         $query = mysqli_query($conn, $sql);
                         $number_of_rows = mysqli_num_rows($query);
                         if ($number_of_rows > 0) {
@@ -109,14 +110,10 @@
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                             <input type="hidden" name="username_<?php echo $index; ?>" value="<?php echo $row['id']; ?>">
                                             <label class="btn btn btn-outline-success  ">
-                                                <input type="radio" name='<?php echo "attend_$index"; ?>' value="1" <?php if ($row['attend'] == "1") {
-                                                                                                                        echo 'checked';
-                                                                                                                    } ?>> Present
+                                                <input type="radio" name='<?php echo "attend_$index"; ?>' value="1" <?php if ($row['attend'] == "1") {echo 'checked';} ?>> Present
                                             </label>
                                             <label class="btn btn-outline-danger ">
-                                                <input type="radio" name='<?php echo "attend_$index"; ?>' value="0" <?php if ($row['attend'] == "0") {
-                                                                                                                        echo 'checked';
-                                                                                                                    } ?>> Absent
+                                                <input type="radio" name='<?php echo "attend_$index"; ?>' value="0" <?php if ($row['attend'] == "0") {echo 'checked';} ?>> Absent
                                             </label>
                                         </div>
                                     </td>

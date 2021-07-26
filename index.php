@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/csi-logo.png">
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <title>CSI</title>
@@ -290,7 +291,7 @@
             </div>
             <div class="spacer" style="height:45px;"></div>
             <?php
-            $sqlcoordinator =  "SELECT CONCAT(u.firstname,' ',u.lastname) as name, r.role_name as duty, c.image as image
+            $sqlcoordinator =  "SELECT  name, r.role_name as duty, c.image as image
                                 FROM `csi_coordinator` as c, `csi_userdata` as u,`csi_role` as r
                                 WHERE c.user_id = u.id and u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%')";
             $querycoordinator = mysqli_query($conn, $sqlcoordinator);

@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             $lastname = trim($_POST["lastname"]);
                             $branch = trim($_POST["branch"]);
                             $class = trim($_POST["year"]);
-                            $sql = "INSERT INTO userdata ( firstName  , lastName  , emailID, phonenumber  , branch  , class  ,      r_number         ,  password  ,   m_period     ,role) 
-                                                  VALUES ('$firstname','$lastname','$email','$phonenumber','$branch','$class',' $registration_number','$password ','$member_period','m')";
+                            $sql = "INSERT INTO userdata ( `name` , emailID, phonenumber  , branch  , class  ,      r_number         ,  password  ,   m_period     ,role) 
+                                                  VALUES ('$name','$lastname','$email','$phonenumber','$branch','$class',' $registration_number','$password ','$member_period','m')";
                             $stmt = mysqli_query($conn, $sql);
                             header("location: login.php");
                             mysqli_close($conn);
