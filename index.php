@@ -389,7 +389,9 @@
                         // TODO: change $sqlevent according to your needs
                         date_default_timezone_set('Asia/Kolkata');
                         $currentdate = date("Y-m-d");
-                        $sqlevent = "SELECT * FROM `csi_event` WHERE `e_from_date` >= '$currentdate' and live = 1";
+                        $sqlevent =    "SELECT * FROM csi_event
+                                        ORDER BY e_from_date desc
+                                        LIMIT 5";
                         $queryevent = mysqli_query($conn, $sqlevent);
                         if (mysqli_num_rows($queryevent) > 0) {
                             while ($rowevent = mysqli_fetch_assoc($queryevent)) {

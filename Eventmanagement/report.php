@@ -46,6 +46,25 @@
             // Event venue details
             $sqlvenue = "SELECT `location` FROM `csi_venue` WHERE event_id = '$event_id'";
             $queryvenue = mysqli_query($conn, $sqlvenue);
+
+
+            // start year and end year for acedemic year
+            $startyear = date("Y",strtotime($rowevent['e_from_date'])); 
+            $endyear = date("Y", strtotime("+1 year",strtotime($rowevent['e_from_date'])));
+            $acyear = $startyear.'-'.$endyear;
+            if(date("Y-m-d") < date('Y-m-d', strtotime($startyear.'-07-01'))){
+                $endyear = $startyear;
+                $startyear = date("Y", strtotime("-1 year",strtotime($startyear)));
+                $acyear = $startyear.'-'.$endyear;
+            }
+            $startdate = date('Y-m-d', strtotime($startyear.'-07-01'));
+            $enddate = $rowevent['e_from_date'];
+            $sql_current_event_no = 	"SELECT COUNT(id) as count
+                                        FROM `csi_event` 
+                                        WHERE '$startdate' <= e_from_date and e_from_date < '$enddate'";
+            $query_current_event_no = mysqli_query($conn, $sql_current_event_no);
+            $row_current_event_no = mysqli_fetch_assoc($query_current_event_no);
+            $current_event_no = $row_current_event_no['count'] + 1;
         }
     }
     ?>
@@ -199,7 +218,7 @@
         <div id="output" contenteditable="true">
             <div>
                 <div><img src="data:image/jpg;base64,<?php echo base64_encode(file_get_contents("../images/CSI-header.jpg")); ?>" alt="No Image" style="width:600px;"></div>
-                <div>REF:-<?php echo date("y-", strtotime("-1 years")) . date("y", strtotime("now")) . "[Enter the event Number]" . str_repeat("&nbsp; ", 26); ?> Date:- <?php echo date("d/m/Y", strtotime("now")) ?></div>
+                <div>REF:-<?php echo $acyear.'['.$current_event_no.']'.str_repeat("&nbsp; ", 26); ?> Date:- <?php echo date("d/m/Y", strtotime("now")) ?></div>
                 <h2 id="eventreportheader" style="text-align:center;"> <u> EVENT REPORT </u></h2>
                 <div id="eventname">
                     <b>Event Name:</b>

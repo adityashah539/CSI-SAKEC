@@ -28,7 +28,25 @@
                 $collaboration_sql = "SELECT `collab_body` FROM `csi_collaboration` WHERE `event_id`='$event_id'";
                 $collaboration_query = mysqli_query($conn, $collaboration_sql);
                 $collaboration_row = mysqli_fetch_assoc($collaboration_query);
-            } 
+
+                // start year and end year for acedemic year
+                $startyear = date("Y",strtotime($row['e_from_date'])); 
+                $endyear = date("Y", strtotime("+1 year",strtotime($row['e_from_date'])));
+                $acyear = $startyear.'-'.$endyear;
+                if(date("Y-m-d") < date('Y-m-d', strtotime($startyear.'-07-01'))){
+                    $endyear = $startyear;
+                    $startyear = date("Y", strtotime("-1 year",strtotime($startyear)));
+                    $acyear = $startyear.'-'.$endyear;
+                }
+                $startdate = date('Y-m-d', strtotime($startyear.'-07-01'));
+                $enddate = $row['e_from_date'];
+                $sql_current_event_no = 	"SELECT COUNT(id) as count
+                                            FROM `csi_event` 
+                                            WHERE '$startdate' <= e_from_date and e_from_date < '$enddate'";
+                $query_current_event_no = mysqli_query($conn, $sql_current_event_no);
+                $row_current_event_no = mysqli_fetch_assoc($query_current_event_no);
+                $current_event_no = $row_current_event_no['count'] + 1;
+                } 
         }
         ?>
         <!-- Boostrap-4.6.0-->
@@ -182,7 +200,7 @@
         </div>
         <div id="output" contenteditable="true">
             <div><img src = "data:image/jpg;base64,<?php echo base64_encode(file_get_contents("../images/CSI-header.jpg"));?>" alt = "No Image" style = "width:600px;"></div>
-            <div>REF:-<?php echo date("y-",strtotime("-1 years")).date("y",strtotime("now"))."[Enter the event Number]".str_repeat("&nbsp; ",26);?> Date:- <?php echo date("d/m/Y",strtotime("now"))?></div>
+            <div>REF:-<?php echo $acyear."[$current_event_no]".str_repeat("&nbsp; ",26);?> Date:- <?php echo date("d/m/Y",strtotime("now"))?></div>
             <div>To,<br></div>
             <div>The Principal,</div>
             <div>&nbsp;Shah &amp; Anchor Kutchhi Engineering College</div>
@@ -203,7 +221,7 @@
             <div>[Enter the Sign of General Secretary]<br></div>
             <div>[Enter the Name of General Secretary]<br></div>
             <div>General Secretary&nbsp;</div>
-            <div>(CSI-SAKEC <?php echo date("Y-",strtotime("-1 years")).date("y",strtotime("now"))?>)<br></div>
+            <div>(CSI-SAKEC <?php echo $acyear;?>)<br></div>
         </div>
     </div>
     
