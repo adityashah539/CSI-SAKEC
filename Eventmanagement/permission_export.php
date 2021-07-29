@@ -200,7 +200,7 @@
         </div>
         <div id="output" contenteditable="true">
             <div><img src = "data:image/jpg;base64,<?php echo base64_encode(file_get_contents("../images/CSI-header.jpg"));?>" alt = "No Image" style = "width:600px;"></div>
-            <div>REF:-<?php echo $acyear."[$current_event_no]".str_repeat("&nbsp; ",26);?> Date:- <?php echo date("d/m/Y",strtotime("now"))?></div>
+            <div>REF:-<?php echo substr($acyear,2,3).substr($acyear,7,2)."/$current_event_no".str_repeat("&nbsp; ",26);?> Date:- <?php echo date("d/m/Y",strtotime("now"))?></div>
             <div>To,<br></div>
             <div>The Principal,</div>
             <div>&nbsp;Shah &amp; Anchor Kutchhi Engineering College</div>
@@ -221,7 +221,7 @@
             <div>[Enter the Sign of General Secretary]<br></div>
             <div>[Enter the Name of General Secretary]<br></div>
             <div>General Secretary&nbsp;</div>
-            <div>(CSI-SAKEC <?php echo $acyear;?>)<br></div>
+            <div>(CSI-SAKEC <?php echo substr($acyear,0,5).substr($acyear,7,2);?>)<br></div>
         </div>
     </div>
     

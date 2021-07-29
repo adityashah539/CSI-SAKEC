@@ -218,7 +218,7 @@
         <div id="output" contenteditable="true">
             <div>
                 <div><img src="data:image/jpg;base64,<?php echo base64_encode(file_get_contents("../images/CSI-header.jpg")); ?>" alt="No Image" style="width:600px;"></div>
-                <div>REF:-<?php echo $acyear.'['.$current_event_no.']'.str_repeat("&nbsp; ", 26); ?> Date:- <?php echo date("d/m/Y", strtotime("now")) ?></div>
+                <div>REF:-<?php echo substr($acyear,2,3).substr($acyear,7,2).'/'.$current_event_no.str_repeat("&nbsp; ", 26); ?> Date:- <?php echo date("d/m/Y", strtotime("now")) ?></div>
                 <h2 id="eventreportheader" style="text-align:center;"> <u> EVENT REPORT </u></h2>
                 <div id="eventname">
                     <b>Event Name:</b>
@@ -289,7 +289,7 @@
                     Sincerely,<br>
                     <b>CSI-SAKEC
                         <?php
-                        echo date("Y-", strtotime("-1 years")) . date("y", strtotime("now"));
+                        echo substr($acyear,0,5).substr($acyear,7,2);
                         ?>
                         <b>
                 </div>
