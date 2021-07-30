@@ -72,7 +72,7 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
             <?php
-            $sql = "select b.id as id, CONCAT(firstName,' ',lastName) as name, r_number, primaryEmail, phonenumber, amount, duration, bill_photo
+            $sql = "select b.id as id, u.name , r_number, primaryEmail, phonenumber, amount, duration, bill_photo
                     from csi_userdata as u, csi_membership as m, csi_membership_bills as b
                     where no_of_year = '' and b.membership_id = m.id and m.userid = u.id";
             $sqlstmt = mysqli_query($conn, $sql);

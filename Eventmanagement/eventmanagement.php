@@ -103,7 +103,7 @@
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="input-group">
-                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off" />
+                        <input type="search" onkeyup="SearchFunction()" id="form1" name="search" placeholder="Search" class="form-control" />
                         <button id="search-button" type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
@@ -112,7 +112,7 @@
             </ul>
         </div>
     </nav>
-    <table class="table">
+    <table class="table" id="eventsTable">
         <thead class="table-head">
             <tr>
                 <th scope="col">Title</th>
@@ -219,6 +219,27 @@
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
+    <script>
+        function SearchFunction(){
+            var  filter, table, tr, td, i,lengthOfTable,eventTitle,txtValue;
+            filter = document.getElementById('form1').value.toUpperCase();
+            table = document.getElementById('eventsTable');
+            tr = table.getElementsByTagName('tr');
+            lengthOfTable=tr.length;
+            debugger;
+            for (i = 1; i < lengthOfTable; i++) {
+                td = tr[i].getElementsByTagName("th");
+                if (td) {
+                    eventTitle  = td[0].innerText;
+                    if (eventTitle.toUpperCase().indexOf(filter)>-1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
     <script>
         function status_change() {
             var x = document.getElementById("button_live");

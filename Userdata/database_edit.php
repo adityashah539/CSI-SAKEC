@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+require_once "../config.php";
 ?>
 <div class="container-fluid">
     <div class="card shadow mb-4">

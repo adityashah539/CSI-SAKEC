@@ -32,8 +32,8 @@
 			<ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="input-group">
-                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off"/>
-                        <button id="search-button" type="submit" class="btn btn-primary">
+                        <input type="search"  onkeyup="SearchFunction()" id="form1" name="search" placeholder="Search" class="form-control" />
+                        <button id="search-button"  type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -41,7 +41,7 @@
 			</ul>
 		</div>
 	</nav>
-    <table class="table">
+    <table class="table" id="eventsTable">
         <thead class="black white-text">
             <tr>
                 <th scope="col">Title</th>
@@ -50,9 +50,7 @@
                 <th>Balance</th>
             </tr>
         </thead>
-        <tbody>
-            <div class="table-content" style="font-size: large;">            
-                <?php
+        <?php
                 require_once "../config.php";
                 session_start();
                 
@@ -91,8 +89,10 @@
                         }
                         $balance = $collection-$expense;
                 ?>
-                <tr>
-                    <td scope="row"><?php echo $title; ?></td>
+        <tbody>
+            <div class="table-content" style="font-size: large;">            
+                <tr><th scope="row"><?php echo $title; ?></th>
+                    
                     <td>
                         <form action="collection.php" method="get">
                             <input type="hidden" name="e_id" value="<?php echo $id; ?>">
@@ -130,6 +130,7 @@
             </div>
         </tbody>
     </table>
+
     <div class="spacer" style="height:10px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
@@ -138,8 +139,30 @@
         <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
-        <!-- DO NOT DELETE THIS  -->
-        <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
+    <script>
+        function SearchFunction(){
+            var  inputValue, table,noOfRows, tr, td, i,lengthOfTable,eventTitle,txtValue;
+            inputValue = document.getElementById('form1').value.toUpperCase();
+            table = document.getElementById('eventsTable');
+            noOfRows = table.getElementsByTagName('tr');
+            lengthOfTable=noOfRows.length;
+            debugger;
+            for (i = 1; i < lengthOfTable; i++) {
+                td = noOfRows[i].getElementsByTagName("th");
+                console.log(td.innerText);
+                if (td) {
+                    eventTitle  = td.innerText ;
+                    if (eventTitle.toUpperCase().indexOf(inputValue)>-1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- DO NOT DELETE THIS  -->
+    <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
