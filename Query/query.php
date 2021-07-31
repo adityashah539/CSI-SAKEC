@@ -83,7 +83,7 @@
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="input-group">
-                        <input type="search" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off" />
+                        <input type="search" onkeyup="SearchFunction()"  id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off" />
                         <button id="search-button" type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
@@ -101,7 +101,7 @@
                 <th>DELETE</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="queryTableBody">
             <div class="table-content" style="font-size: large;">
                 <?php
                 if ($access['query'] == 1) {
@@ -110,10 +110,6 @@
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>
-                            <script>
-                                var textArea = document.getElementById("textArea");
-                                textArea.style.display = "none";
-                            </script>
                             <tr>
                                 <td scope="row"><?php echo $row['c_email']; ?></td>
                                 <td>
@@ -162,6 +158,29 @@
         <h5>CSI-SAKEC 2021 &copy; All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
+    <script>
+        function SearchFunction(){
+            var  inputValue, tablebody,noOfRows, tr, th, i,lengthOfTable,emailId,txtValue;
+            inputValue = document.getElementById('form1').value.toUpperCase();
+            tablebody = document.getElementById('queryTableBody');
+            noOfRows = tablebody.getElementsByTagName('tr');
+            lengthOfTable=noOfRows.length;
+            console.log(lengthOfTable);
+            //debugger;
+            for (i = 0; i < lengthOfTable; i++) {
+                th = noOfRows[i].getElementsByTagName("td");
+                console.log(th[0].innerHTML);
+                if (th) {
+                    emailId  = th[0].innerText ;
+                    if (emailId.toUpperCase().indexOf(inputValue)>-1) {
+                        noOfRows[i].style.display = "";
+                    } else {
+                        noOfRows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
     <script type="text/javascript">
         function addTextArea(id) {
             var reply = "reply";

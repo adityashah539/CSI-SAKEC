@@ -41,7 +41,7 @@
 
 <body>
     <header>
-        <h2 style="text-align: center;">Edit Profile</h2>
+        <h2 style="text-align: center;">Edit rofile</h2>
     </header>
     <div class="spacer" style="height:46px;"></div>
     <div class="changedata">

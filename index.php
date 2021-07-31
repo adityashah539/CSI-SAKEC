@@ -107,7 +107,7 @@
                         if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
                         ?>
                         <li class="nav-item active">
-                            <a class="nav-link" href="Membership/confirmmembership.php"> Membership</a>
+                            <a class="nav-link" href="Membership/membership.php">Membership</a>
                         </li>
                         <?php
                         }
@@ -146,7 +146,7 @@
                             if ($access['confirm_membership']=='1') {
                             ?>
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="Membership/confirmmembership.php"> Membership</a>
+                                    <a class="nav-link" href="Membership/confirmmembership.php"> Confirm Membership</a>
                                 </li>
                         <?php
                             }

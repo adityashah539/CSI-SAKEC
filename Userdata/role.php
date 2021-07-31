@@ -52,7 +52,7 @@
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="input-group">
-                        <input type="search" onkeyup="myFunction()" id="myInput" placeholder="Search" class="form-control" />
+                        <input type="search" onkeyup="SearchFunction()" id="userInput" placeholder="Search" class="form-control" />
                         <button id="search-button" type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
@@ -64,7 +64,7 @@
     <!-- Navbar -->
     <!-- Main -->
     <div id="allEvent" class="table-content" style="font-size: large;">
-        <table class="table" id="myTable">
+        <table class="table" id="roleTable">
             <thead class="table-head">
                 <tr>
                     <th>Name</th>
@@ -121,6 +121,29 @@
         <div class="spacer" style="height:1px;"></div>
     </div>
     <!-- Footer -->
+    <script>
+        function SearchFunction(){
+            var  inputValue, tablebody,noOfRows, tr, th, i,lengthOfTable,role,txtValue;
+            inputValue = document.getElementById('userInput').value.toUpperCase();
+            tablebody = document.getElementById('roleTable');
+            noOfRows = tablebody.getElementsByTagName('tr');
+            lengthOfTable=noOfRows.length;
+            console.log(lengthOfTable);
+            //debugger;
+            for (i = 1; i < lengthOfTable; i++) {
+                th = noOfRows[i].getElementsByTagName("td");
+                console.log(th[0].innerHTML);
+                if (th) {
+                    role  = th[0].innerText ;
+                    if (role.toUpperCase().indexOf(inputValue)>-1) {
+                        noOfRows[i].style.display = "";
+                    } else {
+                        noOfRows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>

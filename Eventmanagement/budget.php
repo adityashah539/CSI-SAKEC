@@ -41,7 +41,7 @@
 			</ul>
 		</div>
 	</nav>
-    <table class="table" id="eventsTable">
+    <table class="table">
         <thead class="black white-text">
             <tr>
                 <th scope="col">Title</th>
@@ -50,6 +50,8 @@
                 <th>Balance</th>
             </tr>
         </thead>
+        <tbody id="eventsTableBody">
+            <!-- <div class="table-content" style="font-size: large;">    -->
         <?php
                 require_once "../config.php";
                 session_start();
@@ -88,10 +90,11 @@
                             $collection=0;
                         }
                         $balance = $collection-$expense;
-                ?>
-        <tbody>
-            <div class="table-content" style="font-size: large;">            
-                <tr><th scope="row"><?php echo $title; ?></th>
+                ?>         
+                <tr>
+                    <th scope="row" value = "<?php echo $title; ?>">
+                        <?php echo $title; ?>
+                    </th>
                     
                     <td>
                         <form action="collection.php" method="get">
@@ -127,7 +130,7 @@
                 }
                 ?>   
                 
-            </div>
+            <!-- </div> -->
         </tbody>
     </table>
 
@@ -141,21 +144,22 @@
     </div>
     <script>
         function SearchFunction(){
-            var  inputValue, table,noOfRows, tr, td, i,lengthOfTable,eventTitle,txtValue;
+            var  inputValue, tablebody,noOfRows, tr, th, i,lengthOfTable,eventTitle,txtValue;
             inputValue = document.getElementById('form1').value.toUpperCase();
-            table = document.getElementById('eventsTable');
-            noOfRows = table.getElementsByTagName('tr');
+            tablebody = document.getElementById('eventsTableBody');
+            noOfRows = tablebody.getElementsByTagName('tr');
             lengthOfTable=noOfRows.length;
-            debugger;
-            for (i = 1; i < lengthOfTable; i++) {
-                td = noOfRows[i].getElementsByTagName("th");
-                console.log(td.innerText);
-                if (td) {
-                    eventTitle  = td.innerText ;
+            console.log(lengthOfTable);
+            // debugger;
+            for (i = 0; i < lengthOfTable; i++) {
+                th = noOfRows[i].getElementsByTagName("th");
+                console.log(th[0].innerHTML);
+                if (th) {
+                    eventTitle  = th[0].innerText ;
                     if (eventTitle.toUpperCase().indexOf(inputValue)>-1) {
-                        tr[i].style.display = "";
+                        noOfRows[i].style.display = "";
                     } else {
-                        tr[i].style.display = "none";
+                        noOfRows[i].style.display = "none";
                     }
                 }
             }
