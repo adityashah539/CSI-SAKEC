@@ -25,11 +25,6 @@
         if($access['confirm_membership']==0){
             header("location:../index.php");
         }
-        function function_alert($message) {
-            echo "<SCRIPT>
-                alert('$message');
-                </SCRIPT>";
-        }
         if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
             $id = $_POST['id'];
             if (isset($_POST['Confirm'])) {

@@ -13,13 +13,6 @@
     session_start();
     require_once "../config.php";
     $step=1;
-    function function_alert($message)
-    {
-        echo
-            "<SCRIPT>
-            alert('$message');
-            </SCRIPT>";
-    }
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_POST['email'])){
             $_SESSION['email'] =filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);

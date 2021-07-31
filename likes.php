@@ -36,5 +36,4 @@ if (isset($_SESSION['email'])) {
     }
     echo $count;
 }
-else
 ?>

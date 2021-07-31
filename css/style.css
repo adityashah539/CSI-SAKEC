@@ -134,7 +134,7 @@ body {
   min-height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
-  background: url(https://preview.colorlib.com/theme/eventure/img/banner/xhome-banner.jpg.pagespeed.ic.4sZnYhNNtK.jpg) no-repeat scroll center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/2.jpg) no-repeat scroll center center;
   background-size: cover;
 }
 

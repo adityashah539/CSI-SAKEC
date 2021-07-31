@@ -1,5 +1,5 @@
 <?php
-function googleobject(){
+function googleObject($redirect_uri){
     //Include Google Client Library for PHP autoload file
     require_once '../vendor/autoload.php';
     //Make object of Google API Client for call Google API
@@ -9,16 +9,25 @@ function googleobject(){
     //Set the OAuth 2.0 Client Secret key
     $google_client->setClientSecret('utPKB1N2vMDESlHrp9BXcDpD');
     //Set the OAuth 2.0 Redirect URI
+    $google_client->setRedirectUri($redirect_uri);
     // $google_client->setRedirectUri('http://localhost/CSI-SAKEC/Login/login.php');
     // to get the email and profile 
     $google_client->addScope('email');
     $google_client->addScope('profile');
     return $google_client;
 }
+function loginWithGoogle($code,$google_client){
+    $token = $google_client->fetchAccessTokenWithAuthCode($code);
+    if (!isset($token['error'])) {
+        $google_client->setAccessToken($token['access_token']);
+        $google_service = new Google_Service_Oauth2($google_client);
+        $data = $google_service->userinfo->get();
+        return $data['email'];
+    }
+}
 function removeDulicateRow($conn){
     $sql   = "DELETE FROM `csi_userdata` WHERE `id` IN ( SELECT `id` FROM `csi_userdata` GROUP BY `emailID` HAVING COUNT(*) >1)'";
     return mysqli_query($conn, $sql);
-    
 }
 function doesEmailIdExists($email){
     require_once("config.php");
@@ -36,6 +45,3 @@ function doesEmailIdExists($email){
         return true;
     }
 }
-
-
-?>

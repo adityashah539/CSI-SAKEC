@@ -15,53 +15,37 @@
     require_once "../config.php";
     //Include Configuration File
     include('../oAuth/OAuth_config.php');
-
     session_start();
-    function alert($message)
-    {
-        echo "<SCRIPT> alert('$message');</SCRIPT>";
-    }
-    $google_client = googleobject();
-    $google_client->setRedirectUri('http://localhost/CSI-SAKEC/Login/login.php');
+    $google_client = googleObject('http://localhost/CSI-SAKEC/Login/login.php');
     $err = "";
     if (isset($_GET["code"])) {
-        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-        if (!isset($token['error'])) {
-            $google_client->setAccessToken($token['access_token']);
-            $_SESSION['access_token'] = $token['access_token'];
-            //uncomment below code to run the page
-            $google_service = new Google_Service_Oauth2($google_client);
-            $data = $google_service->userinfo->get();
-            if (isset($data['email'])) {
-                $email = $data['email'];
-                $sql = "SELECT `csi_password`.`password` FROM `csi_password`,`csi_userdata` WHERE `csi_userdata`.`emailID`='$email' AND `csi_password`.`user_id`=`csi_userdata`.`id`";
-                echo $sql;
-                $query = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($query) == '1') {
-                    $row = mysqli_fetch_assoc($query);
-                    $sql = "SELECT `role` from `csi_userdata` WHERE `emailID`='$email' ";
-                    $result = mysqli_query($conn, $sql);
-                    $row = mysqli_fetch_assoc($result);
-                    $_SESSION["role_id"] = $row["role"];
-                    $_SESSION['email'] = $email;
-                    $_SESSION["role"] = $row["role"];
-                    header("location:../index.php");
-                } else {
-                    if ($err == "") 
-                        $err .= "<br>";
-                    $err .= "Pls signup ";
-                }
+        $email = loginWithGoogle($_GET["code"], $google_client);
+        if (isset($email)) {
+            $sql = "SELECT `csi_password`.`password` FROM `csi_password`,`csi_userdata` WHERE `csi_userdata`.`emailID`='$email' AND `csi_password`.`user_id`=`csi_userdata`.`id`";
+            echo $sql;
+            $query = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($query) == '1') {
+                $row = mysqli_fetch_assoc($query);
+                $sql = "SELECT `role` from `csi_userdata` WHERE `emailID`='$email' ";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                $_SESSION["role_id"] = $row["role"];
+                $_SESSION['email'] = $email;
+                $_SESSION["role"] = $row["role"];
+                header("location:../index.php");
             } else {
-                if ($err == "") {
+                if ($err == "")
                     $err .= "<br>";
-                    $err .= "Pls enter the college email Id ";
-                }
+                $err .= "Pls signup ";
+            }
+        } else {
+            if ($err == "") {
+                $err .= "<br>";
+                $err .= "Pls enter the college email Id ";
             }
         }
-    } else if (isset($_GET['notlogin'])) {
-        if ($_GET['notlogin']) {
-            $err .= "You need to login to access the feature.";
-        }
+    } else if ((isset($_GET['notlogin']))&&($_GET['notlogin'])) {
+        $err .= "You need to login to access the feature.";
     } elseif (isset($_SESSION['email'])) {
         header("location: ../index.php");
         exit;
@@ -123,7 +107,7 @@
     <div class="container text-center">
         <div class="spacer" style="height:50px;"></div>
         <div id="user-login">
-            <p class="login"><b>USER LOGIN</b></br></br><i class="fas fa-user-circle" style="font-size:80px;"></i></p>
+            <p class="login"><b>USER LOGIN</b></br></br><i class="fas fa-user-circle fa-2x"></i></p>
             </br>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <i class="far fa-user-circle" style="font-size:30px;"></i>

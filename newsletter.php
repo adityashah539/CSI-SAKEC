@@ -10,14 +10,6 @@
 <body>
     <?php
         require_once "config.php"; 
-        function function_alert($message)
-        {
-            echo
-            "<SCRIPT>
-                window.location.replace('index.php')
-                alert('$message');
-            </SCRIPT>";
-        }
         $vkey=$_GET['vKey'];
         $sql = "SELECT * FROM `csi_newsletter` WHERE vKey='$vkey' and status=0";
         $query = mysqli_query($conn, $sql);

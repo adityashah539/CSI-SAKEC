@@ -9,14 +9,6 @@
             echo "Email sending failed...";
         }
     }
-    function function_alert($message)
-    {
-        echo
-            "<SCRIPT>
-            window.location.replace('index.php')
-            alert('$message');
-        </SCRIPT>";
-    }
     //full form of abrevations are as follows
     // "Name_of_contact_person"  =  nocp
     // "Email_of_contact_person" =  eocp

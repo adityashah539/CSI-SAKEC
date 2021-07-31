@@ -18,13 +18,6 @@
     <?php
     require_once "config.php";
     session_start();
-    function function_alert($message)
-    {
-        echo "<SCRIPT>
-        window.location.replace('index.php')
-        alert('$message');
-        </SCRIPT>";
-    }
     //checking wheather user is logged in
     if(!isset($_SESSION['email'])){
         function_alert("please login ");

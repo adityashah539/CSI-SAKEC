@@ -13,12 +13,7 @@
     <?php
     require_once "../config.php";
     session_start();
-    function function_alert($message)
-    {
-        echo "<SCRIPT>
-            alert('$message');
-            </SCRIPT>";
-    }
+    
     $email = $_SESSION['email'];
     $sqluserid= "SELECT `id` from `csi_userdata` where emailID = '$email'";
     $queryuserid= mysqli_query($conn, $sqluserid);

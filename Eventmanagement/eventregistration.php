@@ -5,81 +5,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../images/csi-logo.png">
-    <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="../css/membership.css?v=<?php echo time(); ?>">
     <title>Event Registration</title>
     <?php
     require_once "../config.php";
     require_once('../oAuth/OAuth_config.php');
     session_start();
-    function function_alert($message)
-    {
-        echo "<SCRIPT>alert('$message');</SCRIPT>";
+    $google_client = googleObject('http://localhost/CSI-SAKEC/Eventmanagement/eventregistration.php');
+    // Fetching Access Details
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
+        $query =  mysqli_query($conn, $sql);
+        $access = mysqli_fetch_assoc($query);
+    }
+    function autoRegistration($email, $event_id){
+        $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
+        $user_id = getSpecificValue($sql, "user_id");
+        $sql = "INSERT INTO `csi_collection`(`event_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$event_id','$user_id','1','auto')";
+        execute($sql);
+        header("location:event.php?event_id=$event_id");
+    }
+    function paidRegistration($email, $event_id, $fee, $billPhotoName, $membershipPhotoName){
+        $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
+        $user_id = getSpecificValue($sql, "user_id");
+        $billFileName = fileTransfer($billPhotoName, "Event_Bill");
+        $membershipFileName = NULL;
+        if (isset($membershipPhotoName))
+            $membershipFileName = fileTransfer($membershipPhotoName, "ExternalStudentMembership");
+        $sql = "INSERT INTO `csi_collection`(`event_id`,`user_id`,`bill_photo`,`amount`,`externalstudentmembership`) VALUES ('$event_id','$user_id','$billFileName','$fee','$membershipFileName' )";
+        execute($sql);
+        header("location:../event.php?event_id=$event_id");
     }
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        if (isset($_POST['register_now']) && isset($_POST['event_id']) && isset($_POST['fee']) && ($_POST['fee'] == 0) && isset($_SESSION['email'])) {
-            $email = $_SESSION['email'];
+        if(isset($_POST['event_id'])){
             $event_id = $_POST['event_id'];
-            $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
-            $result = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_assoc($result);
-            $user_id = $row["user_id"];
-            $sql = "INSERT INTO `csi_collection`(`event_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$event_id','$user_id','1','auto')";
-            $result = mysqli_query($conn, $sql);
-            header("location:event.php?event_id=$event_id");
-            // for testing 
-            echo $email . "<br>" . $event_id . "<br>" . $sql . "<br>" . $budget_id . "<br>" . $user_id . "<br>";
-        } else if (isset($_POST['paid_registration']) && $_POST['paid_registration'] == "paid_registration") {
-            $file_bill_photo_error = $_FILES["bill_photo"]['error'];
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,',
-                8 => 'A PHP extension stopped the file upload.',
-            );
-            if ($file_bill_photo_error == 0) {
-                $extensions = array('jpg', 'jpeg', 'png');
-                $file_bill_photo = explode(".", $_FILES["bill_photo"]["name"]);
-                $file_ext_bill_photo = end($file_bill_photo);
-                if (in_array($file_ext_bill_photo, $extensions)) {
-                    $file_new_name = uniqid('', true) . "." . $file_ext_bill_photo;
-                    $location_file = 'Event_Bill/' . $file_new_name;
-                    move_uploaded_file($_FILES["bill_photo"]["tmp_name"], $location_file);
-                    $email = $_SESSION['email'];
-                    $event_id = $_POST['event_id'];
-                    $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
-                    //echo "<br>".$sql;
-                    $result = mysqli_query($conn, $sql);
-                    $row = mysqli_fetch_assoc($result);
-                    $user_id = $row["user_id"];
-                    $fee = $_POST['fee'];
-                    $sql = "INSERT INTO `csi_collection`(`event_id`,`user_id`,`bill_photo`,`amount`,`confirmed`) VALUES ('$event_id','$user_id','$file_new_name','$fee','0')";
-                    $result = mysqli_query($conn, $sql);
-                    header("location:../event.php?event_id=$event_id");
-                    // for testing 
-                    //echo $email."<br>".$event_id."<br>".$sql."<br>".$user_id."<br>".$_POST['fee'];
+        }
+        else if(isset($_SESSION['event_id'])){
+            $event_id = $_POST['event_id'];
+        }
+        $sqlevent = "SELECT * FROM csi_event WHERE id='$event_id'";
+        $rowevent = getValue($sqlevent);
+        if (isset($access)) {
+            $email = $_SESSION['email'];
+            if (($rowevent['fee'] == '0') || (($rowevent['fee_m'] == '0') && ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false))) {
+                autoRegistration($email, $event_id);
+            } else {
+                if (isset($_POST['paid_registration'])) {
+                    if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false) {
+                        $fee = $rowevent['fee_m'];
+                    } else {
+                        $fee = $rowevent['fee'];
+                    }
+                    paidRegistration($email, $event_id, $fee, "bill_photo", NULL);
+                }
+            }
+        } else {
+            if ((isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "sakec")) {
+                $email = loginWithGoogle($_GET["code"], $google_client);
+                if (isset($email)) {
+                    if (($rowevent['fee'] == '0') || (($rowevent['fee_m'] == '0') && $_POST['member'])) {
+                        if (!doesEmailIdExists($email)) {
+                            $sql = "SELECT  `d`.`sem_id`, `d`.`std_roll_no`, `i`.`division`, `student_name`, `email`, `s_phone`,`admission_type`,`s`.`program`
+                                    FROM `division_details` as `d`, `intake` as `i`, `student_table` as `s`
+                                    WHERE  `s`.`email`= '$email' AND `d`.`std_id` = `s`.`std_id` and `d`.`sem_id` = `i`.`sem_id`";
+                            $auto_fetch = getValue($sql);
+                            $name = $auto_fetch['student_name'];
+                            $year = $auto_fetch['admission_type'];
+                            $division = $auto_fetch['division'];
+                            $rollno = $auto_fetch['std_roll_no'];
+                            $phonenumber = $auto_fetch['s_phone'];
+                            $branch = $auto_fetch['program'];
+                            $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='student'";
+                            $role = getSpecificValue($sql, 'id');
+                            $sql = "INSERT INTO `csi_userdata`(`name`,`year`,`division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) 
+                                                    VALUES   ('$name','$year','$division','$rollno', '$email','$phonenumber','$branch','$role','$gender')";
+                            execute($sql);
+                        }
+                        autoRegistration($email, $event_id);
+                    }elseif (($rowevent['fee'] == '0')){
+
+                    }
+                }
+            }
+            else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "non-sakec") {
+                $email = loginWithGoogle($_GET["code"], $google_client);
+                if (isset($email)) {
+                    if (doesEmailIdExists($email)) {
+                        if(isset($_POST['membership'])){
+                            if ($rowevent['fee_m']=='0'){
+
+                            }else{
+
+                            }
+                        }
+                        else if ($rowevent['fee']=='0')
+                            autoRegistration($email, $event_id);
+                        else
+                            paidRegistration($email, $event_id, $fee, "bill_photo", NULL);
+                    }else if($email){
+                        
+                    }
+                }
+            }
+            if (isset($_POST['membership'])) {
+                if ($rowevent['fee_m'] == '0') {
                 } else {
-                    function_alert("The photo of the bill should be of jpg, jpeg, png.");
                 }
             } else {
-                function_alert($phpFileUploadErrors[$file_bill_photo_error]);
+                if ($rowevent['fee'] == '0') {
+                    if (!doesEmailIdExists($email)) {
+                        $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='student'";
+                        $role = getSpecificValue($sql, 'id');
+                        $branch = trim($_POST["branch"]);
+                        $year = trim($_POST["year"]);
+                        $name = trim($_POST["name"]);
+                        $organization = trim($_POST["organization"]);
+                        $gender = trim($_POST["gender"]);
+                        $sql = "INSERT INTO `csi_userdata`(`name`, `year`, `emailID`, `phonenumber`, `branch`, `role`, `gender`,`organization`) 
+                                                VALUES ('$name','$year', '$email','$phonenumber','$branch','$role','$gender','$organization')";
+                        mysqli_query($conn, $sql);
+                    }
+                } else {
+                }
             }
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === "GET") {
-        $event_id = $_GET['event_id'];
-        $sqlevent = "SELECT * FROM csi_event WHERE id='$event_id'";
-        $queryevent = mysqli_query($conn, $sqlevent);
-        $rowevent = mysqli_fetch_assoc($queryevent);
     }
     
-    $google_client = googleobject();
-    $google_client->setRedirectUri('http://localhost/CSI-SAKEC/Eventmanagement/eventregistration.php');
     ?>
 </head>
 
@@ -94,193 +148,114 @@
             <p>Fill all the fields carefully</p>
             <hr>
             <?php
-            if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if (isset($access)) {
             ?>
                 <div class="row">
                     <div class="col-sm-12">
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
                             <label class="control-label">Bills Photo :</label>
                             <input type="file" name="bill_photo" required />
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
                             <div class="spacer" style="height:20px;"></div>
                             <button type="submit" value="paid_registration" name="paid_registration" class="btn btn-primary">Sumbit</button>
-                            <?php
-                            if (isset($_POST['event_id']) && isset($_POST['fee'])) {
-                            ?>
-                                <input type="hidden" name="event_id" value="<?php echo $_POST['event_id']; ?>" />
-                                <input type="hidden" name="fee" value="<?php echo $_POST['fee']; ?>" />
-                            <?php
-                            }
-                            ?>
                         </form>
                     </div>
                 </div>
-            <?php
+                <?php
             } else {
-            ?>
-                <div class="container text-center">
-                    <?php
-                    if (!isset($_GET["code"])) {
-                    ?>
-                        <div class="spacer" style="height:20px;"></div>
-                        <h4>Step 1: Choose a option </h4>
-                        <div class="spacer" style="height:20px;"></div>
-                        <div id="option" class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name='option' value="sakec"> Sakec Student
-                            </label>
-                            <label class="btn btn-outline-secondary ">
-                                <input type="radio" name='option' value="non-sakec"> Other College Student
-                            </label>
-                        </div>
-                        
-                    <?php
-                    }
-                    ?>
+                if (!isset($_GET["code"])) {
+                ?>
+                    <div class="spacer" style="height:20px;"></div>
+                    <h4>Step 1: Choose a option </h4>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div id="option" class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-secondary">
+                            <input type="radio" name='option' value="sakec"> Sakec Student
+                        </label>
+                        <label class="btn btn-outline-secondary ">
+                            <input type="radio" name='option' value="non-sakec"> Other College Student
+                        </label>
+                    </div>
                     <div class="spacer" style="height:30px;"></div>
+                    <div id="sakec" class="d-none">
+                        <h4>Step 2: Click and choose your Sakec account </h4>
+                        <div class="spacer" style="height:20px;"></div>
+                        <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose Sakec account With Google</a></p>
+                    </div>
+                    <div id="non-sakec" class="d-none">
+                        <h4>Step 2: Click and choose any Google account </h4>
+                        <div class="spacer" style="height:20px;"></div>
+                        <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose any Google account</a></p>
+                    </div>
                     <?php
-                    if (!isset($_GET["code"])) {
+                } else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "non-sakec") {
+                    $email = loginWithGoogle($_GET["code"], $google_client);
+                    if (isset($email)) {
+                        if (!doesEmailIdExists($email)) {
                     ?>
-                        <div id="sakec" class="d-none">
-                            <h4>Step 2: Click and choose your Sakec account </h4>
-                            <div class="spacer" style="height:20px;"></div>
-                            <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose Sakec account With Google</a></p>
-                        </div>
-                        <?php
-                    } else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "sakec") {
-                        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-                        if (!isset($token['error'])) {
-                            $google_client->setAccessToken($token['access_token']);
-                            $google_service = new Google_Service_Oauth2($google_client);
-                            $data = $google_service->userinfo->get();
-                            if (isset($data['email'])) {
-                                if(doesEmailIdExists($data['email'])){
-
-                                }else{
-                        ?>
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <input type="text" name="email" value="<?php echo $data['email']; ?>" hidden>
-                                <div class="grid-item item3">
+                            <div class="spacer" style="height:30px;"></div>
+                            <i class="fas fa-file-signature" style="font-size:30px;"></i>
+                            <input data-toggle="tooltip" data-placement="bottom" title="Your  name" id="text" type="text" class="g" name="name" placeholder=" Name" required /></br>
+                            <div class="grid-container">
+                                <div class="grid-item item1">
                                     <div class="texts">
-                                        <select id="division" required="required" class="custom-select mb-3 ddm">
-                                            <option disabled>Select Division</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
+                                        <select id="branch" required="required" class="custom-select mb-3 ddm">
+                                            <option disabled>Select Branch</option>
+                                            <option value="CS">Computer Science</option>
+                                            <option value="IT">Information Technology</option>
+                                            <option value="Electronics"> Electronics</option>
+                                            <option value="EXTC">EXTC</option>
                                         </select>
                                     </div>
-                                    <div class="grid-item item3">
-                                        <div class="texts">
-                                            <select id="gender" required="required" class="custom-select mb-3 ddm">
-                                                <option disabled>Select Gender</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="grid-item item1">
+                                    <div class="texts">
+                                        <select id="gender" required="required" class="custom-select mb-3 ddm">
+                                            <option disabled>Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <i class="fas fa-mobile-alt" style="font-size:30px;"></i>
-                                <input data-toggle="tooltip" data-placement="bottom" title="Your Roll number" type="number" class="g" name="rollno" placeholder="Roll Number" required />
-                                </br>
-                                
-                                <button class="btn btn-primary" name="event_registration_non-sakec">Event Registration <i class="fas fa-user-plus "></i></button></br></br>
-                            </form>
-                        <?php
-                                }
-                        ?>
-                            
-                    <?php
-                            }
-                        }
-                    }
-                    ?>
-                    <?php
-                    if (!isset($_GET["code"])) {
-                    ?>
-                        <div id="non-sakec" class="d-none">
-                            <h4>Step 2: Click and choose any Google account </h4>
-                            <div class="spacer" style="height:20px;"></div>
-                            <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose any Google account</a></p>
-                        </div>
-                        <?php
-                    } else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "non-sakec") {
-                        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-                        $var = 1 + 1;
-                        if (!isset($token['error'])) {
-                            $google_client->setAccessToken($token['access_token']);
-                            $google_service = new Google_Service_Oauth2($google_client);
-                            $data = $google_service->userinfo->get();
-                            if (isset($data['email'])) {
-                        ?>
-                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                            <input type="text" name="email" value="<?php echo $data['email']; ?>" hidden>
-                                <div class="spacer" style="height:30px;"></div>
-                                <i class="fas fa-file-signature" style="font-size:30px;"></i>
-                                <input data-toggle="tooltip" data-placement="bottom" title="Your  name" id="text" type="text" class="g" name="name" placeholder=" Name" required /></br>
-                                <div class="grid-container">
-                                    <div class="grid-item item1">
-                                        <div class="texts">
-                                            <select id="branch" required="required" class="custom-select mb-3 ddm">
-                                                <option disabled>Select Branch</option>
-                                                <option value="CS">Computer Science</option>
-                                                <option value="IT">Information Technology</option>
-                                                <option value="Electronics"> Electronics</option>
-                                                <option value="EXTC">EXTC</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="grid-item item1">
-                                        <div class="texts">
-                                            <select id="gender" required="required" class="custom-select mb-3 ddm">
-                                                <option disabled>Select Gender</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="grid-item item2">
-                                        <div class="texts">
-                                            <select id="year" required="required" class="custom-select mb-3 ddm">
-                                                <option disabled>Select Class</option>
-                                                <option value="FE">FE</option>
-                                                <option value="SE">SE</option>
-                                                <option value="TE">TE</option>
-                                                <option value="BE">BE</option>
-                                            </select>
-                                        </div>
+                                <div class="grid-item item2">
+                                    <div class="texts">
+                                        <select id="year" required="required" class="custom-select mb-3 ddm">
+                                            <option disabled>Select Class</option>
+                                            <option value="FE">FE</option>
+                                            <option value="SE">SE</option>
+                                            <option value="TE">TE</option>
+                                            <option value="BE">BE</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <i class="fas fa-university" style="font-size:30px;"></i>
-                                <input data-toggle="tooltip" data-placement="bottom" title="Type your Organization or College name" type="text" class="g" name="organization" placeholder=" Organization or College name " required />
-                                </br>
-                                <i class="fas fa-phone" style="font-size:30px;"></i>
-                                <input data-toggle="tooltip" data-placement="bottom" title="Type Phone Number" type="number" class="g" name="phonenumber" placeholder=" Phone Number" required />
-                                </br>
-                                
-                                <button class="btn btn-primary" name="event_registration_sakec">Event Registration <i class="fas fa-user-plus "></i></button></br></br>
-                            </form>
-                                
-                    <?php
-                            }
-                        }
-                    }
-                    ?>
-                </div>
+                            </div>
+                            <i class="fas fa-university" style="font-size:30px;"></i>
+                            <input data-toggle="tooltip" data-placement="bottom" title="Type your Organization or College name" type="text" class="g" name="organization" placeholder=" Organization or College name " required />
+                            </br>
+                            <i class="fas fa-phone" style="font-size:30px;"></i>
+                            <input data-toggle="tooltip" data-placement="bottom" title="Type Phone Number" type="number" class="g" name="phonenumber" placeholder=" Phone Number" required />
+                            </br>
+                            <i class="fas fa-lock" style="font-size:30px;"></i>
+                            <input data-toggle="tooltip" data-placement="bottom" title="8 characters minimum" type="password" name="password" class="g" placeholder=" Create Password" required /></br>
+                            <i class="fa fa-key" style="font-size:30px;"></i>
+                            <input data-toggle="tooltip" data-placement="bottom" title="Should be same as above" type="password" name="confirmpassword" class="g" placeholder=" Retype Password" required />
+                            </br>
+                            <button class="btn btn-primary" name="sign_up_non-sakec">Sign Up <i class="fas fa-user-plus "></i></button></br></br>
+                            <p>Existing User <a style="color: rgb(168, 192, 212)" ; href="login.php">Login</a></p>
+                            <div class="spacer" style="height:30px;"></div>
+                        <?php
+                        } else {
+                        ?>
+                            <!-- TO Do if data already exist's -->
             <?php
+                        }
+                    }
+                }
             }
             ?>
         </div>
+    </div>
     </div>
     <div class="spacer" style="height:50px;"></div>
     <div class="footer">
@@ -294,13 +269,13 @@
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js "></script>
-    <!-- DO NOT DELETE THIS  -->>
+    <!-- DO NOT DELETE THIS  -->
     <script>
+
         $(document).ready(function() {
             $.post("datainput.php", {
-                        input: "sakec",
-                        event_id: event_id
-                    });
+                event_id: <?php echo $event_id; ?>
+            });
             $("input[name='option']").click(function() {
                 var radioValue = $("input[name='option']:checked").val();
                 if (radioValue == 'sakec') {
@@ -310,20 +285,16 @@
                         $("#non-sakec").addClass("d-none");
                     }
                     $.post("datainput.php", {
-                        input: "sakec",
-                        event_id: event_id
+                        input: "sakec"
                     });
                 } else {
                     $("#non-sakec").removeClass("d-none");
                     var check = $("#sakec").hasClass("d-none");
-                    var event_id = <?php echo $event_id; ?>;
                     if (!check) {
                         $("#sakec").addClass("d-none");
                     }
                     $.post("datainput.php", {
                         input: "non-sakec",
-                        event_id: event_id,
-
                     });
                 }
             });

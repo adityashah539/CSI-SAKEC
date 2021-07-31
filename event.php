@@ -20,7 +20,7 @@
     <?php
     require_once "config.php";
     session_start();
-     // Fetching Access Details
+    // Fetching Access Details
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
@@ -28,7 +28,7 @@
         $query =  mysqli_query($conn, $sql);
         $access = mysqli_fetch_assoc($query);
     }
-    
+
     $event_id = $_GET['event_id'];
 
     $sqlevent = "SELECT * FROM csi_event WHERE id='$event_id'";
@@ -75,7 +75,7 @@
                             }
                             if (
                                 $access['add_event'] == '1' || $access['budget'] == '1' || $access['edit_attendance'] == '1' || $access['permission_letter'] == '1' ||
-                                $access['report'] == '1' ||$access['manage_event'] == '1' || $access['confirm_event_registration'] == '1' || $access['content_repository'] == '1' || $access['feedback_response'] == '1'
+                                $access['report'] == '1' || $access['manage_event'] == '1' || $access['confirm_event_registration'] == '1' || $access['content_repository'] == '1' || $access['feedback_response'] == '1'
                             ) {
                             ?>
                                 <li class="nav-item active">
@@ -161,64 +161,48 @@
             <h1><?php $rowevent['subtitle']; ?></h1>
             <h4>
                 <?php
-                if($rowevent['e_from_date'] == $rowevent['e_to_date'])
-                    echo date("jS  F Y",strtotime($rowevent['e_from_date']));
+                if ($rowevent['e_from_date'] == $rowevent['e_to_date'])
+                    echo date("jS  F Y", strtotime($rowevent['e_from_date']));
                 else
-                    echo date("jS F Y",strtotime($rowevent['e_from_date']))."-".date("jS F Y",strtotime($rowevent['e_to_date']));
-                echo "<br>".date(" h:i A",strtotime($rowevent['e_from_time']))." to ".date("h:i A",strtotime($rowevent['e_to_time']));
+                    echo date("jS F Y", strtotime($rowevent['e_from_date'])) . "-" . date("jS F Y", strtotime($rowevent['e_to_date']));
+                echo "<br>" . date(" h:i A", strtotime($rowevent['e_from_time'])) . " to " . date("h:i A", strtotime($rowevent['e_to_time']));
                 ?>
             </h4>
             <div class="spacer" style="height:20px;"></div>
             <?php
+            $not__registered = false;
             if (isset($_SESSION["email"])) {
                 $email = $_SESSION["email"];
-                $checkersql =
-                    "SELECT `confirmed` 
-                    FROM `csi_collection`,`csi_userdata` 
-                    WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ";
+                $checkersql = "SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
+                WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ";
                 $checker = mysqli_query($conn, $checkersql);
                 $row1 = mysqli_fetch_assoc($checker);
-                if (isset($row1["confirmed"])) {
-                    if ($row1["confirmed"] == '1') {
+                if (!isset($row1["confirmed"])) {
+                    $not__registered = true;
+                } else if ($row1["confirmed"] == '1') {
             ?>
-                        <button type="button" class="btn btn-success">Registered</button>
-                        <?php 
-                            if($rowevent['feedback']==1){                            
-                        ?>
+                    <button type="button" class="btn btn-success">Registered</button>
+            <?php
+                    if ($rowevent['feedback'] == 1) {
+            ?>
                         <form action="feedback.php" method="GET">
-                            <br>
-                            <input type="hidden" name="e_id"  value="<?php echo $rowevent['id']; ?>">
+                            <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
                             <button type="submit" class="btn btn-success">Feedback</button>
                         </form>
-                    <?php
-                            }
-                    } else {
-                    ?>
-                        <button type="button" class="btn btn-info">Waiting for Confrimation</button>
-                    <?php
+            <?php
                     }
                 } else {
-                    if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
-                    ?>
-                        <form action="<?php echo "Eventmanagement/eventregistration.php"; ?>" method="POST">
-                            <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
-                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
-                            <input type="hidden" name="fee" value="<?php echo $rowevent['fee_m']; ?>" />
-                        </form>
-                    <?php
-                    } else {
-                    ?>
-                        <form action="<?php echo "Eventmanagement/eventregistration.php"; ?>" method="POST">
-                            <button type="submit" value="registration" name="register_now" class="btn btn-primary">Register Now</button>
-                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
-                            <input type="hidden" name="fee" value="<?php echo $rowevent['fee']; ?>" />
-                        </form>
-                <?php
-                    }
+            ?>
+                    <button type="button" class="btn btn-info">Waiting for Confirmation</button>
+            <?php
                 }
-            } else {
-                ?>
-                <a href="Eventmanagement/eventregistration.php?event_id=<?php echo $event_id; ?>" <button type="button" class="btn btn-primary">Register Now</button></a>
+            }
+            if (!isset($_SESSION['email']) || $not__registered ) {
+            ?>
+                <form action="<?php echo "Eventmanagement/eventregistration.php"; ?>" method="POST">
+                    <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
+                    <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                </form>
             <?php
             }
             ?>
@@ -314,7 +298,9 @@
                                                     <?php echo $rowspeaker['description']; ?>
                                                 </p>
                                                 <div class="footer-social">
-                                                    <a href=" <?php if ($rowspeaker['linkedIn'] != "") {echo $rowspeaker['linkedIn'];}?> " ><i class="fab fa-linkedin"></i></a>
+                                                    <a href=" <?php if ($rowspeaker['linkedIn'] != "") {
+                                                                    echo $rowspeaker['linkedIn'];
+                                                                } ?> "><i class="fab fa-linkedin"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -439,7 +425,9 @@
                 </div>
                 <div class="row footer-bottom d-flex justify-content-between align-items-center">
                     <p class="col-lg-8 col-md-8 footer-text m-0">
-                        Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved by CSI-SAKEC
+                        Copyright © <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved by CSI-SAKEC
                     </p>
                     <div class="col-lg-4 col-md-4 footer-social">
                         <a href="">

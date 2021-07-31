@@ -20,11 +20,6 @@
     <?php
         require_once "../config.php";
         session_start();
-        function function_alert($message)
-        {
-            echo"<SCRIPT>alert('$message');</SCRIPT>";
-        }
-        
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
         $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";

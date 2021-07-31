@@ -12,13 +12,6 @@
     <?php
     session_start();
     require_once "config.php";
-    function function_alert($message){
-        echo
-        "<SCRIPT>
-            window.location.replace('index.php')
-            alert('$message');
-        </SCRIPT>";
-    }
     function send_mail($to_email, $subject, $body, $headers){
         if (mail($to_email, $subject, $body, $headers)) {
             function_alert("Email successfully sent to $to_email...");
@@ -44,7 +37,7 @@
         }
     }
     // Fetching Access Details
-    $access['role_name'] = NULL;
+    $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
         $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
@@ -76,7 +69,11 @@
         }
     }
     ?>
-    
+    <script src="plugins/jquery.min.js"></script>
+    <script>
+        
+
+    </script>
 </head>
 
 <body>
@@ -104,7 +101,7 @@
                             <a class="nav-link" href="#gallery">Gallery</a>
                         </li>
                         <?php 
-                        if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
+                        if (isset($access)&&($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false) ) {
                         ?>
                         <li class="nav-item active">
                             <a class="nav-link" href="Membership/membership.php">Membership</a>
@@ -389,9 +386,7 @@
                         // TODO: change $sqlevent according to your needs
                         date_default_timezone_set('Asia/Kolkata');
                         $currentdate = date("Y-m-d");
-                        $sqlevent =    "SELECT * FROM csi_event
-                                        ORDER BY e_from_date desc
-                                        LIMIT 5";
+                        $sqlevent =    "SELECT * FROM csi_event where live = 1 ORDER BY e_from_date desc LIMIT 3";
                         $queryevent = mysqli_query($conn, $sqlevent);
                         if (mysqli_num_rows($queryevent) > 0) {
                             while ($rowevent = mysqli_fetch_assoc($queryevent)) {
@@ -564,29 +559,26 @@
                                 <li>
                                     <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
                                 </li>
-                                <?php 
+                                <?php
+                                //    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['newsletter_email'])) {
+                                //         if ($_POST['newsletter_email'] != null) {
+                                //             $nEmail = trim($_POST['newsletter_email']);
+                                //             $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
+                                //             $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+                                //             $headers = "From: guptavan96@gmail.com";
+                                //             send_mail($to_email, $subject, $body, $headers);
 
+                                //         } else {
+                                //         $to_email = trim($_POST['emailentered']);
+                                //         }
+                                //         $nEmail=$_POST['newsletter_email'];
+                                //         $sql="INSERT INTO `newsletter`('email') VALUES('$nEmail')";
+                                //         $stmt = mysqli_query($conn, $sql);
+                                //         if($stmt){
+
+                                //         }
+                                //     }
                                 ?>
-                            <?php
-                            //    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['newsletter_email'])) {
-                            //         if ($_POST['newsletter_email'] != null) {
-                            //             $nEmail = trim($_POST['newsletter_email']);
-                            //             $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
-                            //             $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
-                            //             $headers = "From: guptavan96@gmail.com";
-                            //             send_mail($to_email, $subject, $body, $headers);
-
-                            //         } else {
-                            //         $to_email = trim($_POST['emailentered']);
-                            //         }
-                            //         $nEmail=$_POST['newsletter_email'];
-                            //         $sql="INSERT INTO `newsletter`('email') VALUES('$nEmail')";
-                            //         $stmt = mysqli_query($conn, $sql);
-                            //         if($stmt){
-                                       
-                            //         }
-                            //     }
-                            ?>
                                 <!-- Newsletter Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -598,41 +590,39 @@
                                                 </button>
                                             </div>
                                             <?php
-                                                if($_SERVER['REQUEST_METHOD'] == "POST"&&isset($_POST['newsletter_email'])){
-                                                        $nEmail = $_POST['newsletter_email'];
-                                                        //function_alert($nEmail);
-                                                        //vkey=verification key
-                                                        $vkey= md5(time().$nEmail);
-                                                        $sql = "SELECT * FROM `csi_newsletter` WHERE emailid='$nEmail'";
-                                                        $query = mysqli_query($conn, $sql);
-                                                        $row=mysqli_fetch_assoc($query);
-                                                        $no_of_rows=mysqli_num_rows($query);
-                                                        if($no_of_rows==1&&$row['status']==0){
-                                                            $sqle="DELETE FROM `csi_newsletter` WHERE emailid='$nEmail'";
-                                                            $querye = mysqli_query($conn, $sqle);
-                                                            $no_of_rows--;
-                                                            function_alert($no_of_rows);
-                                                        }
-                                                        if($no_of_rows==0){
-                                                            $subject = "Acknowledgement from CSI to " ;
-                                                            $body = "<a href='http://localhost/CSI-SAKEC/newsletter.php?vKey=$vkey'>Register here</a>";
-                                                            $headers = "From: guptavan96@gmail.com";
-                                                            $headers.="MIME-VERSION: newsletter"."\r\n";
-                                                            $headers.="Content-type:text/html;charset=UTF-8"."\r\n";
-                                                            //send_mail($nEmail, $subject, $body, $headers);
-                                                            if(mail($nEmail, $subject, $body, $headers)){                                                               
-                                                                $sql = "INSERT INTO `csi_newsletter`(`emailid`, `vKey`, `status`) VALUES ('$nEmail','$vkey','0')";
-                                                                $stmt = mysqli_query($conn, $sql);
-                                                                function_alert("mail success");
-                                                            }
-                                                            else{
-                                                                function_alert("mail sending failed");
-                                                            }
-                                                        }
-                                                        else {
-                                                            function_alert("email exists");
-                                                        }                                                        
+                                            if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['newsletter_email'])) {
+                                                $nEmail = $_POST['newsletter_email'];
+                                                //function_alert($nEmail);
+                                                //vkey=verification key
+                                                $vkey = md5(time() . $nEmail);
+                                                $sql = "SELECT * FROM `csi_newsletter` WHERE emailid='$nEmail'";
+                                                $query = mysqli_query($conn, $sql);
+                                                $row = mysqli_fetch_assoc($query);
+                                                $no_of_rows = mysqli_num_rows($query);
+                                                if ($no_of_rows == 1 && $row['status'] == 0) {
+                                                    $sqle = "DELETE FROM `csi_newsletter` WHERE emailid='$nEmail'";
+                                                    $querye = mysqli_query($conn, $sqle);
+                                                    $no_of_rows--;
+                                                    function_alert($no_of_rows);
+                                                }
+                                                if ($no_of_rows == 0) {
+                                                    $subject = "Acknowledgement from CSI to ";
+                                                    $body = "<a href='http://localhost/CSI-SAKEC/newsletter.php?vKey=$vkey'>Register here</a>";
+                                                    $headers = "From: guptavan96@gmail.com";
+                                                    $headers .= "MIME-VERSION: newsletter" . "\r\n";
+                                                    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                                                    //send_mail($nEmail, $subject, $body, $headers);
+                                                    if (mail($nEmail, $subject, $body, $headers)) {
+                                                        $sql = "INSERT INTO `csi_newsletter`(`emailid`, `vKey`, `status`) VALUES ('$nEmail','$vkey','0')";
+                                                        $stmt = mysqli_query($conn, $sql);
+                                                        function_alert("mail success");
+                                                    } else {
+                                                        function_alert("mail sending failed");
                                                     }
+                                                } else {
+                                                    function_alert("email exists");
+                                                }
+                                            }
                                             ?>
                                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                                 <div class="modal-body">
@@ -651,7 +641,9 @@
                 </div>
                 <div class="row footer-bottom d-flex justify-content-between align-items-center">
                     <p class="col-lg-8 col-md-8 footer-text m-0">
-                        Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved by CSI-SAKEC
+                        Copyright © <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved by CSI-SAKEC
                     </p>
                     <div class="col-lg-4 col-md-4 footer-social">
                         <a href="https://www.facebook.com/csisakec/photos"><i class="fab fa-facebook-f"></i></a>
@@ -664,11 +656,11 @@
         </footer>
     </section>
     <!-- Footer  -->
-
+    
     <!-- Javascript -->
     <script src="plugins/jquery.min.js"></script>
-    <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/waypoints.min.js"></script>
     <script src="plugins/counterup.min.js"></script>
     <script src="js/script.js"></script>
@@ -709,12 +701,11 @@
                 }
             });
             $('.counter').counterUp({
-            delay: 100,
-            time: 1000
+                delay: 100,
+                time: 1000
+            });
         });
-        });
-
-    </script>
+        </script>
     <!-- Javascript -->
 </body>
 

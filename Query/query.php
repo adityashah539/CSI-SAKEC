@@ -25,13 +25,6 @@
     if($access['query'] == 0){
         header("location:../index.php");
     }
-    function function_alert($message)
-    {
-        echo "<SCRIPT>
-                window.location.replace('query.php')
-                alert('$message');
-            </SCRIPT>";
-    }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reply_id'])) {
         $id = $_POST['reply_id'];
         $sql = "SELECT * FROM csi_query WHERE id='$id'";

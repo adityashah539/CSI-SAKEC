@@ -18,12 +18,6 @@
     <?php
     require_once "../config.php";
     session_start();
-    function function_alert($message){
-        echo "<SCRIPT>
-        window.location.replace('addevent.php')
-        alert('$message');
-        </SCRIPT>";
-    }
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];

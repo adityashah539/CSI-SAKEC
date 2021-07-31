@@ -12,11 +12,7 @@
 <?php
     require_once "config.php";
     session_start();
-    function function_alert($message){
-        echo "  <SCRIPT>
-                    alert('$message');
-                </SCRIPT>";
-    }
+    
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete_id_btn'])) {
         $user_id = $_POST['delete_user_id'];
         $sql = "DELETE FROM `csi_coordinator` WHERE user_id=".$user_id;

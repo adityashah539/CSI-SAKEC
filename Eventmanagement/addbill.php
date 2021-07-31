@@ -16,9 +16,6 @@
     <title> Add Event</title>
     <?php
     require_once "../config.php";
-    function function_alert($message){
-        echo "<script> alert('$message'); </script>";
-    }
     session_start();
     
     if (isset($_SESSION["role_id"])) {
@@ -77,7 +74,7 @@
                 header("location:expense.php?e_id=$event_id");
             }
         } else {
-            function_alert("You have to be admin or cooridinator");
+            ("You have to be admin or cooridinator");
         }
     }
     ?>

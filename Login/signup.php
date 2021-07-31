@@ -14,16 +14,7 @@
     require_once "../config.php";
     require_once('../oAuth/OAuth_config.php');
     session_start();
-    function function_alert($message)
-    {
-        echo
-        "<SCRIPT>
-            window.location.replace('signup.php')
-            alert('$message');
-        </SCRIPT>";
-    }
-    $google_client = googleobject();
-    $google_client->setRedirectUri('http://localhost/CSI-SAKEC/Login/signup.php');
+    $google_client = googleObject('http://localhost/CSI-SAKEC/Login/signup.php');
     ?>
 </head>
 
@@ -49,96 +40,53 @@
                         <input type="radio" name='option' value="non-sakec"> Other College Student
                     </label>
                 </div>
-            <?php
-            }
-            ?>
-            <div class="spacer" style="height:30px;"></div>
-            <?php
-            if (!isset($_GET["code"])) {
-            ?>
-
-
+                <div class="spacer" style="height:30px;"></div>
                 <div id="sakec" class="d-none">
                     <h4>Step 2: Click and choose your Sakec account </h4>
                     <div class="spacer" style="height:20px;"></div>
                     <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose Sakec account With Google</a></p>
                 </div>
-                <?php
+                <div id="non-sakec" class="d-none">
+                    <h4>Step 2: Click and choose any Google account </h4>
+                    <div class="spacer" style="height:20px;"></div>
+                    <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose any Google account</a></p>
+                </div>
+            <?php
             } else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "sakec") {
-                $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-                $var = 1 + 1;
-                if (!isset($token['error'])) {
-                    $google_client->setAccessToken($token['access_token']);
-                    $google_service = new Google_Service_Oauth2($google_client);
-                    $data = $google_service->userinfo->get();
-                    if (isset($data['email'])) {
-                ?>
+                $email = loginWithGoogle($_GET["code"], $google_client);
+                if (isset($email)) {
+                    if (!doesEmailIdExists($email)) {
+            ?>
                         <input type="text" name="email" value="<?php echo $data['email']; ?>" hidden>
                         <div class="grid-item item3">
+                        </div>
+                        <div class="grid-item item3">
                             <div class="texts">
-                                <select id="division" required="required" class="custom-select mb-3 ddm">
-                                    <option disabled>Select Division</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
+                                <select id="gender" required="required" class="custom-select mb-3 ddm">
+                                    <option disabled>Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
                                 </select>
                             </div>
-                            <div class="grid-item item3">
-                                <div class="texts">
-                                    <select id="gender" required="required" class="custom-select mb-3 ddm">
-                                        <option disabled>Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
-                        <i class="fas fa-mobile-alt" style="font-size:30px;"></i>
-                        <input data-toggle="tooltip" data-placement="bottom" title="Your Roll number" type="number" class="g" name="rollno" placeholder="Roll Number" required />
-                        </br>
                         <i class="fas fa-lock" style="font-size:30px;"></i>
                         <input data-toggle="tooltip" data-placement="bottom" title="8 characters minimum" type="password" name="password" class="g" placeholder=" Create Password" required /></br>
                         <i class="fa fa-key" style="font-size:30px;"></i>
                         <input data-toggle="tooltip" data-placement="bottom" title="Should be same as above" type="password" name="confirmpassword" class="g" placeholder=" Retype Password" required />
                         </br>
                         <button class="btn btn-primary" name="sign_up_sakec">Sign Up <i class="fas fa-user-plus "></i></button></br></br>
-
+            <?php
+                    } else {
+            ?>
+                        <!-- TO Do if data already exist's -->
             <?php
                     }
                 }
-            }
-            ?>
-
-            <?php
-            if (!isset($_GET["code"])) {
-            ?>
-                <div id="non-sakec" class="d-none">
-                    <h4>Step 2: Click and choose any Google account </h4>
-                    <div class="spacer" style="height:20px;"></div>
-                    <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose any Google account</a></p>
-                </div>
-                <?php
             } else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "non-sakec") {
-                $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-                $var = 1 + 1;
-                if (!isset($token['error'])) {
-                    $google_client->setAccessToken($token['access_token']);
-                    $google_service = new Google_Service_Oauth2($google_client);
-                    $data = $google_service->userinfo->get();
-                    if (isset($data['email'])) {
-                ?>
+                $email = loginWithGoogle($_GET["code"], $google_client);
+                if (isset($email)) {
+                    if (!doesEmailIdExists($email)) {
+            ?>
                         <input type="text" name="email" value="<?php echo $data['email']; ?>" hidden>
                         <div class="spacer" style="height:30px;"></div>
                         <i class="fas fa-file-signature" style="font-size:30px;"></i>
@@ -187,10 +135,13 @@
                         <i class="fa fa-key" style="font-size:30px;"></i>
                         <input data-toggle="tooltip" data-placement="bottom" title="Should be same as above" type="password" name="confirmpassword" class="g" placeholder=" Retype Password" required />
                         </br>
-                        <!-- <input class="me" type="checkbox">Remember me</br> -->
                         <button class="btn btn-primary" name="sign_up_non-sakec">Sign Up <i class="fas fa-user-plus "></i></button></br></br>
                         <p>Existing User <a style="color: rgb(168, 192, 212)" ; href="login.php">Login</a></p>
                         <div class="spacer" style="height:30px;"></div>
+            <?php
+                    } else {
+            ?>
+                        <!-- TO Do if data already exist's -->
             <?php
                     }
                 }
@@ -242,9 +193,7 @@
                 // alert( email+' '+division+' '+rollno+' '+gender+' '+password);
                 $("#error").load("registration.php", {
                     email: email,
-                    division: division,
                     gender: gender,
-                    rollno: rollno,
                     password: password,
                     confirmpassword: confirmpassword
                 });
@@ -263,11 +212,11 @@
                 $("#error").load("registration.php", {
                     email: email,
                     branch: branch,
-                    phonenumber:phonenumber,
-                    name:name,
+                    phonenumber: phonenumber,
+                    name: name,
                     gender: gender,
                     year: year,
-                    organization:organization,
+                    organization: organization,
                     password: password,
                     confirmpassword: confirmpassword
                 });

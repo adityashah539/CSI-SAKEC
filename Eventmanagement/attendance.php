@@ -22,10 +22,6 @@
     if ($access['edit_attendance'] == 0) {
         header("location:../index.php");
     }
-    function function_alert($message)
-    {
-        echo "<SCRIPT>window.location.replace('eventmanagement.php') alert('$message');</SCRIPT>";
-    }
     $to_search = $event_title = $event_id = "";
     if (isset($_POST['search'])) {
         $to_search = trim(strtolower($_POST['search']));

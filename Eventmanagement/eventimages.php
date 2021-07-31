@@ -31,11 +31,6 @@
     if ($access['content_repository'] == 0) {
         header("location:../index.php");
     }
-    function function_alert($message){
-        echo "<SCRIPT>
-        alert('$message');
-        </SCRIPT>";
-    }
     if (isset($_GET['event_id'])) {
         $id = $_GET['event_id'];
         $title = $_GET['event_title'];

@@ -9,30 +9,45 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $sql = "SELECT `csi_password`.`password` FROM `csi_password`,`csi_userdata` WHERE `csi_userdata`.`emailID`='$email' AND `csi_password`.`user_id`=`csi_userdata`.`id` ";
             $query = mysqli_query($conn, $sql);
             if (mysqli_num_rows($query) == 0) {
-                    $password = trim($_POST["password"]);
-                    $confirmpassword = trim($_POST["confirmpassword"]);
-                    if ($password === $confirmpassword) {
-                        $division= trim($_POST["division"]);
-                        $rollno= trim($_POST["rollno"]);
+                $password = trim($_POST["password"]);
+                $confirmpassword = trim($_POST["confirmpassword"]);
+                if ($password === $confirmpassword) {
+                    if (doesEmailIdExists($email)) {
+                        $sql = "SELECT `id`  FROM `csi_userdata` WHERE `email`='$email'";
+                        $result = mysqli_query($conn, $sql);
+                        $user = mysqli_fetch_assoc($result);
+                        $sql = "INSERT INTO `csi_password`(`user_id`,`password`) VALUES (" . $user['id'] . ",'$password')";
+                        mysqli_query($conn, $sql);
+                        echo "<script>location.href='/csi-sakec/Login/login.php';</script>";
+                    } else {
                         $gender = trim($_POST["gender"]);
-                        $sql="SELECT   `student_name`, `s_phone`,`admission_type`,`program`  FROM `student_table` WHERE `email`='$email'";
+                        $sql = "SELECT  `d`.`sem_id`, `d`.`std_roll_no`, `i`.`division`, `student_name`, `email`, `s_phone`,`admission_type`,`s`.`program`
+                                FROM `division_details` as `d`, `intake` as `i`, `student_table` as `s`
+                                WHERE  `s`.`email`= '$email' AND `d`.`std_id` = `s`.`std_id` and `d`.`sem_id` = `i`.`sem_id`";
                         $result = mysqli_query($dims_conn, $sql);
                         $auto_fetch = mysqli_fetch_assoc($result);
+                        $name = $auto_fetch['student_name'] ;
+                        $year = $auto_fetch['admission_type'] ;
+                        $division = $auto_fetch['division'];
+                        $rollno = $auto_fetch['std_roll_no'];
+                        $phonenumber= $auto_fetch['s_phone'];
+                        $branch =$auto_fetch['program'];
                         $password = password_hash($password, PASSWORD_BCRYPT);
                         $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='student'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         $role = $row['id'];
-                        $sql = "INSERT INTO `csi_userdata`(`name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) 
-                                                    VALUES   ('".$auto_fetch['student_name']."','".$auto_fetch['admission_type']."','$division','$rollno',  '$email','".$auto_fetch['s_phone']."','".$auto_fetch['program']."','$role','$gender')";
+                        $sql = "INSERT INTO `csi_userdata`(`name`,`year`,`division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) 
+                                                VALUES   ('$name','$year','$division','$rollno', '$email','$phonenumber','$branch','$role','$gender')";
                         mysqli_query($conn, $sql);
                         $user_id = mysqli_insert_id($conn);
                         $sql = "INSERT INTO `csi_password`(`user_id`,`password`) VALUES ('$user_id','$password')";
                         mysqli_query($conn, $sql);
                         echo "<script>location.href='/csi-sakec/Login/login.php';</script>";
-                    } else {
-                        echo ("Plese enter the corrrect password");
-                    }
+                    }  
+                } else {
+                    echo ("Plese enter the corrrect password");
+                }
             } else {
                 echo ("You have alredy signed up.");
             }
@@ -50,22 +65,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $confirmpassword = trim($_POST["confirmpassword"]);
                 if ($password === $confirmpassword) {
                     $password = password_hash($password, PASSWORD_BCRYPT);
-                    $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='student'";
-                    $result = mysqli_query($conn, $sql);
-                    $row = mysqli_fetch_assoc($result);
-                    $role = $row['id'];
-                    $branch = trim($_POST["branch"]);
-                    $year = trim($_POST["year"]);
-                    $name = trim($_POST["name"]);
-                    $organization = trim($_POST["organization"]);
-                    $gender = trim($_POST["gender"]);
-                    $sql = "INSERT INTO `csi_userdata`(`name`, `year`, `emailID`, `phonenumber`, `branch`, `role`, `gender`,`organization`) 
+                    if (doesEmailIdExists($email)) {
+                        $sql = "SELECT `id`  FROM `csi_userdata` WHERE `email`='$email'";
+                        $result = mysqli_query($conn, $sql);
+                        $user = mysqli_fetch_assoc($result);
+                        $sql = "INSERT INTO `csi_password`(`user_id`,`password`) VALUES (" . $user['id'] . ",'$password')";
+                        mysqli_query($conn, $sql);
+                        echo "<script>location.href='/csi-sakec/Login/login.php';</script>";
+                    } else {
+                        $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='student'";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $role = $row['id'];
+                        $branch = trim($_POST["branch"]);
+                        $year = trim($_POST["year"]);
+                        $name = trim($_POST["name"]);
+                        $organization = trim($_POST["organization"]);
+                        $gender = trim($_POST["gender"]);
+                        $sql = "INSERT INTO `csi_userdata`(`name`, `year`, `emailID`, `phonenumber`, `branch`, `role`, `gender`,`organization`) 
                                                 VALUES ('$name','$year', '$email','$phonenumber','$branch','$role','$gender','$organization')";
-                    mysqli_query($conn, $sql);
-                    $user_id = mysqli_insert_id($conn);
-                    $sql = "INSERT INTO `csi_password`(`user_id`,`password`) VALUES ('$user_id','$password')";
-                    mysqli_query($conn, $sql);
-                    echo "<script>location.href='/csi-sakec/Login/login.php';</script>";
+                        mysqli_query($conn, $sql);
+                        $user_id = mysqli_insert_id($conn);
+                        $sql = "INSERT INTO `csi_password`(`user_id`,`password`) VALUES ('$user_id','$password')";
+                        mysqli_query($conn, $sql);
+                        echo "<script>location.href='/csi-sakec/Login/login.php';</script>";
+                    }
                 } else {
                     echo ("Plese enter the corrrect password");
                 }

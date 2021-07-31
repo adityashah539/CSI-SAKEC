@@ -27,5 +27,10 @@
             "password": ""
         }
     ],
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cSpell.words": [
+        "google",
+        "oauth",
+        "service"
+    ]
 }

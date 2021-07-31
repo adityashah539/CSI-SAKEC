@@ -15,14 +15,7 @@
     <title>CSI-SAKEC</title>
     <?php
     require_once "config.php";
-    function function_alert($message)
-    {
-        echo
-            "<SCRIPT>
-            window.location.replace('signup.php')
-            alert('$message');
-            </SCRIPT>";
-    }
+    
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $sql = "SELECT * FROM csi_userdata WHERE emailId = ? or phonenumber= ?";
         $stmt = mysqli_prepare($conn, $sql);

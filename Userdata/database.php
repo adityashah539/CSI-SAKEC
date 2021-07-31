@@ -13,12 +13,7 @@
     require_once "../config.php";
     session_start();
     // To give warning or notification 
-    function function_alert($message){
-        echo "<SCRIPT>
-                window.location.replace('database.php')
-                alert('$message');
-            </SCRIPT>";
-    }
+    
 
     // Fetching Access Details
     $access=NULL;

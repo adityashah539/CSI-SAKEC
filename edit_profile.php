@@ -11,12 +11,6 @@
     <?php
     require_once "config.php";
     session_start();
-    function function_alert($message){
-        echo"<SCRIPT>
-            window.location.replace('index.php')
-            alert('$message');
-        </SCRIPT>";
-    }
     if(isset($_SESSION["email"])){
         $email = $_SESSION["email"];
         if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
