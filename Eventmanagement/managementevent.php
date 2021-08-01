@@ -19,19 +19,16 @@
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     if( $access['edit_attendance'] == '0' && $access['permission_letter'] == '0' && $access['report'] == '0'  && $access['confirm_event_registration'] == '0' && $access['content_repository'] == '0' && $access['feedback_response'] == '0'){
         header("location:../index.php");
     }
     $event_id = $_GET['event_id'];
     $sqlevent = "SELECT * FROM csi_event WHERE id='$event_id'";
-    $queryevent = mysqli_query($conn, $sqlevent);
-    $rowevent = mysqli_fetch_assoc($queryevent);
+    $rowevent = getValue($sqlevent);
     $sqlspeaker = "SELECT * FROM csi_speaker WHERE event_id='$event_id'";
-    $queryspeaker = mysqli_query($conn, $sqlspeaker);
+    $queryspeaker = execute($sqlspeaker);
     $number_of_speakers = mysqli_num_rows($queryspeaker);
     ?>
 <header>
@@ -127,7 +124,7 @@
             <?php
             // collaboration of event
             $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
-            $querycollaboration = mysqli_query($conn, $sqlcollaboration);
+            $querycollaboration = execute($sqlcollaboration);
             $collaboration = "";
             for ($i = mysqli_num_rows($querycollaboration); $i > 0; $i--) {
                 $rowcollaboration = mysqli_fetch_assoc($querycollaboration);
@@ -163,8 +160,7 @@
                     "SELECT `confirmed` 
                     FROM `csi_collection`,`csi_userdata` 
                     WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ";
-                $checker = mysqli_query($conn, $checkersql);
-                $row1 = mysqli_fetch_assoc($checker);
+                $row1 = getValue($checkersql);
                 if (isset($row1["confirmed"])) {
                     if ($row1["confirmed"] == '1') {
             ?>
@@ -246,7 +242,7 @@
                             <?php
                             // Event coordinators details
                             $contact = "SELECT `c_name`,`c_phonenumber` FROM `csi_contact` WHERE `event_id`='$event_id'";
-                            $query_contact = mysqli_query($conn, $contact);
+                            $query_contact = execute($contact);
                             while ($row2 = mysqli_fetch_assoc($query_contact)) {
                                 echo $row2['c_name'] . " - " . $row2['c_phonenumber'] . "<br>";
                             }
@@ -332,7 +328,7 @@
                             <?php
                             // Event coordinators details
                             $contact = "SELECT `c_name`,`c_phonenumber` FROM `csi_contact` WHERE `event_id`='$event_id'";
-                            $query_contact = mysqli_query($conn, $contact);
+                            $query_contact = execute($contact);
                             while ($row2 = mysqli_fetch_assoc($query_contact)) {
                                 echo $row2['c_name'] . " - " . $row2['c_phonenumber'] . "<br>";
                             }

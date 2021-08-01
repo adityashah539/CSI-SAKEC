@@ -11,13 +11,9 @@
     <?php
         require_once "config.php"; 
         $vkey=$_GET['vKey'];
-        $sql = "SELECT * FROM `csi_newsletter` WHERE vKey='$vkey' and status=0";
-        $query = mysqli_query($conn, $sql);
-        if(mysqli_num_rows($query)==1){
-            $sql = "UPDATE `csi_newsletter` SET status =1 WHERE vKey='$vkey'";
-            $query = mysqli_query($conn, $sql);
-        }
-        else{
+        if(getNumRows("SELECT * FROM `csi_newsletter` WHERE vKey='$vkey' and status=0")==1){
+            $query = execute("UPDATE `csi_newsletter` SET status =1 WHERE vKey='$vkey'");
+        }else{
             function_alert("success");
         }
     ?>

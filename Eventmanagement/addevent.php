@@ -18,41 +18,18 @@
     <?php
     require_once "../config.php";
     session_start();
-    $access = NULL;
+    $access = 0;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'add_event');
     }
-    if(isset($access) && $access['add_event'] == 0){
+    if($access == 0){
         header("location:../index.php");
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['title'])) {
-        if (isset($access) && $access['add_event'] == 1) {
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,',
-                8 => 'A PHP extension stopped the file upload.',
-            );
-            $ext_error = true;
-            $extensions = array('jpg', 'jpeg', 'png');
-            $e_banner = $_FILES["e_banner"]["name"];
-            $file_ext_banner = explode(".", $_FILES["e_banner"]["name"]);
-            $file_ext_banner = end($file_ext_banner);
-            if (!in_array($file_ext_banner, $extensions)) {
-                $ext_error = false;
-            }
-            if ($ext_error) {
-                // event insert
+        if ($access == 1) {
                 $title = $_POST['title'];
                 $subtitle = $_POST['subtitle'];
-                $folder_name_banner = 'Banner/';
                 $from_date = date("Y-m-d", strtotime($_POST['fromdate']));
                 $to_date = date("Y-m-d", strtotime($_POST['todate']));
                 $from_time = date("h:i:sa", strtotime($_POST['fromtime']));
@@ -61,40 +38,42 @@
                 $fee_m = $_POST['fee_m'];
                 $fee = $_POST['fee'];
                 $selfie=$_POST['selfie'];
-                $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
-                $sql = "INSERT INTO `csi_event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`,`selfie`)
-                                        VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1' ,'$selfie'  )";
-                mysqli_query($conn, $sql);
-                move_uploaded_file($_FILES["e_banner"]["tmp_name"], $folder_name_banner . $file_new_banner);
+                $image = fileTransfer('e_banner','../Banner');
+                if($image['error'] == NULL){
+                    $file_new_banner = $image['file_new_name'];
+                    execute("INSERT INTO `csi_event`(`title` , `subtitle`,    `banner`       ,`e_from_date`,`e_to_date` , `e_from_time`,`e_to_time`, `e_description`  , `fee_m` , `fee`,`live`,`selfie`)
+                                             VALUES ('$title','$subtitle',' $file_new_banner',' $from_date','  $to_date','$from_time'  ,'$to_time' , '$e_descripition', '$fee_m','$fee','1' ,'$selfie'  )");
+                } else {
+                    function_alert($image['error']);
+                }
+                
                 $last_entry = mysqli_insert_id($conn);
+
                 // coordinators insert
                 $index = 1;
                 while (isset($_POST['phone' . $index . 'number']) && isset($_POST['phone' . $index . 'name'])) {
                     $phonenmber = $_POST['phone' . $index . 'number'];
                     $name = $_POST['phone' . $index . 'name'];
                     $type = $_POST['type'.$index];
-                    $sql = "INSERT INTO `csi_contact`( `c_name`, `c_phonenumber`, `event_id`,`c_type`) VALUES ('$name','$phonenmber','$last_entry','$type')";
-                    mysqli_query($conn, $sql);
+                    execute("INSERT INTO `csi_contact`( `c_name`, `c_phonenumber`, `event_id`,`c_type`) VALUES ('$name','$phonenmber','$last_entry','$type')");
                     $index++;
                 }
+
+
                 // venue insert
                 $index = 1;
                 while (isset($_POST['venue'.$index])) {
                     $venue = $_POST['venue'.$index];
-                    $sql = "INSERT INTO `csi_venue`(`event_id`, `location`) VALUES ('$last_entry','$venue')";
-                    mysqli_query($conn, $sql);
+                    execute("INSERT INTO `csi_venue`(`event_id`, `location`) VALUES ('$last_entry','$venue')");
                     $index++;
                 }
+
+
+
                 // speakers insert
                 $index = 1;
-                $folder_name_speaker = 'Speaker_Image/';
+                
                 while (isset($_POST['s_name'.$index])) {
-                    $file_ext_s_photo = explode(".", $_FILES["s_photo".$index]["name"]);
-                    $file_ext_s_photo = end($file_ext_s_photo);
-                    if (!in_array($file_ext_s_photo, $extensions)) {
-                        $ext_error = false;
-                    }
-                    $s_photo = $_FILES["s_photo".$index]["name"];
                     $s_name = $_POST['s_name'.$index];
                     $s_profession = $_POST['s_profession'.$index];
                     $s_organisation = $_POST['s_organisation'.$index];
@@ -102,34 +81,32 @@
                     $s_linkedIn = $_POST['s_linkedIn'.$index];
                     $s_facebook = $_POST['s_facebook'.$index];
                     $s_instagram = $_POST['s_instagram'.$index];
-                    $file_new_speaker = uniqid('', true) . "." . $file_ext_s_photo;
-                    $sql = "INSERT INTO `csi_speaker`(`event_id`   , `name`  , `organisation`  , `profession`, `description`     , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
-                                           VALUES('$last_entry','$s_name','$s_organisation','$s_profession','$s_descripition','$s_photo','$s_linkedIn','$s_facebook','$s_instagram');";
-                    mysqli_query($conn, $sql);
-                    if ($s_photo != null) {
-                        move_uploaded_file($_FILES["s_photo".$index]["tmp_name"], $folder_name_speaker . $file_new_speaker);
+
+                    $image = fileTransfer('s_photo'.$index,'../Speaker_Image');
+                    if($image['error'] == NULL){
+                        $file_new_speaker = $image['file_new_name'];
+                        execute("INSERT INTO `csi_speaker`(`event_id`   , `name`  , `organisation`  , `profession`, `description`     , `photo`  , `linkedIn`  , `facebook`  , `instagram`  )
+                                                    VALUES('$last_entry','$s_name','$s_organisation','$s_profession','$s_descripition','$file_new_speaker','$s_linkedIn','$s_facebook','$s_instagram');");
+                    } else {
+                        function_alert($image['error']);
                     }
                     $index++;
                 }
+
+
+
                 // collaboration insert
                 $index = 1;
                 while (isset($_POST['collaboration'.$index])) {
                     $collaboration = $_POST['collaboration'.$index];
-                    $sql = "INSERT INTO `csi_collaboration`(`event_id`, `collab_body`) VALUES ('$last_entry','$collaboration')";
-                    mysqli_query($conn, $sql);
+                    $stmt = execute("INSERT INTO `csi_collaboration`(`event_id`, `collab_body`) VALUES ('$last_entry','$collaboration')");
                     $index++;
                 }
-                if($ext_error){
-                    $sql = "INSERT INTO `csi_budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')";
-                    mysqli_query($conn, $sql);
-                    function_alert("Your enter is made.");
-                }
-            } else {
-                function_alert("Extention of file should be jpg,jpeg,png.");
+
+                // Budget insert
+                $stmt = execute("INSERT INTO `csi_budget`(`event_id`, `collection`, `expense`, `balance`) VALUES ('$last_entry','0','0','0')");
+                redirect_after_msg("Your entry is made.", '../index.php');
             }
-        } else {
-            function_alert("You have to be admin or cooridinator");
-        }
     }
     ?>
 </head>

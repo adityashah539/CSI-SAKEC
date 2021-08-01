@@ -18,9 +18,7 @@
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     if($access['reply_log']==0){
         header("location:../index.php");
@@ -71,8 +69,7 @@
             <div class="table-content" style="font-size: large;">
                 <?php
                 if ($access['reply_log']==1) {
-                    $sql = 'SELECT * FROM csi_reply';
-                    $query = mysqli_query($conn, $sql);
+                    $query = execute('SELECT * FROM csi_reply');
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>
@@ -118,7 +115,6 @@
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
-    s
 </body>
 
 </html>

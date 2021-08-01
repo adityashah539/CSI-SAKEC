@@ -56,27 +56,21 @@
                 require_once "../config.php";
                 session_start();
                 
+                $access = 0;
                 if (isset($_SESSION["role_id"])) {
                     $role_id = $_SESSION["role_id"];
-                    $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-                    $query =  mysqli_query($conn, $sql);
-                    $access = mysqli_fetch_assoc($query);
+                    $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'budget');
                 }
-                if ($access['budget'] == 0) {
+                if ($access == 0) {
                     header("location:../index.php");
                 }
-                $sql = "SELECT `id`, `title`  FROM `csi_event` ";
-                $query = mysqli_query($conn, $sql);
+                $query = execute("SELECT `id`, `title`  FROM `csi_event` ");
                 if (mysqli_num_rows($query) > 0) {
                     while ($row = mysqli_fetch_assoc($query)) {
                         $id= $row['id'];
                         $title= $row['title'];
-                        $expense_sql="SELECT SUM( `bill_amount`) as `amount` FROM `csi_expense` WHERE `event_id`='$id' GROUP BY `event_id`";
-                        $collection_sql="SELECT SUM( `amount`)as `amount` FROM `csi_collection` WHERE `event_id`='$id' GROUP BY `event_id`";
-                        $expense_query = mysqli_query($conn, $expense_sql);
-                        $collection_query = mysqli_query($conn, $collection_sql);
-                        $expense_row=mysqli_fetch_assoc($expense_query);
-                        $collection_row=mysqli_fetch_assoc($collection_query);
+                        $expense_row=getValue("SELECT SUM( `bill_amount`) as `amount` FROM `csi_expense` WHERE `event_id`='$id' GROUP BY `event_id`");
+                        $collection_row=getValue("SELECT SUM( `amount`)as `amount` FROM `csi_collection` WHERE `event_id`='$id' GROUP BY `event_id`");
                         if(isset($expense_row['amount'])){ 
                             $expense=$expense_row['amount'];
                         }

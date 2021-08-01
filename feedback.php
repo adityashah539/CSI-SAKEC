@@ -20,7 +20,7 @@
     session_start();
     //checking wheather user is logged in
     if(!isset($_SESSION['email'])){
-        function_alert("please login ");
+        redirect_after_msg("please login",'Login/login.php');
     }
 
     //taking event id 
@@ -28,34 +28,28 @@
         $event_id=$_GET['e_id'];
     else if(isset($_POST['e_id']))
         $event_id=$_POST['e_id'];
-    else
-        function_alert("please go to event");
 
     //checking if feedback is enabled
-    $eventsql = "SELECT * FROM csi_event WHERE id='$event_id' and feedback='1'";
-    $eventquery = mysqli_query($conn, $eventsql);
+    $eventquery = execute("SELECT * FROM csi_event WHERE id='$event_id' and feedback='1'");
     $number_of_event = mysqli_num_rows($eventquery);
     if($number_of_event==0){
-        function_alert("feedback is disabled for the event contact admin");
+        redirect_after_msg("feedback is disabled for the event contact admin",'index.php');
     }
     $rowevent = mysqli_fetch_assoc($eventquery);
     
     //checking wheather user is registered
-    $sql = "SELECT `id` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='".$_SESSION['email']."')";
-    $query = mysqli_query($conn, $sql);
+    $query = execute("SELECT `id` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='".$_SESSION['email']."')");
     $number_of_rows = mysqli_num_rows($query);
     if($number_of_rows==0){
-        function_alert("You have not registered for event ");
+        redirect_after_msg("You have not registered for event ", 'index.php');
     }
     $row = mysqli_fetch_assoc($query);
     $collection_id=$row['id'];
 
     //checking wheather user has already filled he feedback
-    $sql = "SELECT * FROM csi_feedback WHERE collection_id='".$collection_id."'";
-    $query = mysqli_query($conn, $sql);
-    $number_of_rows = mysqli_num_rows($query);
+    $number_of_rows = getNumRows("SELECT * FROM csi_feedback WHERE collection_id='".$collection_id."'");
     if($number_of_rows>=1){
-        function_alert("You have already filled the feedback ");
+        redirect_after_msg("You have already filled the feedback ", 'index.php');
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit_btn'])){
         $user_id=$_SESSION['email'];
@@ -67,40 +61,21 @@
         $q6=$_POST['six'];
         $q7=$_POST['seven'];
         $query=$_POST['query'];
-        $sql="INSERT INTO `csi_feedback`( `collection_id`,`Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`) 
-                        VALUES ('$collection_id','".$_POST['one']."','".$_POST['two']."','".$_POST['three']."','".$_POST['four']."','".$_POST['five']."','".$_POST['six']."','".$_POST['seven']."','".$_POST['query']."')";
-        mysqli_query($conn, $sql);
+        $stmt = execute("INSERT INTO `csi_feedback`( `collection_id`,`Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`) 
+                        VALUES ('$collection_id','".$_POST['one']."','".$_POST['two']."','".$_POST['three']."','".$_POST['four']."','".$_POST['five']."','".$_POST['six']."','".$_POST['seven']."','".$_POST['query']."')");
         
         $selfie_img = mysqli_insert_id($conn);
     
         if (isset($_FILES['selfie'])) {
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,',
-                8 => 'A PHP extension stopped the file upload.',
-            );
-            $ext_error = true;
-            $extensions = array('jpg', 'jpeg', 'png');
-            $e_banner = $_FILES["selfie"]["name"];
-            $file_ext_banner = explode(".", $_FILES["selfie"]["name"]);
-            $file_ext_banner = end($file_ext_banner);
-            if (!in_array($file_ext_banner, $extensions)) {
-                $ext_error = false;
+            $image = fileTransfer('selfie', 'Selfies');
+            if($image['error'] == NULL){
+                $file_new_selfie = $image['file_new_name'];
+                execute("UPDATE `csi_feedback` SET `selfie`='$file_new_selfie' WHERE id='$selfie_img'");
+            } else {
+                function_alert($image['error']);
             }
-            if ($ext_error) {
-                $file_new_banner = uniqid('', true) . "." . $file_ext_banner;
-                echo $selfie_img;                
-                $sql="UPDATE `csi_feedback` SET `selfie`='$file_new_banner' WHERE id='$selfie_img'";
-                mysqli_query($conn, $sql);
-                move_uploaded_file($_FILES["selfie"]["tmp_name"],"Selfies/".$file_new_banner);
-            }            
         }
-        function_alert("thank you for filling  the feedback ");
+        redirect_after_msg("thank you for filling  the feedback", 'index.php');
     }
     ?>
 </head>
@@ -116,8 +91,7 @@
         <h2>
         <?php
                 // collaboration of event
-                $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
-                $querycollaboration = mysqli_query($conn, $sqlcollaboration);
+                $querycollaboration = execute("SELECT * FROM csi_collaboration WHERE event_id='$event_id'");
                 $collaboration = "";
                 for($i = mysqli_num_rows($querycollaboration); $i > 0; $i--){
                     $rowcollaboration = mysqli_fetch_assoc($querycollaboration);

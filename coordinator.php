@@ -15,8 +15,7 @@
     
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete_id_btn'])) {
         $user_id = $_POST['delete_user_id'];
-        $sql = "DELETE FROM `csi_coordinator` WHERE user_id=".$user_id;
-        $query = mysqli_query($conn, $sql);
+        $query = execute("DELETE FROM `csi_coordinator` WHERE user_id=".$user_id);
         $filename = $_POST['delete_file'];
         if (file_exists($filename)) {
             unlink($filename);
@@ -29,46 +28,21 @@
     // Update the image
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])){
         $user_id=$_POST['user_id'];
-        if($_SESSION['role']==='admin'||$_SESSION['role']==='c'){
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,', 
-                8 => 'A PHP extension stopped the file upload.',
-            ); 
-            $extensions= array('jpg','jpeg','png');
-            $image = $_FILES["image"]["name"];
-            if($image!=null){
-                $file_ext_img=explode(".", $_FILES['image']["name"]);
-                $file_ext_img=end($file_ext_img);
-                if (in_array($file_ext_img,$extensions)){
-                    $check = $_POST['check'];
-                    $folder_name_coordinatorImage="Coordinator_Images/";
-                    $file_new_coordinatorimage = uniqid('',true).".".$file_ext_img;
-                    if($check){
-                        // updates image of existing user
-                        $sql = "UPDATE `csi_coordinator` SET `image`= '$file_new_coordinatorimage' WHERE user_id=".$user_id;
-                    } else {
-                        // inserts image of new user
-                        $sql = "INSERT INTO `csi_coordinator`(`user_id`, `image`) VALUES ('$user_id','$image')";
-                    }
-                    $stmt = mysqli_query($conn, $sql);
-                    move_uploaded_file($_FILES["image"]["tmp_name"],$folder_name_coordinatorImage.$file_new_coordinatorimage);
-                    if($_FILES["image"]["error"]!=0){
-                        $err =  $phpFileUploadErrors[$_FILES["image"]["error"]];
-                    }
-                    header("Location: coordinator.php");
-                }else{
-                    function_alert("Extention of file should be jpg,jpeg,png.");
-                }
+        $check = $_POST['check'];
+        $image = fileTransfer('image',"Coordinator_Images");
+        if($image['error'] == NULL){
+            $file_new_coordinatorimage = $image['file_new_name'];
+            if($check){
+                // updates image of existing user
+                $stmt = execute("UPDATE `csi_coordinator` SET `image`= '$file_new_coordinatorimage' WHERE user_id=".$user_id);
+            } else {
+                // inserts image of new user
+                $stmt = execute("INSERT INTO `csi_coordinator`(`user_id`, `image`) VALUES ('$user_id','$file_new_coordinatorimage')");
             }
-        }else{
-            function_alert("You have to be admin or cooridinator");
+        } else {
+            function_alert($image['error']);
         }
+        header("Location: coordinator.php");
     }
     
 ?>
@@ -90,13 +64,11 @@
             </thead>
             <tbody>
                 <?php
-                    $sql = "SELECT u.id as user_id, CONCAT(u.firstname,' ',u.lastname) as name, r.role_name as duty
-                            FROM `csi_userdata` as u,`csi_role` as r
-                            WHERE u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%')";
-                    $result= mysqli_query($conn,$sql);
+                    $result= execute(   "SELECT u.id as user_id, u.name as name, r.role_name as duty
+                                        FROM `csi_userdata` as u,`csi_role` as r
+                                        WHERE u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%')");
                     while($row = mysqli_fetch_assoc($result)) {
-                        $sqlimage = "SELECT image FROM `csi_coordinator` WHERE user_id = ".$row['user_id'];
-                        $resultimage= mysqli_query($conn,$sqlimage);
+                        $resultimage= execute("SELECT image FROM `csi_coordinator` WHERE user_id = ".$row['user_id']);
                         $image_count = mysqli_num_rows($resultimage);
                 ?>
                         <div class="table-content" style="font-size: large;">

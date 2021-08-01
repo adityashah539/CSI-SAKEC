@@ -20,27 +20,14 @@
     <?php
         require_once "../config.php";
         session_start();
-    if (isset($_SESSION["role_id"])) {
-        $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
-    }
-    if ($access['audit'] == 0) {
-        header("location:../index.php");
-    }
-        /*
-        //$html = preg_replace('#<div id="desc">(.*?)</div>#', '', $html);
-        //$html = preg_replace('#<button id="btnExport">(.*?)</button>#', '', $html);
-        // downloads excell sheet
-        if (($_SERVER['REQUEST_METHOD'] == "POST") && (isset($_POST["export"]))) {
-                echo '<script>
-                    document.getElementById("btnExport").style.display = "none";
-            </script>';
-                $filename = "AUDIT".time().".xls";
-               // header("Content-Type: application/vnd.ms-excel");
-                //header("Content-Disposition: attachment; filename=\"$filename");
-        }*/
+        $access = 0;
+        if (isset($_SESSION["role_id"])) {
+            $role_id = $_SESSION["role_id"];
+            $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'audit');
+        }
+        if ($access == 0) {
+            header("location:../index.php");
+        }
     ?>
 </head>
 <body>
@@ -66,11 +53,10 @@
             $from_date = $_GET["from"];
             $to_date = $_GET["to"];
             // event details
-            $sqlevent = "select id, title, e_from_date, e_to_date, e_description
-                        from csi_event
-                        where e_from_date >= '$from_date' and e_to_date <= '$to_date'
-                        group by id";
-            $queryevent = mysqli_query($conn, $sqlevent);
+            $queryevent = execute("select id, title, e_from_date, e_to_date, e_description
+                                    from csi_event
+                                    where e_from_date >= '$from_date' and e_to_date <= '$to_date'
+                                    group by id");
     ?>
         <div>
             <table class="table table-bordered" id="tblexportData">
@@ -105,8 +91,7 @@
                     for($index = 1; $rowevent = mysqli_fetch_assoc($queryevent); $index++) {
                         $count = 0;
                         // speaker
-                        $sqlspeaker = "SELECT `name`, `organisation` FROM `csi_speaker` WHERE event_id = ".$rowevent['id'];
-                        $queryspeaker = mysqli_query($conn, $sqlspeaker);
+                        $queryspeaker = execute("SELECT `name`, `organisation` FROM `csi_speaker` WHERE event_id = ".$rowevent['id']);
                         $speakername = "";
                         $speakerorganisation = "";
                         for($i = 1;$rowspeaker = mysqli_fetch_assoc($queryspeaker);$i++){
@@ -115,8 +100,7 @@
                         }
 
                         // collaboration
-                        $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id=".$rowevent['id'];
-                        $querycollaboration = mysqli_query($conn, $sqlcollaboration);
+                        $querycollaboration = execute("SELECT * FROM csi_collaboration WHERE event_id=".$rowevent['id']);
                         $collaboration = "";
                         for ($i = 1;$rowcollaboration = mysqli_fetch_assoc($querycollaboration);$i++) {
                             $collaboration = $collaboration . $i.". ". $rowcollaboration['collab_body'] . "<br>";
@@ -133,15 +117,12 @@
                         <td><?php echo $rowevent['e_description'];?></td>
     <?php
                         for($i = 0; $i < 8; $i++) {
-                            // count number of students who registered for the event
-                            $sqlcollection = "select count(u.id) as total
-                                    from csi_userdata as u, csi_collection as c
-                                    where c.user_id = u.id and u.branch = '$branch[$i]' and c.event_id = ".$rowevent['id'];
-                            $querycollection = mysqli_query($conn, $sqlcollection);
-                            $rowcollection = mysqli_fetch_assoc($querycollection);
-                            $count += $rowcollection['total'];
+                            $rowcollection = getSpecificValue("select count(u.id) as total
+                                                                from csi_userdata as u, csi_collection as c
+                                                                where c.user_id = u.id and u.branch = '$branch[$i]' and c.event_id = ".$rowevent['id'],'total');
+                            $count += $rowcollection;
     ?>
-                            <td><?php echo $rowcollection['total'];?></td>
+                            <td><?php echo $rowcollection;?></td>
     <?php
                         }
     ?>

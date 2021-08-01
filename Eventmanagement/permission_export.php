@@ -12,9 +12,7 @@
         $access = NULL;
         if (isset($_SESSION["role_id"])) {
             $role_id = $_SESSION["role_id"];
-            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-            $query =  mysqli_query($conn, $sql);
-            $access = mysqli_fetch_assoc($query);
+            $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
         }
         if(!isset($access) || $access['permission_letter']==0){
             header("location:../index.php");
@@ -22,12 +20,8 @@
         if($_SERVER['REQUEST_METHOD'] === "GET"){
             if(isset($_GET['event_id'])){
                 $event_id=$_GET['event_id'];
-                $sql="SELECT * FROM `csi_event` WHERE `id`=$event_id";
-                $query = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_assoc($query);
-                $collaboration_sql = "SELECT `collab_body` FROM `csi_collaboration` WHERE `event_id`='$event_id'";
-                $collaboration_query = mysqli_query($conn, $collaboration_sql);
-                $collaboration_row = mysqli_fetch_assoc($collaboration_query);
+                $row = getValue("SELECT * FROM `csi_event` WHERE `id`=$event_id");
+                $collaboration_row = getValue("SELECT `collab_body` FROM `csi_collaboration` WHERE `event_id`='$event_id'");
 
                 // start year and end year for acedemic year
                 $startyear = date("Y",strtotime($row['e_from_date'])); 
@@ -40,13 +34,11 @@
                 }
                 $startdate = date('Y-m-d', strtotime($startyear.'-07-01'));
                 $enddate = $row['e_from_date'];
-                $sql_current_event_no = 	"SELECT COUNT(id) as count
-                                            FROM `csi_event` 
-                                            WHERE '$startdate' <= e_from_date and e_from_date < '$enddate'";
-                $query_current_event_no = mysqli_query($conn, $sql_current_event_no);
-                $row_current_event_no = mysqli_fetch_assoc($query_current_event_no);
+                $row_current_event_no = getValue("SELECT COUNT(id) as count
+                                                    FROM `csi_event` 
+                                                    WHERE '$startdate' <= e_from_date and e_from_date < '$enddate'");
                 $current_event_no = $row_current_event_no['count'] + 1;
-                } 
+            } 
         }
         ?>
         <!-- Boostrap-4.6.0-->

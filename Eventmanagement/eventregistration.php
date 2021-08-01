@@ -31,12 +31,13 @@
     function paidRegistration($email, $event_id, $fee, $billPhotoName, $membershipPhotoName){
         $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
         $user_id = getSpecificValue($sql, "user_id");
-        $billFileName = fileTransfer($billPhotoName, "Event_Bill");
-        $membershipFileName = NULL;
-        if (isset($membershipPhotoName))
-            $membershipFileName = fileTransfer($membershipPhotoName, "ExternalStudentMembership");
-        $sql = "INSERT INTO `csi_collection`(`event_id`,`user_id`,`bill_photo`,`amount`,`externalstudentmembership`) VALUES ('$event_id','$user_id','$billFileName','$fee','$membershipFileName' )";
-        execute($sql);
+        $image = fileTransfer($billPhotoName,"Event_Bill");
+        if($image['error'] == NULL){
+            $billFileName = $image['file_new_name'];
+            execute("INSERT INTO `csi_collection`(`event_id`,`user_id`,`bill_photo`,`amount`,`externalstudentmembership`) VALUES ('$event_id','$user_id','$billFileName','$fee','$membershipFileName' )");
+        } else {
+            function_alert($image['error']);
+        }
         header("location:../event.php?event_id=$event_id");
     }
     if ($_SERVER['REQUEST_METHOD'] === "POST") {

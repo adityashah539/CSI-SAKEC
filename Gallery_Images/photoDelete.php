@@ -3,14 +3,12 @@ require_once "../config.php";
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $gallery_id = $_POST['gallery_id'];
-    $sql = "DELETE FROM `csi_gallery` WHERE `id`='$gallery_id'";
-    $query = mysqli_query($conn, $sql);
+    $query = execute("DELETE FROM `csi_gallery` WHERE `id`='$gallery_id'");
     if ($query) {
 ?>
         <ol class="carousel-indicators">
             <?php
-            $gallerysql = "SELECT * FROM `csi_gallery`";
-            $gallerysqlstmt = mysqli_query($conn, $gallerysql);
+            $gallerysqlstmt = execute("SELECT * FROM `csi_gallery`");
             $number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
             for ($j = 0; $j < $number_of_images_gallery; $j++) {
             ?>

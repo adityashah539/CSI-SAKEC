@@ -87,7 +87,7 @@
                 if (isset($email)) {
                     if (!doesEmailIdExists($email)) {
             ?>
-                        <input type="text" name="email" value="<?php echo $data['email']; ?>" hidden>
+                        <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                         <div class="spacer" style="height:30px;"></div>
                         <i class="fas fa-file-signature" style="font-size:30px;"></i>
                         <input data-toggle="tooltip" data-placement="bottom" title="Your  name" id="text" type="text" class="g" name="name" placeholder=" Name" required /></br>

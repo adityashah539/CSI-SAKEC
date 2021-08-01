@@ -12,14 +12,12 @@
     require_once "../config.php";
     session_start();
     // Fetching Access Details
-    $access = NULL;
+    $access = 0;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'edit_attendance');
     }
-    if ($access['edit_attendance'] == 0) {
+    if ($access == 0) {
         header("location:../index.php");
     }
     $to_search = $event_title = $event_id = "";
@@ -37,8 +35,7 @@
             while (isset($_POST[("username_" . $index)])) {
                 $username = $_POST[("username_" . $index)];
                 $attend = $_POST[("attend_" . $index)];
-                $sql = "UPDATE `csi_collection` SET `attend`='$attend' WHERE `user_id`='$username' AND `event_id`='$event_id'";
-                $query = mysqli_query($conn, $sql);
+                $query = execute("UPDATE `csi_collection` SET `attend`='$attend' WHERE `user_id`='$username' AND `event_id`='$event_id'");
                 $index++;
             }
             header("location: attendance.php");
@@ -91,9 +88,8 @@
                 <div class="table-content" style="font-size: large;">
                     <?php
                     if ($access['edit_attendance'] == 1) {
-                        $sql = "SELECT  `csi_userdata`.`name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
-                            WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(`name`) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')";
-                        $query = mysqli_query($conn, $sql);
+                        $query = execute("SELECT  `csi_userdata`.`name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
+                                            WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(`name`) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')");
                         $number_of_rows = mysqli_num_rows($query);
                         if ($number_of_rows > 0) {
                             $index = 1;

@@ -18,9 +18,7 @@
         $access = NULL;
         if (isset($_SESSION["role_id"])) {
             $role_id = $_SESSION["role_id"];
-            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-            $query =  mysqli_query($conn, $sql);
-            $access = mysqli_fetch_assoc($query);
+            $access = getValue( "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
         }
         if($access['confirm_membership']==0){
             header("location:../index.php");
@@ -30,17 +28,14 @@
             if (isset($_POST['Confirm'])) {
                 $start_year = $_POST['start_year'];
                 $member_period = $_POST['member_period'];
-                $sql = "UPDATE `csi_membership_bills` SET `membership_taken`='$start_year',`no_of_year`='$member_period' WHERE  id = " . $id;
-                $query = mysqli_query($conn, $sql);
+                $query = execute("UPDATE `csi_membership_bills` SET `membership_taken`='$start_year',`no_of_year`='$member_period' WHERE  id = " . $id);
                 
                 $datetime = new DateTime($start_year);
                 $datetime->add(new DateInterval('P'.$member_period.'Y'));
                 $new_membership_end = $datetime->format('Y-m-d h:m:s');
-                $sql = "UPDATE `csi_membership`,`csi_membership_bills` SET `duration`='$new_membership_end' WHERE `csi_membership`.`id` = `csi_membership_bills`.`membership_id` and `csi_membership_bills`.`id` = $id";
-                $query = mysqli_query($conn, $sql);
+                $query = execute("UPDATE `csi_membership`,`csi_membership_bills` SET `duration`='$new_membership_end' WHERE `csi_membership`.`id` = `csi_membership_bills`.`membership_id` and `csi_membership_bills`.`id` = $id");
             } else if (isset($_POST['Delete'])) {
-                $sql = "DELETE FROM `csi_membership_bills` WHERE id = " . $id;
-                $query = mysqli_query($conn, $sql);
+                $query = execute("DELETE FROM `csi_membership_bills` WHERE id = " . $id);
             }
         }
     ?>
@@ -67,10 +62,9 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
             <?php
-            $sql = "select b.id as id, u.name , r_number, primaryEmail, phonenumber, amount, duration, bill_photo
-                    from csi_userdata as u, csi_membership as m, csi_membership_bills as b
-                    where no_of_year = '' and b.membership_id = m.id and m.userid = u.id";
-            $sqlstmt = mysqli_query($conn, $sql);
+            $sqlstmt = execute("select b.id as id, u.name , r_number, primaryEmail, phonenumber, amount, duration, bill_photo
+                                from csi_userdata as u, csi_membership as m, csi_membership_bills as b
+                                where no_of_year = '' and b.membership_id = m.id and m.userid = u.id");
             $number_of_data = mysqli_num_rows($sqlstmt);
             if($number_of_data){
                 while( $row = mysqli_fetch_assoc($sqlstmt)){

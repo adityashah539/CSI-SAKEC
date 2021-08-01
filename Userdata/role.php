@@ -20,9 +20,7 @@
     $role = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $role = mysqli_fetch_assoc($query);
+        $role = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     ?>
 </head>
@@ -75,8 +73,7 @@
                     <?php
                     if (isset($_SESSION['email'])) {
                         if (isset($role) && $role["role"] === "1") {
-                            $sql = "SELECT * FROM `csi_role`";
-                            $query = mysqli_query($conn, $sql);
+                            $query = execute("SELECT * FROM `csi_role`");
                             if (mysqli_num_rows($query) > 0) {
                                 $index = 0;
                                 while ($row = mysqli_fetch_assoc($query)) {

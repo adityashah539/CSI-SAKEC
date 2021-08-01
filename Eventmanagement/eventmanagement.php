@@ -15,9 +15,7 @@
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     if ($access['add_event'] == 0 && $access['manage_event']==0 && $access['budget'] == 0 && $access['edit_attendance'] == 0 && $access['permission_letter'] == 0 && $access['report'] == 0 && $access['confirm_event_registration'] == 0 && $access['content_repository'] == 0 && $access['feedback_response'] == 0) {
         header("location:../index.php");
@@ -30,18 +28,13 @@
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['enable_id'])) {
             $id = $_POST['enable_id'];
-            $sql = "UPDATE csi_event SET live='1' WHERE id='$id'";
-            $query = mysqli_query($conn, $sql);
-            mysqli_query($conn, $sql);
+            $query = execute("UPDATE csi_event SET live='1' WHERE id='$id'");
         } else if (isset($_POST['disable_id'])) {
             $id = $_POST['disable_id'];
-            $sql = "UPDATE csi_event SET live='0' WHERE id='$id'";
-            $query = mysqli_query($conn, $sql);
-            mysqli_query($conn, $sql);
+            $query = execute("UPDATE csi_event SET live='0' WHERE id='$id'");
         } else if (isset($_POST['delete_event_btn'])) {
             $id = $_POST['delete_id_event'];
-            $sql = "DELETE FROM csi_event WHERE id='$id' ";
-            $query = mysqli_query($conn, $sql);
+            $query = execute("DELETE FROM csi_event WHERE id='$id' ");
             if ($query) {
                 function_alert("Update Successful ");
             } else {
@@ -49,14 +42,10 @@
             }
         } else if (isset($_POST['enable_feedback'])) {
             $id = $_POST['enable_feedback'];
-            $sql = "UPDATE csi_event SET feedback='1' WHERE id='$id'";
-            $query = mysqli_query($conn, $sql);
-            mysqli_query($conn, $sql);
+            $query = execute("UPDATE csi_event SET feedback='1' WHERE id='$id'");
         } else if (isset($_POST['disable_feedback'])) {
             $id = $_POST['disable_feedback'];
-            $sql = "UPDATE csi_event SET feedback='0' WHERE id='$id'";
-            $query = mysqli_query($conn, $sql);
-            mysqli_query($conn, $sql);
+            $query = execute("UPDATE csi_event SET feedback='0' WHERE id='$id'");
         }
     }
     ?>
@@ -125,8 +114,7 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
                 <?php
-                $sql = "SELECT * FROM `csi_event` WHERE LOWER(`title`) LIKE '%$to_search%' ";
-                $query = mysqli_query($conn, $sql);
+                $query = execute( "SELECT * FROM `csi_event` WHERE LOWER(`title`) LIKE '%$to_search%' ");
                 if (mysqli_num_rows($query) > 0) {
                     while ($row = mysqli_fetch_assoc($query)) {
                 ?>

@@ -13,39 +13,37 @@
     <?php
     require_once '../config.php';
     session_start();
-    $access = NULL;
+    $access = 0;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
         $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getValue($sql,'report');
     }
-    if ($access['report'] == 0) {
+    if ($access == 0) {
         header("location:../index.php");
     }
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (isset($_GET['event_id'])) {
             $event_id = $_GET['event_id'];
             $sqlevent = "SELECT * FROM `csi_event` WHERE `id`=$event_id";
-            $queryevent = mysqli_query($conn, $sqlevent);
-            $rowevent = mysqli_fetch_assoc($queryevent);
+            $rowevent = getValue($sqlevent);
 
             // Event collaboration details
             $sqlcollaboration = "SELECT * FROM csi_collaboration WHERE event_id='$event_id'";
-            $querycollaboration = mysqli_query($conn, $sqlcollaboration);
+            $querycollaboration = execute($sqlcollaboration);
             //$rowcollaboration = mysqli_fetch_assoc($querycollaboration);
 
             // Event Speaker details
             $sqlspeaker = "SELECT * FROM csi_speaker WHERE event_id='$event_id'";
-            $queryspeaker = mysqli_query($conn, $sqlspeaker);
+            $queryspeaker = execute($sqlspeaker);
 
             // Event coordinators details
             $sqlcoordinator = "SELECT `c_name`,`c_phonenumber`, `c_type` FROM `csi_contact` WHERE `event_id`='$event_id'";
-            $querycoordinator = mysqli_query($conn, $sqlcoordinator);
+            $querycoordinator = execute($sqlcoordinator);
 
             // Event venue details
             $sqlvenue = "SELECT `location` FROM `csi_venue` WHERE event_id = '$event_id'";
-            $queryvenue = mysqli_query($conn, $sqlvenue);
+            $queryvenue = execute($sqlvenue);
 
 
             // start year and end year for acedemic year
@@ -62,8 +60,7 @@
             $sql_current_event_no = 	"SELECT COUNT(id) as count
                                         FROM `csi_event` 
                                         WHERE '$startdate' <= e_from_date and e_from_date < '$enddate'";
-            $query_current_event_no = mysqli_query($conn, $sql_current_event_no);
-            $row_current_event_no = mysqli_fetch_assoc($query_current_event_no);
+            $row_current_event_no = getValue($sql_current_event_no);
             $current_event_no = $row_current_event_no['count'] + 1;
         }
     }
@@ -305,7 +302,7 @@
                 <div class="contentrepository">
                     <?php
                     $sqlcontentrepository = "SELECT `image` FROM `csi_contentrepository` WHERE eventid = $event_id";
-                    $querycontentrepository = mysqli_query($conn, $sqlcontentrepository);
+                    $querycontentrepository = execute($sqlcontentrepository);
                     while ($rowcontentrepository = mysqli_fetch_assoc($querycontentrepository)) {
                         $img = file_get_contents("EventImages/" . $rowevent['title'] . $rowevent['id'] . "/" . $rowcontentrepository['image']);
                         $data = base64_encode($img);

@@ -14,28 +14,23 @@
         require_once "../config.php";
         session_start();
         
+        $access = 0;
         if (isset($_SESSION["role_id"])) {
             $role_id = $_SESSION["role_id"];
-            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-            $query =  mysqli_query($conn, $sql);
-            $access = mysqli_fetch_assoc($query);
+            $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'budget');
         }
-        if ($access['budget'] == 0) {
+        if ($access == 0) {
             header("location:../index.php");
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['delete_bill'])){
                 $collection_id=$_POST['collection_id'];
-                $sql = "SELECT `bill_photo` FROM `csi_collection` WHERE `id`='$collection_id'";
-                $query = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_assoc($query);
+                $row = getValue("SELECT `bill_photo` FROM `csi_collection` WHERE `id`='$collection_id'");
                 $folder_location="Event_Bill/";
                 if(file_exists($folder_location.$row['bill_photo'])){
                     gc_collect_cycles();
                     unlink($folder_location.$row['bill_photo']);
-                    $sql = "DELETE FROM `csi_collection` WHERE `id`='$collection_id'";
-                    $query = mysqli_query($conn, $sql);
-                    mysqli_query($conn, $sql);
+                    $query = execute("DELETE FROM `csi_collection` WHERE `id`='$collection_id'");
                 }
                 else{
                     echo "Unable to delete the photo.";
@@ -64,8 +59,7 @@
                 <?php
                     $event_id= $_GET['e_id'];
                     $sum=0;
-                    $sql = "SELECT `csi_collection`.`id`,`csi_userdata`.`emailID`, `bill_photo`, `amount`, `confirmed_by` FROM `csi_collection`,`csi_userdata` WHERE `confirmed`='1' AND `csi_userdata`.`id`=`user_id` AND `event_id` = $event_id";
-                    $query = mysqli_query($conn, $sql);
+                    $query = execute("SELECT `csi_collection`.`id`,`csi_userdata`.`emailID`, `bill_photo`, `amount`, `confirmed_by` FROM `csi_collection`,`csi_userdata` WHERE `confirmed`='1' AND `csi_userdata`.`id`=`user_id` AND `event_id` = $event_id");
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>

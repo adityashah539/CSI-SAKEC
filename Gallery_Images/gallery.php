@@ -13,62 +13,44 @@
     <?php
     require_once "../config.php";
     session_start();
+    $access = 0;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'main_page_edit');
+    }
+    if ($access == 0) {
+        header("location:../index.php");
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'coordinator' || $_SESSION['role'] == 'head coordinator') {
-            // if(isset($_))
-            $phpFileUploadErrors = array(
-                0 => 'There is no error, the file uploaded with success',
-                1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-                2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-                3 => 'The uploaded file was only partially uploaded',
-                4 => 'No file was uploaded',
-                6 => 'Missing a temorary folder',
-                7 => 'Failed to write file to disk,',
-                8 => 'A PHP extension stopped the file upload.',
-            );
-            $extensions = array('jpg', 'jpeg', 'png');
-            $index = 1;
-            while (isset($_POST['uploadimg' . $index])) {
-                $gallery_photo = $_FILES["image" . $index]["name"];
-                $file_ext_gallery = explode(".", $_FILES['image' . $index]["name"]);
-                $file_ext_gallery = end($file_ext_gallery);
-                if (in_array($file_ext_gallery, $extensions)) {
-                    $folder_name_gallery = "Gallery_Images/";
-                    $file_new_gallery = uniqid('', true) . "." . $file_ext_gallery;
-                    $sql = "INSERT INTO `csi_gallery`(`image`, `status`) VALUES ('$file_new_gallery',1)";
-                    $stmt = mysqli_query($conn, $sql);
-                    move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_gallery . $file_new_gallery);
-                    if ($_FILES["image" . $index]["error"] != 0) {
-                        $err =  $phpFileUploadErrors[$_FILES["image" . $index]["error"]];
-                    }
-                } else {
-                    function_alert("Extention of file should be jpg,jpeg,png.");
-                }
-                $index++;
+        $index = 1;
+        while (isset($_POST['uploadimg' . $index])) {
+            $image = fileTransfer('image'. $index,"Gallery_Images");
+            if($image['error'] == NULL){
+                $file_new_gallery = $image['file_new_name'];
+                execute("INSERT INTO `csi_gallery`(`image`, `status`) VALUES ('$file_new_gallery',1)");
+            } else {
+                function_alert($image['error']);
             }
-            if (isset($_POST['enable_id_btn'])) {
-                $id = $_POST['enable_id'];
-                $sql = "UPDATE csi_gallery SET status=1 WHERE id=" . $id;
-                $query = mysqli_query($conn, $sql);
-            } else if (isset($_POST['disable_id_btn'])) {
-                $id = $_POST['disable_id'];
-                $sql = "UPDATE csi_gallery SET status=0 WHERE id=" . $id;
-                $query = mysqli_query($conn, $sql);
-            } else if (isset($_POST['delete_id_btn'])) {
-                $id = $_POST['delete_id'];
-                $sql = "DELETE FROM `csi_gallery` WHERE id=" . $id;
-                $query = mysqli_query($conn, $sql);
-                // Delete file from folder
-                $filename = $_POST['delete_file'];
-                if (file_exists($filename)) {
-                    unlink($filename);
-                    function_alert('File has been deleted');
-                } else {
-                    function_alert('Could not delete, file does not exist');
-                }
+            $index++;
+        }
+        if (isset($_POST['enable_id_btn'])) {
+            $id = $_POST['enable_id'];
+            $query = execute("UPDATE csi_gallery SET status=1 WHERE id=" . $id);
+        } else if (isset($_POST['disable_id_btn'])) {
+            $id = $_POST['disable_id'];
+            $query = execute("UPDATE csi_gallery SET status=0 WHERE id=" . $id);
+        } else if (isset($_POST['delete_id_btn'])) {
+            $id = $_POST['delete_id'];
+            $query = execute("DELETE FROM `csi_gallery` WHERE id=" . $id);
+            // Delete file from folder
+            $filename = $_POST['delete_file'];
+            if (file_exists($filename)) {
+                unlink($filename);
+                function_alert('File has been deleted');
+            } else {
+                function_alert('Could not delete, file does not exist');
             }
-        } else {
-            function_alert("You have to be admin or cooridinator");
         }
     }
     ?>
@@ -82,8 +64,7 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
             <ol class="carousel-indicators">
             <?php
-                $gallerysql = "SELECT * FROM `csi_gallery`";
-                $gallerysqlstmt = mysqli_query($conn, $gallerysql);
+                $gallerysqlstmt = execute("SELECT * FROM `csi_gallery`");
                 $number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
                 for ($j = 0; $j < $number_of_images_gallery;$j++) {
             ?>

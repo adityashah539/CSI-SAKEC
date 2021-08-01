@@ -22,19 +22,16 @@
         require_once "../config.php";
         session_start();
         // Fetching Access Details
-        $access = NULL;
+        $access = 0;
         if (isset($_SESSION["role_id"])) {
             $role_id = $_SESSION["role_id"];
-            $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-            $query =  mysqli_query($conn, $sql);
-            $access = mysqli_fetch_assoc($query);
+            $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'feedback_response');
         }
-        if($access['feedback_response']==0){
+        if ($access == 0) {
             header("location:../index.php");
         }
         $event=$_GET['event_id'];
-        $sql = "SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `csi_userdata`.`name`, `csi_userdata`.`emailID` FROM `csi_feedback`,`csi_userdata`,`csi_collection` WHERE csi_collection.event_id='$event' and csi_collection.id=csi_feedback.collection_id and csi_userdata.id=csi_collection.user_id";
-        $query = mysqli_query($conn, $sql);
+        $query = execute("SELECT `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `csi_userdata`.`name`, `csi_userdata`.`emailID` FROM `csi_feedback`,`csi_userdata`,`csi_collection` WHERE csi_collection.event_id='$event' and csi_collection.id=csi_feedback.collection_id and csi_userdata.id=csi_collection.user_id");
         $number_of_responses = mysqli_num_rows($query);
     ?>
 </head>

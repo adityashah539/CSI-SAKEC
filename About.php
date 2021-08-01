@@ -19,56 +19,23 @@ session_start();
 $access = NULL;
 if (isset($_SESSION["role_id"])) {
     $role_id = $_SESSION["role_id"];
-    $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-    $query =  mysqli_query($conn, $sql);
-    $access = mysqli_fetch_assoc($query);
+    $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
 }
 if(isset($access) && $access['main_page_edit'] == 0){
     header("location:../index.php");
 }
-$sqlselect = "SELECT * FROM `csi_aboutus`";
-$query = mysqli_query($conn, $sqlselect);
-$row = mysqli_fetch_assoc($query);
+$row = getValue("SELECT * FROM `csi_aboutus`");
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
     if (isset($access) && $access['main_page_edit'] == 1) {
-        $phpFileUploadErrors = array(
-            0 => 'There is no error, the file uploaded with success',
-            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-            3 => 'The uploaded file was only partially uploaded',
-            4 => 'No file was uploaded',
-            6 => 'Missing a temorary folder',
-            7 => 'Failed to write file to disk,',
-            8 => 'A PHP extension stopped the file upload.',
-        );
-        $extensions = array('jpg', 'jpeg', 'png');
         $description = $_POST['description'];
-        $image = $_FILES["img"]["name"];
-        if ($image != null) {
-            $file_ext_img = explode(".", $_FILES['img']["name"]);
-            $file_ext_img = end($file_ext_img);
-            if (in_array($file_ext_img, $extensions)) {
-                $file_new_name = uniqid('', true) . "." . $file_ext_img;
-                $folder_location = "AboutUs/";
-                $sql = "UPDATE `csi_aboutus` SET `photo`='$file_new_name'";
-                $stmt = mysqli_query($conn, $sql);
-                /*if(file_exists($folder_location.$row['photo'])){
-                    gc_collect_cycles();
-                    unlink($folder_location.$row['photo']);
-                }else{
-                    echo "Some Error ".$folder_location.$row['photo'];
-                }*/
-                move_uploaded_file($_FILES["img"]["tmp_name"], $folder_location . $file_new_name);
-                if ($_FILES["img"]["error"] != 0) {
-                    $err =  $phpFileUploadErrors[$_FILES["img"]["error"]];
-                }
-            } else {
-                function_alert("Extention of file should be jpg,jpeg,png.");
-            }
+        $image = fileTransfer('img',"AboutUs");
+        if($image['error'] == NULL){
+            $file_new_name = $image['file_new_name'];
+            execute("UPDATE `csi_aboutus` SET `photo`='$file_new_name'");
         }
-        $sql = "UPDATE `csi_aboutus` SET `description`='$description' WHERE 1";
-        $stmt = mysqli_query($conn, $sql);
+        execute("UPDATE `csi_aboutus` SET `description`='$description' WHERE 1");
     }
+    header("location:../index.php");
 }
 ?>
 

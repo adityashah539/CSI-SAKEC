@@ -5,26 +5,16 @@ if (isset($_SESSION['email'])) {
     $event_id = $_POST['e_id'];
     $increment = $_POST['increment'];
     $email = $_SESSION['email'];
-    $sql = "SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'";
-    $query = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($query);
-    $user_id = $row['id'];
+    $user_id = getSpecificValue("SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'", 'id');
     if($increment == 1){
-        $sql = "SELECT COUNT(`id`) as `count` FROM `csi_event_likes` WHERE `event_id`='$event_id' AND `user_id`='$user_id'";
-        $query = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($query);
+        $row = getValue("SELECT COUNT(`id`) as `count` FROM `csi_event_likes` WHERE `event_id`='$event_id' AND `user_id`='$user_id'");
         if ($row['count']=="0"){
-            $sql = "INSERT INTO `csi_event_likes`( `event_id`, `user_id`) VALUES ('$event_id','$user_id')";
-            mysqli_query($conn, $sql);
+            $stmt = execute("INSERT INTO `csi_event_likes`( `event_id`, `user_id`) VALUES ('$event_id','$user_id')");
         }
     }else{
-        $sql = "DELETE FROM `csi_event_likes` WHERE `event_id`='$event_id' AND `user_id`='$user_id'";
-        mysqli_query($conn, $sql);
+        $stmt = execute("DELETE FROM `csi_event_likes` WHERE `event_id`='$event_id' AND `user_id`='$user_id'");
     }
-    $sql_count_likes = "SELECT COUNT(user_id) as count FROM `csi_event_likes` where `event_id` = '$event_id'";
-    $query_count_likes = mysqli_query($conn, $sql_count_likes);
-    $row_count_likes = mysqli_fetch_assoc($query_count_likes);
-    $count = $row_count_likes['count'];
+    $count = getSpecificValue("SELECT COUNT(user_id) as count FROM `csi_event_likes` where `event_id` = '$event_id'", 'count');
     if($increment == 0){
 ?>
         <button class="btn icon_btn" name = 'like' value="<?php echo $event_id;?>" ><i class="far fa-thumbs-up fa-2x"></i></button>

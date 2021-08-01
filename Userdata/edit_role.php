@@ -20,9 +20,7 @@
     $access=NULL;
     if(isset($_SESSION["role_id"])){
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     if (isset($access) && $access["role"] === "0") {
         header("location:../index.php");
@@ -37,9 +35,7 @@
     if (isset($_SESSION['email'])) {
         if (isset($access) && $access["role"] === "1") {
             $role_id = $_GET["role_id"];
-            $sql = "SELECT * FROM `csi_role` WHERE id='$role_id'";
-            $query = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_assoc($query);
+            $row = getValue("SELECT * FROM `csi_role` WHERE id='$role_id'");
     ?>
             <header>
                 <h2 style="text-align: center;">Edit Role for <?php echo $row["role_name"]; ?></h2>

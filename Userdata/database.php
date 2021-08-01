@@ -19,21 +19,15 @@
     $access=NULL;
     if(isset($_SESSION["role_id"])){
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['update_id'])) {
             $update_role = $_POST['role'];
-            $sql = "SELECT `id` FROM `csi_role` WHERE `role_name`='$update_role'";
-            $query = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_assoc($query);
-            $update_role = $row['id'];
+            $update_role = getSpecificValue("SELECT `id` FROM `csi_role` WHERE `role_name`='$update_role'", 'id');
             $id = $_POST['update_id'];
-            $sql = "UPDATE csi_userdata SET role='$update_role' WHERE id='$id'";
-            $query = mysqli_query($conn, $sql);
+            $query = execute("UPDATE csi_userdata SET role='$update_role' WHERE id='$id'");
             if ($query) {
                 function_alert("Update Successful ");
             } else {
@@ -42,8 +36,7 @@
         }
         if (isset($_POST['delete_id'])) {
             $id = $_POST['delete_id'];
-            $sql = "DELETE FROM csi_userdata WHERE id='$id' ";
-            $query = mysqli_query($conn, $sql);
+            $query = execute("DELETE FROM csi_userdata WHERE id='$id' ");
             if ($query) {
                 function_alert("Update Successful ");
             } else {
@@ -111,17 +104,14 @@
                 <?php
                 if (isset($_SESSION['email'])) {
                     if($access['user_data']== '1'){
-                        $sql = "SELECT `role_name` FROM `csi_role`";
-                        $result = mysqli_query($conn, $sql);
+                        $result = execute("SELECT `role_name` FROM `csi_role`");
                         $roles = array();
                         while ($row = mysqli_fetch_assoc($result)) {
                             $roles[] = $row['role_name'];
                         }
-                        $sql = "SELECT `csi_userdata`.`id`,`name`,`emailID`,`phonenumber`,`branch`,`year`,`role_name` FROM `csi_userdata`  
-                                INNER JOIN `csi_role` 
-                                ON `csi_userdata`.`role`=`csi_role`.`id`";
-                        //echo $sql;
-                        $query = mysqli_query($conn, $sql);
+                        $query = execute("SELECT `csi_userdata`.`id`,`name`,`emailID`,`phonenumber`,`branch`,`year`,`role_name` FROM `csi_userdata`  
+                                        INNER JOIN `csi_role` 
+                                        ON `csi_userdata`.`role`=`csi_role`.`id`");
                         if (mysqli_num_rows($query) > 0) {
                             $index=0;
                             while ($row = mysqli_fetch_assoc($query)) {

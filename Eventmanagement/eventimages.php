@@ -21,14 +21,12 @@
     require_once "../config.php";
     session_start();
     // Fetching Access Details
-    $access = NULL;
+    $access = 0;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'content_repository');
     }
-    if ($access['content_repository'] == 0) {
+    if ($access == 0) {
         header("location:../index.php");
     }
     if (isset($_GET['event_id'])) {
@@ -36,50 +34,31 @@
         $title = $_GET['event_title'];
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $phpFileUploadErrors = array(
-            0 => 'There is no error, the file uploaded with success',
-            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-            3 => 'The uploaded file was only partially uploaded',
-            4 => 'No file was uploaded',
-            6 => 'Missing a temorary folder',
-            7 => 'Failed to write file to disk,',
-            8 => 'A PHP extension stopped the file upload.',
-        );
-        $extensions = array('jpg', 'jpeg', 'png');
         $index = 1;
         while (isset($_POST['uploadimg' . $index])) {
-            $event_photo = $_FILES["image" . $index]["name"];
-            $file_ext_event = explode(".", $_FILES['image' . $index]["name"]);
-            $file_ext_event = end($file_ext_event);
-            if (in_array($file_ext_event, $extensions)) {
-                $title = $_POST['eventtitle'];
-                $id = $_POST['eventid'];
-                $dir = str_replace(" ", "", $title . $id);
-                $folder_name_event = "EventImages/" . $dir;
-                if (!file_exists($folder_name_event)) {
-                    mkdir($folder_name_event);
-                    echo "<script>alert('You create directory successfully')</script>";
-                }
-                $file_new_event = uniqid('', true) . "." . $file_ext_event;
-                $sql = "INSERT INTO `csi_contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')";
-                $stmt = mysqli_query($conn, $sql);
-                echo "<script>alert(" . $folder_name_event . ")</script>";
-                move_uploaded_file($_FILES["image" . $index]["tmp_name"], $folder_name_event . '/' . $file_new_event);
-                if ($_FILES["image" . $index]["error"] != 0) {
-                    $err =  $phpFileUploadErrors[$_FILES["image" . $index]["error"]];
-                }
-            } else {
-                function_alert("Extention of file should be jpg,jpeg,png.");
+            $title = $_POST['eventtitle'];
+            $id = $_POST['eventid'];
+            $dir = str_replace(" ", "", $title . $id);
+            $folder_name_event = "EventImages/" . $dir;
+            if (!file_exists($folder_name_event)) {
+                mkdir($folder_name_event);
+                echo function_alert("You create directory successfully");
             }
+            $image = fileTransfer("image" . $index,"EventImages/" . $dir);
+            if($image['error'] == NULL){
+                $file_new_event = $image['file_new_name'];
+                execute("INSERT INTO `csi_contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')");
+            } else {
+                function_alert($image['error']);
+            }
+            $stmt = 
             $index++;
         }
         if (isset($_POST['delete_id_btn'])) {
             $title = $_POST['eventtitle'];
             $id = $_POST['eventid'];
             $imgid = $_POST['delete_id'];
-            $sql = "DELETE FROM `csi_contentrepository` WHERE id=" . $imgid;
-            $query = mysqli_query($conn, $sql);
+            $query = execute("DELETE FROM `csi_contentrepository` WHERE id=" . $imgid);
         }
     }
     ?>
@@ -105,8 +84,7 @@
             <!-- Single item -->
 
             <?php
-            $sql = "SELECT * FROM `csi_contentrepository` where eventid = '$id'";
-            $sqlstmt = mysqli_query($conn, $sql);
+            $sqlstmt = execute("SELECT * FROM `csi_contentrepository` where eventid = '$id'");
             $number_of_images = mysqli_num_rows($sqlstmt);
             for ($j = 0; $j < $number_of_images;) {
 

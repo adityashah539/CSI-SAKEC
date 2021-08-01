@@ -15,13 +15,10 @@
     session_start();
     
     $email = $_SESSION['email'];
-    $sqluserid= "SELECT `id` from `csi_userdata` where emailID = '$email'";
-    $queryuserid= mysqli_query($conn, $sqluserid);
-    $rows=mysqli_fetch_assoc($queryuserid);
-    $userid=$rows['id'];
-    $sql = "SELECT `id` ,`userid` FROM `csi_membership` WHERE userid = $userid";
-    $query = mysqli_query($conn, $sql);
-    $noOfRows=mysqli_num_rows($query);  
+    $userid = getSpecificValue("SELECT `id` from `csi_userdata` where emailID = '$email'", 'id');
+
+    $noOfRows=getNumRows("SELECT `id` ,`userid` FROM `csi_membership` WHERE userid = $userid");  
+
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
         $amount=$_POST['amount'];
         if($noOfRows==0){              
@@ -30,47 +27,20 @@
             $dob=$_POST['dob'];
             $syear=$_POST['syear'];
             $eyear=$_POST['eyear'];
-            $sqlinsert="INSERT INTO `csi_membership`(`userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`)
-                                            VALUES ('$userid','$dob','$pemail','$syear','$eyear','$regno')";
-            $queryinsert = mysqli_query($conn, $sqlinsert);
+            execute("INSERT INTO `csi_membership`(`userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`)
+                                            VALUES ('$userid','$dob','$pemail','$syear','$eyear','$regno')");
         }
-        $sqlmembershipid= "SELECT `id` from `csi_membership` where userid = '$userid'";
-        $querymembershipid= mysqli_query($conn, $sqlmembershipid);
-        $rows=mysqli_fetch_assoc($querymembershipid);
-        $membership_id=$rows['id'];
-        $phpFileUploadErrors = array(
-            0 => 'There is no error, the file uploaded with success',
-            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-            3 => 'The uploaded file was only partially uploaded',
-            4 => 'No file was uploaded',
-            6 => 'Missing a temorary folder',
-            7 => 'Failed to write file to disk,',
-            8 => 'A PHP extension stopped the file upload.',
-        );
-         $extensions = array('jpg', 'jpeg', 'png');
-        //INSERT INTO `membership`(`userid`, `membershipbill`, `smartcard`, `status`) VALUES ('[value-2]','[value-3]','[value-4]','[value-5]')
-        // Insert Bill in folder
-                    $bill_photo = $_FILES["billphoto"]["name"];
-                    $file_ext_bill = explode(".", $_FILES['billphoto']["name"]);
-                    $file_ext_bill = end($file_ext_bill);
-                    if (in_array($file_ext_bill, $extensions)) {
-                        $folder_name_bill = "Membership_Bill/";
-                        $file_new_bill = uniqid('', true) . "." . $file_ext_bill;
-                        move_uploaded_file($_FILES["billphoto"]["tmp_name"], $folder_name_bill . $file_new_bill);
-                        if ($_FILES["billphoto"]["error"] != 0) {
-                            $err =  $phpFileUploadErrors[$_FILES["billphoto"]["error"]];
-                        }
-                        else{
-                            $sqlbill="INSERT INTO `csi_membership_bills`( `membership_id`, `bill_photo`, `amount`)
-                                                                VALUES ('$membership_id','$file_new_bill','$amount')";
-                            $querybill= mysqli_query($conn, $sqlbill);
-                            function_alert("success");                            
-                            header("location:../index.php");
-                        }
-                    } else {
-                        function_alert("Extention of file should be jpg,jpeg,png." . $file_new_bill);
-                    }
+        $membership_id = getSpecificValue("SELECT `id` from `csi_membership` where userid = '$userid'", 'id');
+
+        // Insert bill in a folder
+        $image = fileTransfer('billphoto', 'Membership_Bill');
+        if($image['error'] == NULL){
+            $file_new_bill = $image['file_new_name'];
+            execute("INSERT INTO `csi_membership_bills`( `membership_id`, `bill_photo`, `amount`)
+                                                VALUES ('$membership_id','$file_new_bill','$amount')");
+        } else {
+            function_alert($image['error']);
+        }
     }
     ?>
 </head>
@@ -178,97 +148,12 @@
     </div>
     <div class="spacer" style="height:50px;"></div>
     <div class="spacer" style="height:50px;"></div>
-          <!-- Footer -->
-          <section id="contact">
-        <footer class="footer-area  p_60">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">Page Links</h6>
-                            <ul class="list">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Events</a></li>
-                                <li><a href="#">Our Team</a></li>
-                                <li><a href="#">Gallery</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-6 col-sm-6">
-                        <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">Contact Us</h6>
-                            <p>You can trust us. we only send promo offers, not a single spam.</p>
-                            <div class="guery">
-                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                    <div class="input-group d-flex flex-row">
-                                        <?php
-                                        if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
-                                            echo '<input type="hidden" name="email" value="' . $_SESSION['email'] . '">';
-                                        } else {
-                                            echo '<input type="email" name="emailentered" placeholder="Your Email" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'Email\'" autocomplete="off" required>';
-                                        }
-                                        echo '<textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=' . '" onblur="this.placeholder=\'Message\'" autocomplete="off" required></textarea>';
-                                        ?>
-                                        <!-- <input type="text" name="name" placeholder="Your Name" onfocus="this.placeholder=''" onblur="this.placeholder='Name'" autocomplete="off" required> -->
-                                        <!-- <input type="email" name="email" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required> -->
-                                        <!-- <textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=''" onblur="this.placeholder='Message'" autocomplete="off" required></textarea> -->
-                                        <button class="btn sub-btn" name="contactusbutton">Send</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 offset-lg-1">
-                        <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">contact</h6>
-                            <ul class="list">
-                                <li><a href="#">Privacy policy</a></li>
-                                <li><a href="#">Terms</a></li>
-                                <li><a href="#">Membership</a></li>
-                                <li>
-                                    <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
-                                </li>
-                                <!-- Newsletter Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="email" name="name" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn news-btn">Send</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                    <p class="col-lg-8 col-md-8 footer-text m-0">
-                        Copyright © <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with ❤ by Israil
-                    </p>
-                    <div class="col-lg-4 col-md-4 footer-social">
-                        <a href="https://www.facebook.com/csisakec/photos">
-                            <i class="fab fa-facebook-f"></i>
-                        </a><a href="https://www.instagram.com/csi.sakec/?utm_medium=copy_link"><i class="fab fa-instagram"></i></a>
-                        <a href="https://twitter.com/sakectweets?lang=en"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.youtube.com/c/SAKECYouTubeChannel"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </section>
-    <!-- Footer Ends -->
+
+    <!-- Footer -->
+        <?php require_once '../footer.php';?>
+    <!-- Footer -->
+
+    
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>

@@ -82,8 +82,7 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
             <ol class="carousel-indicators">
             <?php
-                $gallerysql = "SELECT * FROM `csi_gallery`";
-                $gallerysqlstmt = mysqli_query($conn, $gallerysql);
+                $gallerysqlstmt = mysqli_query("SELECT * FROM `csi_gallery`");
                 $number_of_images_gallery = mysqli_num_rows($gallerysqlstmt);
                 for ($j = 0; $j < $number_of_images_gallery;$j++) {
             ?>

@@ -10,6 +10,10 @@
     function function_alert($message){
         echo "<SCRIPT>alert('$message');</SCRIPT>";
     }
+    function redirect_after_msg($message, $location){
+        function_alert($message);
+        echo "<SCRIPT>window.location = '$location';</SCRIPT>";
+    }
     function fileTransfer($fileInputName,$location){
         $data = array(
             "error"=>NULL,
@@ -50,8 +54,11 @@
     function getValue($sql){
         return mysqli_fetch_assoc(execute($sql));
     }
+    function getNumRows($sql){
+        return mysqli_num_rows(execute($sql));
+    }
     function getSpecificValue($sql,$columnName){
         $variable= mysqli_fetch_assoc(execute($sql));
         return $variable[$columnName];
     }
-?>
+?> 

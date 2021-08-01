@@ -10,8 +10,7 @@ require_once "../config.php";
             <?php
             if (isset($_POST['edit_btn'])) {
                 $id = $_POST['edit_id'];
-                $sql = "SELECT * FROM csi_userdata WHERE id='$id' ";
-                $query = mysqli_query($conn, $sql);
+                $query = execute("SELECT * FROM csi_userdata WHERE id='$id' ");
                 foreach ($query as $row) {
             ?>
                 <form action="update.php" method="POST">

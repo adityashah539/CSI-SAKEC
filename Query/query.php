@@ -15,29 +15,24 @@
     session_start();
     require_once "../config.php";
     // Fetching Access Details
-    $access = NULL;
+    $accessquery = 0;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
-        $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-        $query =  mysqli_query($conn, $sql);
-        $access = mysqli_fetch_assoc($query);
+        $accessquery = getSpecificValue("SELECT query FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'query');
+        $accessreplylog = getSpecificValue("SELECT reply_log FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'reply_log');
     }
-    if($access['query'] == 0){
+    if($accessquery == 0){
         header("location:../index.php");
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reply_id'])) {
         $id = $_POST['reply_id'];
-        $sql = "SELECT * FROM csi_query WHERE id='$id'";
-        $query = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($query);
+        $row = getValue("SELECT * FROM csi_query WHERE id='$id'");
         $c_email =  $row['c_email'];
         $email_replied_by = $_SESSION['email'];
         $query =   $row['c_query'];
         $reply = $_POST['Msg'];
-        $sql = "INSERT INTO csi_reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$c_email','$query','$reply','$email_replied_by')";
-        $query = mysqli_query($conn, $sql);
-        $sql = "DELETE FROM csi_query WHERE id='$id' ";
-        $query = mysqli_query($conn, $sql);
+        $query = execute("INSERT INTO csi_reply ( c_email  , c_query  , reply , replied_by ) VALUES ('$c_email','$query','$reply','$email_replied_by')");
+        $query = execute("DELETE FROM csi_query WHERE id='$id' ");
         if ($query) {
             function_alert("Update Successful ");
         } else {
@@ -64,7 +59,7 @@
                     <a class="nav-link" href="../index.php"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <?php
-                if ($access['reply_log'] == 1) {
+                if ($accessreplylog == 1) {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="log.php"><i class="fas fa-history"></i> Reply log</a>
@@ -97,9 +92,8 @@
         <tbody id="queryTableBody">
             <div class="table-content" style="font-size: large;">
                 <?php
-                if ($access['query'] == 1) {
-                    $sql = 'SELECT * FROM csi_query';
-                    $query = mysqli_query($conn, $sql);
+                if ($accessquery == 1) {
+                    $query = execute('SELECT * FROM csi_query');
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>

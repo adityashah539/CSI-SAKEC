@@ -16,21 +16,20 @@
         require_once "../config.php";
         session_start();
                 
+        $access = 0;
         if (isset($_SESSION["role_id"])) {
             $role_id = $_SESSION["role_id"];
             $sql = "SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id";
-            $query =  mysqli_query($conn, $sql);
-            $access = mysqli_fetch_assoc($query);
+            $access = getSpecificValue($sql, 'budget');
         }
-        if ($access['budget'] == 0) {
+        if ($access == 0) {
             header("location:../index.php");
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if(isset($_POST['delete_bill'])){
                 $expense_id=$_POST['expense_id'];
                 $sql = "DELETE FROM `csi_expense` WHERE `id`='$expense_id'";
-                $query = mysqli_query($conn, $sql);
-                mysqli_query($conn, $sql);
+                $query = execute($sql);
             }
         }
     ?>
@@ -54,10 +53,14 @@
             <div class="table-content" style="font-size: large;">
 
                 <?php
-                    $event_id= $_GET['e_id'];
+                    if(isset($_GET['e_id'])){
+                        $event_id= $_GET['e_id'];
+                    }else if(isset($_POST['event_id'])){
+                        $event_id = $_POST['event_id'];
+                    }
                     $sum=0;
                     $sql = "SELECT `id`,`spent_on`, `by` , `bill_photo`, `bill_amount` FROM `csi_expense` WHERE `event_id` = $event_id";
-                    $query = mysqli_query($conn, $sql);
+                    $query = execute($sql);
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>
@@ -76,6 +79,7 @@
                             ?>
                                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                                     <input type="hidden" name="expense_id" value="<?php echo $row["id"]; ?>"/>
+                                    <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
                                     <button type="submit" name="delete_bill" value="delete" class="btn btn-danger"> Delete</button>
                                 </form>
                             <?php

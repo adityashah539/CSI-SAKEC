@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2021 at 04:22 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Generation Time: Aug 01, 2021 at 10:31 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 8.0.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `acsessions`
+--
+
+CREATE TABLE `acsessions` (
+  `id` int(10) NOT NULL,
+  `entryby` varchar(20) DEFAULT NULL,
+  `entrydate` datetime NOT NULL DEFAULT current_timestamp(),
+  `acsession` varchar(10) DEFAULT NULL,
+  `acyear` varchar(12) DEFAULT NULL,
+  `acsem` varchar(10) DEFAULT NULL,
+  `datefrom` date DEFAULT NULL,
+  `dateto` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `csi_aboutus`
 --
 
@@ -38,7 +55,7 @@ CREATE TABLE `csi_aboutus` (
 --
 
 INSERT INTO `csi_aboutus` (`id`, `photo`, `description`) VALUES
-(1, '60e55ac3bcfe36.74441960.jpg', 'CSI SAKEC was formed in the year 2007. From then it\r\n						has successively grown to one of the strongest student\r\n						chapters of SAKEC. CS1 SAKEC has always lived upon\r\n						its motto of:\r\n						“BUILDING TECHNICAL SKILLS PROFESSIONALLY1’\r\n						in the past, CS1 SAKEC has been conducting various\r\n						workshops, seminars and visits with the help of\r\n						technically sound students for the benefit of SAKEC as\r\n						well as Non SAKEC students. Student Council of CS1\r\n						SAKEC includes different teams such as Design,\r\n						Treasury, Registration, Technical, Events,\r\n						Documentation and Publicity. These teams collectively\r\n						work for all the events conducted by CS1 SAKEC under\r\n						the guidance of Staff Coordinators for the benefit of all\r\n						the members.');
+(1, '6106ad4f0ff830.13926242.jpg', 'CSI SAKEC was formed in the year 2007. From then it\r\n						has successively grown to one of the strongest student\r\n						chapters of SAKEC. CS1 SAKEC has always lived upon\r\n						its motto of:\r\n						“BUILDING TECHNICAL SKILLS PROFESSIONALLY1’\r\n						in the past, CS1 SAKEC has been conducting various\r\n						workshops, seminars and visits with the help of\r\n						technically sound students for the benefit of SAKEC as\r\n						well as Non SAKEC students. Student Council of CS1\r\n						SAKEC includes different teams such as Design,\r\n						Treasury, Registration, Technical, Events,\r\n						Documentation and Publicity. These teams collectively\r\n						work for all the events conducted by CS1 SAKEC under\r\n						the guidance of Staff Coordinators for the benefit of all\r\n						the members');
 
 -- --------------------------------------------------------
 
@@ -60,7 +77,8 @@ INSERT INTO `csi_collaboration` (`id`, `event_id`, `collab_body`) VALUES
 (1, 40, 'computer engineering'),
 (2, 47, 'ieee'),
 (3, 48, 'ieee'),
-(4, 48, 'ipr');
+(4, 48, 'ipr'),
+(6, 53, 'Computer Department');
 
 -- --------------------------------------------------------
 
@@ -74,10 +92,20 @@ CREATE TABLE `csi_collection` (
   `user_id` int(11) NOT NULL,
   `bill_photo` varchar(255) DEFAULT NULL,
   `amount` int(11) NOT NULL DEFAULT 0,
-  `confirmed` tinyint(4) NOT NULL,
-  `confirmed_by` varchar(255) NOT NULL,
-  `attend` tinyint(4) NOT NULL DEFAULT 0
+  `confirmed` tinyint(4) NOT NULL DEFAULT 0,
+  `confirmed_by` varchar(255) DEFAULT NULL,
+  `attend` tinyint(4) NOT NULL DEFAULT 0,
+  `externalstudentmembership` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `csi_collection`
+--
+
+INSERT INTO `csi_collection` (`id`, `event_id`, `user_id`, `bill_photo`, `amount`, `confirmed`, `confirmed_by`, `attend`, `externalstudentmembership`) VALUES
+(99, 43, 89, NULL, 0, 1, 'auto', 0, NULL),
+(105, 49, 89, '6104238eace866.40341960.jpg', 5000, 1, 'c@sakec.ac.in', 0, ''),
+(106, 53, 89, '6106cc602fab64.09524532.jpg', 200, 1, 'c@sakec.ac.in', 0, '');
 
 -- --------------------------------------------------------
 
@@ -139,6 +167,13 @@ CREATE TABLE `csi_coordinator` (
   `image` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `csi_coordinator`
+--
+
+INSERT INTO `csi_coordinator` (`id`, `user_id`, `image`) VALUES
+(21, 116, '6106aee60c9215.63265983.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -173,7 +208,8 @@ INSERT INTO `csi_event` (`id`, `title`, `subtitle`, `banner`, `e_from_date`, `e_
 (43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-07-03', '2021-07-03', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1, 1, 0),
 (47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-04', '2021-07-04', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1, 1, 0),
 (48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-05', '2021-07-05', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 1, 0),
-(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-07-20', '2021-07-06', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 1, 0);
+(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-07-20', '2021-07-06', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 1, 0),
+(53, 'ML', 'Learn', ' 6106cbfeaf5c71.72314970.jpg', '2021-08-14', '2021-08-14', '09:58:00', '03:58:00', 'learn ml', 0, 200, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -193,16 +229,13 @@ CREATE TABLE `csi_event_likes` (
 
 INSERT INTO `csi_event_likes` (`id`, `event_id`, `user_id`) VALUES
 (60, 48, 89),
-(74, 47, 91),
-(75, 43, 91),
-(76, 48, 91),
-(78, 49, 91),
-(100, 47, 89),
 (102, 43, 89),
 (126, 40, 89),
-(130, 49, 89),
 (132, 41, 89),
-(133, 42, 89);
+(133, 42, 89),
+(137, 47, 89),
+(141, 49, 89),
+(142, 53, 89);
 
 -- --------------------------------------------------------
 
@@ -227,7 +260,8 @@ INSERT INTO `csi_expense` (`id`, `event_id`, `spent_on`, `by`, `bill_photo`, `bi
 (24, 40, 'pen', 'aditya.shah_19@sakec.ac.in', 'bill PO.png', 150),
 (25, 40, 'book', 'aditya.shah_19@sakec.ac.in', '60c5aabd20e615.59719138.png', 10),
 (26, 40, 'book 2', 'aditya.shah_19@sakec.ac.in', '60c5ab28dab3f2.82965889.png', 50),
-(27, 41, 'book 3', 'aditya.shah_19@sakec.ac.in', '60c5ab28dcd876.74772786.jpg', 100);
+(27, 41, 'book 3', 'aditya.shah_19@sakec.ac.in', '60c5ab28dcd876.74772786.jpg', 100),
+(29, 40, 'book 3', 'c@sakec.ac.in', '6106a127144592.68508798.png', 60);
 
 -- --------------------------------------------------------
 
@@ -249,6 +283,13 @@ CREATE TABLE `csi_feedback` (
   `selfie` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `csi_feedback`
+--
+
+INSERT INTO `csi_feedback` (`id`, `collection_id`, `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `selfie`) VALUES
+(34, 105, 5, 5, 5, 5, 5, 5, 'fast', 'No', '');
+
 -- --------------------------------------------------------
 
 --
@@ -266,7 +307,7 @@ CREATE TABLE `csi_gallery` (
 --
 
 INSERT INTO `csi_gallery` (`id`, `image`, `status`) VALUES
-(59, 'gal-1.jpg', 0),
+(59, 'gal-1.jpg', 1),
 (60, 'gal-2.jpg', 1),
 (61, 'gal-3.jpg', 1),
 (62, 'gal-4.jpg', 1),
@@ -294,7 +335,7 @@ CREATE TABLE `csi_membership` (
 --
 
 INSERT INTO `csi_membership` (`id`, `userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`, `duration`) VALUES
-(11, 90, NULL, '', NULL, NULL, 0, NULL);
+(1, 120, '2001-01-23', 'dhiraj.shetty_19@sakec.ac.in', 2019, 2023, 15555, '2025-08-01 12:08:00');
 
 -- --------------------------------------------------------
 
@@ -310,6 +351,13 @@ CREATE TABLE `csi_membership_bills` (
   `membership_taken` datetime NOT NULL,
   `no_of_year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `csi_membership_bills`
+--
+
+INSERT INTO `csi_membership_bills` (`id`, `membership_id`, `bill_photo`, `amount`, `membership_taken`, `no_of_year`) VALUES
+(3, 1, '6106d17e1dbb81.90047817.jpg', 2000, '2021-08-01 00:00:00', 4);
 
 -- --------------------------------------------------------
 
@@ -352,8 +400,8 @@ CREATE TABLE `csi_password` (
 
 INSERT INTO `csi_password` (`id`, `user_id`, `password`) VALUES
 (1, 89, '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2'),
-(2, 91, '$2y$10$3BzXbe.vE6VmocyQlJUGMOV1TcchPwrqWzG1zuWuRb8dOZE5BKbFi'),
-(5, 92, '$2y$10$7VA4NpTZ0joR5ekuewf7x.rYtWVIKZAimD3yxSuY7/znaH3NtJzhq');
+(18, 116, '$2y$10$04zCpeXDJNGdLDFqzF2vAO7USq0aR7DgfXj4SFy0mDtlZoDem6GC.'),
+(22, 120, '$2y$10$dhfz0iXDFNQMr2mKcUiNXOc4zJb/xwJOhSvDD4Kd9CXUZSxEJ5p.m');
 
 -- --------------------------------------------------------
 
@@ -372,7 +420,6 @@ CREATE TABLE `csi_query` (
 --
 
 INSERT INTO `csi_query` (`id`, `c_email`, `c_query`) VALUES
-(6, 'israil.alam_19@sakec.ac.in', 'How to upload the photos'),
 (15, 'aditya.shah_19@sakec.ac.in', 'how to login');
 
 -- --------------------------------------------------------
@@ -395,7 +442,8 @@ CREATE TABLE `csi_reply` (
 
 INSERT INTO `csi_reply` (`id`, `c_email`, `c_query`, `reply`, `replied_by`) VALUES
 (14, 'aditya.shah_19@sakec.ac.in', 'hello', 'ok', 'aditya.shah_19@sakec.ac.in'),
-(15, 'aditya.shah_19@sakec.ac.in', 'how to login', 'test123', 'aditya.shah_19@sakec.ac.in');
+(15, 'aditya.shah_19@sakec.ac.in', 'how to login', 'test123', 'aditya.shah_19@sakec.ac.in'),
+(16, 'israil.alam_19@sakec.ac.in', 'How to upload the photos', 'Ask permission through Admin', 'c@sakec.ac.in');
 
 -- --------------------------------------------------------
 
@@ -430,8 +478,8 @@ CREATE TABLE `csi_role` (
 
 INSERT INTO `csi_role` (`id`, `role_name`, `main_page_edit`, `user_data`, `role`, `add_event`, `budget`, `manage_event`, `edit_attendance`, `permission_letter`, `report`, `confirm_event_registration`, `content_repository`, `feedback_response`, `query`, `reply_log`, `audit`, `confirm_membership`) VALUES
 (1, 'admin', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(2, 'head coordinator', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(3, 'coordinator', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(2, 'head coordinator', 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(3, 'coordinator', 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
 (4, 'teacher', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (5, 'member', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (6, 'student', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -490,23 +538,25 @@ CREATE TABLE `csi_userdata` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `year` varchar(5) NOT NULL,
-  `division` varchar(10) NOT NULL,
-  `rollNo` int(10) NOT NULL,
+  `division` varchar(10) DEFAULT NULL,
+  `rollNo` int(10) DEFAULT NULL,
   `emailID` varchar(50) NOT NULL,
   `phonenumber` bigint(10) NOT NULL,
   `branch` varchar(10) NOT NULL,
   `role` int(15) NOT NULL,
-  `gender` varchar(10) NOT NULL
+  `gender` varchar(10) NOT NULL,
+  `organization` varchar(255) NOT NULL DEFAULT 'sakec'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `csi_userdata`
 --
 
-INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`) VALUES
-(89, 'Dhiraj', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 1, ''),
-(91, 'Dhiraj', 'TE', '3', 75, 'dhiraj.shetty_19@sakec.ac.in', 8779633138, 'CS', 11, 'male'),
-(92, 'abc', 'FE', '1', 69, 'abc@sakec.ac.in', 1111111111, 'CS', 6, 'male');
+INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`, `organization`) VALUES
+(89, 'Dhiraj', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 1, '', 'sakec'),
+(115, 'Aditya Bharat Shah', 'FE', NULL, NULL, 'adityashah539@gmail.com', 9372622462, 'CS', 1, 'male', 'sakec'),
+(116, 'ADITYA SHAH', 'FE', 'BE3', 19, 'aditya.shah_19@sakec.ac.in', 9999999981, 'Computers', 23, 'male', 'sakec'),
+(120, '', '', '', 0, 'dhiraj.shetty_19@sakec.ac.in', 0, '', 6, 'male', 'sakec');
 
 -- --------------------------------------------------------
 
@@ -525,11 +575,280 @@ CREATE TABLE `csi_venue` (
 --
 
 INSERT INTO `csi_venue` (`id`, `event_id`, `location`) VALUES
-(1, 47, '4th-Floor Seminar Hall');
+(1, 47, '4th-Floor Seminar Hall'),
+(4, 53, 'SAKEC');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `division_details`
+--
+
+CREATE TABLE `division_details` (
+  `id` int(11) NOT NULL,
+  `std_id` int(11) NOT NULL COMMENT 'References student_table (std_id)',
+  `sem_id` int(4) NOT NULL COMMENT 'References intake (sem_id)',
+  `std_roll_no` int(3) NOT NULL,
+  `batch` varchar(1) NOT NULL,
+  `year` int(5) NOT NULL,
+  `session` varchar(10) NOT NULL,
+  `date_enter` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `division_details`
+--
+
+INSERT INTO `division_details` (`id`, `std_id`, `sem_id`, `std_roll_no`, `batch`, `year`, `session`, `date_enter`) VALUES
+(1, 201941000, 2, 1, '', 0, '', '2021-07-28 14:19:11'),
+(2, 201941001, 2, 2, '', 0, '', '2021-07-28 14:19:11'),
+(3, 201941002, 2, 3, '', 0, '', '2021-07-28 14:19:11'),
+(4, 201841003, 3, 4, '', 0, '', '2021-07-28 14:19:11'),
+(5, 201841004, 3, 5, '', 0, '', '2021-07-28 14:19:11'),
+(6, 201841005, 3, 6, '', 0, '', '2021-07-28 14:19:11'),
+(7, 202041006, 1, 7, '', 0, '', '2021-07-28 14:19:11'),
+(8, 201941007, 2, 8, '', 0, '', '2021-07-28 14:19:11'),
+(9, 201941008, 2, 9, '', 0, '', '2021-07-28 14:19:11'),
+(10, 201941009, 2, 10, '', 0, '', '2021-07-28 14:19:11'),
+(11, 202041010, 1, 11, '', 0, '', '2021-07-28 14:19:11'),
+(12, 202041011, 2, 12, '', 0, '', '2021-07-28 14:19:11'),
+(13, 202041012, 2, 13, '', 0, '', '2021-07-28 14:19:11'),
+(14, 202041013, 2, 14, '', 0, '', '2021-07-28 14:19:11'),
+(15, 201841014, 1, 15, '', 0, '', '2021-07-28 14:19:11'),
+(16, 201841015, 1, 16, '', 0, '', '2021-07-28 14:19:11'),
+(17, 202041016, 1, 17, '', 0, '', '2021-07-28 14:19:11'),
+(18, 202041017, 1, 18, '', 0, '', '2021-07-28 14:19:11'),
+(19, 201941018, 3, 19, '', 0, '', '2021-07-28 14:19:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dloc_subject`
+--
+
+CREATE TABLE `dloc_subject` (
+  `subject_no` varchar(10) NOT NULL COMMENT 'References subject_table (subject_no)',
+  `subject_name` varchar(40) NOT NULL COMMENT 'References subject_table (subject_name)',
+  `sem_id` int(4) NOT NULL COMMENT 'References intake (sem_id)',
+  `batch1` varchar(1) DEFAULT NULL,
+  `batch2` varchar(1) DEFAULT NULL,
+  `batch3` varchar(1) DEFAULT NULL,
+  `batch4` varchar(1) DEFAULT NULL,
+  `ac_year` int(4) NOT NULL,
+  `date_enter` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iloc_subject`
+--
+
+CREATE TABLE `iloc_subject` (
+  `subject_no` varchar(10) NOT NULL COMMENT 'References subject_table (subject_no)',
+  `subject_name` varchar(40) NOT NULL COMMENT 'References subject_table (subject_name)',
+  `program` varchar(11) NOT NULL,
+  `sem_id` int(4) NOT NULL COMMENT 'References intake (sem_id)',
+  `std_roll_no` int(3) NOT NULL,
+  `ac_year` int(4) NOT NULL,
+  `date_enter` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `intake`
+--
+
+CREATE TABLE `intake` (
+  `program_id` int(1) NOT NULL,
+  `program` varchar(30) NOT NULL,
+  `year_id` int(2) NOT NULL,
+  `year` varchar(11) NOT NULL,
+  `div_id` int(6) NOT NULL,
+  `division` varchar(11) NOT NULL,
+  `sem_id` int(6) NOT NULL,
+  `semester` int(11) NOT NULL,
+  `program_linked` varchar(30) DEFAULT NULL,
+  `used` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `intake`
+--
+
+INSERT INTO `intake` (`program_id`, `program`, `year_id`, `year`, `div_id`, `division`, `sem_id`, `semester`, `program_linked`, `used`) VALUES
+(0, '', 0, '', 0, 'SE3', 1, 0, NULL, 0),
+(0, '', 0, '', 0, 'TE3', 2, 0, NULL, 0),
+(0, '', 0, '', 0, 'BE3', 3, 0, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_table`
+--
+
+CREATE TABLE `student_table` (
+  `std_id` int(11) NOT NULL,
+  `registration_no` int(11) NOT NULL,
+  `student_name` varchar(40) NOT NULL,
+  `email` varchar(64) NOT NULL,
+  `s_phone` varchar(15) DEFAULT NULL,
+  `p_phone` varchar(15) DEFAULT NULL,
+  `mentor` varchar(60) NOT NULL,
+  `smart_card_no` varchar(10) DEFAULT NULL,
+  `admission_year` int(5) DEFAULT NULL,
+  `program` varchar(30) NOT NULL,
+  `admission_type` varchar(10) NOT NULL,
+  `date_enter` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_table`
+--
+
+INSERT INTO `student_table` (`std_id`, `registration_no`, `student_name`, `email`, `s_phone`, `p_phone`, `mentor`, `smart_card_no`, `admission_year`, `program`, `admission_type`, `date_enter`) VALUES
+(201841003, 15003, 'KRUTIK PATEL', 'krutik.patel@sakec.ac.in', '9999999996', NULL, '', NULL, 2018, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201841004, 15004, 'SHALIN GUND', 'shalin.gund@sakec.ac.in', '9999999995', NULL, '', NULL, 2018, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201841005, 15005, 'SIMRAN JINDAL', 'simran.jindal@sakec.ac.in', '9999999994', NULL, '', NULL, 2018, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201841014, 15014, 'BHAVIKA SALSHINGIKAR', 'bhavika.salshingikar_18@sakec.ac.in', '9999999985', NULL, '', NULL, 2018, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201841015, 15015, 'RITIKA BORICHA', 'ritika.boricha@sakec.ac.in', '9999999984', NULL, '', NULL, 2018, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941000, 15000, 'RITIK MAHAJAN', 'ritik.mahajan_19@sakec.ac.in', '9999999999', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941001, 15001, 'ZARANA DESAI', 'zarana.desai_19@sakec.ac.in', '9999999998', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941002, 15002, 'RUTVIK DESHPANDE', 'rutvik.deshpande_19@sakec.ac.in', '9999999997', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941007, 15007, 'PRIYAL KATUDIA', 'priyal.katudia_19@sakec.ac.in', '9999999992', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941008, 15008, 'AAGAM SHETH', 'aagam.sheth_19@sakec.ac.in', '9999999991', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941009, 15009, 'JAINISH SAKHIDAS', 'jainish.sakhidas_19@sakec.ac.in', '9999999990', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(201941018, 15018, 'ADITYA SHAH', 'aditya.shah_19@sakec.ac.in', '9999999981', NULL, '', NULL, 2019, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041006, 15006, 'NISHMA KAMAT', 'nishma.kamat15494@sakec.ac.in', '9999999993', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041010, 15010, 'HIMANSHU MUKANE', 'himanshu.mukane15590@sakec.ac.in', '9999999989', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041011, 15011, 'HIMANSHU CHAUDHARI', 'himanshu.chaudhari15735@sakec.ac.in', '9999999988', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041012, 15012, 'NIDHI PARAB', 'nidhi.parab15933@sakec.ac.in', '9999999987', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041013, 15013, 'EASHWARI NAGARKAR', 'eashwari.nagarkar15686@sakec.ac.in', '9999999986', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041016, 15016, 'PRATHAMESH RANE', 'prathamesh.rane16006@sakec.ac.in', '9999999983', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46'),
+(202041017, 15017, 'KHUSHEETA ATTARDE', 'khusheeta.attarde15490@sakec.ac.in', '9999999982', NULL, '', NULL, 2020, 'Computers', 'FE', '2021-07-28 14:06:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subject_table`
+--
+
+CREATE TABLE `subject_table` (
+  `subject_no` varchar(12) NOT NULL,
+  `subject_name` varchar(40) CHARACTER SET utf8 NOT NULL,
+  `subject_type` varchar(7) NOT NULL DEFAULT 'default',
+  `program` varchar(11) NOT NULL,
+  `division` varchar(11) NOT NULL,
+  `sem_id` int(4) NOT NULL,
+  `session` varchar(2) NOT NULL,
+  `ac_year` int(5) NOT NULL,
+  `examiner_id` varchar(12) DEFAULT NULL COMMENT 'References users(user_name)',
+  `examiner_name` varchar(40) NOT NULL COMMENT 'References users(full_name)',
+  `teacher1_name` varchar(40) CHARACTER SET utf8 NOT NULL,
+  `teacher1_id` varchar(12) DEFAULT NULL COMMENT 'References users(user_name)',
+  `teacher2_id` varchar(12) DEFAULT NULL COMMENT 'References users(user_name)',
+  `teacher2_name` varchar(40) NOT NULL,
+  `teacher3_id` varchar(12) DEFAULT NULL COMMENT 'References users(user_name)',
+  `teacher3_name` varchar(40) NOT NULL,
+  `date_update` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `s_login`
+--
+
+CREATE TABLE `s_login` (
+  `s_name` varchar(35) NOT NULL,
+  `smart_card` varchar(35) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `reg_no` int(20) NOT NULL,
+  `s_contact` int(255) NOT NULL,
+  `s_email` varchar(255) NOT NULL,
+  `std_id` int(5) DEFAULT NULL,
+  `enroll_no` int(100) NOT NULL,
+  `PRN` int(100) NOT NULL,
+  `dob` date NOT NULL,
+  `Blood_grp` varchar(35) NOT NULL,
+  `Aadhar` int(100) NOT NULL,
+  `Profile Pic` varchar(255) DEFAULT NULL,
+  `f_name` varchar(35) NOT NULL DEFAULT 'None',
+  `f_quali` varchar(35) NOT NULL,
+  `f_occup` varchar(35) NOT NULL,
+  `f_office_address` varchar(200) NOT NULL,
+  `f_phone` int(100) NOT NULL,
+  `f_email` varchar(35) NOT NULL,
+  `m_name` varchar(35) NOT NULL,
+  `m_quali` varchar(35) NOT NULL,
+  `m_occup` varchar(35) NOT NULL,
+  `m_office_address` varchar(200) NOT NULL,
+  `m_phone` int(35) NOT NULL,
+  `m_email` varchar(35) NOT NULL,
+  `g_name` varchar(35) NOT NULL,
+  `g_quali` varchar(35) NOT NULL,
+  `g_occup` varchar(35) NOT NULL,
+  `g_office_address` varchar(100) NOT NULL,
+  `g_phone` int(11) DEFAULT NULL,
+  `g_email` varchar(35) NOT NULL,
+  `program` varchar(35) NOT NULL,
+  `admission_year` varchar(35) NOT NULL,
+  `Mentor` varchar(35) NOT NULL,
+  `PAN_no` varchar(255) NOT NULL,
+  `Permanant_address` varchar(100) NOT NULL,
+  `Residential_address` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) NOT NULL,
+  `full_name` varchar(40) COLLATE latin1_general_ci NOT NULL,
+  `user_name` varchar(12) COLLATE latin1_general_ci NOT NULL,
+  `user_email` varchar(40) COLLATE latin1_general_ci NOT NULL,
+  `md5_id` varchar(200) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `user_level` tinyint(4) NOT NULL DEFAULT 1,
+  `pwd` varchar(220) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `tel` varchar(200) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `date` date NOT NULL,
+  `users_ip` varchar(200) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `approved` int(1) NOT NULL DEFAULT 0,
+  `program` varchar(30) COLLATE latin1_general_ci NOT NULL,
+  `activation_code` int(10) NOT NULL DEFAULT 0,
+  `banned` int(1) NOT NULL DEFAULT 0,
+  `ckey` varchar(220) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ctime` varchar(220) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `date_update` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usershort`
+--
+
+CREATE TABLE `usershort` (
+  `id` bigint(3) NOT NULL,
+  `full_name` varchar(40) COLLATE latin1_general_ci NOT NULL COMMENT 'References users(full_name)',
+  `short` varchar(4) COLLATE latin1_general_ci DEFAULT NULL,
+  `user_name` varchar(12) COLLATE latin1_general_ci NOT NULL COMMENT 'References users(user__name)',
+  `program` varchar(30) COLLATE latin1_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `acsessions`
+--
+ALTER TABLE `acsessions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `csi_aboutus`
@@ -674,8 +993,82 @@ ALTER TABLE `csi_venue`
   ADD KEY `event_id` (`event_id`);
 
 --
+-- Indexes for table `division_details`
+--
+ALTER TABLE `division_details`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `s` (`sem_id`,`std_roll_no`,`year`) USING BTREE,
+  ADD UNIQUE KEY `std_id` (`std_id`,`sem_id`,`year`,`session`);
+
+--
+-- Indexes for table `dloc_subject`
+--
+ALTER TABLE `dloc_subject`
+  ADD PRIMARY KEY (`subject_no`,`sem_id`,`ac_year`);
+
+--
+-- Indexes for table `iloc_subject`
+--
+ALTER TABLE `iloc_subject`
+  ADD PRIMARY KEY (`sem_id`,`std_roll_no`,`ac_year`);
+
+--
+-- Indexes for table `intake`
+--
+ALTER TABLE `intake`
+  ADD PRIMARY KEY (`sem_id`);
+
+--
+-- Indexes for table `student_table`
+--
+ALTER TABLE `student_table`
+  ADD PRIMARY KEY (`std_id`),
+  ADD UNIQUE KEY `std_id` (`std_id`),
+  ADD UNIQUE KEY `std_id_2` (`std_id`),
+  ADD KEY `std_id_3` (`std_id`),
+  ADD KEY `student_name` (`student_name`,`admission_year`);
+
+--
+-- Indexes for table `subject_table`
+--
+ALTER TABLE `subject_table`
+  ADD PRIMARY KEY (`subject_no`,`sem_id`,`ac_year`);
+
+--
+-- Indexes for table `s_login`
+--
+ALTER TABLE `s_login`
+  ADD PRIMARY KEY (`reg_no`),
+  ADD UNIQUE KEY `smart_card` (`smart_card`),
+  ADD UNIQUE KEY `password` (`password`),
+  ADD UNIQUE KEY `std_id_2` (`std_id`),
+  ADD KEY `std_id` (`std_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_email` (`user_email`),
+  ADD UNIQUE KEY `user_name` (`user_name`);
+
+--
+-- Indexes for table `usershort`
+--
+ALTER TABLE `usershort`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_name` (`user_name`);
+ALTER TABLE `usershort` ADD FULLTEXT KEY `idx_search` (`full_name`,`user_name`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `acsessions`
+--
+ALTER TABLE `acsessions`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `csi_aboutus`
@@ -687,13 +1080,13 @@ ALTER TABLE `csi_aboutus`
 -- AUTO_INCREMENT for table `csi_collaboration`
 --
 ALTER TABLE `csi_collaboration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `csi_collection`
 --
 ALTER TABLE `csi_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `csi_contact`
@@ -711,31 +1104,31 @@ ALTER TABLE `csi_contentrepository`
 -- AUTO_INCREMENT for table `csi_coordinator`
 --
 ALTER TABLE `csi_coordinator`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `csi_event`
 --
 ALTER TABLE `csi_event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `csi_event_likes`
 --
 ALTER TABLE `csi_event_likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT for table `csi_expense`
 --
 ALTER TABLE `csi_expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `csi_feedback`
 --
 ALTER TABLE `csi_feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `csi_gallery`
@@ -747,13 +1140,13 @@ ALTER TABLE `csi_gallery`
 -- AUTO_INCREMENT for table `csi_membership`
 --
 ALTER TABLE `csi_membership`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `csi_membership_bills`
 --
 ALTER TABLE `csi_membership_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `csi_newsletter`
@@ -765,7 +1158,7 @@ ALTER TABLE `csi_newsletter`
 -- AUTO_INCREMENT for table `csi_password`
 --
 ALTER TABLE `csi_password`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `csi_query`
@@ -777,7 +1170,7 @@ ALTER TABLE `csi_query`
 -- AUTO_INCREMENT for table `csi_reply`
 --
 ALTER TABLE `csi_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `csi_role`
@@ -795,13 +1188,31 @@ ALTER TABLE `csi_speaker`
 -- AUTO_INCREMENT for table `csi_userdata`
 --
 ALTER TABLE `csi_userdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `csi_venue`
 --
 ALTER TABLE `csi_venue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `division_details`
+--
+ALTER TABLE `division_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `usershort`
+--
+ALTER TABLE `usershort`
+  MODIFY `id` bigint(3) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -858,6 +1269,12 @@ ALTER TABLE `csi_feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`collection_id`) REFERENCES `csi_collection` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `csi_membership`
+--
+ALTER TABLE `csi_membership`
+  ADD CONSTRAINT `csi_membership_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `csi_userdata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `csi_membership_bills`
 --
 ALTER TABLE `csi_membership_bills`
@@ -870,10 +1287,22 @@ ALTER TABLE `csi_password`
   ADD CONSTRAINT `csi_password_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `csi_userdata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `csi_speaker`
+--
+ALTER TABLE `csi_speaker`
+  ADD CONSTRAINT `csi_speaker_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `csi_event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `csi_userdata`
 --
 ALTER TABLE `csi_userdata`
   ADD CONSTRAINT `csi_userdata_ibfk_1` FOREIGN KEY (`role`) REFERENCES `csi_role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `csi_venue`
+--
+ALTER TABLE `csi_venue`
+  ADD CONSTRAINT `csi_venue_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `csi_event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
