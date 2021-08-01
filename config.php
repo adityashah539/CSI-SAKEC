@@ -11,6 +11,10 @@
         echo "<SCRIPT>alert('$message');</SCRIPT>";
     }
     function fileTransfer($fileInputName,$location){
+        $data = array(
+            "error"=>NULL,
+            "file_new_name"=>NUll
+        );
         $file_photo_error = $_FILES[$fileInputName]['error'];
         $phpFileUploadErrors = array(
             0 => 'There is no error, the file uploaded with success',
@@ -21,22 +25,23 @@
             6 => 'Missing a temorary folder',
             7 => 'Failed to write file to disk,',
             8 => 'A PHP extension stopped the file upload.',
+            9 => 'The image should be of jpg, jpeg, png.',
         );
         if ($file_photo_error == 0) {
             $extensions = array('jpg', 'jpeg', 'png');
             $file_bill_photo = explode(".", $_FILES[$fileInputName]["name"]);
             $file_ext_bill_photo = end($file_bill_photo);
             if (in_array($file_ext_bill_photo, $extensions)) {
-                $file_new_name = uniqid('', true) . "." . $file_ext_bill_photo;
-                $location_file = $location."/" . $file_new_name;
+                $data['file_new_name'] = uniqid('', true) . "." . $file_ext_bill_photo;
+                $location_file = $location."/" . $data['file_new_name'];
                 move_uploaded_file($_FILES[$fileInputName]["tmp_name"], $location_file);
-                return $file_new_name;
             } else {
-                function_alert("The photo of the bill should be of jpg, jpeg, png.");
+                $data['error']=$phpFileUploadErrors[9];
             }
         } else {
-            function_alert($phpFileUploadErrors[$file_photo_error]);
+            $data['error']=$phpFileUploadErrors[$file_photo_error];
         }
+        return $data;
     }
     function execute($sql){
         global $conn;

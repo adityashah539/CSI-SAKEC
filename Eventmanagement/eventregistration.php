@@ -65,8 +65,8 @@
         } else {
             if ((isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "sakec")) {
                 $email = loginWithGoogle($_GET["code"], $google_client);
-                if (isset($email)) {
-                    if (($rowevent['fee'] == '0') || (($rowevent['fee_m'] == '0') && $_POST['member'])) {
+                if (isset($email)&& (strpos($email, "@sakec.ac.in") !== false)) {
+                    if (($rowevent['fee'] == '0') || (($rowevent['fee_m'] == '0') && ($_POST['membership']=='1'))) {
                         if (!doesEmailIdExists($email)) {
                             $sql = "SELECT  `d`.`sem_id`, `d`.`std_roll_no`, `i`.`division`, `student_name`, `email`, `s_phone`,`admission_type`,`s`.`program`
                                     FROM `division_details` as `d`, `intake` as `i`, `student_table` as `s`
@@ -85,9 +85,22 @@
                             execute($sql);
                         }
                         autoRegistration($email, $event_id);
-                    }elseif (($rowevent['fee'] == '0')){
+                    }else if(($rowevent['fee_m'] != '0') && ($_POST['membership']=='1')){
+                        if(!doesEmailIdExists($email)) {
 
+                        }else{
+
+                        }
+                    }else if (($rowevent['fee'] != '0')){
+                        if (!doesEmailIdExists($email)) {
+
+                        }else{
+
+                        }
                     }
+                }else{
+                    function_alert("Pls use SAKEC account");
+                    header("location:eventregistration.php?event_id=".$event_id);
                 }
             }
             else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "non-sakec") {
@@ -176,14 +189,27 @@
                             <input type="radio" name='option' value="non-sakec"> Other College Student
                         </label>
                     </div>
+                    <div class="spacer" style="height:20px;"></div>
+                    <div id="member"class = "d-none">
+                        <h4>Step 2: Do you have CSI-Membership </h4>
+                        <div class="spacer" style="height:20px;"></div>
+                        <div id="memberOption" class="btn-group btn-group-toggle " data-toggle="buttons">
+                            <label class="btn btn-outline-secondary">
+                                <input type="radio" name='membership' value="membership"> Membership
+                            </label>
+                            <label class="btn btn-outline-secondary ">
+                                <input type="radio" name='membership' value="non-membership"> Non-Membership
+                            </label>
+                        </div>
+                    </div>
                     <div class="spacer" style="height:30px;"></div>
                     <div id="sakec" class="d-none">
-                        <h4>Step 2: Click and choose your Sakec account </h4>
+                        <h4>Step 3: Click and choose your Sakec account </h4>
                         <div class="spacer" style="height:20px;"></div>
                         <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose Sakec account With Google</a></p>
                     </div>
                     <div id="non-sakec" class="d-none">
-                        <h4>Step 2: Click and choose any Google account </h4>
+                        <h4>Step 3: Click and choose any Google account </h4>
                         <div class="spacer" style="height:20px;"></div>
                         <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose any Google account</a></p>
                     </div>
@@ -276,27 +302,62 @@
             $.post("datainput.php", {
                 event_id: <?php echo $event_id; ?>
             });
+            $
+            $("input[name='option']").click(function() {
+                var check = $("#member").hasClass("d-none");
+                if(!check){
+                    var radioValue = $("input[name='option']:checked").val();
+                    if (radioValue == 'sakec') {
+                        $("#sakec").removeClass("d-none");
+                        var check = $("#non-sakec").hasClass("d-none");
+                        if (!check) {
+                            $("#non-sakec").addClass("d-none");
+                        }
+                        $.post("datainput.php", {
+                            input: "sakec"
+                        });
+                    } else {
+                        $("#non-sakec").removeClass("d-none");
+                        var check = $("#sakec").hasClass("d-none");
+                        if (!check) {
+                            $("#sakec").addClass("d-none");
+                        }
+                        $.post("datainput.php", {
+                            input: "non-sakec",
+                        });
+                    }
+                }
+            });
             $("input[name='option']").click(function() {
                 var radioValue = $("input[name='option']:checked").val();
-                if (radioValue == 'sakec') {
-                    $("#sakec").removeClass("d-none");
-                    var check = $("#non-sakec").hasClass("d-none");
-                    if (!check) {
-                        $("#non-sakec").addClass("d-none");
+                if((radioValue == 'sakec')||(radioValue == 'non-sakec')){
+                    var check = $("#member").hasClass("d-none");
+                    if(check){
+                        $("#member").removeClass("d-none");
                     }
-                    $.post("datainput.php", {
-                        input: "sakec"
-                    });
-                } else {
-                    $("#non-sakec").removeClass("d-none");
-                    var check = $("#sakec").hasClass("d-none");
-                    if (!check) {
-                        $("#sakec").addClass("d-none");
-                    }
-                    $.post("datainput.php", {
-                        input: "non-sakec",
-                    });
                 }
+            });
+            $("input[name='membership']").click(function() {
+                var radioValue = $("input[name='option']:checked").val();
+                    if (radioValue == 'sakec') {
+                        $("#sakec").removeClass("d-none");
+                        var check = $("#non-sakec").hasClass("d-none");
+                        if (!check) {
+                            $("#non-sakec").addClass("d-none");
+                        }
+                        $.post("datainput.php", {
+                            input: "sakec"
+                        });
+                    } else {
+                        $("#non-sakec").removeClass("d-none");
+                        var check = $("#sakec").hasClass("d-none");
+                        if (!check) {
+                            $("#sakec").addClass("d-none");
+                        }
+                        $.post("datainput.php", {
+                            input: "non-sakec",
+                        });
+                    }
             });
             $("button[name='sign_up_sakec']").click(function() {
                 var password = $("input[name='password']").val();

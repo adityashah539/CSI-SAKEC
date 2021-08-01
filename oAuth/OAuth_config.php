@@ -25,23 +25,20 @@ function loginWithGoogle($code,$google_client){
         return $data['email'];
     }
 }
-function removeDulicateRow($conn){
+function removeDulicateRow(){
     $sql   = "DELETE FROM `csi_userdata` WHERE `id` IN ( SELECT `id` FROM `csi_userdata` GROUP BY `emailID` HAVING COUNT(*) >1)'";
-    return mysqli_query($conn, $sql);
+    return execute($sql);
 }
 function doesEmailIdExists($email){
-    require_once("config.php");
-    $sql   = "SELECT COUNT(`id`) as `count` FROM `csi_userdata` WHERE `emailID`='$email'";
-    $query = mysqli_query($conn, $sql);
-    $row   = mysqli_fetch_assoc($query);
-    if ($row['count']==0){
+    $count   = getSpecificValue("SELECT COUNT(`id`) as `count` FROM `csi_userdata` WHERE `emailID`='$email'", 'count');
+    if ($count==0){
         return false;
     }
-    else if ($row['count']==1){
+    else if ($count==1){
         return true;
     }
-    else if ($row['count']>1){
-        removeDulicateRow($conn);
+    else if ($count>1){
+        removeDulicateRow();
         return true;
     }
 }

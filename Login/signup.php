@@ -57,7 +57,7 @@
                 if (isset($email)) {
                     if (!doesEmailIdExists($email)) {
             ?>
-                        <input type="text" name="email" value="<?php echo $data['email']; ?>" hidden>
+                        <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                         <div class="grid-item item3">
                         </div>
                         <div class="grid-item item3">
