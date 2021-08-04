@@ -23,6 +23,8 @@ function loginWithGoogle($code,$google_client){
         $google_service = new Google_Service_Oauth2($google_client);
         $data = $google_service->userinfo->get();
         return $data['email'];
+    }else{
+        return $token['error'];
     }
 }
 function removeDulicateRow(){

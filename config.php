@@ -47,6 +47,14 @@
         }
         return $data;
     }
+    function deleteFile($folder_location,$filename){
+        if(file_exists($folder_location.$filename)){
+            gc_collect_cycles();
+            return unlink($folder_location.$filename);
+        }else{
+            return false;
+        }
+    }
     function execute($sql){
         global $conn;
         return mysqli_query($conn, $sql);

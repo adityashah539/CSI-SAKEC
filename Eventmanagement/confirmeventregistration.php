@@ -68,6 +68,7 @@
                 <th>Event</th>
                 <th>Amount Paid</th>
                 <th>Bill</th>
+                <th>Membership Bill </th>
                 <th>Confirm</th>
                 <th>Delete</th>
             </tr>
@@ -76,7 +77,7 @@
             <div class="table-content" style="font-size: large;">
                 <?php
                 if ($access == 1) {
-                    $query = execute("SELECT `csi_collection`.`id`, `csi_userdata`.`name`,`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo` 
+                    $query = execute("SELECT `csi_collection`.`id`, `csi_userdata`.`name`,`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo`,`csi_collection`.`membership_photo`  
                                         FROM `csi_userdata`,`csi_event`,`csi_collection` 
                                         WHERE `csi_collection`.`event_id`=`csi_event`.`id` 
                                         AND`csi_collection`.`user_id`=`csi_userdata`.`id` AND `confirmed`='0' AND `csi_event`.`id`='$event_id'");
@@ -89,9 +90,30 @@
                                 <td><?php echo $row['title']; ?></td>
                                 <td><?php echo $row['amount']; ?></td>
                                 <td>
-                                    <a target="_blank" href="Event_Bill/<?php echo $row['bill_photo']; ?>">
-                                        <img src="Event_Bill/<?php echo $row['bill_photo']; ?>" alt="No Image" style="width:80px" />
-                                    </a>
+                                    <?php
+                                    if (isset($row['bill_photo'])) {
+                                    ?>
+                                        <a target="_blank" href="Event_Bill/<?php echo $row['bill_photo']; ?>">
+                                            <img src="Event_Bill/<?php echo $row['bill_photo']; ?>" alt="Error image not Loaded" style="width:80px" />
+                                        </a>
+                                    <?php
+                                    }else{
+                                        echo "Image not uploaded.";
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    if (isset($row['membership_photo'])) {
+                                    ?>
+                                        <a target="_blank" href="Membership/<?php echo $row['membership_photo']; ?>">
+                                            <img src="Membership/<?php echo $row['membership_photo']; ?>" alt="Error image not Loaded" style="width:80px" />
+                                        </a>
+                                    <?php
+                                    }else{
+                                        echo "Image not uploaded.";
+                                    }
+                                    ?>
                                 </td>
                                 <td>
                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
