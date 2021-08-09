@@ -50,4 +50,9 @@ if (element) {
 //   document.getElementById(cityName).style.display = "block";
 //   evt.currentTarget.className += " active";
 // }
+        function handleCredentialResponse(response) {
+            var decodedToken = jwt_decode(response.credential);
+            
+            console.log(decodedToken.email); // This is null if the 'email' scope is not present.
+        }
 

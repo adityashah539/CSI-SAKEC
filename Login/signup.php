@@ -12,9 +12,7 @@
     <title>CSI-SAKEC</title>
     <?php
     require_once "../config.php";
-    require_once('../oAuth/OAuth_config.php');
     session_start();
-    $google_client = googleObject('http://localhost/CSI-SAKEC/Login/signup.php');
     ?>
 </head>
 
@@ -22,7 +20,7 @@
 <body>
     <div class="spacer" style="height:50px;"></div>
     <div id="user-login">
-        <p class="login"><b>WELCOME !</b></p>
+        <p class="login"><b>WELCOME</b></p>
         <div id="error"></div>
         <!-- </br></br><i class="fas fa-user-circle" style="font-size:80px;"></i></p></br> -->
         <div class="container text-center">
@@ -44,12 +42,12 @@
                 <div id="sakec" class="d-none">
                     <h4>Step 2: Click and choose your Sakec account </h4>
                     <div class="spacer" style="height:20px;"></div>
-                    <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose Sakec account With Google</a></p>
+                    <p><a href="">Choose Sakec account With Google</a></p>
                 </div>
                 <div id="non-sakec" class="d-none">
                     <h4>Step 2: Click and choose any Google account </h4>
                     <div class="spacer" style="height:20px;"></div>
-                    <p><a href="<?php echo $google_client->createAuthUrl(); ?>">Choose any Google account</a></p>
+                    <p><a href="">Choose any Google account</a></p>
                 </div>
             <?php
             } else if (isset($_GET["code"]) && isset($_SESSION['input']) && $_SESSION["input"] == "sakec") {
@@ -149,6 +147,7 @@
             ?>
         </div>
     </div>
+
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>

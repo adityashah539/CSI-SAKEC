@@ -8,8 +8,10 @@
     <link rel="icon" href="images/csi-logo.png">
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
     <title>CSI</title>
-    <?php
+<?php
     session_start();
     require_once "config.php";
     function send_mail($to_email, $subject, $body, $headers){
@@ -19,19 +21,7 @@
             function_alert("$to_email, $subject, $body, $headers");
         }
     }
-    if (isset($_COOKIE["email"]) && !isset($_SESSION['email'])) {
-        $email = $_COOKIE["email"];
-        $password = $_COOKIE["password"];
-        $query = execute("SELECT emailID, password  FROM csi_userdata WHERE emailID = '$email'");
-        if (mysqli_num_rows($query) == 1) {
-            $row = mysqli_fetch_assoc($query);
-            $hash = $row['password'];
-            if (password_verify($password, $hash)) {
-                $_SESSION["role_id"] =  getSpecificValue("SELECT `csi_role`.`id` from `csi_userdata`,`csi_role` WHERE `emailID`='$email' And `csi_role`.`id`=`csi_userdata`.`role`", 'id');
-                $_SESSION["email"] = $email;
-            }
-        }
-    }
+    
     // Fetching Access Details
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
@@ -62,16 +52,9 @@
         }
     }
     ?>
-    <script src="plugins/jquery.min.js"></script>
-    <script>
-        
-
-    </script>
 </head>
 
 <body>
-
-
     <!-- Navbar -->
         <?php require "usernavbar.php";?>
     <!-- Navbar -->

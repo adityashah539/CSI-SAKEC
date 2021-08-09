@@ -6,12 +6,23 @@
     $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
     if ($conn == false) {
         die('Error: Cannot connect');
-    } 
+    }
+    // define('DB_SERVER', 'sql305.epizy.com');
+    // define('DB_USERNAME', 'epiz_29134191');
+    // define('DB_PASSWORD', 'QOple30UZMt');
+    // define('DB_NAME', 'epiz_29134191_csi');
+    // $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // if ($conn == false) {
+    //     die('Error: Cannot connect');
+    // } 
     function function_alert($message){
         echo "<SCRIPT>alert('$message');</SCRIPT>";
     }
     function redirect_after_msg($message, $location){
         function_alert($message);
+        echo "<SCRIPT>window.location = '$location';</SCRIPT>";
+    }
+    function goToFile($location){
         echo "<SCRIPT>window.location = '$location';</SCRIPT>";
     }
     function fileTransfer($fileInputName,$location){
