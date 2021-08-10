@@ -1,85 +1,11 @@
 body {
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/2.jpg) no-repeat scroll center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/2.jpg) no-repeat scroll center center;
     background-size: cover;
     background-repeat: no-repeat;
     backdrop-filter: blur(7px);
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-	margin: 0;
-    color: white;
+    color: whitesmoke;
     padding: 0;
-    line-height: 1.5;
-	font-size: 1rem;
-	font-weight: 400;
-}
-
-.alert {
-    text-align: center;
-    padding: 10px;
-    background: #ff0800;
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-#classyear {
-    width: fit-content;
-    background-color: #007bff00;
-    color: rgb(133, 133, 133);
-}
-
-.login {
-    font-size: 50px;
-    font-weight: bolder;
-    color: whitesmoke;
-
-}
-
-input {
-    transition: 0.3s;
-    width: 250px;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    background: none;
-    border-right: none;
-    border-left: none;
-    border-top: none;
-    padding: 8px;
-    margin: 10px;
-    border-color: #a7a3a3;
-    font-size: 15px;
-    outline: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: none;
-    
-}
-
-a {
-    color: rgb(255, 255, 255);
-}
-
-
-.g:hover {
-    border-bottom: rgb(42, 109, 253);
-    width: 270px;
-    box-shadow: 0 8px 6px -6px #2196f3;
-}
-
-.g {
-    color: rgb(168, 192, 212);
-}
-
-.me {
-    width: 20px;
-    padding: 0px;
-    margin-left: -145px;
-    font-weight: bolder;
-}
-
-p {
-    color: whitesmoke;
-    font-weight: bold;
 }
 
 .main_btn {
@@ -111,10 +37,4 @@ p {
     background-image: -webkit-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
     background-image: -o-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
     background-image: linear-gradient(to right, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
-}
- 
-.ddm{
-    width: fit-content;
-    background-color: #007bff00;
-    color: rgb(133, 133, 133);
 }
