@@ -77,7 +77,24 @@
         return mysqli_num_rows(execute($sql));
     }
     function getSpecificValue($sql,$columnName){
-        $variable= mysqli_fetch_assoc(execute($sql));
+        $variable= getValue($sql);
         return $variable[$columnName];
+    }
+    function removeDulicateRow(){
+        $sql   = "DELETE FROM `csi_userdata` WHERE `id` IN ( SELECT `id` FROM `csi_userdata` GROUP BY `emailID` HAVING COUNT(*) >1)'";
+        return execute($sql);
+    }
+    function doesEmailIdExists($email){
+        $count   = getSpecificValue("SELECT COUNT(`id`) as `count` FROM `csi_userdata` WHERE `emailID`='$email'", 'count');
+        if ($count==0){
+            return false;
+        }
+        else if ($count==1){
+            return true;
+        }
+        else if ($count>1){
+            removeDulicateRow();
+            return true;
+        }
     }
 ?> 

@@ -23,14 +23,15 @@
         <div id="error"></div>
         <div class="container text-center">
             <h4>Step 1: Choose your account </h4>
-            <div id="googleButton" style="text-align: -webkit-center;" class="my-5">
-                <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+            <!--Google Button -->
+            <div id="googleButton" style="text-align: -webkit-center;" class="my-4">
+                <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="fillRequired" data-auto_prompt="false"></div>
+                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
             </div>
+            <!-- jquery will put the fill required -->
             <div id="Step2">
 
             </div>
-            
         </div>
     </div>
 
@@ -43,40 +44,63 @@
     <!-- DO NOT DELETE THIS  -->
 
     <script>
+        //Google will call this function 
+        function fillRequired(response) {
+            var decodedToken = jwt_decode(response.credential);
+            var email = decodedToken.email;
+            $("#Step2").load("datainput.php", {
+                authProvider: "<?php echo md5("Google"); ?>",
+                email: email
+            });
+        }
         $(document).ready(function() {
-            //image height
-            $('#user-login').css({'height': (($(window).height())+250)+'px'});
-
-            function handleCredentialResponse(response) {
-                var decodedToken = jwt_decode(response.credential);
-                var email = decodedToken.email;
-                $("#Step2").load("datainput.php", {
-                    authProvider: "<?php echo md5("Google"); ?>",
-                    email: email
-                });
-            }
-            $("button[name='sign_up_non-sakec']").click(function() {
-                var password = $("input[name='password']").val();
-                var confirmpassword = $("input[name='confirmpassword']").val();
-                var email = $("input[name='email']").val();
-                var phonenumber = $("input[name='phonenumber']").val();
-                var name = $("input[name='name']").val();
-                var branch = $("#branch").val();
+            //To resize the background image based upon window size 
+            $('#user-login').css({
+                'height': (($(window).height()) -49) + 'px'
+            });
+            // After the sign up button data will pushed to database 
+            $(document).on('click', "button[name='sign_up']",function() {
+                var registrationProcess = $("input[name='registrationProcess']").val();
+                if(registrationProcess == "337db7c71a09b11bf114cf9a48ed0af6"){
+                    var password = $("input[name='password']").val();
+                    var confirmpassword = $("input[name='confirmPassword']").val();
+                    $("#error").load("registration.php", {
+                        registrationProcess:registrationProcess,
+                        password: password,
+                        confirmpassword: confirmpassword
+                    });
+                }else if(registrationProcess == "f0e84041297fae34080e61b840d26ebe"){
                 var gender = $("#gender").val();
-                var year = $("#year").val();
-                var organization = $("input[name='organization']").val();
-                // alert( branch+' '+year+' '+organization+' '+password);
-                $("#error").load("registration.php", {
-                    email: email,
-                    branch: branch,
-                    phonenumber: phonenumber,
-                    name: name,
-                    gender: gender,
-                    year: year,
-                    organization: organization,
-                    password: password,
-                    confirmpassword: confirmpassword
-                });
+                    var password = $("input[name='password']").val();
+                    var confirmpassword = $("input[name='confirmPassword']").val();
+                    $("#error").load("registration.php", {
+                        registrationProcess:registrationProcess,
+                        gender: gender,
+                        password: password,
+                        confirmpassword: confirmpassword
+                    });
+                }else if(registrationProcess == "b44f7646f2918e4ddc983ca59d34ed97") {
+                    var password = $("input[name='password']").val();
+                    var confirmpassword = $("input[name='confirmPassword']").val();
+                    var phonenumber = $("input[name='phonenumber']").val();
+                    var name = $("input[name='Name']").val();
+                    var branch = $("#branch").val();
+                    var gender = $("#gender").val();
+                    var year = $("#year").val();
+                    var collegeName = $("input[name='collegeName']").val();
+                    $("#error").load("registration.php", {
+                        registrationProcess:registrationProcess,
+                        name: name,
+                        collegeName: collegeName,
+                        phonenumber: phonenumber,
+                        branch: branch,
+                        year: year,
+                        gender: gender,
+                        password: password,
+                        confirmpassword: confirmpassword
+                    });
+                }
+                
             });
         })
     </script>

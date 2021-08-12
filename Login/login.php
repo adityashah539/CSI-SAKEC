@@ -22,11 +22,11 @@
             <div id="error"></div>
             <div class="d-flex justify-content-center my-4">
                 <label for="Email"><i class="far fa-user-circle fa-2x"></i></label>
-                <input id="Email" type="text" class="form-control w-50 mx-3" name="email" required="required" placeholder=" Username" aria-label="Username" aria-describedby="basic-addon1">
+                <input id="Email" type="text" class="form-control w-25 mx-3" name="email" required="required" placeholder=" Username" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="d-flex justify-content-center my-4">
                 <label for="Password"><i class="fas fa-lock fa-2x"></i></label>
-                <input type="password" class="form-control w-50 p-3 mx-3" name="password" required="required" placeholder=" Input Password">
+                <input type="password" class="form-control w-25 p-3 mx-3" name="password" required="required" placeholder=" Input Password">
             </div>
             <button name="login" class="btn main_btn">Login<i class="fas fa-sign-in-alt"></i></button>
             <div id="googleButton" style="text-align: -webkit-center;" class="my-5">

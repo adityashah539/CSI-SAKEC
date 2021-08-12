@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
     $query_add_like = execute("INSERT INTO `csi_event_likes`(`event_id`, `user_id`) VALUES ('$event_id',".$row_user_id['id'].")");
 } else if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['unlike'])){
     $event_id = $_POST['event_id'];
-    $query_remove_like = mysqli_query("DELETE FROM `csi_event_likes` WHERE user_id = ".$row_user_id['id']." and event_id = '$event_id'");
+    $query_remove_like = execute("DELETE FROM `csi_event_likes` WHERE user_id = ".$row_user_id['id']." and event_id = '$event_id'");
 }
 ?>
 
