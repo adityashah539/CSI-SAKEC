@@ -26,14 +26,17 @@
         if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
             $id = $_POST['id'];
             if (isset($_POST['Confirm'])) {
-                $start_year = $_POST['start_year'];
                 $member_period = $_POST['member_period'];
-                $query = execute("UPDATE `csi_membership_bills` SET `membership_taken`='$start_year',`no_of_year`='$member_period' WHERE  id = " . $id);
+                $membership_id = $_POST['membership_id'];
+                $membership_taken = $_POST['membership_taken'];
+                $duration = date("Y-m-d", strtotime(date("Y-m-d", strtotime($membership_taken)) . " + $member_period year"));
+                $query = execute("UPDATE `csi_membership` SET `duration`='$duration' WHERE id = $membership_id");
+                $query = execute("UPDATE `csi_membership_bills` SET `no_of_year`='$member_period', `accepted` = '1' WHERE id = $id");
                 
-                $datetime = new DateTime($start_year);
-                $datetime->add(new DateInterval('P'.$member_period.'Y'));
-                $new_membership_end = $datetime->format('Y-m-d h:m:s');
-                $query = execute("UPDATE `csi_membership`,`csi_membership_bills` SET `duration`='$new_membership_end' WHERE `csi_membership`.`id` = `csi_membership_bills`.`membership_id` and `csi_membership_bills`.`id` = $id");
+                // $datetime = new DateTime($membership_taken);
+                // $datetime->add(new DateInterval('P'.$member_period.'Y'));
+                // $new_membership_end = $datetime->format('Y-m-d h:m:s');
+                // $query = execute("UPDATE `csi_membership`,`csi_membership_bills` SET `duration`='$new_membership_end' WHERE `csi_membership`.`id` = `csi_membership_bills`.`membership_id` and `csi_membership_bills`.`id` = $id");
             } else if (isset($_POST['Delete'])) {
                 $query = execute("DELETE FROM `csi_membership_bills` WHERE id = " . $id);
             }
@@ -52,9 +55,7 @@
                 <th>Phone Number</th>
                 <th>Amount Paid</th>
                 <th>Bill</th>
-                <th>Current Membership Ends</th>
-                <th>Membership Start</th>
-                <th>Number Of Years</th>
+                <th>Membership taken in years</th>
                 <th>Confirm</th>
                 <th>Delete</th>
             </tr>
@@ -62,9 +63,9 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
             <?php
-            $sqlstmt = execute("select b.id as id, u.name , r_number, primaryEmail, phonenumber, amount, duration, bill_photo
+            $sqlstmt = execute("select b.id as id, membership_id, u.name , r_number, primaryEmail, phonenumber, amount, duration, bill_photo, no_of_year, membership_taken
                                 from csi_userdata as u, csi_membership as m, csi_membership_bills as b
-                                where no_of_year = '' and b.membership_id = m.id and m.userid = u.id");
+                                where accepted = '0' and b.membership_id = m.id and m.userid = u.id");
             $number_of_data = mysqli_num_rows($sqlstmt);
             if($number_of_data){
                 while( $row = mysqli_fetch_assoc($sqlstmt)){
@@ -82,26 +83,23 @@
                                     <img src="Membership_Bill/<?php echo $row['bill_photo']; ?>" alt="Membership_Bill/<?php echo $row['bill_photo']; ?>" style="width:80px">
                                 </a>
                             </td>
-                            <td><?php 
-                                    if($row['duration'] != NULL)echo $row['duration'];
-                                    else echo "No Previous Membership";
-                                ?></td>
-                            <td><input type="date" name="start_year" required></td>
+                            <input type="hidden" name = "membership_taken" value="<?php echo $row['membership_taken']; ?>">
+                            <input type="hidden" name="membership_id" value = "<?php echo $row['membership_id'];?>">
                             <td>
                                 <div class="col-sm-7">
                                     <div class="texts">
                                         <select name="member_period" class="custom-select mb-3" required="required">
-                                            <option selected disabled>Select Year</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
+                                            <!-- <option selected disabled>Select Year</option> -->
+                                            <option value="1"<?php if($row['no_of_year'] == '1')echo 'selected';?>>1</option>
+                                            <option value="2"<?php if($row['no_of_year'] == '2')echo 'selected';?>>2</option>
+                                            <option value="3"<?php if($row['no_of_year'] == '3')echo 'selected';?>>3</option>
+                                            <option value="4"<?php if($row['no_of_year'] == '4')echo 'selected';?>>4</option>
                                         </select>
                                     </div>
                                 </div>
                             </td>
-                            <td><button class = 'btn btn-primary' name = 'Confirm'>Confirm</button></td>
-                            <td><button class = 'btn btn-primary' name = 'Delete'>Delete</button></td>
+                            <td><button class = 'btn btn-success' name = 'Confirm'>Confirm</button></td>
+                            <td><button class = 'btn btn-danger' name = 'Delete'>Delete</button></td>
                         </tr>
                     </form>
                 <?php 

@@ -70,6 +70,9 @@ header {
 /* Footer */
 .footer-area {
     background: #04091e;
+    bottom: 0px;
+    position: fixed;
+    width: 100%;
 }
 
 .footer_title {

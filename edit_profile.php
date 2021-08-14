@@ -7,7 +7,7 @@
     <link rel="icon" href="images/csi-logo.png">
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/changeuserdata.css?v=<?php echo time(); ?>">
-    <title> Membership</title>
+    <title> Edit Profile</title>
     <?php
     require_once "config.php";
     session_start();

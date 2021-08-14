@@ -36,8 +36,20 @@
         $image = fileTransfer('billphoto', 'Membership_Bill');
         if($image['error'] == NULL){
             $file_new_bill = $image['file_new_name'];
-            execute("INSERT INTO `csi_membership_bills`( `membership_id`, `bill_photo`, `amount`)
-                                                VALUES ('$membership_id','$file_new_bill','$amount')");
+            $no_of_year = $_POST['member_period'];
+            if($noOfRows != 0){
+                $membership_ends = getSpecificValue("SELECT `duration` FROM `csi_membership` WHERE userid = $userid", 'duration');
+                
+                if($membership_ends > date("Y-m-d")){
+                    $membership_taken = $membership_ends;
+                }else{
+                    $membership_taken = date("Y-m-d H:i:s",time());
+                }
+            }else{
+                
+            }
+            execute("INSERT INTO `csi_membership_bills`(`membership_id`, `bill_photo`, `amount`, `membership_taken`, `no_of_year`,`accepted`)
+                                                VALUES ('$membership_id','$file_new_bill','$amount','$membership_taken','$no_of_year','0')");
         } else {
             function_alert($image['error']);
         }
@@ -49,6 +61,38 @@
     <header>
     <h2 style="text-align: center;">Membership</h2>
     </header>
+    <?php
+        // Shows the status of the membership
+        if($noOfRows != 0){
+            // Membership exists
+            $membership_ends = getSpecificValue("SELECT `duration` FROM `csi_membership` WHERE userid = $userid", 'duration');
+    
+            if($membership_ends >= date("Y-m-d")){
+                echo    "<div class='alert alert-success' role='alert' style='text-align: center;'>
+                            Your Current Membership expires on ".date("d-m-Y",strtotime($membership_ends))."
+                        </div>";
+            }else if($membership_ends ){
+                echo    "<div class='alert alert-danger' role='alert' style='text-align: center;'>
+                            Your last Membership expired on ".date("d-m-Y",strtotime($membership_ends))."
+                        </div>";
+            }
+        }else{
+            // No membership
+            echo    "<div class='alert alert-primary' role='alert' style='text-align: center;'>
+                        You have not taken membership yet
+                    </div>";
+        }
+
+        // Shows any pending status of membership
+        $bill = getNumRows("SELECT b.id
+                            from csi_userdata as u, csi_membership as m, csi_membership_bills as b
+                            where accepted = 0 and b.membership_id = m.id and m.userid = u.id and u.id = $userid", 'id');
+        if($bill > 0){
+            echo    "<div class='alert alert-warning' role='alert' style='text-align: center;'>
+                        Your current bill is pending for acceptance
+                    </div>";
+        } else {
+    ?>
     <div class="spacer" style="height:50px;"></div>
     <div class="spacer" style="height:15px;"></div>
     <div class="registration">
@@ -124,7 +168,21 @@
                         <input type="text" name="amount" required>
                     </div>
                 </div>
-                <div class="spacer" style="height:40px;"></div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="control-label">Membership in years :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="texts">
+                            <select name="member_period" class="custom-select mb-3" required="required">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-5">
                         <label class="control-label">Bill photo :</label>
@@ -148,7 +206,9 @@
     </div>
     <div class="spacer" style="height:50px;"></div>
     <div class="spacer" style="height:50px;"></div>
-
+    <?php
+        }
+    ?>
     <!-- Footer -->
         <?php require_once '../footer.php';?>
     <!-- Footer -->
