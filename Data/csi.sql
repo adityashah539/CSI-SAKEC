@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2021 at 10:31 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Aug 15, 2021 at 02:44 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,7 +55,7 @@ CREATE TABLE `csi_aboutus` (
 --
 
 INSERT INTO `csi_aboutus` (`id`, `photo`, `description`) VALUES
-(1, '6106ad4f0ff830.13926242.jpg', 'CSI SAKEC was formed in the year 2007. From then it\r\n						has successively grown to one of the strongest student\r\n						chapters of SAKEC. CS1 SAKEC has always lived upon\r\n						its motto of:\r\n						“BUILDING TECHNICAL SKILLS PROFESSIONALLY1’\r\n						in the past, CS1 SAKEC has been conducting various\r\n						workshops, seminars and visits with the help of\r\n						technically sound students for the benefit of SAKEC as\r\n						well as Non SAKEC students. Student Council of CS1\r\n						SAKEC includes different teams such as Design,\r\n						Treasury, Registration, Technical, Events,\r\n						Documentation and Publicity. These teams collectively\r\n						work for all the events conducted by CS1 SAKEC under\r\n						the guidance of Staff Coordinators for the benefit of all\r\n						the members');
+(1, '60e55ac3bcfe36.74441960.jpg', 'CSI SAKEC was formed in the year 2007. From then it\r\n						has successively grown to one of the strongest student\r\n						chapters of SAKEC. CS1 SAKEC has always lived upon\r\n						its motto of:\r\n						“BUILDING TECHNICAL SKILLS PROFESSIONALLY1’\r\n						in the past, CS1 SAKEC has been conducting various\r\n						workshops, seminars and visits with the help of\r\n						technically sound students for the benefit of SAKEC as\r\n						well as Non SAKEC students. Student Council of CS1\r\n						SAKEC includes different teams such as Design,\r\n						Treasury, Registration, Technical, Events,\r\n						Documentation and Publicity. These teams collectively\r\n						work for all the events conducted by CS1 SAKEC under\r\n						the guidance of Staff Coordinators for the benefit of all\r\n						the members.');
 
 -- --------------------------------------------------------
 
@@ -68,17 +68,6 @@ CREATE TABLE `csi_collaboration` (
   `event_id` int(11) NOT NULL,
   `collab_body` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `csi_collaboration`
---
-
-INSERT INTO `csi_collaboration` (`id`, `event_id`, `collab_body`) VALUES
-(1, 40, 'computer engineering'),
-(2, 47, 'ieee'),
-(3, 48, 'ieee'),
-(4, 48, 'ipr'),
-(6, 53, 'Computer Department');
 
 -- --------------------------------------------------------
 
@@ -95,17 +84,8 @@ CREATE TABLE `csi_collection` (
   `confirmed` tinyint(4) NOT NULL DEFAULT 0,
   `confirmed_by` varchar(255) DEFAULT NULL,
   `attend` tinyint(4) NOT NULL DEFAULT 0,
-  `externalstudentmembership` varchar(255) DEFAULT NULL
+  `membership_photo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `csi_collection`
---
-
-INSERT INTO `csi_collection` (`id`, `event_id`, `user_id`, `bill_photo`, `amount`, `confirmed`, `confirmed_by`, `attend`, `externalstudentmembership`) VALUES
-(99, 43, 89, NULL, 0, 1, 'auto', 0, NULL),
-(105, 49, 89, '6104238eace866.40341960.jpg', 5000, 1, 'c@sakec.ac.in', 0, ''),
-(106, 53, 89, '6106cc602fab64.09524532.jpg', 200, 1, 'c@sakec.ac.in', 0, '');
 
 -- --------------------------------------------------------
 
@@ -167,13 +147,6 @@ CREATE TABLE `csi_coordinator` (
   `image` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `csi_coordinator`
---
-
-INSERT INTO `csi_coordinator` (`id`, `user_id`, `image`) VALUES
-(21, 116, '6106aee60c9215.63265983.jpg');
-
 -- --------------------------------------------------------
 
 --
@@ -206,10 +179,9 @@ INSERT INTO `csi_event` (`id`, `title`, `subtitle`, `banner`, `e_from_date`, `e_
 (41, 'Introduction with IOT', 'Introduction with IOT with NODE MCU', ' nodemcu.jpg', '2019-08-30', '2019-08-31', '09:00:00', '05:00:00', 'Topics covered were: Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. ', 150, 200, 1, 1, 0),
 (42, 'Pune Outbound', 'Outbound', 'outbound.jpg', '2019-09-20', '2019-09-21', '06:00:00', '06:00:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 2350, 2500, 1, 1, 0),
 (43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-07-03', '2021-07-03', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1, 1, 0),
-(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-04', '2021-07-04', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1, 1, 0),
+(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-04', '2021-07-04', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 0, 200, 1, 1, 0),
 (48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-05', '2021-07-05', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 1, 0),
-(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-07-20', '2021-07-06', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 1, 0),
-(53, 'ML', 'Learn', ' 6106cbfeaf5c71.72314970.jpg', '2021-08-14', '2021-08-14', '09:58:00', '03:58:00', 'learn ml', 0, 200, 1, 0, 1);
+(49, 'Outbound', 'outbound', 'outbound.jpg', '2021-07-20', '2021-07-06', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -228,14 +200,13 @@ CREATE TABLE `csi_event_likes` (
 --
 
 INSERT INTO `csi_event_likes` (`id`, `event_id`, `user_id`) VALUES
-(60, 48, 89),
 (102, 43, 89),
 (126, 40, 89),
 (132, 41, 89),
 (133, 42, 89),
-(137, 47, 89),
-(141, 49, 89),
-(142, 53, 89);
+(140, 49, 89),
+(141, 48, 89),
+(142, 47, 89);
 
 -- --------------------------------------------------------
 
@@ -260,8 +231,7 @@ INSERT INTO `csi_expense` (`id`, `event_id`, `spent_on`, `by`, `bill_photo`, `bi
 (24, 40, 'pen', 'aditya.shah_19@sakec.ac.in', 'bill PO.png', 150),
 (25, 40, 'book', 'aditya.shah_19@sakec.ac.in', '60c5aabd20e615.59719138.png', 10),
 (26, 40, 'book 2', 'aditya.shah_19@sakec.ac.in', '60c5ab28dab3f2.82965889.png', 50),
-(27, 41, 'book 3', 'aditya.shah_19@sakec.ac.in', '60c5ab28dcd876.74772786.jpg', 100),
-(29, 40, 'book 3', 'c@sakec.ac.in', '6106a127144592.68508798.png', 60);
+(27, 41, 'book 3', 'aditya.shah_19@sakec.ac.in', '60c5ab28dcd876.74772786.jpg', 100);
 
 -- --------------------------------------------------------
 
@@ -282,13 +252,6 @@ CREATE TABLE `csi_feedback` (
   `any_queries` varchar(255) NOT NULL,
   `selfie` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `csi_feedback`
---
-
-INSERT INTO `csi_feedback` (`id`, `collection_id`, `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `selfie`) VALUES
-(34, 105, 5, 5, 5, 5, 5, 5, 'fast', 'No', '');
 
 -- --------------------------------------------------------
 
@@ -311,7 +274,7 @@ INSERT INTO `csi_gallery` (`id`, `image`, `status`) VALUES
 (60, 'gal-2.jpg', 1),
 (61, 'gal-3.jpg', 1),
 (62, 'gal-4.jpg', 1),
-(63, 'gal-5.jpg', 0);
+(63, 'gal-5.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -330,13 +293,6 @@ CREATE TABLE `csi_membership` (
   `duration` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `csi_membership`
---
-
-INSERT INTO `csi_membership` (`id`, `userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`, `duration`) VALUES
-(1, 120, '2001-01-23', 'dhiraj.shetty_19@sakec.ac.in', 2019, 2023, 15555, '2025-08-01 12:08:00');
-
 -- --------------------------------------------------------
 
 --
@@ -349,15 +305,9 @@ CREATE TABLE `csi_membership_bills` (
   `bill_photo` varchar(255) NOT NULL,
   `amount` int(11) NOT NULL,
   `membership_taken` datetime NOT NULL,
-  `no_of_year` int(11) NOT NULL
+  `no_of_year` int(11) NOT NULL,
+  `accepted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `csi_membership_bills`
---
-
-INSERT INTO `csi_membership_bills` (`id`, `membership_id`, `bill_photo`, `amount`, `membership_taken`, `no_of_year`) VALUES
-(3, 1, '6106d17e1dbb81.90047817.jpg', 2000, '2021-08-01 00:00:00', 4);
 
 -- --------------------------------------------------------
 
@@ -400,8 +350,11 @@ CREATE TABLE `csi_password` (
 
 INSERT INTO `csi_password` (`id`, `user_id`, `password`) VALUES
 (1, 89, '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2'),
-(18, 116, '$2y$10$04zCpeXDJNGdLDFqzF2vAO7USq0aR7DgfXj4SFy0mDtlZoDem6GC.'),
-(22, 120, '$2y$10$dhfz0iXDFNQMr2mKcUiNXOc4zJb/xwJOhSvDD4Kd9CXUZSxEJ5p.m');
+(23, 118, '$2y$10$cs553dpY3jh/EVpsvVJV3O9Jcj0ehSGFChkzyDq/yv8jaZQGYbWoS'),
+(24, 119, '$2y$10$vw5s5/hT/s5QAfiifzjP9.ObctwGT66FT43B1TaQ7cH7OEI.Zq3sa'),
+(27, 2, '$2y$10$PebyIR7cMP4KrWcoodq26u5QdQ417UM1wUGxPZ8O4TGtfsrzlg40a'),
+(28, 3, '$2y$10$xNfBtJOaUzLY/gIw.Y1sD.Fl5EfetMTlG6X9utr55M.p/V5aTssGe'),
+(31, 6, '$2y$10$x15NybBTmkNdd13w6N5ma.YTM5u6nttRrfUi8mKcP1AyHATg9LeAS');
 
 -- --------------------------------------------------------
 
@@ -420,6 +373,7 @@ CREATE TABLE `csi_query` (
 --
 
 INSERT INTO `csi_query` (`id`, `c_email`, `c_query`) VALUES
+(6, 'israil.alam_19@sakec.ac.in', 'How to upload the photos'),
 (15, 'aditya.shah_19@sakec.ac.in', 'how to login');
 
 -- --------------------------------------------------------
@@ -442,8 +396,7 @@ CREATE TABLE `csi_reply` (
 
 INSERT INTO `csi_reply` (`id`, `c_email`, `c_query`, `reply`, `replied_by`) VALUES
 (14, 'aditya.shah_19@sakec.ac.in', 'hello', 'ok', 'aditya.shah_19@sakec.ac.in'),
-(15, 'aditya.shah_19@sakec.ac.in', 'how to login', 'test123', 'aditya.shah_19@sakec.ac.in'),
-(16, 'israil.alam_19@sakec.ac.in', 'How to upload the photos', 'Ask permission through Admin', 'c@sakec.ac.in');
+(15, 'aditya.shah_19@sakec.ac.in', 'how to login', 'test123', 'aditya.shah_19@sakec.ac.in');
 
 -- --------------------------------------------------------
 
@@ -485,7 +438,7 @@ INSERT INTO `csi_role` (`id`, `role_name`, `main_page_edit`, `user_data`, `role`
 (6, 'student', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (8, 'General Secretary', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 (9, 'Student Coordinator', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(10, 'General Coordinator', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1),
+(10, 'General Coordinator', 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
 (11, 'Event Team Head', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (12, 'Event Team Co-Head', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (13, 'Technical Team Head', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -545,7 +498,7 @@ CREATE TABLE `csi_userdata` (
   `branch` varchar(10) NOT NULL,
   `role` int(15) NOT NULL,
   `gender` varchar(10) NOT NULL,
-  `organization` varchar(255) NOT NULL DEFAULT 'sakec'
+  `organization` varchar(255) NOT NULL DEFAULT 'Shah & Anchor Kutchhi Engineering College'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -553,10 +506,9 @@ CREATE TABLE `csi_userdata` (
 --
 
 INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID`, `phonenumber`, `branch`, `role`, `gender`, `organization`) VALUES
-(89, 'Dhiraj', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 1, '', 'sakec'),
-(115, 'Aditya Bharat Shah', 'FE', NULL, NULL, 'adityashah539@gmail.com', 9372622462, 'CS', 1, 'male', 'sakec'),
-(116, 'ADITYA SHAH', 'FE', 'BE3', 19, 'aditya.shah_19@sakec.ac.in', 9999999981, 'Computers', 23, 'male', 'sakec'),
-(120, '', '', '', 0, 'dhiraj.shetty_19@sakec.ac.in', 0, '', 6, 'male', 'sakec');
+(2, 'Aditya Shah', 'FE', NULL, NULL, 'adityashah539@gmail.com', 9372622462, 'CS', 1, 'male', 'Shah & Anchor Kutchhi Engineering College'),
+(3, 'abc', 'FE', NULL, NULL, '', 9372622462, 'CS', 6, 'male', 'abc'),
+(6, 'ADITYA SHAH', 'FE', 'BE3', 19, 'aditya.shah_19@sakec.ac.in', 9999999981, 'Computers', 6, 'male', 'Shah & Anchor Kutchhi Engineering College');
 
 -- --------------------------------------------------------
 
@@ -575,8 +527,7 @@ CREATE TABLE `csi_venue` (
 --
 
 INSERT INTO `csi_venue` (`id`, `event_id`, `location`) VALUES
-(1, 47, '4th-Floor Seminar Hall'),
-(4, 53, 'SAKEC');
+(1, 47, '4th-Floor Seminar Hall');
 
 -- --------------------------------------------------------
 
@@ -1080,13 +1031,13 @@ ALTER TABLE `csi_aboutus`
 -- AUTO_INCREMENT for table `csi_collaboration`
 --
 ALTER TABLE `csi_collaboration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `csi_collection`
 --
 ALTER TABLE `csi_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `csi_contact`
@@ -1104,31 +1055,31 @@ ALTER TABLE `csi_contentrepository`
 -- AUTO_INCREMENT for table `csi_coordinator`
 --
 ALTER TABLE `csi_coordinator`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `csi_event`
 --
 ALTER TABLE `csi_event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `csi_event_likes`
 --
 ALTER TABLE `csi_event_likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- AUTO_INCREMENT for table `csi_expense`
 --
 ALTER TABLE `csi_expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `csi_feedback`
 --
 ALTER TABLE `csi_feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `csi_gallery`
@@ -1140,13 +1091,13 @@ ALTER TABLE `csi_gallery`
 -- AUTO_INCREMENT for table `csi_membership`
 --
 ALTER TABLE `csi_membership`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `csi_membership_bills`
 --
 ALTER TABLE `csi_membership_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `csi_newsletter`
@@ -1158,7 +1109,7 @@ ALTER TABLE `csi_newsletter`
 -- AUTO_INCREMENT for table `csi_password`
 --
 ALTER TABLE `csi_password`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `csi_query`
@@ -1170,7 +1121,7 @@ ALTER TABLE `csi_query`
 -- AUTO_INCREMENT for table `csi_reply`
 --
 ALTER TABLE `csi_reply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `csi_role`
@@ -1188,13 +1139,13 @@ ALTER TABLE `csi_speaker`
 -- AUTO_INCREMENT for table `csi_userdata`
 --
 ALTER TABLE `csi_userdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `csi_venue`
 --
 ALTER TABLE `csi_venue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `division_details`

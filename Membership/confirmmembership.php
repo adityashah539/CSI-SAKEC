@@ -31,7 +31,7 @@
                 $membership_taken = $_POST['membership_taken'];
                 $duration = date("Y-m-d", strtotime(date("Y-m-d", strtotime($membership_taken)) . " + $member_period year"));
                 $query = execute("UPDATE `csi_membership` SET `duration`='$duration' WHERE id = $membership_id");
-                $query = execute("UPDATE `csi_membership_bills` SET `no_of_year`='$member_period', `accepted` = '1' WHERE id = $id");
+                $query = execute("UPDATE `csi_membership_bills` SET `accepted` = '1' WHERE id = $id");
                 
                 // $datetime = new DateTime($membership_taken);
                 // $datetime->add(new DateInterval('P'.$member_period.'Y'));
@@ -86,17 +86,8 @@
                             <input type="hidden" name = "membership_taken" value="<?php echo $row['membership_taken']; ?>">
                             <input type="hidden" name="membership_id" value = "<?php echo $row['membership_id'];?>">
                             <td>
-                                <div class="col-sm-7">
-                                    <div class="texts">
-                                        <select name="member_period" class="custom-select mb-3" required="required">
-                                            <!-- <option selected disabled>Select Year</option> -->
-                                            <option value="1"<?php if($row['no_of_year'] == '1')echo 'selected';?>>1</option>
-                                            <option value="2"<?php if($row['no_of_year'] == '2')echo 'selected';?>>2</option>
-                                            <option value="3"<?php if($row['no_of_year'] == '3')echo 'selected';?>>3</option>
-                                            <option value="4"<?php if($row['no_of_year'] == '4')echo 'selected';?>>4</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                <input type="hidden" name="member_period" value = "<?php echo $row['no_of_year'];?>">
+                                <?php echo $row['no_of_year'];?>
                             </td>
                             <td><button class = 'btn btn-success' name = 'Confirm'>Confirm</button></td>
                             <td><button class = 'btn btn-danger' name = 'Delete'>Delete</button></td>
