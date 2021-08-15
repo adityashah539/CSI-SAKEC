@@ -2,7 +2,6 @@
     require_once "../config.php";
     session_start();
     $err = "";
-    
     if ((isset($_GET['notlogin'])) && ($_GET['notlogin'])) {
         $err .= "You need to login to access the feature.";
     } elseif (isset($_SESSION['email'])) {

@@ -1,14 +1,14 @@
 <?php
 session_start();
 require_once "../config.php";
-$part1 = '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+$part1 = '<div class="alert alert-success alert-dismissible fade show" role="alert">';
 $part2 = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fas fa-times"></i></span></button></div>';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($_POST["authProvider"] == md5("Google")) {
-        $email = $_POST["email"];
+        $email = $_POST["signupEmail"];
         $sql = "SELECT `csi_password`.`password` FROM `csi_password`,`csi_userdata` WHERE `csi_userdata`.`emailID`='$email' AND `csi_password`.`user_id`=`csi_userdata`.`id` ";
         if (getNumRows($sql) == 0) {
-            $_SESSION["email"] = $email;
+            $_SESSION["signupEmail"] = $email;
 ?>
             <h4>Step 2: Fill the details</h4>
 <?php
