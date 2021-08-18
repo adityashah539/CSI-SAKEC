@@ -25,18 +25,16 @@
         }
         if ($_SERVER['REQUEST_METHOD'] == "POST" ) {
             $id = $_POST['id'];
+            $user_id = $_POST['user_id'];
             if (isset($_POST['Confirm'])) {
                 $member_period = $_POST['member_period'];
                 $membership_id = $_POST['membership_id'];
                 $membership_taken = $_POST['membership_taken'];
                 $duration = date("Y-m-d", strtotime(date("Y-m-d", strtotime($membership_taken)) . " + $member_period year"));
-                $query = execute("UPDATE `csi_membership` SET `duration`='$duration' WHERE id = $membership_id");
-                $query = execute("UPDATE `csi_membership_bills` SET `accepted` = '1' WHERE id = $id");
-                
-                // $datetime = new DateTime($membership_taken);
-                // $datetime->add(new DateInterval('P'.$member_period.'Y'));
-                // $new_membership_end = $datetime->format('Y-m-d h:m:s');
-                // $query = execute("UPDATE `csi_membership`,`csi_membership_bills` SET `duration`='$new_membership_end' WHERE `csi_membership`.`id` = `csi_membership_bills`.`membership_id` and `csi_membership_bills`.`id` = $id");
+                execute("UPDATE `csi_membership` SET `duration`='$duration' WHERE id = $membership_id");
+                execute("UPDATE `csi_membership_bills` SET `accepted` = '1' WHERE id = $id");
+                $member_id= getSpecificValue("SELECT `id` FROM `csi_role` WHERE `role_name`='member'", "id");
+                execute("UPDATE `csi_userdata` SET `role` = '$member_id' WHERE id = '$user_id'");
             } else if (isset($_POST['Delete'])) {
                 $query = execute("DELETE FROM `csi_membership_bills` WHERE id = " . $id);
             }
@@ -63,15 +61,16 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
             <?php
-            $sqlstmt = execute("select b.id as id, membership_id, u.name , r_number, primaryEmail, phonenumber, amount, duration, bill_photo, no_of_year, membership_taken
+            $sqlstmt = execute("select b.id as id, membership_id, u.name,u.id as user_id, r_number, primaryEmail, phonenumber, amount, duration, bill_photo, no_of_year, membership_taken
                                 from csi_userdata as u, csi_membership as m, csi_membership_bills as b
-                                where accepted = '0' and b.membership_id = m.id and m.userid = u.id");
+                                where accepted = '0' and b.membership_id = m.id and m.userid = u.id;");
             $number_of_data = mysqli_num_rows($sqlstmt);
             if($number_of_data){
                 while( $row = mysqli_fetch_assoc($sqlstmt)){
             ?>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" >
                         <input type="hidden" name="id" value="<?php echo $row['id'];?>">
+                        <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
                         <tr>
                             <td><?php echo $row['name'];?></td>
                             <td><?php echo $row['r_number'];?></td>

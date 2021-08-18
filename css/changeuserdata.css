@@ -70,9 +70,7 @@ header {
 /* Footer */
 .footer-area {
     background: #04091e;
-    bottom: 0px;
-    position: fixed;
-    width: 100%;
+   
 }
 
 .footer_title {
@@ -219,8 +217,6 @@ input {
     border-right: none;
     border-left: none;
     border-top: none;
-    padding: 8px;
-    margin: 10px;
     border-color: #a7a3a3;
     font-size: 15px;
     outline: none;
