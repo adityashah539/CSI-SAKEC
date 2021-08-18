@@ -10,46 +10,6 @@
     <!-- CSS file  -->
     <link rel="stylesheet" href="../css/changeuserdata.css?v=<?php echo time(); ?>">
     <title> Membership</title>
-    <?php
-    require_once "../config.php";
-    session_start();
-
-    $email = $_SESSION['email'];
-    $userid = getSpecificValue("SELECT `id` from `csi_userdata` where emailID = '$email'", 'id');
-
-    $noOfRows = getNumRows("SELECT `id` ,`userid` FROM `csi_membership` WHERE userid = $userid");
-
-    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
-        $amount = $_POST['amount'];
-        if ($noOfRows == 0) {
-            $pemail = $_POST['pemail'];
-            $regno = $_POST['registration_number'];
-            $dob = $_POST['dob'];
-            $syear = $_POST['syear'];
-            $eyear = $_POST['eyear'];
-            execute("INSERT INTO `csi_membership`(`userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`)
-                                            VALUES ('$userid','$dob','$pemail','$syear','$eyear','$regno')");
-        }
-        $membership_id = getSpecificValue("SELECT `id` from `csi_membership` where userid = '$userid'", 'id');
-
-        // Insert bill in a folder
-        $image = fileTransfer('billphoto', 'Membership_Bill');
-        if ($image['error'] == NULL) {
-            $file_new_bill = $image['file_new_name'];
-            $no_of_year = $_POST['member_period'];
-            $membership_ends = getSpecificValue("SELECT `duration` FROM `csi_membership` WHERE userid = $userid", 'duration');
-            if ($membership_ends > date("Y-m-d")) {
-                $membership_taken = $membership_ends;
-            } else {
-                $membership_taken = date("Y-m-d H:i:s", time());
-            }
-            execute("INSERT INTO `csi_membership_bills`(`membership_id`, `bill_photo`, `amount`, `membership_taken`, `no_of_year`,`accepted`)
-                                                VALUES ('$membership_id','$file_new_bill','$amount','$membership_taken','$no_of_year','0')");
-        } else {
-            function_alert($image['error']);
-        }
-    }
-    ?>
 </head>
 
 <body>
@@ -57,25 +17,31 @@
         <h2 class="text-center">Membership</h2>
     </header>
     <?php
+    require_once "../config.php";
+    session_start();
+
+    $email = $_SESSION['email'];
+    $userid = getSpecificValue("SELECT `id` from `csi_userdata` where emailID = '$email'", 'id');
+    $noOfRows = getNumRows("SELECT `id` ,`userid` FROM `csi_membership` WHERE userid = $userid");
     // Shows the status of the membership
     if ($noOfRows != 0) {
         // Membership exists
         $membership_ends = getSpecificValue("SELECT `duration` FROM `csi_membership` WHERE userid = $userid", 'duration');
 
         if ($membership_ends >= date("Y-m-d")) {
-            echo    "<div class='alert alert-success text-center' role='alert' >
-                            Your Current Membership expires on " . date("d-m-Y", strtotime($membership_ends)) . "
-                        </div>";
+            echo    "<div id = 'membershipstatus'><div class='alert alert-success text-center' role='alert' >
+                        Your Current Membership expires on " . date("d-m-Y", strtotime($membership_ends)) . "
+                    </div></div>";
         } else if ($membership_ends) {
-            echo    "<div class='alert alert-danger text-center ' role='alert' >
-                            Your last Membership expired on " . date("d-m-Y", strtotime($membership_ends)) . "
-                        </div>";
+            echo    "<div id = 'membershipstatus'><div class='alert alert-danger text-center ' role='alert' >
+                        Your last Membership expired on " . date("d-m-Y", strtotime($membership_ends)) . "
+                    </div></div>";
         }
     } else {
         // No membership
-        echo    "<div class='alert alert-primary text-center' role='alert' >
-                        You have not taken membership yet
-                    </div>";
+        echo    "<div id='message'><div class='alert alert-primary text-center' role='alert' >
+                    You have not taken membership yet
+                </div> </div>";
     }
 
     // Shows any pending status of membership
@@ -84,20 +50,20 @@
                             where accepted = 0 and b.membership_id = m.id and m.userid = u.id and u.id = $userid", 'id');
     if ($bill > 0) {
         echo    "<div class='alert alert-warning text-center' role='alert' >
-                        Your current bill is pending for acceptance
-                    </div>";
+                    Your current bill is pending for acceptance
+                </div>";
     } else {
     ?>
+       
         <div class="spacer" style="height:50px;"></div>
-        <div id="error"></div>
         <div class="spacer" style="height:15px;"></div>
-        <div class="registration">
+        <div class="registration" id = 'registration'>
             <div class="container">
                 <h4>Student Membership Registration </h4>
                 <p>Fill all the fields carefully</p>
                 <hr>
                 <div class="spacer" style="height:35px;"></div>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
+                <form action="membershipsubmit.php" method="POST" enctype="multipart/form-data">
                     <?php
                     if ($noOfRows == 0) {
                     ?>
@@ -205,7 +171,6 @@
     }
     ?>
     <!-- Footer -->
-
     <!-- Footer -->
 
 
@@ -219,9 +184,32 @@
             //jquery for loading the fields for renewal and the Filling the details 
 
 
-            //jquery for taking membership 
 
 
+            $(document).ready(function (e) {
+                $("form").on('submit',(function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: "membershipsubmit.php",
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        beforeSend : function()
+                        {
+                            $("#message").html('');
+                        },
+                        success: function(data)
+                        {
+                            $("#message").html(data);
+                            $("#registration").html('');
+                        }     
+                    });
+                }));
+            });
+            
+            //jquery error message if any
         });
     </script>
 </body>
