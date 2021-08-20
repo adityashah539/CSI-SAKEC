@@ -20,6 +20,19 @@
     <?php
     require_once "config.php";
     session_start();
+    function autoRegistration($email, $event_id)
+    {
+        $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
+        $user_id = getSpecificValue($sql, "user_id");
+        $sql = "INSERT INTO `csi_collection`(`event_id`,`user_id`,`confirmed`,`confirmed_by`) VALUES ('$event_id','$user_id','1','auto')";
+        //destroyDataInput();
+        if (execute($sql)) {
+            //echo $part1 . "Registration Successful" . $part2;
+            redirect_after_msg("You have been registerd for the event", "event.php?event_id=$event_id");
+        } else {
+            redirect_after_msg("Registration Failed", "../eventregistration.php?event_id=$event_id");
+        }
+    }
     // Fetching Access Details
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
@@ -30,19 +43,14 @@
     $event_id = $_GET['event_id'];
 
     $rowevent = getValue("SELECT * FROM csi_event WHERE id='$event_id'");
-
-
+    $flag = true;
     $queryspeaker = execute("SELECT * FROM csi_speaker WHERE event_id='$event_id'");
     $number_of_speakers = mysqli_num_rows($queryspeaker);
     ?>
 
-    
-
     <!-- Navbar -->
-    <?php require "usernavbar.php";?>
+    <?php require "usernavbar.php"; ?>
     <!-- Navbar -->
-
-    
 
     <!-- Spacer -->
     <div class="spacer" style="height:150px;"></div>
@@ -90,35 +98,71 @@
             $not__registered = false;
             if (isset($_SESSION["email"])) {
                 $email = $_SESSION["email"];
-                $row1 = getValue("SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
-                                WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ");
-                if (!isset($row1["confirmed"])) {
+                $user_id = getSpecificValue("SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'", 'id');
+                $registeredForEvent = getNumRows("SELECT `id` FROM `csi_collection` WHERE `event_id`='$event_id' and `user_id`='$user_id'");
+                if ($registeredForEvent == 0) {
                     $not__registered = true;
-                } else if ($row1["confirmed"] == '1') {
+                } else if ($registeredForEvent == 1) {
+                    $not__registered = false;
+                    $confirmationStatus = getSpecificValue("SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
+                    WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ", "confirmed");
+                    if ($confirmationStatus == 1) {
             ?>
-                    <button type="button" class="btn btn-success">Registered</button>
-            <?php
+                        <button type="button" class="btn btn-success">Registered</button>
+                    <?php
+                    } else if ($confirmationStatus == 0) {
+                    ?>
+                        <button type="button" class="btn btn-info">Waiting for Confirmation</button>
+                    <?php
+                    }
                     if ($rowevent['feedback'] == 1) {
-            ?>
+                    ?>
                         <form action="feedback.php" method="GET">
                             <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
                             <button type="submit" class="btn btn-success">Feedback</button>
                         </form>
-            <?php
+                <?php
                     }
-                } else {
-            ?>
-                    <button type="button" class="btn btn-info">Waiting for Confirmation</button>
-            <?php
                 }
             }
-            if (!isset($_SESSION['email']) || $not__registered ) {
-            ?>
-                <form action="<?php echo "Eventmanagement/eventregistration.php"; ?>" method="POST">
+            if (!isset($_SESSION['email'])) {
+                ?>
+                <div id="error" class="my-4"></div>
+                <form action="eventRegistration.php" method="GET">
+                    <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
                     <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
-                    <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
                 </form>
+                <?php
+            } else if ($not__registered) {
+                if ($role_id == 6) {
+                    $fee = $rowevent['fee'];
+                } else {
+                    $fee = $rowevent['fee_m'];
+                }
+                if ($fee == 0) {
+                    $email = $_SESSION['email'];
+                    if (isset($_POST['registerNow'])) {
+                        autoRegistration($email, $event_id);
+                    }
+                ?>
+                    <form method="post">
+                        <button type="submit" name="registerNow" class="btn btn-primary">Register Now</button>
+                    </form>
+                <?php
+                    //autoRegistration($email, $event_id);
+                } else if (($flag) && ($fee > 0)) {
+                ?>
+                    <form action="eventRegDataProcessing.php" method="POST" enctype="multipart/form-data">
+                        <input type="text" name="email" value="<?php echo $email; ?>" hidden>
+                        <input type="text" name="typeOfUser" value="0101" hidden>
+                        <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
+                        <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
+                        <label class="control-label">PAYMENT RECEIPT:</label>
+                        <input type="file" name="bill_photo" required />
+                        <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER</button>
+                    </form>
             <?php
+                }
             }
             ?>
             <div class="spacer" style="height:20px;"></div>
@@ -244,7 +288,7 @@
                             <br>
                             <?php
                             // Event coordinators details
-                            $query_contact = execute( "SELECT `c_name`,`c_phonenumber` FROM `csi_contact` WHERE `event_id`='$event_id'");
+                            $query_contact = execute("SELECT `c_name`,`c_phonenumber` FROM `csi_contact` WHERE `event_id`='$event_id'");
                             while ($row2 = mysqli_fetch_assoc($query_contact)) {
                                 echo $row2['c_name'] . " - " . $row2['c_phonenumber'] . "<br>";
                             }
@@ -264,12 +308,9 @@
     <!-- Spacer -->
 
     <!-- Footer -->
-    <?php require_once 'footer.php';?>
+    <?php require_once 'footer.php'; ?>
     <!-- Footer -->
-
-    
-
-
+    <!-- DO NOT DELETE THIS  -->
 
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>

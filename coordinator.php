@@ -24,7 +24,6 @@
             function_alert('Could not delete, file does not exist');
         }
     }
-
     // Update the image
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])){
         $user_id=$_POST['user_id'];
