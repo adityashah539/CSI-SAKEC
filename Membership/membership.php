@@ -36,7 +36,7 @@
         $(document).ready(function() {
             $("#membershipStatus").load("membershipStatus.php");
             console.log("Status Loaded");
-
+            $("#fillRequired").load("membershipInput.php");
             console.log("Input Loaded");
             $("#syear").on('change', function() {
                 var val = parseInt($("#syear").children("option:selected").val());

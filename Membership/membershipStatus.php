@@ -15,7 +15,7 @@ if ($noOfRows != 0) {
             Your Current Membership expires on  <?php echo date("d-m-Y", strtotime($membership_ends)) ; ?>
         </div>
 <?php
-    } else {
+    } else if($membership_ends != null) {
 ?>
         <div class='alert alert-danger text-center ' role='alert' >
             Your last Membership expired on <?php echo date("d-m-Y", strtotime($membership_ends)) ; ?>
@@ -31,5 +31,5 @@ if ($bill > 0) {
         Your current bill is pending for acceptance
     </div>
 <?php
-            } 
+} 
 ?>
