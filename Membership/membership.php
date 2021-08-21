@@ -16,7 +16,6 @@
     <header>
         <h2 class="text-center">Membership</h2>
     </header>
-    <div id="membershipStatus"></div>
     <div id="fillRequired"></div>
     <!-- Footer -->
     <?php require_once '../footer.php'; ?>
@@ -29,31 +28,7 @@
     <script>
         //jquery for loading the fields for renewal and the Filling the details 
         $(document).ready(function() {
-            $("#membershipStatus").load("membershipStatus.php");
-            console.log("Status Loaded");
             $("#fillRequired").load("membershipInput.php");
-            console.log("Input Loaded");
-            $("#syear").on('change', function() {
-                var val = parseInt($("#syear").children("option:selected").val());
-                $("#eyear").val(val + 4);
-            });
-            $("form").on('submit', (function() {
-                $.ajax({
-                    url: "membershipsubmit.php",
-                    type: "POST",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    beforeSend: function() {
-                        $("#message").html('');
-                    },
-                    success: function(data) {
-                        $("#message").html(data);
-                        $("#registration").html('');
-                    }
-                });
-            }));
         });
     </script>
 </body>
