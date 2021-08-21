@@ -9,11 +9,16 @@
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <!-- CSS file  -->
     <link rel="stylesheet" href="../css/changeuserdata.css?v=<?php echo time(); ?>">
+
     <title> Membership</title>
 </head>
 
 <body>
-    <header>
+    <!-- Navbar -->
+    <?php require "../usernavbar.php"; ?>
+    <!-- Navbar -->
+
+    <header class="membership_header">
         <h2 class="text-center">Membership</h2>
     </header>
     <div id="membershipStatus"></div>
@@ -31,7 +36,7 @@
         $(document).ready(function() {
             $("#membershipStatus").load("membershipStatus.php");
             console.log("Status Loaded");
-            $("#fillRequired").load("membershipInput.php");
+
             console.log("Input Loaded");
             $("#syear").on('change', function() {
                 var val = parseInt($("#syear").children("option:selected").val());
@@ -56,6 +61,7 @@
             }));
         });
     </script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>
