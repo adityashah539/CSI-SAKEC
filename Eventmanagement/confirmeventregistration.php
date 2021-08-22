@@ -68,7 +68,6 @@
                 <th>Event</th>
                 <th>Amount Paid</th>
                 <th>Bill</th>
-                <th>Membership Bill </th>
                 <th>Confirm</th>
                 <th>Delete</th>
             </tr>
@@ -95,19 +94,6 @@
                                     ?>
                                         <a target="_blank" href="Event_Bill/<?php echo $row['bill_photo']; ?>">
                                             <img src="Event_Bill/<?php echo $row['bill_photo']; ?>" alt="Error image not Loaded" style="width:80px" />
-                                        </a>
-                                    <?php
-                                    }else{
-                                        echo "Image not uploaded.";
-                                    }
-                                    ?>
-                                </td>
-                                <td>
-                                    <?php
-                                    if (isset($row['membership_photo'])) {
-                                    ?>
-                                        <a target="_blank" href="Membership/<?php echo $row['membership_photo']; ?>">
-                                            <img src="Membership/<?php echo $row['membership_photo']; ?>" alt="Error image not Loaded" style="width:80px" />
                                         </a>
                                     <?php
                                     }else{

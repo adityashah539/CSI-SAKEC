@@ -31,10 +31,13 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <?php require "usernavbar.php"; ?>
+    <div style='height: 85px;'></div>
+    <!-- Navbar -->
     <header>
-        <h2 style="text-align: center;">Edit rofile</h2>
+        <h2 class="text-center my-4">Edit profile</h2>
     </header>
-    <div class="spacer" style="height:46px;"></div>
     <div class="changedata">
         <div class="container">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -149,11 +152,10 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" name = "submit" class="btn main_btn">Change</button>
+                <button type="submit" name = "submit" class="btn main_btn_read_more mb-3">Change</button>
             </form>
         </div>
     </div>
-    <div class="spacer" style="height:100px;"></div>
 
 
     <!-- Footer -->

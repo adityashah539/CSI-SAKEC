@@ -9,18 +9,27 @@
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <!-- CSS file  -->
     <link rel="stylesheet" href="../css/changeuserdata.css?v=<?php echo time(); ?>">
-
     <title> Membership</title>
+    <?php
+    session_start();
+    require_once "../config.php";
+    // Fetching Access Details
+    $access = NULL;
+    if (isset($_SESSION["role_id"])) {
+        $role_id = $_SESSION["role_id"];
+        $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
+    }
+    else{
+        header("location:http://localhost/csi-sakec/index.php");
+    }
+    ?>
 </head>
 
 <body>
     <!-- Navbar -->
     <?php require "../usernavbar.php"; ?>
+    <div style='height: 85px;'></div>
     <!-- Navbar -->
-
-    <header class="membership_header">
-        <h2 class="text-center">Membership</h2>
-    </header>
     <div id="membershipStatus"></div>
     <div id="fillRequired"></div>
     <!-- Footer -->
@@ -33,11 +42,10 @@
     <!-- DO NOT DELETE THIS  -->
     <script>
         //jquery for loading the fields for renewal and the Filling the details 
+        $("#membershipStatus").load("membershipStatus.php");
+        $("#fillRequired").load("membershipInput.php");
+        
         $(document).ready(function() {
-            $("#membershipStatus").load("membershipStatus.php");
-            console.log("Status Loaded");
-            $("#fillRequired").load("membershipInput.php");
-            console.log("Input Loaded");
             $("#syear").on('change', function() {
                 var val = parseInt($("#syear").children("option:selected").val());
                 $("#eyear").val(val + 4);

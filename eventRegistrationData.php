@@ -171,7 +171,6 @@
             if ((typeOfUser == "1101") || (typeOfUser == "1001") || (typeOfUser == "1000")) {
                 $("#part1").on("submit", (function(e) {
                     e.preventDefault();
-                    console.log(this);
                     $.ajax({
                         url: "eventRegDataProcessing.php",
                         type: "POST",

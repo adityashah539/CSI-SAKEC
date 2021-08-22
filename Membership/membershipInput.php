@@ -9,8 +9,8 @@ $bill = getNumRows("SELECT b.id from csi_userdata as u, csi_membership as m, csi
 if ($bill == 0) {
     $noOfRows = getNumRows("SELECT `id`  FROM `csi_membership` WHERE userid = $user_id");
 ?>
-    <div class="container text-center" id = "registration">
-        <div class="mt-4">
+    <div class="container text-center" id="registration">
+        <div class="">
             <h4>Student Membership <?php echo ($noOfRows == 0) ? "Registration" : "Renewal"; ?></h4>
         </div>
         <p>Fill all the fields carefully</p>
@@ -99,16 +99,16 @@ if ($bill == 0) {
             <div class="form-groups row mb-4 justify-content-sm-center">
                 <div class="col-sm-3 mt-4 text-center">
                     <div class="register">
-                        <button type="submit" name="submit" class="btn main_btn">Submit </button>
+                        <button type="submit" name="submit" class="btn main_btn_read_more">Submit </button>
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
 <?php
 } else {
 ?>
+
 <?php
 }
 ?>
@@ -134,6 +134,6 @@ if ($bill == 0) {
                     $("#membershipStatus").load("membershipStatus.php");
                 }
             });
-         }));
+        }));
     });
 </script>

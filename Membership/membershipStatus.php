@@ -27,8 +27,12 @@ if ($noOfRows != 0) {
 $bill = getNumRows("SELECT b.id from csi_userdata as u, csi_membership as m, csi_membership_bills as b where accepted = 0 and b.membership_id = m.id and m.userid = u.id and u.id = $user_id", 'id');
 if ($bill > 0) {
 ?>
-    <div class='alert alert-warning text-center' role='alert' >
-        Your current bill is pending for acceptance
+    
+    <div class='container-sm'>
+        <div class="alert alert-warning text-center" role='alert'>
+            Your current bill is pending for acceptance
+        </div>
+        <div style="height:324px"></div>
     </div>
 <?php
 } 

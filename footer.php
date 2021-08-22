@@ -20,7 +20,7 @@
                             <p>You can trust us. we only send promo offers, not a single spam.</p>
                             <div class="guery">
                                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                    <div class="input-group d-flex flex-row">
+                                    <div class="input-group d-flex flex-row justify-content-center">
                                         <?php
                                         if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
                                             echo '<input type="hidden" name="email" value="' . $_SESSION['email'] . '">';
