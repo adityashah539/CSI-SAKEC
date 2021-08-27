@@ -15,7 +15,10 @@
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll " style="height: auto;">
                         <li class="nav-item active">
-                            <a class="nav-link" href="http://localhost/csi-sakec/index.php">Home</a>
+                            <a class="nav-link" href="https://www.shahandanchor.com/home/">SAKEC Main Portal</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="http://localhost/csi-sakec/index.php">CSI Home</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="http://localhost/csi-sakec/index.php#team">Our Team</a>
