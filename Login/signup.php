@@ -16,10 +16,9 @@
     ?>
 </head>
 
-
 <body>
     <div id="user-login">
-        <h1 class="font-weight-bold my-5">WELCOME!</h1>
+        <h1 class="font-weight-bold my-5 text-center">WELCOME!</h1>
         <div id="error"></div>
         <div class="container text-center">
             <h4>Step 1: Choose your account </h4>
@@ -33,7 +32,7 @@
                 <input type="text" class="form-control w-25 p-3 mx-3" name="Email" required="required" placeholder="Enter Email">
             </div>
             <button class="btn btn-primary" name="submit">Submit </button></br></br> -->
-            
+
             <!-- jquery will put the fill required -->
             <div id="Step2">
 
@@ -62,38 +61,38 @@
         $(document).ready(function() {
             //To resize the background image based upon window size 
             $('#user-login').css({
-                'height': (($(window).height()) -49) + 'px'
+                'height': (($(window).height()) - 49) + 'px'
             });
             //For testing purpose 
-            $(document).on('click', "button[name='submit']",function() {
+            $(document).on('click', "button[name='submit']", function() {
                 var email = $("input[name='Email']").val();
                 $("#Step2").load("datainput.php", {
-                authProvider: "<?php echo md5("Google"); ?>",
-                signupEmail: email
-            });
+                    authProvider: "<?php echo md5("Google"); ?>",
+                    signupEmail: email
+                });
             });
             // After the sign up button data will pushed to database 
-            $(document).on('click', "button[name='sign_up']",function() {
+            $(document).on('click', "button[name='sign_up']", function() {
                 var registrationProcess = $("input[name='registrationProcess']").val();
-                if(registrationProcess == "337db7c71a09b11bf114cf9a48ed0af6"){
+                if (registrationProcess == "337db7c71a09b11bf114cf9a48ed0af6") {
                     var password = $("input[name='password']").val();
                     var confirmpassword = $("input[name='confirmPassword']").val();
                     $("#error").load("registration.php", {
-                        registrationProcess:registrationProcess,
+                        registrationProcess: registrationProcess,
                         password: password,
                         confirmpassword: confirmpassword
                     });
-                }else if(registrationProcess == "f0e84041297fae34080e61b840d26ebe"){
-                var gender = $("#gender").val();
+                } else if (registrationProcess == "f0e84041297fae34080e61b840d26ebe") {
+                    var gender = $("#gender").val();
                     var password = $("input[name='password']").val();
                     var confirmpassword = $("input[name='confirmPassword']").val();
                     $("#error").load("registration.php", {
-                        registrationProcess:registrationProcess,
+                        registrationProcess: registrationProcess,
                         gender: gender,
                         password: password,
                         confirmpassword: confirmpassword
                     });
-                }else if(registrationProcess == "b44f7646f2918e4ddc983ca59d34ed97") {
+                } else if (registrationProcess == "b44f7646f2918e4ddc983ca59d34ed97") {
                     var password = $("input[name='password']").val();
                     var confirmpassword = $("input[name='confirmPassword']").val();
                     var phonenumber = $("input[name='phonenumber']").val();
@@ -103,7 +102,7 @@
                     var year = $("#year").val();
                     var collegeName = $("input[name='collegeName']").val();
                     $("#error").load("registration.php", {
-                        registrationProcess:registrationProcess,
+                        registrationProcess: registrationProcess,
                         name: name,
                         collegeName: collegeName,
                         phonenumber: phonenumber,
@@ -114,7 +113,6 @@
                         confirmpassword: confirmpassword
                     });
                 }
-                
             });
         })
     </script>

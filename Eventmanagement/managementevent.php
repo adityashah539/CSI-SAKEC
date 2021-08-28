@@ -21,7 +21,7 @@
         $role_id = $_SESSION["role_id"];
         $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
-    if( $access['edit_attendance'] == '0' && $access['permission_letter'] == '0' && $access['report'] == '0'  && $access['confirm_event_registration'] == '0' && $access['content_repository'] == '0' && $access['feedback_response'] == '0'){
+    if ($access['edit_attendance'] == '0' && $access['permission_letter'] == '0' && $access['report'] == '0'  && $access['confirm_event_registration'] == '0' && $access['content_repository'] == '0' && $access['feedback_response'] == '0') {
         header("location:../index.php");
     }
     $event_id = $_GET['event_id'];
@@ -31,88 +31,88 @@
     $queryspeaker = execute($sqlspeaker);
     $number_of_speakers = mysqli_num_rows($queryspeaker);
     ?>
-<header>
-    <h2 style="text-align: center;">Manage Event For <?php echo $rowevent['title']; ?></h2>
-</header>
-<nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-			<ul class="navbar-nav mr-auto">
+    <header>
+        <h2 style="text-align: center;">Manage Event For <?php echo $rowevent['title']; ?></h2>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-					<a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i>  Back</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link" href="../index.php"><i class="fas fa-home"></i>  Home</a>
-				</li>
-                <?php
-                if($access['edit_attendance'] == '1'){
-                ?>
-                <li class="nav-item">
-                    <form action="attendance.php" method="get">
-                        <input type="hidden" name="e_id" value="<?php echo $event_id; ?>"/>
-                        <input type="hidden" name="e_title" value="<?php echo $rowevent['title'];?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-users"></i> Attendance</button>
-                    </form>
+                    <a class="nav-link" href="eventmanagement.php"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
                 </li>
-                <?php 
-                }
-                if($access['permission_letter'] == '1'){
-                ?>
                 <li class="nav-item">
-                    <form action="permission_export.php" method="get">
-                        <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-envelope-open-text"></i> Permission Letter</button>
-                    </form>
-				</li>
-                <?php
-                }
-                if($access['report'] == '1'){ 
-                ?>
-                <li class="nav-item">
-                    <form action="report.php" method="get">
-                        <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-chart-bar"></i> Report</button>
-                    </form>
-				</li>
-                <?php 
-                }
-                if($access['confirm_event_registration'] == '1'){
-                ?>
-                <li class="nav-item">
-                    <form action="confirmeventregistration.php" method="get">
-                        <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-calendar-day"></i> Confirm Event Registration</button>
-                    </form>
-                </li>
-                <?php 
-                }
-                if($access['content_repository'] == '1'){
-                ?>
-                <li class="nav-item">
-                    <form action="eventimages.php" method="get">
-                        <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
-                        <input type="hidden" name="event_title" value="<?php echo $rowevent['title'];?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-images"></i> Content Repository</button>
-                    </form>
+                    <a class="nav-link" href="../index.php"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <?php
-                }
-                if($access['feedback_response'] == '1'){ 
+                if ($access['edit_attendance'] == '1') {
                 ?>
-                <li class="nav-item">
-                    <form action="event_feedback.php" method="get">
-                        <input type="hidden" name="event_id" value="<?php echo $event_id; ?>"/>
-                        <button type="submit" class ="textbutton"><i class="fas fa-comments"></i> Feedback Response</button>
-                    </form>
-                </li>
-                <?php 
+                    <li class="nav-item">
+                        <form action="attendance.php" method="get">
+                            <input type="hidden" name="e_id" value="<?php echo $event_id; ?>" />
+                            <input type="hidden" name="e_title" value="<?php echo $rowevent['title']; ?>" />
+                            <button type="submit" class="textbutton"><i class="fas fa-users"></i> Attendance</button>
+                        </form>
+                    </li>
+                <?php
+                }
+                if ($access['permission_letter'] == '1') {
+                ?>
+                    <li class="nav-item">
+                        <form action="permission_export.php" method="get">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <button type="submit" class="textbutton"><i class="fas fa-envelope-open-text"></i> Permission Letter</button>
+                        </form>
+                    </li>
+                <?php
+                }
+                if ($access['report'] == '1') {
+                ?>
+                    <li class="nav-item">
+                        <form action="report.php" method="get">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <button type="submit" class="textbutton"><i class="fas fa-chart-bar"></i> Report</button>
+                        </form>
+                    </li>
+                <?php
+                }
+                if ($access['confirm_event_registration'] == '1') {
+                ?>
+                    <li class="nav-item">
+                        <form action="confirmeventregistration.php" method="get">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <button type="submit" class="textbutton"><i class="fas fa-calendar-day"></i> Confirm Event Registration</button>
+                        </form>
+                    </li>
+                <?php
+                }
+                if ($access['content_repository'] == '1') {
+                ?>
+                    <li class="nav-item">
+                        <form action="eventimages.php" method="get">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <input type="hidden" name="event_title" value="<?php echo $rowevent['title']; ?>" />
+                            <button type="submit" class="textbutton"><i class="fas fa-images"></i> Content Repository</button>
+                        </form>
+                    </li>
+                <?php
+                }
+                if ($access['feedback_response'] == '1') {
+                ?>
+                    <li class="nav-item">
+                        <form action="event_feedback.php" method="get">
+                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                            <button type="submit" class="textbutton"><i class="fas fa-comments"></i> Feedback Response</button>
+                        </form>
+                    </li>
+                <?php
                 }
                 ?>
-			</ul>
-		</div>
-	</nav>
+            </ul>
+        </div>
+    </nav>
     <div class="spacer" style="height:15px;"></div>
     <!-- Content -->
     <div class="container ">
@@ -145,11 +145,11 @@
             <h1><?php $rowevent['subtitle']; ?></h1>
             <h4>
                 <?php
-                if($rowevent['e_from_date'] == $rowevent['e_to_date'])
-                    echo date("jS  F Y",strtotime($rowevent['e_from_date']));
+                if ($rowevent['e_from_date'] == $rowevent['e_to_date'])
+                    echo date("jS  F Y", strtotime($rowevent['e_from_date']));
                 else
-                    echo date("jS F Y",strtotime($rowevent['e_from_date']))."-".date("jS F Y",strtotime($rowevent['e_to_date']));
-                echo "<br>".date(" h:i A",strtotime($rowevent['e_from_time']))." to ".date("h:i A",strtotime($rowevent['e_to_time']));
+                    echo date("jS F Y", strtotime($rowevent['e_from_date'])) . "-" . date("jS F Y", strtotime($rowevent['e_to_date']));
+                echo "<br>" . date(" h:i A", strtotime($rowevent['e_from_time'])) . " to " . date("h:i A", strtotime($rowevent['e_to_time']));
                 ?>
             </h4>
             <div class="spacer" style="height:20px;"></div>
@@ -165,23 +165,23 @@
                     if ($row1["confirmed"] == '1') {
             ?>
                         <button type="button" class="btn btn-success">Registered</button>
-                        <?php 
-                            if($rowevent['feedback']==1){                            
+                        <?php
+                        if ($rowevent['feedback'] == 1) {
                         ?>
-                        <form action="feedback.php" method="GET">
-                            <br>
-                            <input type="hidden" name="e_id"  value="<?php echo $rowevent['id']; ?>">
-                            <button type="submit" class="btn btn-success">Feedback</button>
-                        </form>
-                    <?php
-                            }
+                            <form action="feedback.php" method="GET">
+                                <br>
+                                <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
+                                <button type="submit" class="btn btn-success">Feedback</button>
+                            </form>
+                        <?php
+                        }
                     } else {
-                    ?>
+                        ?>
                         <button type="button" class="btn btn-info">Waiting for Confrimation</button>
                     <?php
                     }
                 } else {
-                    if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false ) {
+                    if ($access['role_name'] == "member" || strpos($access['role_name'], "Coordinator") != false || strpos($access['role_name'], "General") != false || strpos($access['role_name'], "Team") != false) {
                     ?>
                         <form action="<?php echo "eventregistration.php"; ?>" method="POST">
                             <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
@@ -297,7 +297,9 @@
                                                     <?php echo $rowspeaker['description']; ?>
                                                 </p>
                                                 <div class="footer-social">
-                                                    <a href=" <?php if ($rowspeaker['linkedIn'] != "") {echo $rowspeaker['linkedIn'];}?> " ><i class="fab fa-linkedin"></i></a>
+                                                    <a href=" <?php if ($rowspeaker['linkedIn'] != "") {
+                                                                    echo $rowspeaker['linkedIn'];
+                                                                } ?> "><i class="fab fa-linkedin"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -425,8 +427,8 @@
                     <p class="col-lg-8 col-md-8 footer-text m-0">
                         Copyright © <script>
                             document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with ❤ by Israil
-                    </p>
+                        </script>
+                        Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved </p>
                     <div class="col-lg-4 col-md-4 footer-social">
                         <a href="">
                             <i class="fab fa-facebook-f"></i>
