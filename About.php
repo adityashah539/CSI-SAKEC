@@ -21,21 +21,21 @@ if (isset($_SESSION["role_id"])) {
     $role_id = $_SESSION["role_id"];
     $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
 }
-if(isset($access) && $access['main_page_edit'] == 0){
+if (isset($access) && $access['main_page_edit'] == 0) {
     header("location:../index.php");
 }
 $row = getValue("SELECT * FROM `csi_aboutus`");
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit'])) {
     if (isset($access) && $access['main_page_edit'] == 1) {
         $description = $_POST['description'];
-        $image = fileTransfer('img',"AboutUs");
-        if($image['error'] == NULL){
+        $image = fileTransfer('img', "AboutUs");
+        if ($image['error'] == NULL) {
             $file_new_name = $image['file_new_name'];
             execute("UPDATE `csi_aboutus` SET `photo`='$file_new_name'");
         }
         execute("UPDATE `csi_aboutus` SET `description`='$description' WHERE 1");
     }
-    header("location:../index.php");
+    header("location:index.php");
 }
 ?>
 

@@ -11,17 +11,18 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
     <title>CSI</title>
-<?php
+    <?php
     session_start();
     require_once "config.php";
-    function send_mail($to_email, $subject, $body, $headers){
+    function send_mail($to_email, $subject, $body, $headers)
+    {
         if (mail($to_email, $subject, $body, $headers)) {
             function_alert("Email successfully sent to $to_email...");
         } else {
             function_alert("$to_email, $subject, $body, $headers");
         }
     }
-    
+
     // Fetching Access Details
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
@@ -56,10 +57,10 @@
 
 <body>
     <!-- Navbar -->
-        <?php require "usernavbar.php";?>
+    <?php require "usernavbar.php"; ?>
     <!-- Navbar -->
 
-    
+
 
     <!-- Landing  -->
     <section class="home">
@@ -71,7 +72,7 @@
         </div>
     </section>
     <!-- Landing  -->
-    
+
     <!--Event Timer  -->
     <?php
     $data;
@@ -125,7 +126,7 @@
                 </div>
             </div>
         </section>
-        <?php
+    <?php
     }
     ?>
     <!--Event Timer  -->
@@ -140,8 +141,8 @@
                 $rowaboutus = getValue("SELECT * FROM `csi_aboutus`");
                 ?>
                 <div class="col-lg-5">
-                    <div class="about_img">
-                        <img src="AboutUs/<?php echo $rowaboutus['photo']; ?>" alt="About US - Image" class="img-fluid">
+                    <div class="">
+                        <img src="AboutUs/<?php echo $rowaboutus['photo']; ?>" alt="About US - Image" class="img-fluid about_img">
                     </div>
                 </div>
                 <div class="col-lg-6 offset-lg-1">
@@ -216,12 +217,12 @@
     <!-- Our Team  -->
 
     <!-- Total Likes, Registration and Event -->
-    <?php 
-        $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
+    <?php
+    $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
 
-        $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
+    $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
 
-        $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
+    $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
     ?>
     <section class="event_time_area">
         <div class="container">
@@ -241,7 +242,7 @@
                     </div>
                     <div class="col">
                         <button class="btn icon_btn"><i class="fas fa-users fa-2x"></i></button>
-                        <span class="counter" ><?php echo $registration; ?></span>
+                        <span class="counter"><?php echo $registration; ?></span>
                         <br>
                         Registration
                     </div>
@@ -344,14 +345,16 @@
                 }
                 ?>
             </div>
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <?php
                     $querygallery = execute("SELECT `image` FROM `csi_gallery` WHERE `status`=1");
                     $number_of_images_gallery = mysqli_num_rows($querygallery);
                     for ($i = 0; $i < $number_of_images_gallery; $i++) {
                     ?>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $i; ?>" <?php if($i==0){echo 'class="active"';} ?>></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="<?php echo $i; ?>" <?php if ($i == 0) {
+                                                                                                            echo 'class="active"';
+                                                                                                        } ?>></li>
                     <?php
                     }
                     ?>
@@ -361,7 +364,9 @@
                     for ($i = 0; $i < $number_of_images_gallery; $i++) {
                         $rowgallery = mysqli_fetch_assoc($querygallery);
                     ?>
-                        <div class="carousel-item <?php if($i==0){echo "active";} ?>">
+                        <div class="carousel-item <?php if ($i == 0) {
+                                                        echo "active";
+                                                    } ?>">
                             <img class="d-block w-100" src="Gallery_Images/<?php echo $rowgallery['image']; ?>" alt="Error Photo Not Found">
                         </div>
                     <?php
@@ -382,7 +387,7 @@
     <!-- Gallery  -->
 
     <!-- Footer -->
-    <?php require_once 'footer.php';?>
+    <?php require_once 'footer.php'; ?>
     <!-- Footer -->
 
     <!-- Javascript -->
@@ -396,14 +401,14 @@
         $(document).ready(function() {
             $(document).on('click', "button[name='like']", function() {
                 var event_id = $(this).val();
-                var email = 
-                <?php 
-                if (isset($_SESSION['email'])) {
-                    echo '"' . $_SESSION['email'] . '"';
-                } else {
-                    echo "null";
-                } 
-                ?>;
+                var email =
+                    <?php
+                    if (isset($_SESSION['email'])) {
+                        echo '"' . $_SESSION['email'] . '"';
+                    } else {
+                        echo "null";
+                    }
+                    ?>;
                 if (email !== null) {
                     $("#likes_" + event_id).load("likes.php", {
                         e_id: event_id,
@@ -413,14 +418,14 @@
             });
             $(document).on('click', "button[name='unlike']", function() {
                 var event_id = $(this).val();
-                var email = 
-                <?php 
-                if (isset($_SESSION['email'])) {
-                    echo '"' . $_SESSION['email'] . '"';
-                } else {
-                    echo "null";
-                } 
-                ?>;
+                var email =
+                    <?php
+                    if (isset($_SESSION['email'])) {
+                        echo '"' . $_SESSION['email'] . '"';
+                    } else {
+                        echo "null";
+                    }
+                    ?>;
                 if (email !== null) {
                     $("#likes_" + event_id).load("likes.php", {
                         e_id: event_id,
@@ -433,7 +438,7 @@
                 time: 1000
             });
         });
-        </script>
+    </script>
     <!-- Javascript -->
 </body>
 

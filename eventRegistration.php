@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/csi-logo.png">
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/changeuserdata.css?v=<?php echo time(); ?>">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
     <title>Event Registration</title>
 </head>
+
 <body>
-<?php
+
+    <!-- Navbar -->
+    <?php require "usernavbar.php"; ?>
+    <div style='height: 85px;'></div>
+    <!-- Navbar -->
+    <header>
+        <h2 class="text-center my-4">Event Registration</h2>
+    </header>
+
+
+    <?php
     require_once "config.php";
     session_start();
     //include "usernavbar.php";
@@ -33,6 +46,25 @@
     <?php
     }
     ?>
+
+
+    <!-- Footer -->
+    <?php require_once 'footer.php'; ?>
+    <!-- Footer -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- DO NOT DELETE THIS  -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
@@ -53,4 +85,5 @@
         }
     </script>
 </body>
+
 </html>

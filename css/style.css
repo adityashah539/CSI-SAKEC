@@ -310,6 +310,10 @@ body {
   margin-top: 20px;
 }
 
+.about_img {
+  border-radius: 18px;
+}
+
 .welcome_text h3 {
   font-family: "Heebo", sans-serif;
   font-weight: bold;
