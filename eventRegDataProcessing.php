@@ -37,7 +37,7 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
         if ($fee == 0) {
             $sqlEvent = execute("INSERT INTO `csi_collection`(`event_id`, `user_id`,`confirmed`, `confirmed_by`) VALUES ($eventId,$userId,1,'auto')");
             echo $part1 . "Registration Successfull" . $part2;
-            redirect_after_msg("Registration Successfull","http://localhost/CSI-SAKEC/event.php?event_id=$eventId");
+            //redirect_after_msg("Registration Successfull","http://localhost/CSI-SAKEC/event.php?event_id=$eventId");
         }
     }
     if (($typeOfUser == "1101") || ($typeOfUser == "1001")||($typeOfUser == "0101")) {
@@ -47,7 +47,7 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
             $eventBill = $imageStatus['file_new_name'];
             if (execute("INSERT INTO `csi_collection`(`event_id`,`user_id`,`bill_photo`,`amount`) VALUES ($eventId,$userId,'$eventBill','$fee')")) {
                 echo $part1 . "Waiting for confirmation" . $part2;
-                redirect_after_msg("Waiting for confirmation","http://localhost/CSI-SAKEC/event.php?event_id=$eventId");
+               //redirect_after_msg("Waiting for confirmation","http://localhost/CSI-SAKEC/event.php?event_id=$eventId");
             }
         } else {
             echo $part1 . $imageStatus['file_new_name'] . $part2;

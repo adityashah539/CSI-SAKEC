@@ -50,7 +50,7 @@
 
     <script>
         //Google will call this function 
-        function fillRequired(response99999999) {
+        function fillRequired(response) {
             var decodedToken = jwt_decode(response.credential);
             var email = decodedToken.email;
             $("#Step2").load("datainput.php", {

@@ -20,6 +20,8 @@
     <?php
     require_once "config.php";
     session_start();
+    $part1 = '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+    $part2 = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fas fa-times"></i></span></button></div>';
     function autoRegistration($email, $event_id)
     {
         $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
@@ -107,7 +109,7 @@
                     $confirmationStatus = getSpecificValue("SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
                     WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ", "confirmed");
                     if ($confirmationStatus == 1) {
-            ?>
+            ?> 
                         <button type="button" class="btn btn-success">Registered</button>
                     <?php
                     } else if ($confirmationStatus == 0) {
@@ -115,16 +117,18 @@
                         <button type="button" class="btn btn-info">Waiting for Confirmation</button>
                     <?php
                     }
-                    if ($rowevent['feedback'] == 1) {
-                    ?>
-                        <form action="feedback.php" method="GET">
-                            <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
-                            <button type="submit" class="btn btn-success">Feedback</button>
-                        </form>
-                <?php
-                    }
+                    
                 }
             }
+            if ($rowevent['feedback'] == 1) {
+                ?>
+                    <form action="feedback.php" method="GET">
+                        <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
+                        <button type="submit" class="btn btn-success">Feedback</button>
+                    </form>
+                    <div style="height:50px;"></div>
+            <?php
+                }
             if (!isset($_SESSION['email'])) {
                 ?>
                 <div id="error" class="my-4"></div>
@@ -150,16 +154,17 @@
                     </form>
                 <?php
                     //autoRegistration($email, $event_id);
-                } else if (($flag) && ($fee > 0)) {
+                } else if ($fee > 0) {
                 ?>
-                    <form action="eventRegDataProcessing.php" method="POST" enctype="multipart/form-data">
+                    <div id="error"></div>
+                    <form id="receiptOfLogUser" method="POST" enctype="multipart/form-data">
                         <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                         <input type="text" name="typeOfUser" value="0101" hidden>
                         <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
                         <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
                         <label class="control-label">PAYMENT RECEIPT:</label>
                         <input type="file" name="bill_photo" required />
-                        <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER</button>
+                        <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER NOW</button>
                     </form>
             <?php
                 }
@@ -316,6 +321,28 @@
     <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
+    <script>
+        $(document).ready(function(e) {
+            var typeOfUser = $("input[name='typeOfUser']").val();
+            if (typeOfUser == "0101") {
+                $("#receiptOfLogUser").on("submit", (function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: "eventRegDataProcessing.php",
+                        type: "POST",
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(data) {
+                            $("#error").html(data);
+                            $("#receiptOfLogUser").html("");
+                        }
+                    });
+                }));
+            }
+        });
+    </script>
 
 </body>
 

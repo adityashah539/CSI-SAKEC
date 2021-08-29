@@ -4,7 +4,7 @@
     $part1 = '<div class="alert alert-success alert-dismissible fade show" role="alert">';
     $part2 = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fas fa-times"></i></span></button></div>';
 
-    function autoRegistration($email, $event_id, $part1, $part2)
+    function autoRegistration($email, $event_id)
     {
         $sql = "SELECT `csi_userdata`.`id` as `user_id` FROM `csi_userdata` WHERE `emailID`='$email'";
         $user_id = getSpecificValue($sql, "user_id");
@@ -12,14 +12,16 @@
         //destroyDataInput();
         if (execute($sql)) {
             //echo $part1 . "Registration Successful" . $part2;
-            redirect_after_msg("You have been registerd for the event", "event.php?event_id=$event_id");
+            $message="You have been Registerd for the Event";
+            //redirect_after_msg("You have been registerd for the event", "event.php?event_id=$event_id");
         } else {
-            redirect_after_msg("Registration Failed", "../eventregistration.php?event_id=$event_id");
+            $message="Registration Failed Contact Admin ERROR:ERDL18";
+            //redirect_after_msg("Registration Failed", "../eventregistration.php?event_id=$event_id");
         }
+        return $message;
     }
-
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $message = "NO MESSAGE TO DISPLAY SOME ERROR OCCURED";
+        $message = " SOME ERROR OCCURED ERROR :ERDL21";
         $type = "1"; //not logged in
         $eventId = $_POST['eventId'];
         $email = $_POST["email"];
@@ -35,8 +37,9 @@
                 //if event is free free
                 if ($eventDetails['fee'] == 0) {
                     $type .= "0"; //event type
-                    autoRegistration($email, $eventId, $part1, $part2);
-                    $message = "You have been registerd for the event";
+                    $message=autoRegistration($email, $eventId);
+                    echo '<div>'.$part1.$message.$part2.'</div>';
+                    //$message = "You have been registerd for the event";
                 } else {
                     $type .= "1"; //event type paid
                     // perform registration with bill details
@@ -48,14 +51,17 @@
                         <input type="text" name="feeOfEvent" value="<?php echo  $eventDetails['fee']; ?>" hidden>
                         <label class="control-label">Bills Photo :</label>
                         <input type="file" name="bill_photo" required />
-                        <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">Submit</button>
+                        <div>
+                            <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_welcome">Submit</button>
+                        </div>
+                        <div style="height:50px;"></div>
                     </form>
             <?php
                 }
             } else {
                 $type .= "1"; //registration status(registered)
                 $status = getSpecificValue("SELECT `confirmed` FROM `csi_collection` WHERE `event_id`= $eventId and `user_id`= $user_id", "confirmed");
-                echo $status;
+                //echo $status;
                 if ($status == 1) {
                     $message = "ALREADY REGISTERED";
                 } else {
@@ -80,23 +86,52 @@
                 if ($count == 0) {
                 ?>
                     <input type="text" name="email" value="<?php echo $email; ?>" hidden>
-                    <div class="d-flex justify-content-center my-4">
-                        <label><i class="fas fa-file-signature fa-2x"></i></label>
-                        <input type="text" class="form-control w-25 p-3 mx-3" name="name" required="required" placeholder="Name">
-                    </div>
-                    <div class="d-flex justify-content-center my-4">
-                        <label><i class="fas fa-university fa-2x"></i></label>
-                        <input type="text" class="form-control w-25 p-3 mx-3" name="collegeName" required="required" placeholder="College Name">
-                    </div>
-                    <div class="d-flex justify-content-center my-4">
-                        <label><i class="fas fa-phone fa-2x"></i></label>
-                        <input type="text" class="form-control w-25 p-3 mx-3" name="phonenumber" required="required" placeholder="Phone Number">
-                    </div>
-                    <div class="d-flex justify-content-center my-4 grid-container">
-                        <div class="grid-item item1">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-2">
+                            <div class="labels">
+                                <label>Name : </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
                             <div class="texts">
-                                <label><i class="fas fa-university fa-2x"></i></label>
-                                <select id="branch" name="branch" required="required" class="custom-select my-2 bg-transparent text-white w-auto">
+                                <input type="text" class="form-control  w-25 my-2 mx-7 p-3" name="name" required="required" placeholder="Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-sm-2">
+                            <div class="labels">
+                                <label>College Name : </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" class="form-control w-25 my-2 mx-7 p-3 " name="collegeName" required="required" placeholder="College Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-sm-2">
+                            <div class="labels">
+                                <label>Contact Number</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <input type="text" minlength="10" maxlength="10" class="form-control  w-25 my-2 mx-7 p-3" name="phonenumber" required="required" placeholder="Phone Number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-sm-2">
+                            <div class="labels">
+                                <label>Branch : </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                                <select id="branch" name="branch" required="required" class="custom-select my-2 bg-transparent text-black w-auto">
                                     <option disabled>Select Branch</option>
                                     <option class="text-secondary" value="CS">Computer Science</option>
                                     <option class="text-secondary" value="IT">Information Technology</option>
@@ -107,11 +142,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center my-4 grid-container">
-                        <div class="grid-item item2">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-2">
+                            <div class="labels">
+                                <label> Year of Study:</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
                             <div class="texts">
-                                <label><i class="fas fa-university fa-2x"></i></label>
-                                <select id="year" name="year" required="required" class="custom-select my-2 bg-transparent text-white w-auto">
+                                <select id="year" name="year" required="required" class="custom-select my-2 bg-transparent text-black w-auto">
                                     <option disabled>Select Class</option>
                                     <option class="text-secondary" value="FE">FE</option>
                                     <option class="text-secondary" value="SE">SE</option>
@@ -124,10 +163,15 @@
                 <?php
                 }
                 ?>
-                <div class="d-flex justify-content-center my-4 grid-container">
-                    <div class="grid-item item1">
+                <div class="row justify-content-center">
+                    <div class="col-sm-2">
+                        <div class="labels">
+                            <label> Gender :</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
                         <div class="texts">
-                            <select id="gender" name="gender" required="required" class="custom-select my-2 bg-transparent text-white w-auto">
+                            <select id="gender" name="gender" required="required" class="custom-select my-2 bg-transparent text-black w-auto">
                                 <option disabled>Select Gender</option>
                                 <option class="text-secondary" value="male">Male</option>
                                 <option class="text-secondary" value="female">Female</option>
@@ -143,15 +187,23 @@
                     $type .= "1"; //event type paid
                     // perform registration with bill details
                 ?>
-                    <div class="d-flex justify-content-center my-4 grid-container">
-                        <label class="control-label">Bills Photo :</label>
-                        <input type="file" name="bill_photo" required />
+                 <div class="row justify-content-center">
+                        <div class="col-sm-2">
+                            <div class="labels">
+                                <label class="control-label">Bills Photo :</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="texts">
+                               <input type="file" name="bill_photo" required />
+                            </div>
+                        </div>
                     </div>
                 <?php
                 }
                 ?>
                 <div class="d-flex justify-content-center my-4 grid-container">
-                    <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">Submit</button>
+                    <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_welcome">Submit</button>
                 </div>
                 <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                 <input type="text" name="typeOfUser" value="<?php echo $type; ?>" hidden>
@@ -180,6 +232,7 @@
                         processData: false,
                         success: function(data) {
                             $("#error").html(data);
+                            $("#part1").html("");
                         }
                     });
                 }));

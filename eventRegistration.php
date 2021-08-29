@@ -9,9 +9,17 @@
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/changeuserdata.css?v=<?php echo time(); ?>">
+
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
     <title>Event Registration</title>
+    <?php
+    require_once "config.php";
+    session_start();
+    //include "usernavbar.php";
+    $event_id = $_GET['event_id'];
+    $rowevent = getValue("SELECT * FROM csi_event WHERE id='$event_id'");
+    ?>
 </head>
 
 <body>
@@ -20,16 +28,37 @@
     <?php require "usernavbar.php"; ?>
     <div style='height: 85px;'></div>
     <!-- Navbar -->
-    <header>
-        <h2 class="text-center my-4">Event Registration</h2>
+
+    <header class="container text-center">
+        <h6>
+            MAHAVIR EDUCATION TRUST'S<br>
+            SHAH AND ANCHOR KUTCHHI ENGINEERING COLLEGE<br>
+            COMPUTER SOCIETY OF INDIA
+        </h6>
+        <h4>CSI-SAKEC</h4>
+        <h2>
+            <?php
+            //checking if feedback is enabled
+            $eventquery = execute("SELECT * FROM csi_event WHERE id='$event_id'");
+            // collaboration of event
+            $querycollaboration = execute("SELECT * FROM csi_collaboration WHERE event_id='$event_id'");
+            $collaboration = "";
+            $rowevent = mysqli_fetch_assoc($eventquery);
+            for ($i = mysqli_num_rows($querycollaboration); $i > 0; $i--) {
+                $rowcollaboration = mysqli_fetch_assoc($querycollaboration);
+                $collaboration = $collaboration . $rowcollaboration['collab_body'];
+                if ($i != 1) $collaboration = $collaboration . ", ";
+            }
+            if (mysqli_num_rows($querycollaboration)) {
+                echo "In collaboration with " . $collaboration . " ";
+            }
+            ?>
+            oraganises a sesion on <?php echo $rowevent['title']; ?> </h2>
     </header>
 
 
     <?php
-    require_once "config.php";
-    session_start();
-    //include "usernavbar.php";
-    $eventId = $_GET['event_id'];
+
     if (!isset($_SESSION['email'])) {
     ?>
         <div class="user-login">
@@ -39,11 +68,31 @@
                 <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="fillRequired" data-auto_prompt="false"></div>
                 <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
             </div>
-            <div id="Step2">
+            <div id="Step2" class="container text-center">
 
             </div>
         </div>
+        <?php
+    } else if (isset($_SESSION['roll_id'])) {
+        $fee = $_POST['feeOfEvent'];
+        $email = $_SESSION['email'];
+        if ($fee > 0) {
+        ?>
+            <form action="eventRegDataProcessing.php" method="POST" enctype="multipart/form-data">
+                <input type="text" name="email" value="<?php echo $email; ?>" hidden>
+                <input type="text" name="typeOfUser" value="0101" hidden>
+                <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
+                <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
+                <label class="control-label">PAYMENT RECEIPT:</label>
+                <input type="file" name="bill_photo" required />
+                <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER NOW</button>
+            </form>
     <?php
+        } else {
+            goToFile("event.php?event_id=" . $event_id);
+        }
+    } else {
+        goToFile("event.php?event_id=" . $event_id);
     }
     ?>
 
@@ -51,17 +100,6 @@
     <!-- Footer -->
     <?php require_once 'footer.php'; ?>
     <!-- Footer -->
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -80,7 +118,10 @@
             $("#Step2").load("eventRegistrationData.php", {
                 authProvider: "<?php echo md5("Google"); ?>",
                 email: email,
-                eventId: "<?php echo $eventId; ?>",
+                eventId: "<?php echo $event_id; ?>",
+                success: function() {
+                    $("#error").html("");
+                }
             });
         }
     </script>
