@@ -109,7 +109,7 @@
                     $confirmationStatus = getSpecificValue("SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
                     WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ", "confirmed");
                     if ($confirmationStatus == 1) {
-            ?> 
+            ?>
                         <button type="button" class="btn btn-success">Registered</button>
                     <?php
                     } else if ($confirmationStatus == 0) {
@@ -117,18 +117,17 @@
                         <button type="button" class="btn btn-info">Waiting for Confirmation</button>
                     <?php
                     }
-                    
+                    if ($rowevent['feedback'] == 1) {
+                    ?>
+                        <form action="feedback.php" method="GET">
+                            <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
+                            <button type="submit" class="btn btn-success">Feedback</button>
+                        </form>
+                <?php
+                    }
                 }
             }
-            if ($rowevent['feedback'] == 1) {
-                ?>
-                    <form action="feedback.php" method="GET">
-                        <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
-                        <button type="submit" class="btn btn-success">Feedback</button>
-                    </form>
-                    <div style="height:50px;"></div>
-            <?php
-                }
+
             if (!isset($_SESSION['email'])) {
                 ?>
                 <div id="error" class="my-4"></div>

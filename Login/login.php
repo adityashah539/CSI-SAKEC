@@ -10,9 +10,17 @@
     <!-- CSS file  -->
     <link rel="stylesheet" href="../css/login.css?v=<?php echo time(); ?>" type="text/css">
     <title>CSI-SAKEC</title>
+    
 </head>
 
 <body>
+<?php
+        //require_once "../config.php";
+        //session_start();
+        // if(isset($_SESSION['email'])){
+        //     redirect_after_msg("You Are Already Logged In \n If you Wnted to Login with different account please Logout first","../index.php");
+        // }
+    ?>
     <div class="container text-center">
         <h1 class="font-weight-bold my-5">USER LOGIN</h1>
         <div class="my-5">
