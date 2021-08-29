@@ -292,6 +292,18 @@ input {
     outline: none;
 }
 
+input.feedback_option {
+    transition: 0.3s;
+    width: 8%;
+    background: none;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-color: #a7a3a3;
+    font-size: 15px;
+    outline: none;
+}
+
 input[type="text"],
 input[type="email"],
 textarea {

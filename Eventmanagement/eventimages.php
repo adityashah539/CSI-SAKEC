@@ -44,15 +44,15 @@
                 mkdir($folder_name_event);
                 echo function_alert("You create directory successfully");
             }
-            $image = fileTransfer("image" . $index,"EventImages/" . $dir);
-            if($image['error'] == NULL){
+            $image = fileTransfer("image" . $index, "EventImages/" . $dir);
+            if ($image['error'] == NULL) {
                 $file_new_event = $image['file_new_name'];
                 execute("INSERT INTO `csi_contentrepository`(`eventid`, `image`) VALUES ('$id','$file_new_event')");
             } else {
                 function_alert($image['error']);
             }
-            $stmt = 
-            $index++;
+            $stmt =
+                $index++;
         }
         if (isset($_POST['delete_id_btn'])) {
             $title = $_POST['eventtitle'];
@@ -64,11 +64,12 @@
     ?>
 </head>
 
-<body style="background-image: linear-gradient(#ff9a9aa8, #ffffd66b);">
-    <div class="row text-center" style="background-color:#b1d7ff; padding:10px;">
-        <h2>Upload Event for <?php echo $title; ?></h2>
+<body>
+
+    <div class="row text-center my-4">
+        <h2>Upload images for <?php echo $title; ?></h2>
     </div>
-    <div id="carouselMultiItemExample" class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
+    <div id=" carouselMultiItemExample" class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
         <div class="d-flex justify-content-center mb-4">
             <button class="carousel-control-prev position-relative" type="button" data-mdb-target="#carouselMultiItemExample" data-mdb-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -142,13 +143,19 @@
                 <button class="btn btn-primary" name="insert" value="submit">Submit</button>
             </form>
         </div>
-        <div class="spacer" style="height:40px;"></div>
-        <div class="footer" style="background-color:#b1d7ff;">
-            <div class="spacer" style="height:2px;"></div>
-            <a href="index.php"><i class="fas fa-home"></i></a>
-            <div class="spacer" style="height:0px;"></div>
-            <h5>Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved</h5>
-            <div class="spacer" style="height:1px;"></div>
+        <div class="spacer" style="height:60px;"></div>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center" style="background-color: black; padding:20px; color:white; bottom:0;">
+            <p class="col-lg-8 col-md-8 footer-text m-0">
+                Copyright © <script>
+                    document.write(new Date().getFullYear());
+                </script> All rights reserved by CSI-SAKEC
+            </p>
+            <div class="col-lg-4 col-md-4 footer-social">
+                <a href="https://www.facebook.com/csisakec/photos"><i style="color:white; margin-left:5px" class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/csi.sakec/?utm_medium=copy_link"><i style="color:white; margin-left:5px;" class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com/sakectweets?lang=en"><i style="color:white; margin-left:5px;" class="fab fa-twitter"></i></a>
+                <a href="https://www.youtube.com/c/SAKECYouTubeChannel"><i style="color:white; margin-left:5px;" class="fab fa-youtube"></i></a>
+            </div>
         </div>
         <script>
             $(function() {

@@ -12,10 +12,10 @@
         //destroyDataInput();
         if (execute($sql)) {
             //echo $part1 . "Registration Successful" . $part2;
-            $message="You have been Registerd for the Event";
+            $message = "You have been Registerd for the Event";
             //redirect_after_msg("You have been registerd for the event", "event.php?event_id=$event_id");
         } else {
-            $message="Registration Failed Contact Admin ERROR:ERDL18";
+            $message = "Registration Failed Contact Admin ERROR:ERDL18";
             //redirect_after_msg("Registration Failed", "../eventregistration.php?event_id=$event_id");
         }
         return $message;
@@ -37,8 +37,8 @@
                 //if event is free free
                 if ($eventDetails['fee'] == 0) {
                     $type .= "0"; //event type
-                    $message=autoRegistration($email, $eventId);
-                    echo '<div>'.$part1.$message.$part2.'</div>';
+                    $message = autoRegistration($email, $eventId);
+                    echo '<div>' . $part1 . $message . $part2 . '</div>';
                     //$message = "You have been registerd for the event";
                 } else {
                     $type .= "1"; //event type paid
@@ -86,7 +86,7 @@
                 if ($count == 0) {
                 ?>
                     <input type="text" name="email" value="<?php echo $email; ?>" hidden>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center my-4">
                         <div class="col-sm-2">
                             <div class="labels">
                                 <label>Name : </label>
@@ -94,11 +94,11 @@
                         </div>
                         <div class="col-sm-7">
                             <div class="texts">
-                                <input type="text" class="form-control  w-25 my-2 mx-7 p-3" name="name" required="required" placeholder="Name">
+                                <input type="text" class="bg-transparent text-black w-auto" name="name" required="required" placeholder="Name">
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center my-4">
                         <div class="col-sm-2">
                             <div class="labels">
                                 <label>College Name : </label>
@@ -106,11 +106,11 @@
                         </div>
                         <div class="col-sm-7">
                             <div class="texts">
-                                <input type="text" class="form-control w-25 my-2 mx-7 p-3 " name="collegeName" required="required" placeholder="College Name">
+                                <input type="text" class="bg-transparent text-black w-auto" name="collegeName" required="required" placeholder="College Name">
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center my-4">
                         <div class="col-sm-2">
                             <div class="labels">
                                 <label>Contact Number</label>
@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-sm-7">
                             <div class="texts">
-                                <input type="text" minlength="10" maxlength="10" class="form-control  w-25 my-2 mx-7 p-3" name="phonenumber" required="required" placeholder="Phone Number">
+                                <input type="number" minlength="10" maxlength="10" class="bg-transparent text-black w-auto" name="phonenumber" required="required" placeholder="Phone Number">
                             </div>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                     $type .= "1"; //event type paid
                     // perform registration with bill details
                 ?>
-                 <div class="row justify-content-center">
+                    <div class="row justify-content-center">
                         <div class="col-sm-2">
                             <div class="labels">
                                 <label class="control-label">Bills Photo :</label>
@@ -195,7 +195,7 @@
                         </div>
                         <div class="col-sm-7">
                             <div class="texts">
-                               <input type="file" name="bill_photo" required />
+                                <input type="file" name="bill_photo" required />
                             </div>
                         </div>
                     </div>
