@@ -17,10 +17,10 @@
 </head>
 
 <body>
-    <div id="user-login">
-        <h1 class="font-weight-bold my-5 text-center">WELCOME!</h1>
+    <div class="container text-center">
+        <h1 class="font-weight-bold my-5 ">WELCOME!</h1>
         <div id="error"></div>
-        <div class="container text-center">
+        <div class="">
             <h4>Step 1: Choose your account </h4>
             <!--Google Button -->
             <div id="googleButton" style="text-align: -webkit-center;" class="my-4">

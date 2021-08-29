@@ -15,7 +15,6 @@ body {
     margin-left: 9px;
     padding: 0 28px;
     color: #fff;
-    font-size: 13px;
     font-weight: 500;
     line-height: 40px;
     border-radius: 3px;
@@ -36,8 +35,22 @@ body {
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
 }
+.btn-back{
+    background-image: -webkit-linear-gradient(left, #2c28b1 0%, #9b5cf6 51%, #2c28b1 100%);
+    background-image: -o-linear-gradient(left, #2c28b1 0%, #9b5cf6 51%, #2c28b1 100%);
+    background-image: linear-gradient(to right, #2c28b1 0%, #9b5cf6 51%, #2c28b1 100%);
+    background-size: 200% auto;
+    color: #fff;
+    width: 44px;
+    padding: 0px;
+    border-radius: 100px;
+    outline: none !important;
+    box-shadow: none !important;
+    text-align: center;
+    cursor: pointer;
+}
 
-.main_btn:hover {
+.main_btn:hover,.btn-back:hover{
     color: white;
     background-image: -webkit-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);
     background-image: -o-linear-gradient(left, #9b5cf6 0%, #2c28b1 51%, #9b5cf6 100%);

@@ -14,28 +14,26 @@
 
 <body>
     <div class="container text-center">
-        <div id="user-login">
-            <h1 class="font-weight-bold my-5">USER LOGIN</h1>
-            <div class="my-5">
-                <i class="fas fa-user-circle fa-5x"></i>
-            </div>
-            <div id="error"></div>
-            <div class="d-flex justify-content-center my-4">
-                <label for="Email"><i class="far fa-user-circle fa-2x"></i></label>
-                <input id="Email" type="text" class="form-control w-25 mx-3" name="email" required="required" placeholder=" Username" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-            <div class="d-flex justify-content-center my-4">
-                <label for="Password"><i class="fas fa-lock fa-2x"></i></label>
-                <input type="password" class="form-control w-25 p-3 mx-3" name="password" required="required" placeholder=" Input Password">
-            </div>
-            <button name="login" class="btn main_btn">Login<i class="fas fa-sign-in-alt"></i></button>
-            <div id="googleButton" style="text-align: -webkit-center;" class="my-5">
-                <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
-            </div>
-            <p class="my-4 text-light"><a href="forgotpassword.php">Forgot password</a></p>
-            <p class="my-4 text-light"><a href="signup.php">Sign Up</a></p>
+        <h1 class="font-weight-bold my-5">USER LOGIN</h1>
+        <div class="my-5">
+            <i class="fas fa-user-circle fa-5x"></i>
         </div>
+        <div id="error"></div>
+        <div class="d-flex justify-content-center my-4">
+            <label for="Email"><i class="far fa-user-circle fa-2x"></i></label>
+            <input id="Email" type="text" class="form-control w-25 mx-3" name="email" required="required" placeholder=" Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="d-flex justify-content-center my-4">
+            <label for="Password"><i class="fas fa-lock fa-2x"></i></label>
+            <input type="password" class="form-control w-25 p-3 mx-3" name="password" required="required" placeholder=" Input Password">
+        </div>
+        <button name="login" class="btn main_btn">Login<i class="fas fa-sign-in-alt"></i></button>
+        <div id="googleButton" style="text-align: -webkit-center;" class="my-5">
+            <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+        </div>
+        <p class="my-4 text-light"><a href="forgotpassword.php">Forgot password</a></p>
+        <p class="my-4 text-light"><a href="signup.php">Sign Up</a></p>
     </div>
 
     <!-- DO NOT DELETE THIS  -->
@@ -47,13 +45,6 @@
     <!-- DO NOT DELETE THIS  -->
 
     <script>
-        $(document).ready(function() {
-            var winHeight = $(window).height();
-            var winHeightImg = $(window).height() - 48;
-            $('#user-login').css('height', winHeightImg);
-            // $('#user-login').css({'height': (($(window).height()))+'px'});
-        })
-
         function handleCredentialResponse(response) {
             var decodedToken = jwt_decode(response.credential);
             var email = decodedToken.email;
@@ -67,7 +58,7 @@
             var password = $("input[name='password']").val();
             $("#error").load("loginCheck.php", {
                 email: email,
-                password:password
+                password: password
             });
         });
     </script>
