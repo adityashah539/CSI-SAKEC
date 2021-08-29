@@ -27,6 +27,7 @@
         $email = $_POST["email"];
         $sqlevent = "SELECT * FROM csi_event WHERE id='$eventId'";
         $eventDetails = getValue($sqlevent);
+        echo '<div class="text-center h4 my-3">Step 2 : Enter the details  </div>';
         if (doesEmailIdExists($email)) {
             $type .= "1"; //email exist 
             $user_id = getSpecificValue("SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'", 'id');
@@ -49,12 +50,15 @@
                         <input type="text" name="typeOfUser" value="<?php echo $type; ?>" hidden>
                         <input type="text" name="eventId" value="<?php echo  $eventId; ?>" hidden>
                         <input type="text" name="feeOfEvent" value="<?php echo  $eventDetails['fee']; ?>" hidden>
-                        <label class="control-label">Bills Photo :</label>
-                        <input type="file" name="bill_photo" required />
-                        <div>
+                        <div class="form-group row justify-content-center">
+                            <label for="" class="col-sm-2 text-left">Bills Photo : </label>
+                            <div class="col-sm-3">
+                                <input type="file" name="bill_photo" required />
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center my-3 grid-container">
                             <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_welcome">Submit</button>
                         </div>
-                        <div style="height:50px;"></div>
                     </form>
             <?php
                 }
@@ -86,97 +90,60 @@
                 if ($count == 0) {
                 ?>
                     <input type="text" name="email" value="<?php echo $email; ?>" hidden>
-                    <div class="row justify-content-center my-4">
-                        <div class="col-sm-2">
-                            <div class="labels">
-                                <label>Name : </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="texts">
-                                <input type="text" class="bg-transparent text-black w-auto" name="name" required="required" placeholder="Name">
-                            </div>
+                    <div class="form-group row justify-content-center">
+                        <label for="" class="col-sm-2 text-left">Name : </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="name" required="required" placeholder="Name">
                         </div>
                     </div>
-                    <div class="row justify-content-center my-4">
-                        <div class="col-sm-2">
-                            <div class="labels">
-                                <label>College Name : </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="texts">
-                                <input type="text" class="bg-transparent text-black w-auto" name="collegeName" required="required" placeholder="College Name">
-                            </div>
+                    <div class="form-group row justify-content-center">
+                        <label for="" class="col-sm-2 text-left">College Name : </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="collegeName" required="required" placeholder="College Name">
                         </div>
                     </div>
-                    <div class="row justify-content-center my-4">
-                        <div class="col-sm-2">
-                            <div class="labels">
-                                <label>Contact Number</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="texts">
-                                <input type="number" minlength="10" maxlength="10" class="bg-transparent text-black w-auto" name="phonenumber" required="required" placeholder="Phone Number">
-                            </div>
+                    <div class="form-group row justify-content-center">
+                        <label for="" class="col-sm-2 text-left">Contact Number : </label>
+                        <div class="col-sm-3">
+                            <input type="text" minlength="10" maxlength="10" class="form-control" name="phonenumber" required="required" placeholder="Phone Number">
                         </div>
                     </div>
-
-                    <div class="row justify-content-center">
-                        <div class="col-sm-2">
-                            <div class="labels">
-                                <label>Branch : </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="texts">
-                                <select id="branch" name="branch" required="required" class="custom-select my-2 bg-transparent text-black w-auto">
-                                    <option disabled>Select Branch</option>
-                                    <option class="text-secondary" value="CS">Computer Science</option>
-                                    <option class="text-secondary" value="IT">Information Technology</option>
-                                    <option class="text-secondary" value="Electronics"> Electronics</option>
-                                    <option class="text-secondary" value="EXTC">EXTC</option>
-                                    <option class="text-secondary" value="Other">OTHER</option>
-                                </select>
-                            </div>
+                    <div class="form-group row justify-content-center">
+                        <label for="" class="col-sm-2 text-left">Branch : </label>
+                        <div class="col-sm-3">
+                            <select id="branch" name="branch" required="required" class="custom-select  bg-transparent text-black ">
+                                <option disabled>Select Branch</option>
+                                <option class="text-secondary" value="CS">Computer Science</option>
+                                <option class="text-secondary" value="IT">Information Technology</option>
+                                <option class="text-secondary" value="Electronics"> Electronics</option>
+                                <option class="text-secondary" value="EXTC">EXTC</option>
+                                <option class="text-secondary" value="Other">OTHER</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-sm-2">
-                            <div class="labels">
-                                <label> Year of Study:</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="texts">
-                                <select id="year" name="year" required="required" class="custom-select my-2 bg-transparent text-black w-auto">
-                                    <option disabled>Select Class</option>
-                                    <option class="text-secondary" value="FE">FE</option>
-                                    <option class="text-secondary" value="SE">SE</option>
-                                    <option class="text-secondary" value="TE">TE</option>
-                                    <option class="text-secondary" value="BE">BE</option>
-                                </select>
-                            </div>
+                    <div class="form-group row justify-content-center">
+                        <label for="" class="col-sm-2 text-left"> Year of Study:</label>
+                        <div class="col-sm-3">
+                            <select id="year" name="year" required="required" class="custom-select bg-transparent text-black ">
+                                <option disabled>Select Class</option>
+                                <option class="text-secondary" value="FE">FE</option>
+                                <option class="text-secondary" value="SE">SE</option>
+                                <option class="text-secondary" value="TE">TE</option>
+                                <option class="text-secondary" value="BE">BE</option>
+                            </select>
                         </div>
                     </div>
                 <?php
                 }
                 ?>
-                <div class="row justify-content-center">
-                    <div class="col-sm-2">
-                        <div class="labels">
-                            <label> Gender :</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="texts">
-                            <select id="gender" name="gender" required="required" class="custom-select my-2 bg-transparent text-black w-auto">
-                                <option disabled>Select Gender</option>
-                                <option class="text-secondary" value="male">Male</option>
-                                <option class="text-secondary" value="female">Female</option>
-                            </select>
-                        </div>
+                <div class="form-group row justify-content-center">
+                    <label for="" class="col-sm-2 text-left"> Gender :</label>
+                    <div class="col-sm-3">
+                        <select id="gender" name="gender" required="required" class="custom-select bg-transparent text-black ">
+                            <option disabled>Select Gender</option>
+                            <option class="text-secondary" value="male">Male</option>
+                            <option class="text-secondary" value="female">Female</option>
+                        </select>
                     </div>
                 </div>
                 <?php
@@ -187,22 +154,16 @@
                     $type .= "1"; //event type paid
                     // perform registration with bill details
                 ?>
-                    <div class="row justify-content-center">
-                        <div class="col-sm-2">
-                            <div class="labels">
-                                <label class="control-label">Bills Photo :</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="texts">
-                                <input type="file" name="bill_photo" required />
-                            </div>
+                    <div class="form-group row justify-content-center">
+                        <label for="" class="col-sm-2 text-left">Bills Photo :</label>
+                        <div class="col-sm-3">
+                            <input type="file" name="bill_photo" required />
                         </div>
                     </div>
                 <?php
                 }
                 ?>
-                <div class="d-flex justify-content-center my-4 grid-container">
+                <div class="d-flex justify-content-center my-3 grid-container">
                     <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_welcome">Submit</button>
                 </div>
                 <input type="text" name="email" value="<?php echo $email; ?>" hidden>
