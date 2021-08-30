@@ -5,7 +5,7 @@
     if ((isset($_GET['notlogin'])) && ($_GET['notlogin'])) {
         $err .= "You need to login to access the feature.";
     } elseif (isset($_SESSION['email'])) {
-        header("location: ../index.php");
+        goToFile("../index.php");
         exit;
     } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);

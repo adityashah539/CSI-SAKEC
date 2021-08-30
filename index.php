@@ -197,7 +197,7 @@
                     ?>
                         <div class="col-lg-3 col-sm-6">
                             <div class="team_item">
-                                <div class="team_img"><img src="<?php echo "Coordinator_Images/" . trim($rowcoordinator['image']); ?>" alt=""></div>
+                                <div class="team_img"><img style="height:250px; width:auto;" src="<?php echo "Coordinator_Photo/" . trim($rowcoordinator['image']); ?>" alt=""></div>
                                 <div class="team_name">
                                     <h4><?php echo $rowcoordinator['name']; ?></h4>
                                 </div>

@@ -28,7 +28,7 @@
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])){
         $user_id=$_POST['user_id'];
         $check = $_POST['check'];
-        $image = fileTransfer('image',"Coordinator_Images");
+        $image = fileTransfer('image',"Coordinator_Photo");
         if($image['error'] == NULL){
             $file_new_coordinatorimage = $image['file_new_name'];
             if($check){
@@ -79,8 +79,8 @@
                                             if($image_count == 1){
                                                 $rowimage = mysqli_fetch_array($resultimage);
                                         ?>
-                                                <a target="_blank" href="Coordinator_Images/<?php echo $rowimage['image']; ?>">
-                                                <img src="Coordinator_Images/<?php echo $rowimage['image']; ?>" alt="Forest" style="width:80px">
+                                                <a target="_blank" href="Coordinator_Photo/<?php echo $rowimage['image']; ?>">
+                                                <img src="Coordinator_Photo/<?php echo $rowimage['image']; ?>" alt="Forest" style="width:80px">
                                         <?php
                                             }
                                         ?>
@@ -108,7 +108,7 @@
                                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
                                     <td> 
                                         <input type='hidden' name='delete_user_id' value='<?php echo $row['user_id']; ?>'>
-                                        <input type="hidden" name="delete_file" value="<?php echo ($image_count == 1 ? "Coordinator_Images/".$rowimage['image'] : "");?>">
+                                        <input type="hidden" name="delete_file" value="<?php echo ($image_count == 1 ? "Coordinator_Photo/".$rowimage['image'] : "");?>">
                                         <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE IMAGE</button> 
                                     </td>
                                 </form>

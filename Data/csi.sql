@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2021 at 12:09 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Aug 30, 2021 at 10:51 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -105,7 +105,12 @@ CREATE TABLE `csi_collection` (
 INSERT INTO `csi_collection` (`id`, `event_id`, `user_id`, `bill_photo`, `amount`, `confirmed`, `confirmed_by`, `attend`, `externalstudentmembership`) VALUES
 (99, 43, 89, NULL, 0, 1, 'auto', 0, NULL),
 (105, 49, 89, '6104238eace866.40341960.jpg', 5000, 1, 'c@sakec.ac.in', 0, ''),
-(106, 53, 89, '6106cc602fab64.09524532.jpg', 200, 1, 'c@sakec.ac.in', 0, '');
+(106, 53, 89, '6106cc602fab64.09524532.jpg', 200, 1, 'c@sakec.ac.in', 0, ''),
+(107, 49, 120, '612a29b6153aa3.89385144.jpg', 5000, 0, NULL, 0, NULL),
+(108, 48, 120, '612b1f3bb95280.54938656.jpg', 500, 0, NULL, 0, NULL),
+(109, 48, 120, '612b1f50b86e09.61146743.jpg', 500, 0, NULL, 0, NULL),
+(110, 48, 120, '612b1f53a0f073.57428374.jpg', 500, 0, NULL, 0, NULL),
+(111, 48, 120, '612b1f55876a86.91111796.jpg', 500, 0, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -172,7 +177,24 @@ CREATE TABLE `csi_coordinator` (
 --
 
 INSERT INTO `csi_coordinator` (`id`, `user_id`, `image`) VALUES
-(21, 116, '6106aee60c9215.63265983.jpg');
+(21, 116, '612c8c749c9e81.19804861.jpg'),
+(22, 127, '612c8ccaba1b50.67879685.jpeg'),
+(23, 128, '612c8cf3ac7bd5.49763498.jpg'),
+(24, 129, '612c8d0c0a9e80.97762777.png'),
+(25, 130, '612c8d1cef83b2.16805083.jpeg'),
+(26, 131, '612c8d2e796000.38475703.jpg'),
+(27, 132, '612c8d4d0cf292.12623560.jpg'),
+(28, 134, '612c8da58b2d12.04980565.jpg'),
+(29, 135, '612c8dc9e4c868.65604814.jpg'),
+(30, 136, '612c8ddca00a35.49262497.jpg'),
+(31, 137, '612c8de98159e9.61380270.jpg'),
+(32, 138, '612c8dfda34b78.74127775.png'),
+(33, 139, '612c8e1f428bc4.37358416.jpeg'),
+(34, 140, '612c8e4135e029.49445529.png'),
+(35, 141, '612c8e6d140ff4.60642399.jpg'),
+(36, 142, '612c8f94771a37.31772474.jpg'),
+(37, 143, '612c8fa68e4030.72145245.jpg'),
+(38, 133, 'Jainish_Sakhidas_Technical_cohead.JPG');
 
 -- --------------------------------------------------------
 
@@ -330,6 +352,14 @@ CREATE TABLE `csi_membership` (
   `duration` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `csi_membership`
+--
+
+INSERT INTO `csi_membership` (`id`, `userid`, `dob`, `primaryEmail`, `startingYear`, `passingYear`, `r_number`, `duration`) VALUES
+(1, 120, '2001-01-23', 'dhiraj.shetty_19@sakec.ac.in', 2019, 2023, 15555, '2029-08-01 00:00:00'),
+(2, 116, '2004-08-14', 'ss@mm.jj', 2021, 2025, 2222, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -345,6 +375,14 @@ CREATE TABLE `csi_membership_bills` (
   `no_of_year` int(11) NOT NULL,
   `accepted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `csi_membership_bills`
+--
+
+INSERT INTO `csi_membership_bills` (`id`, `membership_id`, `bill_photo`, `amount`, `membership_taken`, `no_of_year`, `accepted`) VALUES
+(3, 1, '6106d17e1dbb81.90047817.jpg', 2000, '2021-08-01 00:00:00', 4, 1),
+(10, 1, '61175be0a1b920.97555498.jpg', 2000, '2025-08-01 12:08:00', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -388,7 +426,24 @@ CREATE TABLE `csi_password` (
 INSERT INTO `csi_password` (`id`, `user_id`, `password`) VALUES
 (1, 89, '$2y$10$iYbhEjuZ9TQGWnziCVNH1.Q0NzwmuFvFyVDybeEgeLIo8VVNymHu2'),
 (18, 116, '$2y$10$04zCpeXDJNGdLDFqzF2vAO7USq0aR7DgfXj4SFy0mDtlZoDem6GC.'),
-(22, 120, '$2y$10$dhfz0iXDFNQMr2mKcUiNXOc4zJb/xwJOhSvDD4Kd9CXUZSxEJ5p.m');
+(22, 120, '$2y$10$dhfz0iXDFNQMr2mKcUiNXOc4zJb/xwJOhSvDD4Kd9CXUZSxEJ5p.m'),
+(25, 127, '$2y$10$BIg21/3w7osF8oz/Xh4FQOiIQs/MB2AlWNBqc04BX9/n7mms8znDm'),
+(26, 128, '$2y$10$M2plVL9VxBwA8vaJttX99e7LM.4aDZ.QhFI3bZb3ylC6QG3Vgh8JS'),
+(27, 129, '$2y$10$PGA0N570.TG2T3AlCfl21u4xbyTEol8zxGLPweAAS4gHoOO9aLErS'),
+(28, 130, '$2y$10$/g6DDPL4zVaX7RZe43xYme2u8HjND5z3Me./cpKLZdlePWSRnv7NK'),
+(29, 131, '$2y$10$rWN6v6EiOfhyfaGgx1rZke3zWppPq6.mcC4pWJG3IJpnScT.yD606'),
+(30, 132, '$2y$10$v58CUXZTcp8X1UHfWJWez.3HH.0SfJyGo90ajHgkcope3fFUnKqKO'),
+(31, 133, '$2y$10$fQmO1nypuMY3MUjjAOXm/eqMMrjxYMS1zAPZBtKMXKy4cHQolfYJ2'),
+(32, 134, '$2y$10$DVU3NtkJMPPOoeiWF3ClLeXQiSZRgOC5TOSXVn4EElYLo8AjiYTrq'),
+(33, 135, '$2y$10$rIBQOck9K6sSISbmRhDITOXpCVsfuX.kql2Q0A8DuyGG/5nfCB/yS'),
+(34, 136, '$2y$10$xGuUyhlIMA/M7v5cdiOKSeWLskqvJOHOyBUbC/cJfcxrs5Vq16ELm'),
+(35, 137, '$2y$10$56QUvxvhdCPCRK24SfE5TO.qtD3dQokJtx5DyxBWh/vBKK9ZnwMGC'),
+(36, 138, '$2y$10$gZkDWjDzHmdGxt36g28C6ecShYlY8N1.K3TKeJQxxZBvuxf6oL7jK'),
+(37, 139, '$2y$10$56nClqg.lScBikUR7pap6eO72nH4X1YnvZQLQAUEYkpsudkWdfGtG'),
+(38, 140, '$2y$10$3cVZidSZ6/aHc4f8adyat.hDX2H2ITMVVJwPD6oaLejYwxPjkw33.'),
+(39, 141, '$2y$10$iuHxvApl31pxRivdp77bGuEtWJ.ic7mlHZv6DuhMJop7j2jv.PCca'),
+(40, 142, '$2y$10$KyOdX0qrMMkhCrfNj8BpTOts/yj4teHE7H4XzpinPs5koAVPm9cA.'),
+(41, 143, '$2y$10$0R8oMfnyRP48OzZG3PuCn.MGydeZDuW.NvvWSBwTo5vSvIQ8bfcpO');
 
 -- --------------------------------------------------------
 
@@ -407,7 +462,13 @@ CREATE TABLE `csi_query` (
 --
 
 INSERT INTO `csi_query` (`id`, `c_email`, `c_query`) VALUES
-(15, 'aditya.shah_19@sakec.ac.in', 'how to login');
+(15, 'aditya.shah_19@sakec.ac.in', 'how to login'),
+(17, 'rahul.soni_19@sakec.ac.in', 'test1'),
+(18, 'rahul.soni_19@sakec.ac.in', 'test1'),
+(19, 'rahul.soni_19@sakec.ac.in', 'test1'),
+(20, 'rahul.soni_19@sakec.ac.in', 'test1'),
+(21, 'rahul.soni_19@sakec.ac.in', 'test1'),
+(22, 'rahul.soni_19@sakec.ac.in', 'test1');
 
 -- --------------------------------------------------------
 
@@ -543,7 +604,24 @@ INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID
 (89, 'Dhiraj', 'TE', '3', 56, 'c@sakec.ac.in ', 9998887776, 'IT', 1, '', 'sakec'),
 (115, 'Aditya Bharat Shah', 'FE', NULL, NULL, 'adityashah539@gmail.com', 9372622462, 'CS', 1, 'male', 'sakec'),
 (116, 'ADITYA SHAH', 'FE', 'BE3', 19, 'aditya.shah_19@sakec.ac.in', 9999999981, 'Computers', 23, 'male', 'sakec'),
-(120, 'Dhiraj', '', '', 0, 'dhiraj.shetty_19@sakec.ac.in', 0, '', 5, 'male', 'sakec');
+(120, 'RAHUL SONI', 'FE', 'TE3', 0, 'rahullsoni04@gmail.com', 0, '', 6, 'male', 'sakec'),
+(127, 'RITIK MAHAJAN', 'FE', 'TE3', 1, 'ritik.mahajan_19@sakec.ac.in', 9999999999, 'Computers', 8, 'male', 'sakec'),
+(128, 'RITIKA BORICHA', 'FE', 'SE3', 16, 'ritika.boricha@sakec.ac.in', 9999999984, 'Computers', 15, 'female', 'sakec'),
+(129, 'RUTVIK DESHPANDE', 'FE', 'TE3', 3, 'rutvik.deshpande_19@sakec.ac.in', 9999999997, 'Computers', 9, 'male', 'sakec'),
+(130, 'ZARANA DESAI', 'FE', 'TE3', 2, 'zarana.desai_19@sakec.ac.in', 9999999998, 'Computers', 10, 'female', 'sakec'),
+(131, 'KRUTIK PATEL', 'FE', 'BE3', 4, 'krutik.patel@sakec.ac.in', 9999999996, 'Computers', 11, 'male', 'sakec'),
+(132, 'PRATHAMESH RANE', 'FE', 'SE3', 17, 'prathamesh.rane16006@sakec.ac.in', 9999999983, 'Computers', 16, 'male', 'sakec'),
+(133, 'JAINISH SAKHIDAS', 'FE', 'TE3', 10, 'jainish.sakhidas_19@sakec.ac.in', 9999999990, 'Computers', 12, 'male', 'sakec'),
+(134, 'SHALIN GUND', 'FE', 'BE3', 5, 'shalin.gund@sakec.ac.in', 9999999995, 'Computers', 12, 'female', 'sakec'),
+(135, 'NIDHI PARAB', 'FE', 'TE3', 13, 'nidhi.parab15933@sakec.ac.in', 9999999987, 'Computers', 22, 'female', 'sakec'),
+(136, 'HIMANSHU MUKANE', 'FE', 'SE3', 11, 'himanshu.mukane15590@sakec.ac.in', 9999999989, 'Computers', 21, 'male', 'sakec'),
+(137, 'EASHWARI NAGARKAR', 'FE', 'TE3', 14, 'eashwari.nagarkar15686@sakec.ac.in', 9999999986, 'Computers', 19, 'female', 'sakec'),
+(138, 'KHUSHEETA ATTARDE', 'FE', 'SE3', 18, 'khusheeta.attarde15490@sakec.ac.in', 9999999982, 'Computers', 16, 'female', 'sakec'),
+(139, 'SIMRAN JINDAL', 'FE', 'BE3', 6, 'simran.jindal@sakec.ac.in', 9999999994, 'Computers', 17, 'female', 'sakec'),
+(140, 'HIMANSHU CHAUDHARI', 'FE', 'TE3', 12, 'himanshu.chaudhari15735@sakec.ac.in', 9999999988, 'Computers', 22, 'male', 'sakec'),
+(141, 'PRIYAL KATUDIA', 'FE', 'TE3', 8, 'priyal.katudia_19@sakec.ac.in', 9999999992, 'Computers', 17, 'female', 'sakec'),
+(142, 'AAGAM SHETH', 'FE', 'TE3', 9, 'aagam.sheth_19@sakec.ac.in', 9999999991, 'Computers', 13, 'male', 'sakec'),
+(143, 'NISHMA KAMAT', 'FE', 'SE3', 7, 'nishma.kamat15494@sakec.ac.in', 9999999993, 'Computers', 18, 'female', 'sakec');
 
 -- --------------------------------------------------------
 
@@ -1073,7 +1151,7 @@ ALTER TABLE `csi_collaboration`
 -- AUTO_INCREMENT for table `csi_collection`
 --
 ALTER TABLE `csi_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `csi_contact`
@@ -1091,7 +1169,7 @@ ALTER TABLE `csi_contentrepository`
 -- AUTO_INCREMENT for table `csi_coordinator`
 --
 ALTER TABLE `csi_coordinator`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `csi_event`
@@ -1127,13 +1205,13 @@ ALTER TABLE `csi_gallery`
 -- AUTO_INCREMENT for table `csi_membership`
 --
 ALTER TABLE `csi_membership`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `csi_membership_bills`
 --
 ALTER TABLE `csi_membership_bills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `csi_newsletter`
@@ -1145,13 +1223,13 @@ ALTER TABLE `csi_newsletter`
 -- AUTO_INCREMENT for table `csi_password`
 --
 ALTER TABLE `csi_password`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `csi_query`
 --
 ALTER TABLE `csi_query`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `csi_reply`
@@ -1175,7 +1253,7 @@ ALTER TABLE `csi_speaker`
 -- AUTO_INCREMENT for table `csi_userdata`
 --
 ALTER TABLE `csi_userdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `csi_venue`
