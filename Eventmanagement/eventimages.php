@@ -13,6 +13,7 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
     <!-- linking for append images -->
+    <link rel="stylesheet" href="../css/membership.css?v=<?php echo time(); ?>">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <title>Upload Event Images</title>
@@ -65,10 +66,29 @@
 </head>
 
 <body>
+    <header>
+        <h2 style="text-align: center;">
+            <h2>Upload images for <?php echo $title; ?></h2>
+        </h2>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark default-color sticky-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.php"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.php"><i class="fas fa-home"></i> Home</a>
+                </li>
 
-    <div class="row text-center my-4">
-        <h2>Upload images for <?php echo $title; ?></h2>
-    </div>
+            </ul>
+
+        </div>
+    </nav>
+
     <div id=" carouselMultiItemExample" class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
         <div class="d-flex justify-content-center mb-4">
             <button class="carousel-control-prev position-relative" type="button" data-mdb-target="#carouselMultiItemExample" data-mdb-slide="prev">
@@ -91,7 +111,7 @@
 
             ?>
                 <div class="carousel-item <?php if ($j < 3) echo "active"; ?>">
-                    <div class="container">
+                    <div class="container text-center">
                         <div class="row">
                             <?php
                             // to give extre space if two image are left
@@ -103,7 +123,7 @@
                             ?>
                                 <div class="col-lg-4">
                                     <div class="card">
-                                        <img src="<?php echo "EventImages/" . str_replace(" ", "", $title . $id) . '/' . $row['image']; ?>" class="card-img-top" alt="..." />
+                                        <img src="<?php echo "EventImages/" . str_replace(" ", "", $title . $id) . '/' . $row['image']; ?>" class="card-img-top content-rep-img" alt="..." />
                                         <div class="card-body">
                                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                                 <input type="hidden" name="eventtitle" value="<?php echo $title; ?>">
