@@ -12,7 +12,7 @@
     require_once "../config.php";
     session_start();
     // Fetching Access Details
-    $access = 0;
+    $access = null;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
         $access = getSpecificValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'edit_attendance');
@@ -87,7 +87,7 @@
             <tbody>
                 <div class="table-content" style="font-size: large;">
                     <?php
-                    if ($access['edit_attendance'] == 1) {
+                    if ($access == 1) {
                         $query = execute("SELECT  `csi_userdata`.`name`,`csi_userdata`.`emailID`,`attend`,`csi_userdata`.`id` FROM `csi_collection`,`csi_userdata` 
                                             WHERE `csi_collection`.`event_id`='$event_id' AND `csi_userdata`.`id`=`user_id` AND (LOWER(`name`) LIKE '%$to_search%' OR LOWER(`emailID`) LIKE '%$to_search%')");
                         $number_of_rows = mysqli_num_rows($query);

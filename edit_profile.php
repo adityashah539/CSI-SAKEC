@@ -19,14 +19,9 @@
         <h2 class="text-center my-4">Edit profile</h2>
     </header>
     <div id = 'editdata'></div>
-
-
     <!-- Footer -->
     <?php require_once 'footer.php';?>
     <!-- Footer -->
-
-    
-
     <!-- Javascript -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>

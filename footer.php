@@ -48,29 +48,24 @@
                                 <li>
                                     <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
                                 </li>
-                                <?php 
-
+                                <?php
+                                //    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['newsletter_email'])) {
+                                //         if ($_POST['newsletter_email'] != null) {
+                                //             $nEmail = trim($_POST['newsletter_email']);
+                                //             $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
+                                //             $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
+                                //             $headers = "From: guptavan96@gmail.com";
+                                //             send_mail($to_email, $subject, $body, $headers);
+                                //         } else {
+                                //         $to_email = trim($_POST['emailentered']);
+                                //         }
+                                //         $nEmail=$_POST['newsletter_email'];
+                                //         $sql="INSERT INTO `newsletter`('email') VALUES('$nEmail')";
+                                //         $stmt = mysqli_query($conn, $sql);
+                                //         if($stmt){
+                                //         }
+                                //     }
                                 ?>
-                            <?php
-                            //    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['newsletter_email'])) {
-                            //         if ($_POST['newsletter_email'] != null) {
-                            //             $nEmail = trim($_POST['newsletter_email']);
-                            //             $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
-                            //             $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
-                            //             $headers = "From: guptavan96@gmail.com";
-                            //             send_mail($to_email, $subject, $body, $headers);
-
-                            //         } else {
-                            //         $to_email = trim($_POST['emailentered']);
-                            //         }
-                            //         $nEmail=$_POST['newsletter_email'];
-                            //         $sql="INSERT INTO `newsletter`('email') VALUES('$nEmail')";
-                            //         $stmt = mysqli_query($conn, $sql);
-                            //         if($stmt){
-                                       
-                            //         }
-                            //     }
-                            ?>
                                 <!-- Newsletter Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">

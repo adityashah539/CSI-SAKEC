@@ -202,8 +202,16 @@
             <div><br></div>
             <div>Respected Sir,<br></div>
             <div><br></div>
-            <div>CSI-SAKEC is organizing an event '<?php echo $row['subtitle'];?>’ ,in collaboration with 
-                <?php echo $collaboration_row['collab_body'];while($collaboration_row = mysqli_fetch_assoc($collaboration_query)) echo ", ".$collaboration_row['collab_body']; ?> 
+            <div>CSI-SAKEC is organizing an event '<?php echo $row['subtitle'];?>’ 
+                <?php
+                    if(isset($row[$collaboration_row["collab_body"]])){
+                        echo ",in collaboration with".$collaboration_row['collab_body'];
+                        while(isset($collaboration_row )){
+                            $collaboration_row = mysqli_fetch_assoc($collaboration_query);
+                            echo ", ".$collaboration_row['collab_body'];
+                        }
+                    }
+                ?> 
                 on <?php if($row['e_from_date']==$row['e_to_date']) echo date("j F Y",strtotime($row['e_from_date'])); else echo date("j F Y",strtotime($row['e_from_date']))." to ".date("j F Y",strtotime($row['e_to_date']));?>. For the same, permission
                 is required to access to <b>[requirements]</b> as well as social media publicity.
                 Thus, kindly give us permission to access the above mentioned venue from <?php date("h:i A",strtotime($row['e_from_time']))." to ".date("h:i A",strtotime($row['e_from_time']))?> on <?php if($row['e_from_date']==$row['e_to_date']) echo date("j F Y",strtotime($row['e_from_date'])); else echo date("j F Y",strtotime($row['e_from_date']))." to ".date("j F Y",strtotime($row['e_to_date']));?>.

@@ -44,7 +44,7 @@
                     <a class="nav-link" href="../index.php"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="addrole.php"><i class="fas fa-user-plus"></i> Add Role</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#addRoleModel"><i class="fas fa-user-plus"></i> Add Role</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
@@ -60,8 +60,38 @@
         </div>
     </nav>
     <!-- Navbar -->
+    <!-- Modal -->
+    <div class="modal fade" id="addRoleModel" tabindex="-1" aria-labelledby="addRoleModelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRoleModelLabel"><i class="fas fa-user-plus"></i> Add Role</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row justify-content-center">
+                        <label for="enterRoleName" class="col-form-label "><i class="fas fa-user-tag"></i> Role Name : </label>
+                        <input type="text" class="form-control " id="enterRoleName">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            The fields is Empty.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-window-close"></i> Close</button>
+                    <button type="button" class="btn btn-primary" name="saveRole"><i class="fas fa-save"></i> Save Role</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
     <!-- Main -->
-    <div id="allEvent" class="table-content" style="font-size: large;">
+    <div class="table-content" style="font-size: large;">
         <table class="table" id="roleTable">
             <thead class="table-head">
                 <tr>
@@ -69,40 +99,40 @@
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody>
-                    <?php
-                    if (isset($_SESSION['email'])) {
-                        if (isset($role) && $role["role"] === "1") {
-                            $query = execute("SELECT * FROM `csi_role`");
-                            if (mysqli_num_rows($query) > 0) {
-                                $index = 0;
-                                while ($row = mysqli_fetch_assoc($query)) {
-                    ?>
-                                    <tr>
-                                        <td>
-                                            <form action="edit_role.php" method="get">
-                                                <input type="hidden" name="role_id" value="<?php echo $row['id']; ?>">
-                                                <button type="submit" class="textbutton">
-                                                    <?php echo ucfirst($row['role_name']); ?>
-                                                </button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <button type="submit" name="delete_btn" value="<?php echo $row['id'] ?>" class="btn btn-danger">Delete</button>
-                                        </td>
-                                    </tr>
-                    <?php
-                                }
-                            } else {
-                                echo "<td>No Record Found.</td><td/>";
+            <tbody id="allRole">
+                <?php
+                if (isset($_SESSION['email'])) {
+                    if (isset($role) && $role["role"] === "1") {
+                        $query = execute("SELECT * FROM `csi_role`");
+                        if (mysqli_num_rows($query) > 0) {
+                            $index = 0;
+                            while ($row = mysqli_fetch_assoc($query)) {
+                ?>
+                                <tr>
+                                    <td>
+                                        <form action="edit_role.php" method="get">
+                                            <input type="hidden" name="role_id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" class="textbutton">
+                                                <?php echo ucfirst($row['role_name']); ?>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <button type="submit" name="delete_btn" value="<?php echo $row['id'] ?>" class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                <?php
                             }
                         } else {
-                            header("location:../index.php");
+                            echo "<td>No Record Found.</td><td/>";
                         }
                     } else {
-                        header("../Login/login.php?notlogin=true");
+                        header("location:../index.php");
                     }
-                    ?>
+                } else {
+                    header("../Login/login.php?notlogin=true");
+                }
+                ?>
             </tbody>
         </table>
     </div>
@@ -119,20 +149,20 @@
     </div>
     <!-- Footer -->
     <script>
-        function SearchFunction(){
-            var  inputValue, tablebody,noOfRows, tr, th, i,lengthOfTable,role,txtValue;
+        function SearchFunction() {
+            var inputValue, tablebody, noOfRows, tr, th, i, lengthOfTable, role, txtValue;
             inputValue = document.getElementById('userInput').value.toUpperCase();
             tablebody = document.getElementById('roleTable');
             noOfRows = tablebody.getElementsByTagName('tr');
-            lengthOfTable=noOfRows.length;
+            lengthOfTable = noOfRows.length;
             console.log(lengthOfTable);
             //debugger;
             for (i = 1; i < lengthOfTable; i++) {
                 th = noOfRows[i].getElementsByTagName("td");
                 console.log(th[0].innerHTML);
                 if (th) {
-                    role  = th[0].innerText ;
-                    if (role.toUpperCase().indexOf(inputValue)>-1) {
+                    role = th[0].innerText;
+                    if (role.toUpperCase().indexOf(inputValue) > -1) {
                         noOfRows[i].style.display = "";
                     } else {
                         noOfRows[i].style.display = "none";
@@ -148,10 +178,32 @@
     <!-- DO NOT DELETE THIS  -->
     <script>
         $(document).ready(function() {
-            $(document).on('click',"button[name='delete_btn']",function() {
-                $("#allEvent").load("deleteRole.php", {
+            $(document).on('click', "button[name='delete_btn']", function() {
+                $("#allRole").load("deleteRole.php", {
                     role_id: $(this).val()
                 });
+            });
+            $(document).on('click', "button[name='saveRole']", function() {
+                enterRoleName = $("#enterRoleName").val().trim();
+                if (enterRoleName !== "") {
+                    $("#allRole").load("addRole.php", {
+                        roleName: enterRoleName
+                    }, function() {
+                        $("#enterRoleName").addClass("is-valid");
+                        $("#addRoleModel").modal('hide');
+                        alert("The role has been added");
+                    });
+                } else {
+                    $("#enterRoleName").addClass("is-invalid");
+                }
+            });
+            $(document).on('click', "#enterRoleName", function() {
+                if ($("#enterRoleName").hasClass("is-valid")) {
+                    $("#enterRoleName").removeClass("is-valid");
+                }
+                if ($("#enterRoleName").hasClass("is-invalid")) {
+                    $("#enterRoleName").removeClass("is-invalid");
+                }
             });
         });
     </script>
