@@ -14,11 +14,28 @@
 
 <body>
     <!-- Navbar -->
-    <?php require "usernavbar.php"; ?>
+    <?php 
+        session_start(); 
+        require "usernavbar.php";
+    ?>
     <div style='height: 85px;'></div>
     <!-- Navbar -->
     <input type="hidden" id="e_id" value="<?php echo $_GET['e_id']; ?>">
+    <?php
+    if(!isset($_GET['e_id'])){
+        header("Location: index.php");
+    }
+    ?>
+    
     <div id='feedbackform'></div>
+    <?php
+    if(!isset($_SESSION['email'])){
+        echo '<div id="googleButton" style="text-align: -webkit-center;" class="my-4">
+            <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="fillRequired" data-auto_prompt="false"></div>
+            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
+        </div>';
+    }
+    ?>
     <!-- DO NOT DELETE THIS  -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
@@ -26,8 +43,20 @@
     <!-- DO NOT DELETE THIS  -->
     <script>
         $(document).ready(function() {
+            console.log("hello");
             $("#feedbackform").load("feedbackstatus.php?e_id=" + $("#e_id").val());
         });
+        function fillRequired(response) {
+            var decodedToken = jwt_decode(response.credential);
+            var email = decodedToken.email;
+            console.log(email);
+            $("#feedbackform").load("feedbackstatus.php?e_id=" + $("#e_id").val(), {
+                email: email,
+                success: function() {
+                    document.getElementById("googleButton").style.display = "none";
+                }
+            });
+        }
     </script>
     <!-- Footer -->
     <?php require_once 'footer.php'; ?>

@@ -32,12 +32,17 @@ $event_id = $_GET['e_id'];
             ?>
         </h2>
     </header>
+    <!--Google Button -->
     <?php
-
     //checking wheather user is logged in
-    if (!isset($_SESSION['email'])) {
-        echo ("$part3 Please Login $part4");
-    } else {
+    if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+    } else if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+    } else if (!isset($_SESSION['email']) && !isset($_POST['email'])) {
+        echo ("$part3 Please Login or Select Account from below Google Button Used while Registering for the Event $part4");
+    }
+    if (isset($email)) {
 
         //checking if feedback is enabled
         $eventquery = execute("SELECT * FROM csi_event WHERE id='$event_id' and feedback='1'");
@@ -48,23 +53,34 @@ $event_id = $_GET['e_id'];
             $rowevent = mysqli_fetch_assoc($eventquery);
 
             //checking wheather user is registered
-            $query = execute("SELECT `id` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='" . $_SESSION['email'] . "')");
+            $query = execute("SELECT `id` ,`confirmed` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='" . $email . "')");
             $number_of_rows = mysqli_num_rows($query);
             if ($number_of_rows == 0) {
                 echo ("$part3 You have not registered for event $part4");
-            } else {
+                echo '<script>document.getElementById("googleButton").style.display = "block";</script>';
+            } 
+            else if($number_of_rows >= 1){
                 $row = mysqli_fetch_assoc($query);
+                $status = $row['confirmed'];
+                if($status!=1){
+                    echo ("$part3 Your confirmation from admin is still pending contact co-ordinator $part4");
+                    echo '<script>document.getElementById("googleButton").style.display = "block";</script>';
+                }
+                else {
                 $collection_id = $row['id'];
 
                 //checking wheather user has already filled he feedback
                 $number_of_rows = getNumRows("SELECT * FROM csi_feedback WHERE collection_id='" . $collection_id . "'");
                 if ($number_of_rows >= 1) {
                     echo ("$part3 You have already filled the feedback form $part4");
+                    echo '<script>document.getElementById("googleButton").style.display = "block";</script>';
                 } else {
     ?>
+
                     <div id='message'></div>
                     <input type="hidden" id="e_id" value="<?php echo $_GET['e_id']; ?>">
                     <form action="" method="POST" enctype="multipart/form-data" id="form">
+                        <input type="hidden" id="email" name="email" value="<?php echo $email; ?>">
                         <input type="hidden" name="e_id" value="<?php echo $event_id; ?>">
                         <div class="spacer" style="height:20px;"></div>
                         <div class="spacer" style="height:20px;"></div>
@@ -231,14 +247,17 @@ $event_id = $_GET['e_id'];
                 }
             }
         }
+        }
     }
     ?>
 
 </div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
 <script>
     $(document).ready(function(e) {
         $("form").on('submit', (function(e) {
-            console.log($("#e_id").val());
             e.preventDefault();
             $.ajax({
                 url: "feedbacksubmit.php?e_id=" + $("#e_id").val(),

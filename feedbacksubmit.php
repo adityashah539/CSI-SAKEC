@@ -6,7 +6,8 @@
     $part1 = '<div class="alert alert-success alert-dismissible fade show text-center" role="alert">';
     $part2 = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fas fa-times"></i></span></button></div>';
     $event_id=$_GET['e_id'];
-    $collection_id=$row['id'] = getSpecificValue("SELECT `id` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='".$_SESSION['email']."')", "id");
+    $email=$_POST['email'];
+    $collection_id=$row['id'] = getSpecificValue("SELECT `id` FROM csi_collection WHERE event_id='$event_id' and user_id=(SELECT `id` FROM csi_userdata WHERE emailID='".$email."')", "id");
     $stmt = execute("INSERT INTO `csi_feedback`( `collection_id`,`Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`) 
                     VALUES ('$collection_id','".$_POST['one']."','".$_POST['two']."','".$_POST['three']."','".$_POST['four']."','".$_POST['five']."','".$_POST['six']."','".$_POST['seven']."','".$_POST['query']."')");
     

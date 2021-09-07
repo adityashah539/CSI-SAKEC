@@ -97,73 +97,88 @@
             </h4>
             <div class="spacer" style="height:20px;"></div>
             <?php
-            $not__registered = false;
-            if (isset($_SESSION["email"])) {
-                $email = $_SESSION["email"];
-                $user_id = getSpecificValue("SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'", 'id');
-                $registeredForEvent = getNumRows("SELECT `id` FROM `csi_collection` WHERE `event_id`='$event_id' and `user_id`='$user_id'");
-                if ($registeredForEvent == 0) {
-                    $not__registered = true;
-                } else if ($registeredForEvent == 1) {
-                    $not__registered = false;
-                    $confirmationStatus = getSpecificValue("SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
-                    WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ", "confirmed");
-                    if ($confirmationStatus == 1) {
-            ?>
-                        <button type="button" class="btn btn-success">Registered</button>
-                    <?php
-                    } else if ($confirmationStatus == 0) {
-                    ?>
-                        <button type="button" class="btn btn-info">Waiting for Confirmation</button>
-                    <?php
-                    }
-                    if ($rowevent['feedback'] == 1) {
-                    ?>
-                        <form action="feedback.php" method="GET">
-                            <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
-                            <button type="submit" class="btn btn-success">Feedback</button>
-                        </form>
-                <?php
-                    }
-                }
+            //To check wheather the event is going to be conducted our ended
+            $eventDate = $rowevent['e_from_date'];
+            $eventTime = $rowevent['e_from_time'];
+            $flag = true;
+            date_default_timezone_set("Asia/Kolkata");
+            if ($eventDate == date('Y-m-d')) {
+                if ($eventTime < date("H:i:s"))
+                    $flag = false;
             }
-
-            if (!isset($_SESSION['email'])) {
-                ?>
-                <div id="error" class="my-4"></div>
-                <form action="eventRegistration.php" method="GET">
-                    <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
-                    <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
-                </form>
+            if (($eventDate >= date('Y-m-d')) && $flag) {
+            ?>
                 <?php
-            } else if ($not__registered) {
-                if ($role_id == 6) {
-                    $fee = $rowevent['fee'];
-                } else {
-                    $fee = $rowevent['fee_m'];
-                }
-                if ($fee == 0) {
-                    $email = $_SESSION['email'];
-                    if (isset($_POST['registerNow'])) {
-                        autoRegistration($email, $event_id);
+                $not__registered = false;
+                if (isset($_SESSION["email"])) {
+                    $email = $_SESSION["email"];
+                    $user_id = getSpecificValue("SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'", 'id');
+                    $registeredForEvent = getNumRows("SELECT `id` FROM `csi_collection` WHERE `event_id`='$event_id' and `user_id`='$user_id'");
+                    if ($registeredForEvent == 0) {
+                        $not__registered = true;
+                    } else if ($registeredForEvent == 1) {
+                        $not__registered = false;
+                        $confirmationStatus = getSpecificValue("SELECT `confirmed` FROM `csi_collection`,`csi_userdata` 
+                    WHERE `csi_collection`.`event_id`= '$event_id' AND `csi_collection`.`user_id` = `csi_userdata`.`id` AND `csi_userdata`.`emailID` = '$email' ", "confirmed");
+                        if ($confirmationStatus == 1) {
+                ?>
+                            <button type="button" class="btn btn-success">Registered</button>
+                        <?php
+                        } else if ($confirmationStatus == 0) {
+                        ?>
+                            <button type="button" class="btn btn-info">Waiting for Confirmation</button>
+                        <?php
+                        }                        
                     }
-                ?>
-                    <form method="post">
-                        <button type="submit" name="registerNow" class="btn btn-primary">Register Now</button>
+                }
+
+                if (!isset($_SESSION['email'])) {
+                    ?>
+                    <div id="error" class="my-4"></div>
+                    <form action="eventRegistration.php" method="GET">
+                        <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
+                        <button type="submit" name="register_now" class="btn btn-primary">Register Now</button>
                     </form>
-                <?php
-                    //autoRegistration($email, $event_id);
-                } else if ($fee > 0) {
-                ?>
-                    <div id="error"></div>
-                    <form id="receiptOfLogUser" method="POST" enctype="multipart/form-data">
-                        <input type="text" name="email" value="<?php echo $email; ?>" hidden>
-                        <input type="text" name="typeOfUser" value="0101" hidden>
-                        <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
-                        <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
-                        <label class="control-label">PAYMENT RECEIPT:</label>
-                        <input type="file" name="bill_photo" required />
-                        <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER NOW</button>
+                    <?php
+                } else if ($not__registered) {
+                    if ($role_id == 6) {
+                        $fee = $rowevent['fee'];
+                    } else {
+                        $fee = $rowevent['fee_m'];
+                    }
+                    if ($fee == 0) {
+                        $email = $_SESSION['email'];
+                        if (isset($_POST['registerNow'])) {
+                            autoRegistration($email, $event_id);
+                        }
+                    ?>
+                        <form method="post">
+                            <button type="submit" name="registerNow" class="btn btn-primary">Register Now</button>
+                        </form>
+                    <?php
+                        //autoRegistration($email, $event_id);
+                    } else if ($fee > 0) {
+                    ?>
+                        <div id="error"></div>
+                        <form id="receiptOfLogUser" method="POST" enctype="multipart/form-data">
+                            <input type="text" name="email" value="<?php echo $email; ?>" hidden>
+                            <input type="text" name="typeOfUser" value="0101" hidden>
+                            <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
+                            <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
+                            <label class="control-label">PAYMENT RECEIPT:</label>
+                            <input type="file" name="bill_photo" required />
+                            <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER NOW</button>
+                        </form>
+                    <?php
+                    }
+                }
+            } else {
+                echo $part1 . "Event Is Closed for Registration" . $part2;
+                if ($rowevent['feedback'] == 1) {
+                    ?>
+                    <form action="feedback.php" method="GET">
+                        <input type="hidden" name="e_id" value="<?php echo $rowevent['id']; ?>">
+                        <button type="submit" class="btn btn-success">Feedback</button>
                     </form>
             <?php
                 }
