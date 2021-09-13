@@ -19,17 +19,23 @@
         <h2 class="text-center my-4">Edit profile</h2>
     </header>
     <div id = 'editdata'></div>
-    <!-- Footer -->
-    <?php require_once 'footer.php';?>
-    <!-- Footer -->
+    
     <!-- Javascript -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="plugins/smtp.min.js"></script>
+    <script src="plugins/google.gsi.client.js" async defer></script>
+    <script src="plugins/jwt-decode.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/email.js"></script>
     <script>
             $(document).ready(function (e) {
                 $('#editdata').load('editprofilestatus.php');
             });
     </script>
+    <!-- Footer -->
+    <?php require_once 'footer.php';?>
+    <!-- Footer -->
 </body>
 </html>

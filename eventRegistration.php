@@ -90,20 +90,15 @@
         goToFile("event.php?event_id=" . $event_id);
     }
     ?>
-
-
-    <!-- Footer -->
-    <?php require_once 'footer.php'; ?>
-    <!-- Footer -->
-
-
-
     <!-- DO NOT DELETE THIS  -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
+    <script src="plugins/smtp.min.js"></script>
+    <script src="plugins/google.gsi.client.js" async defer></script>
+    <script src="plugins/jwt-decode.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/email.js"></script>
     <!-- DO NOT DELETE THIS  -->
     <script>
         $(document).ready(function(){
@@ -121,8 +116,12 @@
                 }
             });
             $("#spacer").css("height", "0px");
+            
         }
     </script>
+    <!-- Footer -->
+    <?php require_once 'footer.php'; ?>
+    <!-- Footer -->
 </body>
 
 </html>
