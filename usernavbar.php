@@ -32,7 +32,7 @@
                     <?php
                     $isSakecEmail=0;
                     if (isset($_SESSION['email'])) {
-                        $isSakecEmail = strpos($_SESSION['email'], "sakeec.ac.in");
+                        $isSakecEmail = strpos($_SESSION['email'], "sakec.ac.in");
                         if($isSakecEmail==false){
                             $isSakecEmail=0;
                         }

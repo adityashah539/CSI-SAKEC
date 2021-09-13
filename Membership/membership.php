@@ -30,8 +30,10 @@
     <?php require "../usernavbar.php"; ?>
     <div style='height: 85px;'></div>
     <!-- Navbar -->
-    <div id="membershipStatus"></div>
-    <div id="fillRequired"></div>
+    <main>
+        <div id="membershipStatus"></div>
+        <div id="fillRequired"></div>
+    </main>
     <!-- Footer -->
     <?php require_once '../footer.php'; ?>
     <!-- Footer -->

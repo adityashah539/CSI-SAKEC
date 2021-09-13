@@ -32,7 +32,6 @@ if ($bill > 0) {
         <div class="alert alert-warning text-center" role='alert'>
             Your current bill is pending for acceptance
         </div>
-        <div style="height:324px"></div>
     </div>
 <?php
 } 

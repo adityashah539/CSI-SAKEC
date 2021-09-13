@@ -371,6 +371,10 @@ body {
   padding-top: 120px;
   padding-bottom: 120px;
 }
+.p_60 {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
 
 .main_title {
   text-align: center;
@@ -567,7 +571,7 @@ body {
 }
 
 .footer-bottom {
-  padding-top: 85px;
+  padding-top: 50px;
 }
 
 .footer-bottom .footer-text {
@@ -650,10 +654,7 @@ body {
   line-height: 40px;
   font-size: 12px;
   padding: 0px 38px;
-  display: inline-block;
   cursor: pointer;
-  position: absolute;
-  top: 160px;
   border-radius: 20px;
   -webkit-transition: all 300ms linear 0s;
   -o-transition: all 300ms linear 0s;
