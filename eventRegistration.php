@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/changeuserdata.css?v=<?php echo time(); ?>">
-
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
     <title>Event Registration</title>
     <?php
     require_once "config.php";
@@ -29,7 +26,7 @@
     <div style='height: 85px;'></div>
     <!-- Navbar -->
     <?php
-    //checking if feedback is enabled
+    // checking if feedback is enabled
     $eventquery = execute("SELECT * FROM csi_event WHERE id='$event_id'");
     // collaboration of event
     $querycollaboration = execute("SELECT * FROM csi_collaboration WHERE event_id='$event_id'");
@@ -52,7 +49,6 @@
         </h2>
     </header>
     <?php
-
     if (!isset($_SESSION['email'])) {
     ?>
         <div class="user-login">

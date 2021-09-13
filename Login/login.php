@@ -10,7 +10,6 @@
     <!-- CSS file  -->
     <link rel="stylesheet" href="../css/login.css?v=<?php echo time(); ?>" type="text/css">
     <title>CSI-SAKEC</title>
-    
 </head>
 
 <body>
@@ -48,8 +47,8 @@
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
+    <script src="../plugins/google.gsi.client.js" async defer></script>
+    <script src="../plugins/jwt-decode.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 
     <script>

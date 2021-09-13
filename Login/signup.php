@@ -34,20 +34,15 @@
             <button class="btn btn-primary" name="submit">Submit </button></br></br> -->
 
             <!-- jquery will put the fill required -->
-            <div id="Step2">
-
-            </div>
+            <div id="Step2"></div>
         </div>
     </div>
-
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
-    <!-- DO NOT DELETE THIS  -->
-
+    <script src="../plugins/google.gsi.client.js" async defer></script>
+    <script src="../plugins/jwt-decode.min.js"></script>
     <script>
         //Google will call this function 
         function fillRequired(response) {
@@ -116,6 +111,7 @@
             });
         })
     </script>
+    <!-- DO NOT DELETE THIS  -->
 </body>
 
 </html>
