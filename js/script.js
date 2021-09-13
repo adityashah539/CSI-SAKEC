@@ -8,10 +8,8 @@ $(function () {
 var element = document.getElementById("next_event");
 if (element) {
   var myInput = element.value;
-
   // Set the date we're counting down to
   var countDownDate = new Date(myInput).getTime();
-
   // Update the count down every 1 second
   var x = setInterval(function () {
     // Get today's date and time
@@ -28,31 +26,6 @@ if (element) {
     document.getElementById("hours").innerHTML =(hours < 10 ? "0" : "") + hours;
     document.getElementById("minutes").innerHTML =(minutes < 10 ? "0" : "") + minutes;
     document.getElementById("seconds").innerHTML =(seconds < 10 ? "0" : "") + seconds;
-    // If the count down is over, write some text
-    // if (distance < 0) {
-    //   clearInterval(x);
-    //   document.getElementById("demo").innerHTML = "EXPIRED";
-    // }
   }, 1000);
 }
-
-// Events navbar tab
-// function openCity(evt, cityName) {
-//   var i, tabcontent, tablinks;
-//   tabcontent = document.getElementsByClassName("tabcontent");
-//   for (i = 0; i < tabcontent.length; i++) {
-//     tabcontent[i].style.display = "none";
-//   }
-//   tablinks = document.getElementsByClassName("tablinks");
-//   for (i = 0; i < tablinks.length; i++) {
-//     tablinks[i].className = tablinks[i].className.replace(" active", "");
-//   }
-//   document.getElementById(cityName).style.display = "block";
-//   evt.currentTarget.className += " active";
-// }
-        function handleCredentialResponse(response) {
-            var decodedToken = jwt_decode(response.credential);
-            
-            console.log(decodedToken.email); // This is null if the 'email' scope is not present.
-        }
 

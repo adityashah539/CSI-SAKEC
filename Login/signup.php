@@ -24,7 +24,7 @@
             <h4>Step 1: Choose your account </h4>
             <!--Google Button -->
             <div id="googleButton" style="text-align: -webkit-center;" class="my-4">
-                <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="fillRequired" data-auto_prompt="false"></div>
+                <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="fillRequired" data-auto_prompt="false"></div>
                 <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
             </div>
             <!-- <div class="d-flex justify-content-center my-4">
@@ -32,7 +32,6 @@
                 <input type="text" class="form-control w-25 p-3 mx-3" name="Email" required="required" placeholder="Enter Email">
             </div>
             <button class="btn btn-primary" name="submit">Submit </button></br></br> -->
-
             <!-- jquery will put the fill required -->
             <div id="Step2"></div>
         </div>

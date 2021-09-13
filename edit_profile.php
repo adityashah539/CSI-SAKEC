@@ -12,7 +12,11 @@
 
 <body>
     <!-- Navbar -->
-    <?php require "config.php";session_start();require "usernavbar.php"; ?>
+    <?php 
+        require "config.php";
+        session_start();
+        require "usernavbar.php"; 
+    ?>
     <div style='height: 85px;'></div>
     <!-- Navbar -->
     <header>

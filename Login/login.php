@@ -14,7 +14,7 @@
 
 <body>
 <?php
-        //require_once "../config.php";
+    require_once "../config.php";
         //session_start();
         // if(isset($_SESSION['email'])){
         //     redirect_after_msg("You Are Already Logged In \n If you Wnted to Login with different account please Logout first","../index.php");
@@ -36,7 +36,7 @@
         </div>
         <button name="login" class="btn main_btn">Login<i class="fas fa-sign-in-alt"></i></button>
         <div id="googleButton" style="text-align: -webkit-center;" class="my-5">
-            <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+            <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
             <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
         </div>
         <p class="my-4 text-light"><a href="forgotpassword.php">Forgot password</a></p>

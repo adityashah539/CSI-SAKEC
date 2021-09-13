@@ -12,43 +12,11 @@
     <?php
     session_start();
     require_once "config.php";
-    function send_mail($to_email, $subject, $body, $headers)
-    {
-        if (mail($to_email, $subject, $body, $headers)) {
-            function_alert("Email successfully sent to $to_email...");
-        } else {
-            function_alert("$to_email, $subject, $body, $headers");
-        }
-    }
-
     // Fetching Access Details
     $access = NULL;
     if (isset($_SESSION["role_id"])) {
         $role_id = $_SESSION["role_id"];
         $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['contactusbutton'])) {
-        if ($_POST['email'] != null) {
-            $to_email = trim($_POST['email']);
-        } else {
-            $to_email = trim($_POST['emailentered']);
-        }
-        $subject = "Acknowledgement from CSI to " . substr($to_email, 0, strpos($to_email, ".")) . " " . substr($to_email, strpos($to_email, ".") + 1, strpos($to_email, "_") - strpos($to_email, ".") + 1);
-        $body = "Hey Thankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible , have a great day ";
-        $headers = "From: guptavan96@gmail.com";
-        $query = trim($_POST['message']);
-        if (isset($to_email)) {
-            send_mail($to_email, $subject, $body, $headers);
-            if (strpos($to_email, "@sakec.ac.in") || strpos($to_email, "@gmail.com")) {
-                $stmt = execute("INSERT INTO csi_query (c_email,c_query) VALUES ('$to_email','$query')");
-                function_alert("Msg has been deliverd.");
-            } else {
-                function_alert("Pls enter the sakec's or your own emailid.");
-            }
-        } else {
-            function_alert("Pls fill details properly.");
-        }
     }
     ?>
 </head>
@@ -57,8 +25,6 @@
     <!-- Navbar -->
     <?php require "usernavbar.php"; ?>
     <!-- Navbar -->
-
-
 
     <!-- Landing  -->
     <section class="home">
@@ -124,11 +90,10 @@
                 </div>
             </div>
         </section>
+        <!--Event Timer  -->
     <?php
     }
     ?>
-    <!--Event Timer  -->
-
 
     <!-- About US  -->
     <section id="about" class="p_120">
@@ -216,11 +181,9 @@
 
     <!-- Total Likes, Registration and Event -->
     <?php
-    $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
-
-    $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
-
-    $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
+        $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
+        $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
+        $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
     ?>
     <section class="event_time_area">
         <div class="container">

@@ -8,10 +8,13 @@
 </head>
 
 <body>
+    <?php 
+        require_once "config.php";
+    ?>
     <h1>Google Sign In</h1>
     <script src="plugins/google.gsi.client.js" async defer></script>
     <script src="plugins/jwt-decode.min.js"></script>
-    <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false">
+    <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false">
     </div>
 
     <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left">
