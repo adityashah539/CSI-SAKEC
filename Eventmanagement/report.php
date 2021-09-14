@@ -45,7 +45,6 @@
             $sqlvenue = "SELECT `location` FROM `csi_venue` WHERE event_id = '$event_id'";
             $queryvenue = execute($sqlvenue);
 
-
             // start year and end year for acedemic year
             $startyear = date("Y",strtotime($rowevent['e_from_date'])); 
             $endyear = date("Y", strtotime("+1 year",strtotime($rowevent['e_from_date'])));
@@ -69,7 +68,7 @@
         if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
             (function($) {
                 $.fn.wordExport = function(fileName) {
-                    fileName = typeof fileName !== 'undefined' ? fileName : "jQuery-Word-Export";
+                    fileName = typeof fileName !== 'undefined' ? fileName : "Report of <?php echo $rowevent['title'] ?>";
                     var static = {
                         mhtml: {
                             top: "Mime-Version: 1.0\nContent-Base: " + location.href + "\nContent-Type: Multipart/related; boundary=\"NEXT.ITEM-BOUNDARY\";type=\"text/html\"\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset=\"utf-8\"\nContent-Location: " + location.href + "\n\n<!DOCTYPE html>\n<html>\n_html_</html>",

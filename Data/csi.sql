@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2021 at 10:51 AM
+-- Generation Time: Sep 14, 2021 at 12:57 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -78,7 +78,14 @@ INSERT INTO `csi_collaboration` (`id`, `event_id`, `collab_body`) VALUES
 (2, 47, 'ieee'),
 (3, 48, 'ieee'),
 (4, 48, 'ipr'),
-(6, 53, 'Computer Department');
+(6, 53, 'Computer Department'),
+(7, 54, 'Computer Engineering Department'),
+(8, 55, 'Computer Engineering Department'),
+(9, 56, 'WHITE POCKET EVENTS AND ENTERTAINMENT'),
+(10, 57, 'T.G. Lakshmi'),
+(11, 57, 'EdTech department of IIT Bombay'),
+(12, 58, 'Computer Engineering Department'),
+(13, 59, 'Computer Engineering Department');
 
 -- --------------------------------------------------------
 
@@ -110,7 +117,11 @@ INSERT INTO `csi_collection` (`id`, `event_id`, `user_id`, `bill_photo`, `amount
 (108, 48, 120, '612b1f3bb95280.54938656.jpg', 500, 0, NULL, 0, NULL),
 (109, 48, 120, '612b1f50b86e09.61146743.jpg', 500, 0, NULL, 0, NULL),
 (110, 48, 120, '612b1f53a0f073.57428374.jpg', 500, 0, NULL, 0, NULL),
-(111, 48, 120, '612b1f55876a86.91111796.jpg', 500, 0, NULL, 0, NULL);
+(111, 48, 120, '612b1f55876a86.91111796.jpg', 500, 0, NULL, 0, NULL),
+(122, 53, 116, NULL, 0, 1, 'auto', 0, NULL),
+(123, 48, 144, '613483d05fd595.19034009.jpg', 500, 1, NULL, 0, NULL),
+(125, 47, 120, NULL, 0, 1, 'auto', 0, NULL),
+(126, 47, 116, NULL, 0, 1, 'auto', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -138,7 +149,19 @@ INSERT INTO `csi_contact` (`id`, `c_name`, `c_phonenumber`, `event_id`, `c_type`
 (18, 'Aditya Shah', 999999999, 47, 0),
 (19, 'dhiraj', 2147483647, 48, 0),
 (20, 'israil', 9999999998, 49, 0),
-(21, 'Rahul Soni', 9999999999, 47, 1);
+(21, 'Rahul Soni', 9999999999, 47, 1),
+(22, 'Chintan Chheda', 9699061989, 54, 0),
+(23, 'Deepshikha Chaturvedi', 9833507773, 54, 1),
+(24, 'Dr. Rekha Ramesh\r\n', 9999999999, 55, 1),
+(25, 'Aditya Shah', 9029058845, 55, 0),
+(26, 'Pratik Upadhyay ', 9029041585, 55, 0),
+(28, 'Dr. Rekha Ramesh\r\n', 9999999999, 57, 1),
+(29, 'Yukta Lapsiya', 9420110775, 57, 0),
+(30, ' Dhruvi Jain', 9819886760, 57, 0),
+(31, 'Vaishali Hirlekar', 9999999999, 58, 1),
+(32, 'Kushal Gogri', 9920922557, 58, 0),
+(33, 'Deepshika Chaturvedi\r\n', 99999999999, 59, 1),
+(34, 'Parth Panchal', 9029225743, 59, 0);
 
 -- --------------------------------------------------------
 
@@ -224,14 +247,20 @@ CREATE TABLE `csi_event` (
 --
 
 INSERT INTO `csi_event` (`id`, `title`, `subtitle`, `banner`, `e_from_date`, `e_to_date`, `e_from_time`, `e_to_time`, `e_description`, `fee_m`, `fee`, `live`, `feedback`, `selfie`) VALUES
-(40, 'Tensorflow', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2019-08-23', '2019-08-10', '09:00:00', '05:00:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 50, 1, 1, 0),
+(40, 'Tensorflow', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2019-08-10', '2019-08-10', '10:00:00', '05:00:00', 'TensorFlow is a symbolic math library and is also used for Machine Learning applications such as image detection, object detection, etc.', 0, 0, 1, 1, 0),
 (41, 'Introduction with IOT', 'Introduction with IOT with NODE MCU', ' nodemcu.jpg', '2019-08-30', '2019-08-31', '09:00:00', '05:00:00', 'Topics covered were: Introduction to IoT, Basics of NodeMCU, Configuring LEDs with NodeMCU, using different sensors like DHT11, LDRs, IRs & IR-Remote, NodeMCU as a Server & Google Assistant using NodeMCU. ', 150, 200, 1, 1, 0),
 (42, 'Pune Outbound', 'Outbound', 'outbound.jpg', '2019-09-20', '2019-09-21', '06:00:00', '06:00:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 2350, 2500, 1, 1, 0),
 (43, 'Software Conceptual Design', 'Software Conceptual Design', ' softwaredevelopment.jpg', '2021-07-03', '2021-07-03', '09:00:00', '05:00:00', ' How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements. ', 0, 0, 1, 1, 0),
-(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-04', '2021-07-04', '10:50:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 50, 200, 1, 1, 0),
-(48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-05', '2021-07-05', '22:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 1, 0),
+(47, 'Tensorflow2', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-09-05', '2021-09-06', '16:00:00', '12:50:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 0, 0, 1, 1, 0),
+(48, 'Tensorflow3', 'Introduction To ML with TENSORFLOW 2.0', 'TENSORFLOW.jpg', '2021-07-05', '2021-07-05', '04:15:00', '03:26:00', 'Topics covered were TensorFlow 2.0 framework (TensorFlow is a general purpose high-performance computing library open sourced by Google in 2015), Introduction to machine learning, where it is used and how it is implemented, What is tensor and how the name was given, How to integrate it in code, Hands on tensorflow (Image recognition),Creating neural network & Gathering dataset, Using Jupyter to share code, data cleaning and transformation. ', 200, 500, 1, 1, 0),
 (49, 'Outbound', 'outbound', 'outbound.jpg', '2021-07-20', '2021-07-06', '22:20:00', '03:30:00', 'On Day 1, We visited Lenze Mechatronics Private Limited. The main parent company is from Germany and all their major operations run from there. We were shown Servo Motors, Gearboxes, AC Drive, PLC, I/O Systems.\nOn Day 2, we visited Vasaya Foods Pvt Ltd which is a company that produces potato chips and snacks.', 3000, 5000, 1, 1, 0),
-(53, 'ML', 'Learn', ' 6106cbfeaf5c71.72314970.jpg', '2021-08-14', '2021-08-14', '09:58:00', '03:58:00', 'learn ml', 0, 200, 1, 0, 1);
+(53, 'ML', 'Learn', ' 6106cbfeaf5c71.72314970.jpg', '2021-08-14', '2021-08-14', '09:58:00', '03:58:00', 'learn ml', 0, 200, 1, 0, 1),
+(54, 'Tensorflow 2.0', 'Introduction To ML with TENSORFLOW 2.0', ' 613b2cec66bcc3.49142647.jpg', '2019-08-10', '2019-08-10', '10:00:00', '05:00:00', 'TensorFlow is a symbolic math library and is also used for Machine Learning applications such as image detection, object detection, etc.', 30, 50, 1, 0, 0),
+(55, 'Introduction To IOT', 'World of IoT with NodeMCU', ' 613b622f61b460.68162721.jpg', '2019-08-30', '2019-08-31', '10:00:00', '05:00:00', 'The NodeMCU development board is a powerful solution to program microcontrollers and be part of the Internet of Things (IoT).', 150, 200, 1, 0, 0),
+(56, 'OUTBOUND', 'CSI Outbound', ' 613d16d7c247a8.13941357.jpg', '2019-09-20', '2019-09-21', '10:00:00', '05:00:00', 'Outbound at Pune MIDC\r\nIndustry Visited:\r\nLenze Mechatronics\r\nVasaya foods Pvt Ltd.\r\n\r\n', 2350, 2500, 1, 0, 0),
+(57, 'Software Conceptual Design', 'Software Conceptual Design', ' 613d1dd7e609e2.78731686.jpg', '2019-10-07', '2019-10-07', '01:00:00', '05:00:00', 'How the design is successful in combining the pros of each separate diagram while overcoming their flaws. The platform was beginner friendly and provided help with a personal assistant of its own for every phase. Students were allowed to explore the platform independently based on a problem statement and they were able to grasp the concepts quickly and designed their own FBS diagrams during the workshop. The feedback interview was like a conversation where students actively took part in to discuss about the difficulties faced as a beginner and provided their opinion on improvements.', 0, 0, 1, 0, 0),
+(58, 'AWS', 'Guest Lecture on AWS', ' 613d23872f8e77.99585553.jpg', '2020-03-06', '2020-03-06', '01:00:00', '05:00:00', 'Will be Learning about the different services provided by the AWS platform and connection of MongoDb with AWS', 0, 0, 1, 0, 0),
+(59, 'Bug Bounty', 'Getting Started with Bug Bounty', ' 613d25d8f0a860.37525180.jpg', '2020-03-11', '2020-03-11', '01:00:00', '04:00:00', 'Topics covered were: What Bug Bounty is? , CSRF - Cross-Site Request Forge, Resources required to get started in Bug Bounty, Various examples of how bug bounty is done.', 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -310,7 +339,9 @@ CREATE TABLE `csi_feedback` (
 --
 
 INSERT INTO `csi_feedback` (`id`, `collection_id`, `Q1`, `Q2`, `Q3`, `Q4`, `Q5`, `Q6`, `Q7`, `any_queries`, `selfie`) VALUES
-(34, 105, 5, 5, 5, 5, 5, 5, 'fast', 'No', '');
+(34, 105, 5, 5, 5, 5, 5, 5, 'fast', 'No', ''),
+(40, 125, 2, 2, 2, 2, 2, 2, 'fast', 'r', ''),
+(41, 126, 3, 3, 3, 3, 3, 2, 'fast', 'test', '');
 
 -- --------------------------------------------------------
 
@@ -443,7 +474,8 @@ INSERT INTO `csi_password` (`id`, `user_id`, `password`) VALUES
 (38, 140, '$2y$10$3cVZidSZ6/aHc4f8adyat.hDX2H2ITMVVJwPD6oaLejYwxPjkw33.'),
 (39, 141, '$2y$10$iuHxvApl31pxRivdp77bGuEtWJ.ic7mlHZv6DuhMJop7j2jv.PCca'),
 (40, 142, '$2y$10$KyOdX0qrMMkhCrfNj8BpTOts/yj4teHE7H4XzpinPs5koAVPm9cA.'),
-(41, 143, '$2y$10$0R8oMfnyRP48OzZG3PuCn.MGydeZDuW.NvvWSBwTo5vSvIQ8bfcpO');
+(41, 143, '$2y$10$0R8oMfnyRP48OzZG3PuCn.MGydeZDuW.NvvWSBwTo5vSvIQ8bfcpO'),
+(42, 144, '$2y$10$D/L/IKVOyrt3RqOpQLc9VOzZCxJPjKvi7OORyHrepTK49bXtx6bMW');
 
 -- --------------------------------------------------------
 
@@ -574,7 +606,18 @@ INSERT INTO `csi_speaker` (`id`, `event_id`, `name`, `organisation`, `profession
 (1, 47, 'dhiraj', 'sakec', 'developer', 'abc', '60d1c3dd095b22.38584146.jpg', 'https://www.linkedin.com/in/aditya-shah539/'),
 (2, 48, 'dhiraj shetty', 'sakec', 'developer', 'xyz', '60c5e787b52877.83501876.jpeg', 'www.linkedin.com/in/aditya-shah539'),
 (3, 48, 'aditya shah', 'sakec', 'programmer', 'abc', '60c5e787b64315.82547545.jpg', 'www.linkedin.com/in/aditya-shah539'),
-(4, 48, 'israil', 'sakec', 'developer', 'xyz', '60c5e787b52877.83501876.jpeg', 'www.linkedin.com/in/aditya-shah539');
+(4, 48, 'israil', 'sakec', 'developer', 'xyz', '60c5e787b52877.83501876.jpeg', 'www.linkedin.com/in/aditya-shah539'),
+(5, 40, 'Deep Mehta', 'Sakec', 'Student', '', '', ''),
+(6, 54, 'Deep Mehta', 'sakec', 'Student', 'NA', '613b2cec6a60d6.74455062.jpg', 'https://www.google.com/'),
+(7, 54, 'Deep Vira', 'sakec', 'student', 'NA', '613b2cec6b6530.49539855.jpg', 'https://www.google.com/'),
+(8, 55, 'Prasanna Limaye', 'Sakec ', 'Student', 'NA', '613b622f63e1a8.86020665.jpg', 'https://www.google.com/'),
+(9, 55, 'Vineet Patel', 'sakec', 'Student', 'NA', '613b622f65f6b1.55305235.jpg', 'https://www.google.com/'),
+(10, 55, 'Hiten Chawda', 'sakec', 'Student', 'NA', '613b622f637be8.66391684.jpg', 'https://www.google.com/'),
+(11, 55, 'Bhavin Goswami.', 'sakec', 'Student', 'NA', '613b622f643de8.06458314.jpeg', 'https://www.google.com/'),
+(14, 57, 'Ms. T.G. LAKSHMI', 'UNKNOWN', 'UNKNOWN', 'NA', '613b2cec6a60d6.74455062.jpg', 'https://www.google.com/'),
+(15, 57, 'MS. N. SOUMYA', 'UNKNOWN', 'UNKNOWN', 'NA', '613b2cec6a60d6.74455062.jpg', 'https://www.google.com/'),
+(17, 58, 'Dr. Bhushan A. Jadav', 'UNKNOWN', 'UNKNOWN', 'NA', '613b2cec6a60d6.74455062.jpg', 'https://www.google.com/'),
+(18, 59, 'Mr. Pratik Yadav', 'UNKNOWN', 'UNKNOWN', 'NA', '613b2cec6a60d6.74455062.jpg', 'https://www.google.com/');
 
 -- --------------------------------------------------------
 
@@ -621,7 +664,8 @@ INSERT INTO `csi_userdata` (`id`, `name`, `year`, `division`, `rollNo`, `emailID
 (140, 'HIMANSHU CHAUDHARI', 'FE', 'TE3', 12, 'himanshu.chaudhari15735@sakec.ac.in', 9999999988, 'Computers', 22, 'male', 'sakec'),
 (141, 'PRIYAL KATUDIA', 'FE', 'TE3', 8, 'priyal.katudia_19@sakec.ac.in', 9999999992, 'Computers', 17, 'female', 'sakec'),
 (142, 'AAGAM SHETH', 'FE', 'TE3', 9, 'aagam.sheth_19@sakec.ac.in', 9999999991, 'Computers', 13, 'male', 'sakec'),
-(143, 'NISHMA KAMAT', 'FE', 'SE3', 7, 'nishma.kamat15494@sakec.ac.in', 9999999993, 'Computers', 18, 'female', 'sakec');
+(143, 'NISHMA KAMAT', 'FE', 'SE3', 7, 'nishma.kamat15494@sakec.ac.in', 9999999993, 'Computers', 18, 'female', 'sakec'),
+(144, 'test', 'FE', NULL, NULL, 'guptavan96@gmail.com', 8888888888, 'CS', 6, 'male', 'sakec');
 
 -- --------------------------------------------------------
 
@@ -641,7 +685,17 @@ CREATE TABLE `csi_venue` (
 
 INSERT INTO `csi_venue` (`id`, `event_id`, `location`) VALUES
 (1, 47, '4th-Floor Seminar Hall'),
-(4, 53, 'SAKEC');
+(4, 53, 'SAKEC'),
+(5, 54, '701 Lab'),
+(6, 54, '702 Lab'),
+(7, 55, ' 4th floor Seminar Hall'),
+(8, 56, ' MIDC , Pune, Maharashtra'),
+(9, 57, 'LAB 209'),
+(10, 57, 'lab 210'),
+(11, 58, 'LAB 612'),
+(12, 58, 'LAB 613'),
+(13, 58, 'LAB 614'),
+(14, 59, '4th Floor Auditorium');
 
 -- --------------------------------------------------------
 
@@ -1145,19 +1199,19 @@ ALTER TABLE `csi_aboutus`
 -- AUTO_INCREMENT for table `csi_collaboration`
 --
 ALTER TABLE `csi_collaboration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `csi_collection`
 --
 ALTER TABLE `csi_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `csi_contact`
 --
 ALTER TABLE `csi_contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `csi_contentrepository`
@@ -1175,7 +1229,7 @@ ALTER TABLE `csi_coordinator`
 -- AUTO_INCREMENT for table `csi_event`
 --
 ALTER TABLE `csi_event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `csi_event_likes`
@@ -1193,7 +1247,7 @@ ALTER TABLE `csi_expense`
 -- AUTO_INCREMENT for table `csi_feedback`
 --
 ALTER TABLE `csi_feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `csi_gallery`
@@ -1223,7 +1277,7 @@ ALTER TABLE `csi_newsletter`
 -- AUTO_INCREMENT for table `csi_password`
 --
 ALTER TABLE `csi_password`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `csi_query`
@@ -1247,19 +1301,19 @@ ALTER TABLE `csi_role`
 -- AUTO_INCREMENT for table `csi_speaker`
 --
 ALTER TABLE `csi_speaker`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `csi_userdata`
 --
 ALTER TABLE `csi_userdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `csi_venue`
 --
 ALTER TABLE `csi_venue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `division_details`

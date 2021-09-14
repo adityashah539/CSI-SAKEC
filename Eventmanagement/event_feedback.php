@@ -168,7 +168,7 @@
         <div class="spacer" style="height:1px;"></div>
     </div>
     <script type="text/javascript">
-        function exportToExcel(tableID, filename = ''){
+        function exportToExcel(tableID, filename = 'Audit'){
             var downloadurl;
             var dataFileType = 'application/vnd.ms-excel';
             var tableSelect = document.getElementById(tableID);
