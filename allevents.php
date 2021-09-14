@@ -115,17 +115,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
             </div>
         </div>
     </section>
-
-
-    <!-- Footer -->
-    <?php require_once 'footer.php';?>
-    <!-- Footer -->
-
-    
-
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="plugins/smtp.min.js"></script>
+    <script src="plugins/google.gsi.client.js" async defer></script>
+    <script src="plugins/jwt-decode.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/email.js"></script>
     <script>
         $(document).ready(function(){
             $(document).on('click', "button[name='like']", function() {
@@ -164,6 +161,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
             });
         });
     </script>
+    <!-- Footer -->
+    <?php require_once 'footer.php';?>
+    <!-- Footer -->
 </body>
 
 </html>

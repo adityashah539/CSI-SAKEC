@@ -132,10 +132,7 @@ $(document).on("click", "button[name='submit']", function () {
                     enteredEmail = email;
                     sendEmailOtp(email);
                     if (otp != null) {
-                        $("#step").load(
-                            "forgetpasswordInput.php", {
-                            step: value,
-                        }, function () {
+                        $("#step").load("forgetpasswordInput.php", {step: value,}, function () {
                             animation();
                             if (value == 2) {
                                 myTimer.startTimer();

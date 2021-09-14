@@ -21,7 +21,7 @@
         $accessquery = getSpecificValue("SELECT query FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'query');
         $accessreplylog = getSpecificValue("SELECT reply_log FROM `csi_role` WHERE `csi_role`.`id`=$role_id", 'reply_log');
     }
-    if($accessquery == 0){
+    if ($accessquery == 0) {
         header("location:../index.php");
     }
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['reply_id'])) {
@@ -61,9 +61,9 @@
                 <?php
                 if ($accessreplylog == 1) {
                 ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="log.php"><i class="fas fa-history"></i> Reply log</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="log.php"><i class="fas fa-history"></i> Reply log</a>
+                    </li>
                 <?php
                 }
                 ?>
@@ -71,7 +71,7 @@
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                     <div class="input-group">
-                        <input type="search" onkeyup="SearchFunction()"  id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off" />
+                        <input type="search" onkeyup="SearchFunction()" id="form1" name="search" placeholder="Search" class="form-control" autocomplete="off" />
                         <button id="search-button" type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
@@ -97,34 +97,80 @@
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>
-                            <tr>
+                            <tr id="<?php echo 'row'.$row['id']; ?>">
                                 <td scope="row"><?php echo $row['c_email']; ?></td>
                                 <td>
                                     <div id="summary">
-                                        <p class="collapse" id="<?php echo 'collapseSummary' . $row['id']; ?>"><?php echo $row['c_query']; ?> </p>
+                                        <p class="collapse" id="<?php echo 'collapseSummary' . $row['id']; ?>"> <?php echo $row['c_query']; ?></p>
                                         <a class="collapsed" data-toggle="collapse" href="<?php echo '#collapseSummary' . $row['id']; ?>" aria-expanded="false" aria-controls="collapseSummary"></a>
                                     </div>
                                 </td>
                                 <td>
-                                    <div id="<?php echo 'reply' . $row['id']; ?>">
-                                        <button type="button" onClick="<?php echo 'addTextArea(' . $row['id'] . ');'; ?>" class="btn btn-primary">Reply</button>
+                                    <div class="modal fade" id="<?php echo 'sendEmailModal'.$row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Reply Email</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-left">
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-2 ">
+                                                            To:
+                                                        </div>
+                                                        <div class="col-auto " id="<?php echo 'studentEmailId' . $row['id']; ?>">
+                                                            <?php echo $row['c_email']; ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-2 ">
+                                                            Form:
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            csi-sakec@sakec.ac.in
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2 ">
+                                                        <div class="col-sm-2 ">
+                                                            Query:
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <?php echo $row['c_query']; ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-2">
+                                                            Subject:
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="email" id="<?php echo 'subject' . $row['id']; ?>" class="form-control w-100" aria-describedby="email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ">
+                                                        <dic class="col">
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlTextarea1">Body:</label>
+                                                                <textarea class="form-control w-100" id="<?php echo 'body' . $row['id']; ?>" rows="3"></textarea>
+                                                            </div>
+                                                        </dic>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary " name="sendEmail" value="<?php echo $row['id']; ?> ">Send Email</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div id="<?php echo 'textArea' . $row['id']; ?>">
-                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                                            <textarea rows='5' cols='50' name='Msg'></textarea>
-                                            <br>
-                                            <input type="hidden" name="reply_id" value="<?php echo $row['id']; ?>">
-                                            <button type="submit" class="btn btn-primary">Send</button>
-                                        </form>
-                                        <button type="button" onClick="<?php echo 'addTextArea(' . $row['id'] . ');'; ?>" class="btn btn-primary">Cancel</button>
-                                    </div>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?php echo 'sendEmailModal' . $row['id']; ?>">
+                                        Reply
+                                    </button>
                                 </td>
                                 <td><button type="button" class="btn btn-danger">Delete</button></td>
                             </tr>
-                            <script type=text/javascript>
-                                var t = document.getElementById("<?php echo 'textArea' . $row['id']; ?>");
-                                t.style.display = "none";
-                            </script>
                 <?php
                         }
                     } else {
@@ -135,31 +181,44 @@
             </div>
         </tbody>
     </table>
+    <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+        <div id="myToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
+            <div class="toast-header">
+                <img src="../images/csi-logo.png" style="width: 50px;" class="rounded mr-2 img-thumbnail rounded-circle" alt="...">
+                <strong class="mr-auto h4">Message</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body alert alert-primary h5">
+            </div>
+        </div>
+    </div>
+
+
     <div class="spacer" style="height:10px;"></div>
     <div class="footer">
         <div class="spacer" style="height:2px;"></div>
-        <a href="index.php">
-            <i class="fas fa-home"></i>
-        </a>
+        <a href="index.php"><i class="fas fa-home"></i></a>
         <div class="spacer" style="height:0px;"></div>
         <h5>CSI-SAKEC 2021 &copy; All Rights Reserved</h5>
         <div class="spacer" style="height:1px;"></div>
     </div>
     <script>
-        function SearchFunction(){
-            var  inputValue, tablebody,noOfRows, tr, th, i,lengthOfTable,emailId,txtValue;
+        function SearchFunction() {
+            var inputValue, tablebody, noOfRows, tr, th, i, lengthOfTable, emailId, txtValue;
             inputValue = document.getElementById('form1').value.toUpperCase();
             tablebody = document.getElementById('queryTableBody');
             noOfRows = tablebody.getElementsByTagName('tr');
-            lengthOfTable=noOfRows.length;
+            lengthOfTable = noOfRows.length;
             console.log(lengthOfTable);
             //debugger;
             for (i = 0; i < lengthOfTable; i++) {
                 th = noOfRows[i].getElementsByTagName("td");
                 console.log(th[0].innerHTML);
                 if (th) {
-                    emailId  = th[0].innerText ;
-                    if (emailId.toUpperCase().indexOf(inputValue)>-1) {
+                    emailId = th[0].innerText;
+                    if (emailId.toUpperCase().indexOf(inputValue) > -1) {
                         noOfRows[i].style.display = "";
                     } else {
                         noOfRows[i].style.display = "none";
@@ -188,8 +247,39 @@
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="../plugins/smtp.min.js"></script>
+    <script src="../js/email.js"></script>
     <!-- DO NOT DELETE THIS  -->
-
+    <script>
+        $(document).on("click", "button[name='sendEmail']", function() {
+            var id = $(this).val().trim();
+            var emailID = document.getElementById("studentEmailId" + id).innerText;
+            var subject = document.getElementById("subject" + id).value.trim();
+            var body = document.getElementById("body" + id).value.trim();
+            var repliedBy =  "<?php echo $_SESSION['email'];?>";
+            if (subject !== "" && body !== "") {
+                resolvedEmail(emailID, subject, body, id, repliedBy);
+            }
+            if (subject === "") {
+                $("#subject" + id).addClass("is-invalid");
+            } else {
+                $("#subject" + id).addClass("is-valid");
+            }
+            if (body === "") {
+                $("#body" + id).addClass("is-invalid");
+            } else {
+                $("#body" + id).addClass("is-valid");
+            }
+        });
+        $(document).on("click", ".form-control", function() {
+            if ($(this).hasClass("is-valid")) {
+                $(this).removeClass("is-valid");
+            }
+            if ($(this).hasClass("is-invalid")) {
+                $(this).removeClass("is-invalid");
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <script src="../plugins/anime.min.js"></script>
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="../plugins/smtp.min.js"></script>
     <script src="forgetpasswordInput.js"></script>
     <!-- DO NOT DELETE THIS  -->
 </body>

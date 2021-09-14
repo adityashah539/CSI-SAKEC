@@ -30,15 +30,20 @@
     <?php require "../usernavbar.php"; ?>
     <div style='height: 85px;'></div>
     <!-- Navbar -->
-    <div id="membershipStatus"></div>
-    <div id="fillRequired"></div>
-    <!-- Footer -->
-    <?php require_once '../footer.php'; ?>
-    <!-- Footer -->
+    <main>
+        <div id="membershipStatus"></div>
+        <div id="fillRequired"></div>
+    </main>
+    
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="../plugins/smtp.min.js"></script>
+    <script src="../plugins/google.gsi.client.js" async defer></script>
+    <script src="../plugins/jwt-decode.min.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/email.js"></script>
     <!-- DO NOT DELETE THIS  -->
     <script>
         //jquery for loading the fields for renewal and the Filling the details 
@@ -69,7 +74,9 @@
             }));
         });
     </script>
-    <script src="../js/script.js"></script>
+    <!-- Footer -->
+    <?php require_once '../footer.php'; ?>
+    <!-- Footer -->
 </body>
 
 </html>

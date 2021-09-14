@@ -240,7 +240,6 @@ $event_id = $_GET['e_id'];
                         <div class="text-center">
                             <button type="submit" name="submit_btn" class="btn btn-primary">Sumbit</button>
                         </div>
-
                         <div class="spacer" style="height:40px;"></div>
                     </form>
     <?php
@@ -250,7 +249,6 @@ $event_id = $_GET['e_id'];
         }
     }
     ?>
-
 </div>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>

@@ -10,12 +10,11 @@
     <!-- CSS file  -->
     <link rel="stylesheet" href="../css/login.css?v=<?php echo time(); ?>" type="text/css">
     <title>CSI-SAKEC</title>
-    
 </head>
 
 <body>
 <?php
-        //require_once "../config.php";
+    require_once "../config.php";
         //session_start();
         // if(isset($_SESSION['email'])){
         //     redirect_after_msg("You Are Already Logged In \n If you Wnted to Login with different account please Logout first","../index.php");
@@ -37,7 +36,7 @@
         </div>
         <button name="login" class="btn main_btn">Login<i class="fas fa-sign-in-alt"></i></button>
         <div id="googleButton" style="text-align: -webkit-center;" class="my-5">
-            <div id="g_id_onload" data-client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+            <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
             <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
         </div>
         <p class="my-4 text-light"><a href="forgotpassword.php">Forgot password</a></p>
@@ -48,8 +47,8 @@
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/build/jwt-decode.min.js"></script>
+    <script src="../plugins/google.gsi.client.js" async defer></script>
+    <script src="../plugins/jwt-decode.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
 
     <script>

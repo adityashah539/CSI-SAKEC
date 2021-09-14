@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/event.css?v=<?php echo time(); ?>">
-
     <title>Event</title>
 </head>
 
@@ -326,15 +325,17 @@
     <div class="spacer" style="height:90px;"></div>
     <!-- Spacer -->
 
-    <!-- Footer -->
-    <?php require_once 'footer.php'; ?>
-    <!-- Footer -->
+    
     <!-- DO NOT DELETE THIS  -->
 
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="plugins/smtp.min.js"></script>
+    <script src="plugins/google.gsi.client.js" async defer></script>
+    <script src="plugins/jwt-decode.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/email.js"></script>
     <script>
         $(document).ready(function(e) {
             var typeOfUser = $("input[name='typeOfUser']").val();
@@ -357,7 +358,9 @@
             }
         });
     </script>
-
+    <!-- Footer -->
+    <?php require_once 'footer.php'; ?>
+    <!-- Footer -->
 </body>
 
 </html>
