@@ -36,7 +36,7 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
         $userId = getSpecificValue("SELECT `id`FROM `csi_userdata` WHERE `emailID`='$email'", "id");
         if ($fee == 0) {
             $sqlEvent = execute("INSERT INTO `csi_collection`(`event_id`, `user_id`,`confirmed`, `confirmed_by`) VALUES ($eventId,$userId,1,'auto')");
-            echo $part1 . "Registration Successfull" . $part2;
+            echo "true";
             //redirect_after_msg("Registration Successfull","http://localhost/CSI-SAKEC/event.php?event_id=$eventId");
         }
     }
@@ -46,7 +46,7 @@ if (($_SERVER['REQUEST_METHOD'] == "POST")) {
         if (!isset($imageStatus['error'])) {
             $eventBill = $imageStatus['file_new_name'];
             if (execute("INSERT INTO `csi_collection`(`event_id`,`user_id`,`bill_photo`,`amount`) VALUES ($eventId,$userId,'$eventBill','$fee')")) {
-                echo $part1 . "Waiting for confirmation" . $part2;
+                echo "true";
                //redirect_after_msg("Waiting for confirmation","http://localhost/CSI-SAKEC/event.php?event_id=$eventId");
             }
         } else {

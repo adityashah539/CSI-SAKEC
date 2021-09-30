@@ -1,5 +1,4 @@
     <!-- Footer -->
-
     <footer class="footer-area  p_60">
         <div class="container">
             <div class="row">
@@ -25,9 +24,27 @@
                             <?php
                             if (!isset($_SESSION['role_id'])) {
                             ?>
-                                <div id="googleButton" style="text-align: -webkit-center;" class="my-2">
-                                    <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-                                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
+                                <div id="googleButtonContactUs" style="text-align: -webkit-center;" class="my-2">
+                                    <div 
+                                        id="g_id_onload"
+                                        data-client_id="<?php echo $google_client_id; ?>"
+                                        data-context="use"
+                                        data-ux_mode="popup"
+                                        data-login_uri="getMailContactUs"
+                                        data-nonce=""
+                                        data-auto_prompt="false"
+                                    >
+                                    </div>
+                                    <div 
+                                        class="g_id_signin"
+                                        data-type="standard"
+                                        data-shape="pill"
+                                        data-theme="outline"
+                                        data-text="continue_with"
+                                        data-size="large"
+                                        data-logo_alignment="left"
+                                    >
+                                    </div>
                                 </div>
                             <?php
                             } else {
@@ -48,15 +65,14 @@
                             <li><a href="#">Privacy policy</a></li>
                             <li><a href="#">Terms</a></li>
                             <li><a href="#">Membership</a></li>
+                            <li><a href="http://localhost/csi-sakec/newsletter.php">Newsletter</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="row footer-bottom d-flex justify-content-between align-items-center">
                 <p class="col-lg-8 col-md-8 footer-text m-0">
-                    Copyright © <script>
-                        document.write(new Date().getFullYear());
-                    </script> All rights reserved by CSI-SAKEC
+                    Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved by CSI-SAKEC
                 </p>
                 <div class="col-lg-4 col-md-4 footer-social">
                     <a href="https://www.facebook.com/csisakec/photos"><i class="fab fa-facebook-f"></i></a>
@@ -67,7 +83,7 @@
             </div>
         </div>
     </footer>
-
+    
     <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
         <div id="myToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
             <div class="toast-header">
@@ -81,21 +97,20 @@
             </div>
         </div>
     </div>
-    
     <script>
         <?php if (isset($_SESSION['role_id'])) {
         ?>
-            $(document).on("click", "button[name='contactUsButton']",function() {
+            $(document).on("click", "button[name='contactUsButton']", function() {
                 var email = "<?php echo $_SESSION['email']; ?>";
-                sendEmail(email,"Login");
+                sendEmail(email, "Login");
             });
         <?php
         } else {
         ?>
-            function handleCredentialResponse(response) {
+            function getMailContactUs(response) {
                 var decodedToken = jwt_decode(response.credential);
                 var email = decodedToken.email;
-                sendEmail(email,"Google");
+                sendEmail(email, "Google");
             }
         <?php
         }

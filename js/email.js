@@ -38,6 +38,11 @@ function error(msg) {
     dangerClassAdder();
     $("#myToast").toast('show');
 }
+function successMessage(msg) {
+    $(".toast-body").text(msg);
+    successClassAdder();
+    $("#myToast").toast('show');
+}
 function disableGoogleButton(email) {
     $(".g_id_signin").hide(750);
     $(".toast-body").text("Acknowledgement Email to EmailId(" + email + ").");
@@ -112,4 +117,26 @@ async function resolvedEmail(email,subject,body,queryId,repliedBy) {
     } else {
         error(sendEmailMessage);
     }
+}
+async function registerEmailNewsletter(email) {
+    $.ajax({
+        url: 'http://localhost/csi-sakec/api/registrationNewsletter.php',
+        type: 'post',
+        data:{"email": email},
+        dataType: 'JSON',
+        success: function (response) {
+            var registration = response.registration;
+            var registered = response.registered;
+            $('#newsletter').modal('toggle');
+            if (!registered) {
+                if(registration){
+                    successMessage("You have been registered for the newsletter.");
+                }else{
+                    error("Error in Registering.");
+                }
+            } else {
+                error("You have already registered. for newsletter through this account("+email+").");
+            }
+        }
+    });
 }

@@ -7,8 +7,8 @@
     <link rel="icon" href="../images/csi-logo.png">
     <!-- Boostrap-4.6.0-->
     <link rel="stylesheet" href="../plugins/bootstrap-4.6.0-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/managementevent.css?v=<?php echo time(); ?>">
-
+    <link rel="stylesheet" href="../css/event.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../css/adminNavbar.css?v=<?php echo time(); ?>">
     <title>Event</title>
 </head>
 
@@ -344,109 +344,19 @@
         </div>
     </div>
     <!-- Content -->
-    <?php
-
-    ?>
     <div class="spacer" style="height:90px;"></div>
-    <!-- Footer -->
-    <section id="contact">
-        <footer class="footer-area p_120 p_60">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">Page Links</h6>
-                            <ul class="list">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Events</a></li>
-                                <li><a href="#">Our Team</a></li>
-                                <li><a href="#">Gallery</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-6 col-sm-6">
-                        <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">Contact Us</h6>
-                            <p>You can trust us. we only send promo offers, not a single spam.</p>
-                            <div class="guery">
-                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                                    <div class="input-group d-flex flex-row">
-                                        <?php
-                                        if (isset($_SESSION['email']) && isset($_SESSION['role'])) {
-                                            echo '<input type="hidden" name="email" value="' . $_SESSION['email'] . '">';
-                                        } else {
-                                            echo '<input type="email" name="emailentered" placeholder="Your Email" onfocus="this.placeholder=\'\'" onblur="this.placeholder=\'Email\'" autocomplete="off" required>';
-                                        }
-                                        echo '<textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=' . '" onblur="this.placeholder=\'Message\'" autocomplete="off" required></textarea>';
-                                        ?>
-                                        <!-- <input type="text" name="name" placeholder="Your Name" onfocus="this.placeholder=''" onblur="this.placeholder='Name'" autocomplete="off" required> -->
-                                        <!-- <input type="email" name="email" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required> -->
-                                        <!-- <textarea type="email" name="message" placeholder="Message" onfocus="this.placeholder=''" onblur="this.placeholder='Message'" autocomplete="off" required></textarea> -->
-                                        <button class="btn sub-btn" name="contactusbutton">Send</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 offset-lg-1">
-                        <div class="single_footer_section tp_widgets">
-                            <h6 class="footer_title">contact</h6>
-                            <ul class="list">
-                                <li><a href="#">Privacy policy</a></li>
-                                <li><a href="#">Terms</a></li>
-                                <li><a href="#">Membership</a></li>
-                                <li>
-                                    <a href="#" data-toggle="modal" data-target="#exampleModal">Newsletter</a>
-                                </li>
-
-
-                                <!-- Newsletter Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="email" name="name" placeholder="Your Email" onfocus="this.placeholder=''" onblur="this.placeholder='Email'" autocomplete="off" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn news-btn">Send</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                    <p class="col-lg-8 col-md-8 footer-text m-0">
-                        Copyright © <script>
-                            document.write(new Date().getFullYear());
-                        </script>
-                        Copyright &copy; CSI-SAKEC 2020-21 All Rights Reserved </p>
-                    <div class="col-lg-4 col-md-4 footer-social">
-                        <a href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a><a href=""><i class="fab fa-instagram"></i></a>
-                        <a href=""><i class="fab fa-twitter"></i></a>
-                        <a href=""><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </footer>
-    </section>
     <!-- DO NOT DELETE THIS  -->
     <script src="../plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+    <script src="../plugins/smtp.min.js"></script>
+    <script src="../plugins/google.gsi.client.js" async defer></script>
+    <script src="../plugins/jwt-decode.min.js"></script>
+    <script src="../js/email.js"></script>
     <!-- DO NOT DELETE THIS  -->
-
+    <!-- Footer -->
+    <?php require_once '../footer.php'; ?>
+    <!-- Footer -->
 </body>
 
 </html>

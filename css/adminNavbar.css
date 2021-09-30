@@ -1,0 +1,17 @@
+.navbar.navbar-dark .navbar-nav .nav-item .nav-link {
+    color: #ffffff;
+    -webkit-transition: .35s;
+    transition: .35s;
+}
+
+.default-color {
+    background-color: #00000070 !important;
+}
+
+.textbutton {
+    cursor: pointer;
+    background: transparent;
+    color: white;
+    padding: 7px;
+    border: none;
+}

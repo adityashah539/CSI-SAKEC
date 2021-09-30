@@ -26,30 +26,21 @@
     <div style='height: 85px;'></div>
     <!-- Navbar -->
     <?php
-    // checking if feedback is enabled
-    $eventquery = execute("SELECT * FROM csi_event WHERE id='$event_id'");
-    // collaboration of event
-    $querycollaboration = execute("SELECT * FROM csi_collaboration WHERE event_id='$event_id'");
-    $collaboration = "";
-    $rowevent = mysqli_fetch_assoc($eventquery);
-    for ($i = mysqli_num_rows($querycollaboration); $i > 0; $i--) {
-        $rowcollaboration = mysqli_fetch_assoc($querycollaboration);
-        $collaboration = $collaboration . $rowcollaboration['collab_body'];
-        if ($i != 1) $collaboration = $collaboration . ", ";
-    }
+    $arrayEventCollaboration = getAllValues("SELECT `collab_body` FROM `csi_collaboration` WHERE event_id='$event_id'");
+    $eventCollaboration = implode(', ', array_column($arrayEventCollaboration, 'collab_body'));
     ?>
     <header class="container text-center">
-        <h2 class="my-3">
-            Event Registration for <?php echo $rowevent['title']; ?> 
-            <?php
-            if (mysqli_num_rows($querycollaboration)) {
-                echo "In collaboration with " . $collaboration . " ";
-            }
-            ?>
-        </h2>
+        <h1 class="my-3">
+            Event Registration for <?php echo $rowevent['title']; ?>
+        </h1>
+        <?php
+        if (isset($eventCollaboration)) {
+            echo "<h2>In collaboration with " . $eventCollaboration . "</h2>";
+        }
+        ?>
     </header>
     <?php
-    if (!isset($_SESSION['email'])) {
+    if (!isset($_SESSION["role_id"])) {
     ?>
         <div class="user-login">
             <div id="error" class="my-4"></div>
@@ -60,30 +51,37 @@
                 <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
             </div>
             <div id="spacer"></div>
-            <div id="Step2" class="container ">
+            <div id="Step2" class="container">
             </div>
         </div>
         <?php
-    } else if (isset($_SESSION['roll_id'])) {
-        $fee = $_POST['feeOfEvent'];
+    } else {
+        if($_SESSION['role_id']=='5'||($_SESSION['role_id']>='8'&&$_SESSION['role_id']<='24')){
+            $fee = $rowevent['fee_m'];
+        }else {
+            $fee = $rowevent['fee'];
+
+        }
         $email = $_SESSION['email'];
         if ($fee > 0) {
         ?>
-            <form action="eventRegDataProcessing.php" method="POST" enctype="multipart/form-data">
+            <form id ="form" enctype="multipart/form-data">
                 <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                 <input type="text" name="typeOfUser" value="0101" hidden>
                 <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
                 <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
-                <label class="control-label">PAYMENT RECEIPT:</label>
-                <input type="file" name="bill_photo" required />
-                <button type="submit" id="submit" name="submit" value="input" class="btn btn-danger">REGISTER NOW</button>
+                <div class="form-group row justify-content-center my-5">
+                    <label for="" class="col-sm-2 text-left">Bills Photo : </label>
+                    <div class="col-sm-3">
+                        <input type="file" name="bill_photo" required />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center my-4 grid-container">
+                    <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_gradient">Submit</button>
+                </div>
             </form>
     <?php
-        } else {
-            goToFile("event.php?event_id=" . $event_id);
         }
-    } else {
-        goToFile("event.php?event_id=" . $event_id);
     }
     ?>
     <!-- DO NOT DELETE THIS  -->
@@ -97,9 +95,6 @@
     <script src="js/email.js"></script>
     <!-- DO NOT DELETE THIS  -->
     <script>
-        $(document).ready(function(){
-            $("#spacer").css("height", "204px");
-        });
         function fillRequired(response) {
             var decodedToken = jwt_decode(response.credential);
             var email = decodedToken.email;
@@ -112,7 +107,35 @@
                 }
             });
             $("#spacer").css("height", "0px");
-            
+            $(document).ready(function() {
+                $("#form").on("submit", function(e){
+                    e.preventDefault();
+                    var formData = new FormData(this);
+                    var email=$("input[name='email']").val();
+                    var typeOfUser = $("input[name='typeOfUser']").val();
+                    var eventId = $("input[name='eventId']").val();
+                    var feeOfEvent = $("input[name='feeOfEvent']").val();
+                    $.ajax({
+                        url : "eventRegDataProcessing.php",
+                        type : "POST",
+                        data : 
+                        {
+                            "bill_photo": formData,
+                            "email": email,
+                            "typeOfUser": typeOfUser,
+                            "eventId": eventId,
+                            "feeOfEvent": feeOfEvent
+                        },
+                        contextType : false,
+                        processData : false,
+                        success: function(data){
+                            if(data == "true"){
+                                window.location = 'event.php?event_id='+eventId;
+                            }
+                        }
+                    });
+                });
+            });
         }
     </script>
     <!-- Footer -->

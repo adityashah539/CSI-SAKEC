@@ -20,7 +20,7 @@
         $role_id = $_SESSION["role_id"];
         $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
-    if($access['reply_log']==0){
+    if ($access['reply_log'] == 0) {
         header("location:../index.php");
     }
     ?>
@@ -41,7 +41,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../index.php"><i class="fas fa-home"></i> Home</a>
-
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -60,7 +59,8 @@
             <tr>
                 <th scope="col">Email ID</th>
                 <th>Query</th>
-                <th>Replied Mesaage</th>
+                <th>Replied Subject</th>
+                <th>Replied body</th>
                 <th>Replied by</th>
                 <th>DELETE</th>
             </tr>
@@ -68,12 +68,12 @@
         <tbody>
             <div class="table-content" style="font-size: large;">
                 <?php
-                if ($access['reply_log']==1) {
+                if ($access['reply_log'] == 1) {
                     $query = execute('SELECT * FROM csi_reply');
                     if (mysqli_num_rows($query) > 0) {
                         while ($row = mysqli_fetch_assoc($query)) {
                 ?>
-                            <tr>
+                            <tr id="<?php echo $row['id'] ?>">
                                 <td scope="row"><?php echo $row['c_email']; ?></td>
                                 <td>
                                     <div id="summary">
@@ -83,12 +83,18 @@
                                 </td>
                                 <td>
                                     <div id="summary">
-                                        <p class="collapse" id="replied"><?php echo $row['reply']; ?> </p>
-                                        <a class="collapsed" data-toggle="collapse" href="#replied" aria-expanded="false" aria-controls="collapseSummary"></a>
+                                        <p class="collapse" id="repliedSubject"><?php echo $row['reply_subject']; ?> </p>
+                                        <a class="collapsed" data-toggle="collapse" href="#repliedSubject" aria-expanded="false" aria-controls="collapseSummary"></a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div id="summary">
+                                        <p class="collapse" id="repliedBody"><?php echo $row['reply_body']; ?> </p>
+                                        <a class="collapsed" data-toggle="collapse" href="#repliedBody" aria-expanded="false" aria-controls="collapseSummary"></a>
                                     </div>
                                 </td>
                                 <td><?php echo $row['replied_by']; ?></td>
-                                <td><button type="button" class="btn btn-danger">Delete</button></td>
+                                <td><button type="button" name="deleteReplied" value="<?php echo $row['id'] ?>" class="btn btn-danger">Delete</button></td>
                             </tr>
                 <?php
                         }
@@ -115,6 +121,28 @@
     <script src="../plugins/jquery.min.js"></script>
     <script src="../plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
     <!-- DO NOT DELETE THIS  -->
+    <script>
+        $("button[name='deleteReplied']").on("click", function() {
+            var id = $(this).val();
+            $.ajax({
+                url: 'http://localhost/csi-sakec/api/deleteReply.php',
+                type: 'POST',
+                data: {
+                    "id": id
+                },
+                dataType: 'JSON',
+                success: function(response) {
+                    var error = response.error;
+                    if (!error) {
+                        console.log(error);
+                        $("#" + id).hide(1000);
+                    } else {
+                        console.log(error);
+                    }
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>

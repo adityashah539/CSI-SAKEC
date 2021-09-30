@@ -76,7 +76,7 @@
             <div class="table-content" style="font-size: large;">
                 <?php
                 if ($access == 1) {
-                    $query = execute("SELECT `csi_collection`.`id`, `csi_userdata`.`name`,`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo`,`csi_collection`.`membership_photo`  
+                    $query = execute("SELECT `csi_collection`.`id`, `csi_userdata`.`name`,`emailID`,`csi_event`.`title`,`csi_collection`.`amount`,`csi_collection`.`bill_photo`  
                                         FROM `csi_userdata`,`csi_event`,`csi_collection` 
                                         WHERE `csi_collection`.`event_id`=`csi_event`.`id` 
                                         AND`csi_collection`.`user_id`=`csi_userdata`.`id` AND `confirmed`='0' AND `csi_event`.`id`='$event_id'");

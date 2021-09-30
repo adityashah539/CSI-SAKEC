@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['like'])) {
                                                     </div>
                                                 <form action="event.php" method="GET">
                                                     <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
-                                                    <button class="btn main_btn_read_more" type="submit">Read More</button>
+                                                    <button class="btn main_btn_gradient bottom_post" type="submit">Read More</button>
                                                 </form>
                                             </div>
                                         </div>

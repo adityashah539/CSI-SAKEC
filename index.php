@@ -115,7 +115,7 @@
                         <?php
                         if (isset($access) && $access['main_page_edit'] == "1") {
                         ?>
-                            <a class="btn main_btn_welcome" href="About.php">Edit About US</a>
+                            <a class="btn main_btn_gradient" href="About.php">Edit About US</a>
                         <?php
                         }
                         ?>
@@ -134,7 +134,7 @@
                 <?php
                 if (isset($_SESSION['email']) && isset($access) && $access['main_page_edit'] == 1) {
                 ?>
-                    <a class="btn main_btn_welcome" href="coordinator.php">Edit Team</a>
+                    <a class="btn main_btn_gradient" href="coordinator.php">Edit Team</a>
                 <?php
                 }
                 ?>
@@ -223,8 +223,6 @@
                 <div id="London" class="tabcontent" style="display:block;">
                     <div class="row ">
                         <?php
-                        // This is for Upcoming AND Recent Events
-                        // TODO: change $sqlevent according to your needs
                         date_default_timezone_set('Asia/Kolkata');
                         $currentdate = date("Y-m-d");
                         $queryevent = execute("SELECT * FROM csi_event where live = 1 ORDER BY e_from_date desc LIMIT 3");
@@ -273,7 +271,7 @@
                                                 </div>
                                                 <form action="event.php" method="GET">
                                                     <input type="hidden" name="event_id" value="<?php echo $rowevent['id']; ?>">
-                                                    <button class="btn main_btn_read_more" type="submit">Read More</button>
+                                                    <button class="btn main_btn_gradient bottom_post" type="submit">Read More</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -287,7 +285,7 @@
                 </div>
             </div>
             <div class="tab" style="text-align: center;">
-                <a href="allevents.php" class="btn main_btn_welcome tablinks">All Events</a>
+                <a href="allevents.php" class="btn main_btn_gradient mt-5">All Events</a>
             </div>
         </div>
     </section>
@@ -301,7 +299,7 @@
                 <?php
                 if (isset($_SESSION['email']) && isset($access) && $access['main_page_edit'] == 1) {
                 ?>
-                    <a class="btn main_btn_welcome" href="Gallery_images/gallery.php">Edit Gallery</a>
+                    <a class="btn main_btn_gradient" href="Gallery_images/gallery.php">Edit Gallery</a>
                 <?php
                 }
                 ?>

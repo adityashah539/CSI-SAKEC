@@ -74,6 +74,15 @@
     function getValue($sql){
         return mysqli_fetch_assoc(execute($sql));
     }
+    function getAllValues($sql){
+        $array[0]=null;
+        $count =getNumRows($sql);
+        $execute =execute($sql);
+        for ($i = 0; $i < $count; $i++) {
+            $array[$i] =  mysqli_fetch_assoc($execute);
+        }
+        return $array;
+    }
     function getNumRows($sql){
         return mysqli_num_rows(execute($sql));
     }

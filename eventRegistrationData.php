@@ -25,8 +25,7 @@
         $type = "1"; //not logged in
         $eventId = $_POST['eventId'];
         $email = $_POST["email"];
-        $sqlevent = "SELECT * FROM csi_event WHERE id='$eventId'";
-        $eventDetails = getValue($sqlevent);
+        $eventDetails = getValue("SELECT * FROM csi_event WHERE id='$eventId'");
         echo '<div class="text-center h4 my-3">Step 2 : Enter the details  </div>';
         if (doesEmailIdExists($email)) {
             $type .= "1"; //email exist 
