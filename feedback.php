@@ -28,6 +28,7 @@
     <div id='feedbackform'></div>
     <?php
     if(!isset($_SESSION['email'])){
+        //$google_client_id="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com";
         echo '<div id="googleButton" style="text-align: -webkit-center;" class="my-4">
             <div id="g_id_onload" data-client_id="'.$google_client_id.'" data-context="use" data-ux_mode="popup" data-callback="fillRequired" data-auto_prompt="false"></div>
             <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
@@ -50,6 +51,8 @@
         </div>
     </footer>
     <!-- DO NOT DELETE THIS  -->
+    <script src="plugins/google.gsi.client.js" async defer></script>
+    <script src="plugins/jwt-decode.min.js"></script>
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
     <script src="plugins/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>

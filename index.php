@@ -143,7 +143,7 @@
             <?php
             $querycoordinator = execute("SELECT  name, r.role_name as duty, c.image as image
                                         FROM `csi_coordinator` as c, `csi_userdata` as u,`csi_role` as r
-                                        WHERE c.user_id = u.id and u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%')");
+                                        WHERE c.user_id = u.id and u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%') ORDER BY `preference`");
             $number_of_coordinator = mysqli_num_rows($querycoordinator);
             // Will execute for no of coordinators
             while ($number_of_coordinator > 0) {
@@ -162,7 +162,7 @@
                             <div class="team_item">
                                 <div class="team_img"><img style="height:250px; width:auto;" src="<?php echo "Coordinator_Photo/" . trim($rowcoordinator['image']); ?>" alt=""></div>
                                 <div class="team_name">
-                                    <h4><?php echo $rowcoordinator['name']; ?></h4>
+                                    <h4 style="text-transform:capitalize"><?php echo $rowcoordinator['name']; ?></h4>
                                 </div>
                                 <p class="text-uppercase grey-text mb-3"><?php echo $rowcoordinator['duty']; ?></p>
                             </div>
