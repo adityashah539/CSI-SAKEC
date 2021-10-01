@@ -60,7 +60,6 @@
             $fee = $rowevent['fee_m'];
         }else {
             $fee = $rowevent['fee'];
-
         }
         $email = $_SESSION['email'];
         if ($fee > 0) {
@@ -71,10 +70,8 @@
                 <input type="text" name="eventId" value="<?php echo  $event_id; ?>" hidden>
                 <input type="text" name="feeOfEvent" value="<?php echo  $fee; ?>" hidden>
                 <div class="form-group row justify-content-center my-5">
-                    <label for="" class="col-sm-2 text-left">Bills Photo : </label>
-                    <div class="col-sm-3">
-                        <input type="file" name="bill_photo" required />
-                    </div>
+                    <label for="" class="col-sm-1 text-center">Bills Photo : </label>
+                    <div class="col-sm-2"><input type="file" name="bill_photo" required /></div>
                 </div>
                 <div class="d-flex justify-content-center my-4 grid-container">
                     <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_gradient">Submit</button>
@@ -84,6 +81,21 @@
         }
     }
     ?>
+    <footer class="footer-area pb-4">
+        <div class="container">
+            <div class="row footer-bottom d-flex justify-content-between align-items-center">
+                <p class="col-lg-8 col-md-8 footer-text m-0 ">
+                    Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved by CSI-SAKEC
+                </p>
+                <div class="col-lg-4 col-md-4 footer-social">
+                    <a href="https://www.facebook.com/csisakec/photos"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/csi.sakec/?utm_medium=copy_link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/sakectweets?lang=en"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/c/SAKECYouTubeChannel"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- DO NOT DELETE THIS  -->
     <script src="plugins/fontawesome-free-5.15.3-web/js/all.min.js"></script>
     <script src="plugins/jquery.min.js"></script>
@@ -130,7 +142,7 @@
                         processData : false,
                         success: function(data){
                             if(data == "true"){
-                                window.location = 'event.php?event_id='+eventId;
+                                window.location = 'http://localhost/csi-sakec/event.php?event_id='+eventId;
                             }
                         }
                     });
@@ -138,9 +150,6 @@
             });
         }
     </script>
-    <!-- Footer -->
-    <?php require_once 'footer.php'; ?>
-    <!-- Footer -->
 </body>
 
 </html>

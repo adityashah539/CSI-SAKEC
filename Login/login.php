@@ -34,13 +34,13 @@
             <label for="Password"><i class="fas fa-lock fa-2x"></i></label>
             <input type="password" class="form-control w-25 p-3 mx-3" name="password" required="required" placeholder=" Input Password">
         </div>
-        <button name="login" class="btn main_btn">Login<i class="fas fa-sign-in-alt"></i></button>
+        <button name="login" class="btn main_btn_gradient">Login<i class="fas fa-sign-in-alt"></i></button>
         <div id="googleButton" style="text-align: -webkit-center;" class="my-5">
             <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
             <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
         </div>
-        <p class="my-4 text-light"><a href="forgotpassword.php">Forgot password</a></p>
-        <p class="my-4 text-light"><a href="signup.php">Sign Up</a></p>
+        <p class="my-4 text-light"><a href="forgotpassword.php" class="btn main_btn">Forgot password</a></p>
+        <p class="my-4 text-light"><a href="signup.php" class="btn main_btn">Sign Up</a></p>
     </div>
 
     <!-- DO NOT DELETE THIS  -->

@@ -26,7 +26,6 @@
         $eventId = $_POST['eventId'];
         $email = $_POST["email"];
         $eventDetails = getValue("SELECT * FROM csi_event WHERE id='$eventId'");
-        echo '<div class="text-center h4 my-3">Step 2 : Enter the details  </div>';
         if (doesEmailIdExists($email)) {
             $type .= "1"; //email exist 
             $user_id = getSpecificValue("SELECT `id` FROM `csi_userdata` WHERE `emailID`='$email'", 'id');
@@ -44,19 +43,22 @@
                     $type .= "1"; //event type paid
                     // perform registration with bill details
     ?>
+                    <div class="text-center h4 my-3">Step 2 : Enter the details</div>
                     <form id="part1" method="POST" enctype="multipart/form-data">
                         <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                         <input type="text" name="typeOfUser" value="<?php echo $type; ?>" hidden>
                         <input type="text" name="eventId" value="<?php echo  $eventId; ?>" hidden>
                         <input type="text" name="feeOfEvent" value="<?php echo  $eventDetails['fee']; ?>" hidden>
-                        <div class="form-group row justify-content-center">
-                            <label for="" class="col-sm-2 text-left">Bills Photo : </label>
-                            <div class="col-sm-3">
-                                <input type="file" name="bill_photo" required />
+                        <div class="my-4 text-black">
+                            <p class = "text-center">Fee for the event : <?php echo  $eventDetails['fee']; ?></p>
+                            <p class = "text-center">Note : The Bill photo must contain transaction number and amount transferred.</p>
+                            <div class="form-group row justify-content-center ">
+                                <label for="" class="col-sm-auto text-right">Bills Photo : </label>
+                                <div class="col-sm-2"><input type="file" name="bill_photo" required /></div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center my-3 grid-container">
-                            <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_welcome">Submit</button>
+                            <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_gradient">Submit</button>
                         </div>
                     </form>
             <?php
@@ -84,6 +86,7 @@
                 $count = 0;
             }
             ?>
+            <div class="text-center h4 my-3">Step 2 : Enter the details</div>
             <form id="part1" method="POST" enctype="multipart/form-data">
                 <?php
                 if ($count == 0) {
@@ -146,7 +149,7 @@
                     </div>
                 </div>
                 <?php
-                //if event is free free
+                //if event is free 
                 if ($eventDetails['fee'] == 0) {
                     $type .= "0"; //event types
                 } else {
@@ -163,7 +166,7 @@
                 }
                 ?>
                 <div class="d-flex justify-content-center my-3 grid-container">
-                    <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_welcome">Submit</button>
+                    <button type="submit" id="submit" name="submit" value="input" class="btn main_btn_gradient">Submit</button>
                 </div>
                 <input type="text" name="email" value="<?php echo $email; ?>" hidden>
                 <input type="text" name="typeOfUser" value="<?php echo $type; ?>" hidden>
@@ -172,7 +175,6 @@
                 <input type="text" name="feeOfEvent" value="<?php echo  $eventDetails['fee']; ?>" hidden>
             </form>
     <?php
-
         }
     }
     ?>
