@@ -66,7 +66,7 @@ async function sendEmail(email,type) {
     var sendEmailMessage = await sendingEmail(email, subject, body);
     if (sendEmailMessage == "OK") {
         $.ajax({
-            url: 'http://localhost/csi-sakec/queryEntry.php',
+            url: 'http://localhost/csi-sakec/api/queryEntry.php',
             type: 'post',
             data:
             {

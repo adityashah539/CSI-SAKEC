@@ -95,7 +95,7 @@
                 } else {
                 ?>
                     <a href="http://localhost/csi-sakec/Login/login.php" class="btn main_btn">Login</a>
-                    <a href="http://localhost/csi-sakec/Login/signup.php" class="btn main_btn">Sigup</a>
+                    <a href="http://localhost/csi-sakec/Login/signup.php" class="btn main_btn">Signup</a>
                 <?php
                 }
                 ?>

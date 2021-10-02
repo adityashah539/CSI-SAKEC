@@ -153,7 +153,7 @@
 
 <body>
     <header>
-        <h2 style="text-align: center;">Permission Letter <?php echo $rowevent['title'] ?></h2>
+        <h2 style="text-align: center;">Report for <?php echo $rowevent['title'] ?></h2>
     </header>
     <div class="container">
         <div class="toolbar">

@@ -24,27 +24,9 @@
                             <?php
                             if (!isset($_SESSION['role_id'])) {
                             ?>
-                                <div id="googleButtonContactUs" style="text-align: -webkit-center;" class="my-2">
-                                    <div 
-                                        id="g_id_onload"
-                                        data-client_id="<?php echo $google_client_id; ?>"
-                                        data-context="use"
-                                        data-ux_mode="popup"
-                                        data-login_uri="getMailContactUs"
-                                        data-nonce=""
-                                        data-auto_prompt="false"
-                                    >
-                                    </div>
-                                    <div 
-                                        class="g_id_signin"
-                                        data-type="standard"
-                                        data-shape="pill"
-                                        data-theme="outline"
-                                        data-text="continue_with"
-                                        data-size="large"
-                                        data-logo_alignment="left"
-                                    >
-                                    </div>
+                                <div id="googleButton" style="text-align: -webkit-center;" class="my-2">
+                                    <div id="g_id_onload" data-client_id="<?php echo $google_client_id; ?>" data-context="use" data-ux_mode="popup" data-callback="getMailContactUs" data-auto_prompt="false"></div>
+                                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="continue_with" data-size="large" data-logo_alignment="left"></div>
                                 </div>
                             <?php
                             } else {

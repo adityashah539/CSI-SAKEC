@@ -534,32 +534,6 @@
                                 '</div>'+
                             '</div>'+
                             '<div class="spacer" style="height:20px;"></div>'+
-                            '<div class="row">'+
-                                '<div class="col-sm-5">'+
-                                    '<div class="labels">'+
-                                        '<label for="s_facebook'+index+'"> Speaker Facebook: </label>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="col-sm-7">'+
-                                    '<div class="texts">'+
-                                        '<input type="text" name="s_facebook'+index+'" placeholder="Facebook">'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>'+
-                            '<div class="spacer" style="height:20px;"></div>'+
-                            '<div class="row">'+
-                                '<div class="col-sm-5">'+
-                                    '<div class="labels">'+
-                                        '<label for="s_instagram'+index+'"> Speaker Instagram: </label>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="col-sm-7">'+
-                                    '<div class="texts">'+
-                                        '<input type="text" name="s_instagram'+index+'" placeholder="Instagram">'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>'+
-                            '<div class="spacer" style="height:20px;"></div>'+
                         '</div>'+
                     '</div>'
                 );
