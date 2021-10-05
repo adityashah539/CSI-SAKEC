@@ -157,14 +157,15 @@
                             break;
                         }
                         $rowcoordinator = mysqli_fetch_assoc($querycoordinator);
+
                     ?>
                         <div class="col-lg-3 col-sm-6">
                             <div class="team_item">
                                 <div class="team_img"><img style="height:250px; width:auto;" src="<?php echo "Coordinator_Photo/" . trim($rowcoordinator['image']); ?>" alt=""></div>
                                 <div class="team_name">
-                                    <h4 style="text-transform:capitalize"><?php echo $rowcoordinator['name']; ?></h4>
+                                    <h4><?php echo $rowcoordinator['name']; ?></h4>
                                 </div>
-                                <p class="text-uppercase grey-text mb-3"><?php echo $rowcoordinator['duty']; ?></p>
+                                <p class="grey-text mb-3"><?php echo $rowcoordinator['duty']; ?></p>
                             </div>
                         </div>
                     <?php
@@ -181,9 +182,9 @@
 
     <!-- Total Likes, Registration and Event -->
     <?php
-        $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
-        $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
-        $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
+    $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
+    $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
+    $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
     ?>
     <section class="event_time_area">
         <div class="container">
@@ -397,6 +398,9 @@
                 time: 1000
             });
         });
+
+
+        ​
     </script>
     <!-- Javascript -->
     <!-- Footer -->
