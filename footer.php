@@ -47,7 +47,7 @@
                             <li><a href="#">Privacy policy</a></li>
                             <li><a href="#">Terms</a></li>
                             <li><a href="#">Membership</a></li>
-                            <li><a href="http://localhost/csi-sakec/newsletter.php">Newsletter</a></li>
+                            <li><a href="http://<?php echo $domainName."/".$folderName; ?>/newsletter.php">Newsletter</a></li>
                         </ul>
                     </div>
                 </div>
@@ -82,17 +82,67 @@
     <script>
         <?php if (isset($_SESSION['role_id'])) {
         ?>
-            $(document).on("click", "button[name='contactUsButton']", function() {
+            $(document).on("click", "button[name='contactUsButton']", async function() {
                 var email = "<?php echo $_SESSION['email']; ?>";
-                sendEmail(email, "Login");
+                var msg = $("textarea[name='message']").val();
+                var subject = "Acknowledgement from CSI-sakec.";
+                var body = "Hey, \nThankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible.\n Have a great day ";
+                var sendEmailMessage = await sendingEmail(email, subject, body);
+                if (sendEmailMessage == "OK") {
+                    $.ajax({
+                        url: 'http://<?php echo $domainName."/".$folderName; ?>/api/queryEntry.php',
+                        type: 'post',
+                        data:
+                        {
+                            "email": email,
+                            "message": msg
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            var dataEntry = response.dataEntry;
+                            if (dataEntry) {
+                                disableContactUsButton(email);
+                            } else {
+                                error("Error in Sending Data to server.");
+                            }
+                        }
+                    });
+                } else {
+                    error(sendEmailMessage);
+                }
             });
         <?php
         } else {
         ?>
-            function getMailContactUs(response) {
+            async function getMailContactUs(response) {
                 var decodedToken = jwt_decode(response.credential);
                 var email = decodedToken.email;
-                sendEmail(email, "Google");
+                var msg = $("textarea[name='message']").val();
+                var subject = "Acknowledgement from CSI-sakec.";
+                var body = "Hey, \nThankyou for contacting us this is to acknowledge you that we received your request and our coordinators will soon get in touch with you at the earliest possible.\n Have a great day ";
+                var sendEmailMessage = await sendingEmail(email, subject, body);
+                if (sendEmailMessage == "OK") {
+                    $.ajax({
+                        url: 'http://<?php echo $domainName."/".$folderName; ?>/api/queryEntry.php',
+                        type: 'post',
+                        data:
+                        {
+                            "email": email,
+                            "message": msg
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            var dataEntry = response.dataEntry;
+                            if (dataEntry) {
+                                disableGoogleButton(email);
+                            } else {
+                                error("Error in Sending Data to server.");
+                            }
+                        }
+                    });
+                } else {
+                    error(sendEmailMessage);
+                }
             }
         <?php
         }

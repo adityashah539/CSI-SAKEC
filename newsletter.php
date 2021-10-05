@@ -68,10 +68,29 @@
     <script src="plugins/jwt-decode.min.js"></script>
     <script src="js/email.js"></script>
     <script>
-        function getMailNewsletter(response) {
+        async function getMailNewsletter(response) {
             var decodedToken = jwt_decode(response.credential);
             var email = decodedToken.email;
-            registerEmailNewsletter(email);
+            $.ajax({
+                url: 'http://<?php echo $domainName."/".$folderName; ?>/api/registrationNewsletter.php',
+                type: 'post',
+                data:{"email": email},
+                dataType: 'JSON',
+                success: function (response) {
+                    var registration = response.registration;
+                    var registered = response.registered;
+                    $('#newsletter').modal('toggle');
+                    if (!registered) {
+                        if(registration){
+                            successMessage("You have been registered for the newsletter.");
+                        }else{
+                            error("Error in Registering.");
+                        }
+                    } else {
+                        error("You have already registered. for newsletter through this account("+email+").");
+                    }
+                }
+            });
         }
     </script>
 </body>

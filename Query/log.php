@@ -125,7 +125,7 @@
         $("button[name='deleteReplied']").on("click", function() {
             var id = $(this).val();
             $.ajax({
-                url: 'http://localhost/csi-sakec/api/deleteReply.php',
+                url: 'http://<?php echo $domainName."/".$folderName; ?>/api/deleteReply.php',
                 type: 'POST',
                 data: {
                     "id": id

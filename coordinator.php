@@ -101,7 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])) {
                                 <h4>Current Preference:</h4>
                                 <h5 id="showPreferrence<?php echo $rowimage['id']; ?>"><?php echo $rowimage['preference']; ?></h5>
                                 <form action="">
-
                                     <label for="preferrence<?php echo $rowimage['id']; ?>">Choose Preference:</label>
                                     <select id="preferrence<?php echo $rowimage['id']; ?>">
                                         <?php
@@ -184,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])) {
             var id = $(this).val();
             var preferrenceValue = $("#preferrence" + id).val();
             $.ajax({
-                url: "http://localhost/csi-sakec/api/updatePreferrence.php",
+                url: "http://<?php echo $domainName."/".$folderName; ?>/api/updatePreferrence.php",
                 type: "POST",
                 data: {
                     "preferrenceId": id,

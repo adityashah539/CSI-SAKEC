@@ -251,7 +251,7 @@
                 $("#autoRegistrationLoginUser").on("submit", (function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "http://localhost/csi-sakec/api/eventAutoReg.php",
+                        url: "http://<?php echo $domainName."/".$folderName; ?>/api/eventAutoReg.php",
                         type: "POST",
                         data: {
                             "email": "<?php echo $_SESSION["email"]; ?>",

@@ -20,7 +20,7 @@
         $access = getValue("SELECT * FROM `csi_role` WHERE `csi_role`.`id`=$role_id");
     }
     else{
-        header("location:http://localhost/csi-sakec/index.php");
+        header("location:http://".$domainName."/".$folderName."/index.php");
     }
     ?>
 </head>

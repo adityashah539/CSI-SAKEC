@@ -251,14 +251,38 @@
     <script src="../js/email.js"></script>
     <!-- DO NOT DELETE THIS  -->
     <script>
-        $(document).on("click", "button[name='sendEmail']", function() {
+        $(document).on("click", "button[name='sendEmail']", async function() {
             var id = $(this).val().trim();
-            var emailID = document.getElementById("studentEmailId" + id).innerText;
+            var email = document.getElementById("studentEmailId" + id).innerText;
             var subject = document.getElementById("subject" + id).value.trim();
             var body = document.getElementById("body" + id).value.trim();
             var repliedBy =  "<?php echo $_SESSION['email'];?>";
             if (subject !== "" && body !== "") {
-                resolvedEmail(emailID, subject, body, id, repliedBy);
+                var sendEmailMessage = await sendingEmail(email, subject, body);
+                if (sendEmailMessage == "OK") {
+                    $.ajax({
+                        url: 'http://<?php echo $domainName."/".$folderName; ?>/Query/entryReplied.php',
+                        type: 'post',
+                        data:
+                        {
+                            "id": id,
+                            "subject": subject,
+                            "body": body,
+                            "repliedBy": repliedBy
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            var dataEntry = response.dataEntry;
+                            if (dataEntry) {
+                                removeRow(id,email);
+                            } else {
+                                error("Error in Sending Data to server.");
+                            }
+                        }
+                    });
+                } else {
+                    error(sendEmailMessage);
+                }
             }
             if (subject === "") {
                 $("#subject" + id).addClass("is-invalid");

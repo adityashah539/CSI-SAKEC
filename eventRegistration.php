@@ -142,7 +142,7 @@
                         processData : false,
                         success: function(data){
                             if(data == "true"){
-                                window.location = 'http://localhost/csi-sakec/event.php?event_id='+eventId;
+                                window.location = 'http://<?php echo $domainName."/".$folderName; ?>/event.php?event_id='+eventId;
                             }
                         }
                     });
