@@ -125,7 +125,7 @@
         $("button[name='deleteReplied']").on("click", function() {
             var id = $(this).val();
             $.ajax({
-                url: 'http://<?php echo $domainName."/".$folderName; ?>/api/deleteReply.php',
+                url: '<?php echo $protocol.$domainName; ?>/api/deleteReply.php',
                 type: 'POST',
                 data: {
                     "id": id

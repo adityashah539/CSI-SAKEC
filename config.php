@@ -7,10 +7,10 @@
     if ($conn == false) {
         die('Error: Cannot connect');
     }
-    // $domainName = "shahandanchor.com";
-    // $folderName = "csisakec";
-    $domainName = "localhost";
-    $folderName = "csi-sakec";
+    // $domainName = "shahandanchor.com/csisakec";
+    // $folderName = "";
+    $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    $domainName = "localhost/csi-sakec";
     $google_client_id ="159353966442-gr7au60l9noshlk968icbhd5592ga3fc.apps.googleusercontent.com";
     // define('DB_SERVER', 'sql305.epizy.com');
     // define('DB_USERNAME', 'epiz_29134191');

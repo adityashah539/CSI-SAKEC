@@ -72,7 +72,7 @@
             var decodedToken = jwt_decode(response.credential);
             var email = decodedToken.email;
             $.ajax({
-                url: 'http://<?php echo $domainName."/".$folderName; ?>/api/registrationNewsletter.php',
+                url: '<?php echo $protocol.$domainName; ?>/api/registrationNewsletter.php',
                 type: 'post',
                 data:{"email": email},
                 dataType: 'JSON',

@@ -7,7 +7,7 @@ $registered = NULL;
     $preferrenceId = $_POST['preferrenceId'];
     $preferrenceValue = $_POST['preferrenceValue'];
     if (isset($preferrenceId) && isset($preferrenceValue)) {
-            $sql = "UPDATE `csi_coordinator` SET `preference`='$preferrenceValue' WHERE `id`='$preferrenceId'";
+            $sql = "UPDATE `csi_coordinator` SET `preference`='$preferrenceValue' WHERE `user_id`='$preferrenceId'";
             if (execute($sql)) {
                 $updated = true;
             } else {

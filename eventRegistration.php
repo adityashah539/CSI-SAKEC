@@ -142,7 +142,7 @@
                         processData : false,
                         success: function(data){
                             if(data == "true"){
-                                window.location = 'http://<?php echo $domainName."/".$folderName; ?>/event.php?event_id='+eventId;
+                                window.location = '<?php echo $protocol.$domainName; ?>/event.php?event_id='+eventId;
                             }
                         }
                     });

@@ -47,7 +47,7 @@
                             <li><a href="#">Privacy policy</a></li>
                             <li><a href="#">Terms</a></li>
                             <li><a href="#">Membership</a></li>
-                            <li><a href="http://<?php echo $domainName."/".$folderName; ?>/newsletter.php">Newsletter</a></li>
+                            <li><a href="<?php echo $protocol.$domainName; ?>/newsletter.php">Newsletter</a></li>
                         </ul>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                 var sendEmailMessage = await sendingEmail(email, subject, body);
                 if (sendEmailMessage == "OK") {
                     $.ajax({
-                        url: 'http://<?php echo $domainName."/".$folderName; ?>/api/queryEntry.php',
+                        url: '<?php echo $protocol.$domainName; ?>/api/queryEntry.php',
                         type: 'post',
                         data:
                         {
@@ -123,7 +123,7 @@
                 var sendEmailMessage = await sendingEmail(email, subject, body);
                 if (sendEmailMessage == "OK") {
                     $.ajax({
-                        url: 'http://<?php echo $domainName."/".$folderName; ?>/api/queryEntry.php',
+                        url: '<?php echo $protocol.$domainName; ?>/api/queryEntry.php',
                         type: 'post',
                         data:
                         {

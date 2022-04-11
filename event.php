@@ -251,7 +251,7 @@
                 $("#autoRegistrationLoginUser").on("submit", (function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: "http://<?php echo $domainName."/".$folderName; ?>/api/eventAutoReg.php",
+                        url: "<?php echo $protocol.$domainName; ?>/api/eventAutoReg.php",
                         type: "POST",
                         data: {
                             "email": "<?php echo $_SESSION["email"]; ?>",

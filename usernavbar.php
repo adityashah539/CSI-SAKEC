@@ -18,16 +18,16 @@
                         <a class="nav-link" href="https://www.shahandanchor.com/home/">SAKEC Main Portal</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/index.php">CSI Home</a>
+                        <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/index.php">CSI Home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/index.php#team">Our Team</a>
+                        <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/index.php#team">Our Team</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/index.php#events">Events</a>
+                        <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/index.php#events">Events</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/index.php#gallery">Gallery</a>
+                        <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/index.php#gallery">Gallery</a>
                     </li>
                     <?php
                     $isSakecEmail=0;
@@ -40,7 +40,7 @@
                     if (isset($access) && ($access['role_name'] != "member" || strpos($access['role_name'], "Coordinator") == false || strpos($access['role_name'], "General") == false || strpos($access['role_name'], "Team") == false) && ($isSakecEmail > 0)) {
                     ?>
                         <li class="nav-item active">
-                            <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/Membership/membership.php">Membership</a>
+                            <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/Membership/membership.php">Membership</a>
                         </li>
                         <?php
                     }
@@ -48,7 +48,7 @@
                         if ($access['user_data'] == '1' || $access['role'] == '1') {
                         ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/Userdata/database.php">Userdata</a>
+                                <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/Userdata/database.php">Userdata</a>
                             </li>
                         <?php
                         }
@@ -58,28 +58,28 @@
                         ) {
                         ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/Eventmanagement/eventmanagement.php">Event Management</a>
+                                <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/Eventmanagement/eventmanagement.php">Event Management</a>
                             </li>
                         <?php
                         }
                         if ($access['query'] == '1' || $access['reply_log'] == '1') {
                         ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/Query/query.php">Query</a>
+                                <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/Query/query.php">Query</a>
                             </li>
                         <?php
                         }
                         if ($access['audit'] == '1') {
                         ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/Audit/audit.php">Audit</a>
+                                <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/Audit/audit.php">Audit</a>
                             </li>
                         <?php
                         }
                         if ($access['confirm_membership'] == '1') {
                         ?>
                             <li class="nav-item active">
-                                <a class="nav-link" href="http://<?php echo $domainName."/".$folderName; ?>/Membership/confirmmembership.php"> Confirm Membership</a>
+                                <a class="nav-link" href="<?php echo $protocol.$domainName; ?>/Membership/confirmmembership.php"> Confirm Membership</a>
                             </li>
                     <?php
                         }
@@ -89,13 +89,13 @@
                 <?php
                 if (isset($_SESSION['email'])) {
                 ?>
-                    <a href="http://<?php echo $domainName."/".$folderName; ?>/Login/logout.php" class="btn main_btn ">Logout</a>
-                    <a href="http://<?php echo $domainName."/".$folderName; ?>/edit_profile.php" class="btn main_btn ">Edit Profile</a>
+                    <a href="<?php echo $protocol.$domainName; ?>/Login/logout.php" class="btn main_btn ">Logout</a>
+                    <a href="<?php echo $protocol.$domainName; ?>/edit_profile.php" class="btn main_btn ">Edit Profile</a>
                 <?php
                 } else {
                 ?>
-                    <a href="http://<?php echo $domainName."/".$folderName; ?>/Login/login.php" class="btn main_btn">Login</a>
-                    <a href="http://<?php echo $domainName."/".$folderName; ?>/Login/signup.php" class="btn main_btn">Signup</a>
+                    <a href="<?php echo $protocol.$domainName; ?>/Login/login.php" class="btn main_btn">Login</a>
+                    <a href="<?php echo $protocol.$domainName; ?>/Login/signup.php" class="btn main_btn">Signup</a>
                 <?php
                 }
                 ?>

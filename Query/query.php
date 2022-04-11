@@ -261,7 +261,7 @@
                 var sendEmailMessage = await sendingEmail(email, subject, body);
                 if (sendEmailMessage == "OK") {
                     $.ajax({
-                        url: 'http://<?php echo $domainName."/".$folderName; ?>/Query/entryReplied.php',
+                        url: '<?php echo $protocol.$domainName; ?>/Query/entryReplied.php',
                         type: 'post',
                         data:
                         {

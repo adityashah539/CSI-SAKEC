@@ -126,6 +126,28 @@
     </section>
     <!-- About US  -->
 
+    <!-- Magazine -->
+    <section id="magzine" class="p_120">
+        <div class="container">
+            <div class="welcome row m">
+                <div class="col-lg-6 offset-lg-1">
+                    <div class="welcome_text">
+                        <h3>CACHE V10.0</h3>
+                        <p>The CSI-SAKEC Editorial team is proud to announce the release of the latest issue of our annual magazine – Cache 10.0. As most of you are aware, our theme for the year 2020-2021 is ‘Healthcare Technology’. Why did we plump for this topic? Healthcare technology is the topic of current interest, and with the scenario today worldwide, this subdomain of technology was a clear win. Healthcare technology includes electronic health records, tele-medicine, mHealth, remote health monitoring tools, prosthetics, and much more. The field also intersects with artificial intelligence and virtual reality, which clearly indicates the vastness of the topic. Cache 10.0 provides you with an opportunity to have a brief insight into the advancements of the field, by assembling the some of the most exciting updates in healthcare technology. The magazine is loaded with brilliant technical articles, submitted by our very own SAKEC members! </p>
+                        <p>CAUTION: THE MAGAZINE IS A REAL FIXATION. BEWARE!</p>
+                        <a class="btn main_btn_gradient" href="CACHE_V10.0.pdf">See Our Magazine </a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="">
+                        <img src="images\magzine.jpg" alt="Magzine" class="img-fluid about_img" target="_blank">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Magazine -->
+
     <!-- Our Team  -->
     <section id="team" class="team_area p_120">
         <div class="container">
@@ -140,6 +162,7 @@
                 ?>
             </div>
             <div class="spacer" style="height:45px;"></div>
+
             <?php
             $querycoordinator = execute("SELECT  name, r.role_name as duty, c.image as image
                                         FROM `csi_coordinator` as c, `csi_userdata` as u,`csi_role` as r
@@ -177,12 +200,175 @@
             }
             ?>
         </div>
+        <!-- <div class="container">
+            <div class="main_title">
+                <h2>OUR CSI SAKEC TEAM</h2>
+                <a class="btn main_btn_gradient" href="coordinator.php">Edit Team</a>
+            </div>
+            <div class="spacer" style="height:45px;"></div>
+            <div class="row team_inner">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/DhruviJain_GeneralSecretary.jpeg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Dhruvi Jain</h4>
+                        </div>
+                        <p class="grey-text mb-3">General Secretary</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Yukta_Lapsiya_General_Coordinator.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Yukta Lapsiya</h4>
+                        </div>
+                        <p class="grey-text mb-3">General Coordinator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Pratik Upadhyay_Student_Coordinator.jpeg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Pratik Upadhyay</h4>
+                        </div>
+                        <p class="grey-text mb-3">Student Coordinator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Preet_Karia_Events Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Preet Karia</h4>
+                        </div>
+                        <p class="grey-text mb-3">Event Head</p>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer" style="height:45px;"></div>
+            <div class="row team_inner">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Krutik_Patel_events cohead.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Krutik Patel</h4>
+                        </div>
+                        <p class="grey-text mb-3">Event Coordinator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Zarana_Desai_DocumentationHead.jpeg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Zarana Desai</h4>
+                        </div>
+                        <p class="grey-text mb-3">Documentation Head</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Parth_Panchal_Design-Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Parth Panchal</h4>
+                        </div>
+                        <p class="grey-text mb-3">Design Head</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Aaryan_Mehta_Design_Co_Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Aaryan Mehta</h4>
+                        </div>
+                        <p class="grey-text mb-3">Design Coordinator</p>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer" style="height:45px;"></div>
+            <div class="row team_inner">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Bhavika_Salshingikar_Design_Co_Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Bhavika Salshingikar</h4>
+                        </div>
+                        <p class="grey-text mb-3">Design Coordinator </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Ritika_Boricha _Design_Co_Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Ritika Boricha</h4>
+                        </div>
+                        <p class="grey-text mb-3">Design Coordinator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Shalin_Gund_Registration_Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Shalin Gund</h4>
+                        </div>
+                        <p class="grey-text mb-3">Registration Head</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Simran_Jindal_Registration Head.jpeg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Simran Jindal</h4>
+                        </div>
+                        <p class="grey-text mb-3">Registration Head</p>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer" style="height:45px;"></div>
+            <div class="row team_inner">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Riddhi_Dagha_Treasurer.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Riddhi Dagha</h4>
+                        </div>
+                        <p class="grey-text mb-3">Treasurer</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Aagam_Sheth_Technical Head.jpeg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Aagam Sheth</h4>
+                        </div>
+                        <p class="grey-text mb-3">Technical Head</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Rutvik_Deshpande_Technical_Co-Head.png" alt=""></div>
+                        <div class="team_name">
+                            <h4>Rutvik Deshpande</h4>
+                        </div>
+                        <p class="grey-text mb-3">Technical Coordinator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="team_item">
+                        <div class="team_img"><img style="height:250px; width:auto;" src="CPO/Ritik_Mahajan_Publicity_Head.jpg" alt=""></div>
+                        <div class="team_name">
+                            <h4>Ritik Mahajan</h4>
+                        </div>
+                        <p class="grey-text mb-3">Publicity Head</p>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer" style="height:45px;"></div>
+        </div> -->
     </section>
     <!-- Our Team  -->
 
     <!-- Total Likes, Registration and Event -->
     <?php
-    $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`)as `likes` FROM `csi_event_likes`", 'likes');
+    $likes = getSpecificValue("SELECT COUNT(`csi_event_likes`.`id`) as `likes` FROM `csi_event_likes`", 'likes');
     $events = getSpecificValue("SELECT COUNT(`csi_event`.`id`)  `events` FROM `csi_event`", 'events');
     $registration  = getSpecificValue("SELECT COUNT(`csi_collection`.`id`)as `registration` FROM `csi_collection` WHERE `confirmed`='1'", 'registration');
     ?>

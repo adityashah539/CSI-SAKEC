@@ -74,67 +74,63 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])) {
             </thead>
             <tbody>
                 <?php
-                $result = execute("SELECT u.id as user_id, u.name as name, r.role_name as duty
-                                        FROM `csi_userdata` as u,`csi_role` as r
-                                        WHERE u.role = r.id and (r.role_name like '%Coordinator%' || r.role_name = 'General Secretary' || r.role_name like '%Team%') ");
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $resultimage = execute("SELECT * FROM `csi_coordinator` WHERE user_id = " . $row['user_id']);
-                    $image_count = mysqli_num_rows($resultimage);
+                $results = getAllValues("SELECT `cu`.`id`, `cu`.`name`, `cr`.`role_name`,`cc`.`image`,`cc`.`preference` FROM `csi_userdata` as `cu` LEFT JOIN `csi_coordinator`as `cc` ON `cu`.id = `cc`.`user_id` LEFT JOIN `csi_role` as `cr` ON `cu`.`role` = `cr`.`id` WHERE `cr`.`role_name` LIKE '%Coordinator%' || `cr`.`role_name` = 'General Secretary' || `cr`.`role_name` LIKE '%Team%' ORDER BY `cc`.`preference`;");
+                $options_html = '';
+                for ($i = 1; $i <= count($results); $i++){
+                    $options_html .= '<option value="'.$i.'">'.$i.'</option>';
+                }
+                foreach($results as $result){
                 ?>
                     <div class="table-content" style="font-size: large;">
                         <tr>
-                            <th scope="row"><?php echo $row['name']; ?></th>
-                            <td><?php echo $row['duty']; ?></td>
+                            <th scope="row"><?php echo $result['name']; ?></th>
+                            <td><?php echo $result['role_name']; ?></td>
                             <td>
-                                <?php
-                                if ($image_count == 1) {
-                                    $rowimage = mysqli_fetch_array($resultimage);
+                                <?php 
+                                if(isset($result['image'])){
                                 ?>
-                                    <a target="_blank" href="Coordinator_Photo/<?php echo $rowimage['image']; ?>">
-                                        <img src="Coordinator_Photo/<?php echo $rowimage['image']; ?>" alt="Forest" style="width:80px">
-                                    <?php
-                                }
-                                    ?>
+                                    <a target="_blank" href="Coordinator_Photo/<?php echo $result['image']; ?>">
+                                        <img src="Coordinator_Photo/<?php echo $result['image']; ?>" alt="Forest" style="width:80px">
                                     </a>
+                                <?php
+                                }else {
+                                    echo "No Image Uploaded.";
+                                }
+                                ?>
                             </td>
                             <td>
                                 <h4>Current Preference:</h4>
-                                <h5 id="showPreferrence<?php echo $rowimage['id']; ?>"><?php echo $rowimage['preference']; ?></h5>
+                                <h5 id="showPreferrence<?php echo $result['id']; ?>"><?php echo $result['preference']; ?></h5>
                                 <form action="">
-                                    <label for="preferrence<?php echo $rowimage['id']; ?>">Choose Preference:</label>
-                                    <select id="preferrence<?php echo $rowimage['id']; ?>">
-                                        <?php
-                                        for ($count = 1; $count <= $copy; $count++) { ?>
-                                            <option value="<?php echo $count; ?>"><?php echo $count; ?></option>
-                                        <?php } ?>
-                                    </select>
+                                    <label for="preferrence<?php echo $result['id']; ?>">Choose Preference:</label>
+                                    <select id="preferrence<?php echo $result['id']; ?>"><?php echo $options_html;?> </select>
                                     <br><br>
-                                    <button type="button" class="btn btn-primary" name="updatePreference" value="<?php echo $rowimage['id']; ?>">Update</button>
+                                    <button type="button" class="btn btn-primary" name="updatePreference" value="<?php echo $result['id']; ?>">Update</button>
                                 </form>
                             </td>
                             <td>
-                                <div id="<?php echo 'reply' . $row['user_id']; ?>">
-                                    <button type="button" onClick="<?php echo 'addTextArea(' . $row['user_id'] . ');'; ?>" class="btn btn-primary">Change Image</button>
+                                <div id="<?php echo 'reply' . $result['id']; ?>">
+                                    <button type="button" onClick="<?php echo 'addTextArea(' . $result['id'] . ');'; ?>" class="btn btn-primary">Change Image</button>
                                 </div>
-                                <div id="<?php echo 'textArea' . $row['user_id']; ?>">
+                                <div id="<?php echo 'textArea' . $result['id']; ?>">
                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
                                         <input type="file" name="image" required>
                                         <br>
-                                        <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
-                                        <input type="hidden" name="check" value="<?php echo ($image_count == 1 ? true : false); ?>">
+                                        <input type="hidden" name="user_id" value="<?php echo $result['id']; ?>">
+                                        <input type="hidden" name="check" value="<?php echo (isset($result['image']) ? true : false); ?>">
                                         <button type="submit" class="btn btn-primary" name="update_btn">Update</button>
-                                        <button type="button" onClick="<?php echo 'addTextArea(' . $row['user_id'] . ');'; ?>" class="btn btn-primary">Cancel</button>
+                                        <button type="button" onClick="<?php echo 'addTextArea(' . $result['id'] . ');'; ?>" class="btn btn-primary">Cancel</button>
                                     </form>
                                 </div>
                                 <script type=text/javascript>
-                                    var t = document.getElementById("<?php echo 'textArea' . $row['user_id']; ?>");
+                                    var t = document.getElementById("<?php echo 'textArea' . $result['id']; ?>");
                                     t.style.display = "none";
                                 </script>
                             </td>
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                                 <td>
-                                    <input type='hidden' name='delete_user_id' value='<?php echo $row['user_id']; ?>'>
-                                    <input type="hidden" name="delete_file" value="<?php echo ($image_count == 1 ? "Coordinator_Photo/" . $rowimage['image'] : ""); ?>">
+                                    <input type='hidden' name='delete_user_id' value='<?php echo $result['id']; ?>'>
+                                    <input type="hidden" name="delete_file" value="<?php echo (isset($result['image']) ? "Coordinator_Photo/" . $result['image'] : ""); ?>">
                                     <button type='submit' name="delete_id_btn" class='btn btn-danger'>DELETE IMAGE</button>
                                 </td>
                             </form>
@@ -183,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['update_btn'])) {
             var id = $(this).val();
             var preferrenceValue = $("#preferrence" + id).val();
             $.ajax({
-                url: "http://<?php echo $domainName."/".$folderName; ?>/api/updatePreferrence.php",
+                url: "<?php echo $protocol.$domainName; ?>/api/updatePreferrence.php",
                 type: "POST",
                 data: {
                     "preferrenceId": id,
